@@ -1,6 +1,6 @@
 # LuckyCli
 
-A CLI for running tasks and a library for creating them
+A Crystal library for creating and running tasks
 
 ## Installing the CLI
 
