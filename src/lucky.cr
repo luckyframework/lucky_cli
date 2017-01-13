@@ -1,9 +1,20 @@
 require "colorize"
+require "./lucky_cli"
+require "./generators/*"
+require "./init_questions"
 
 args = ARGV.join(" ")
 
+def arrow
+  "▸"
+end
+
 def red_arrow
-  "▸".colorize(:red)
+  arrow.colorize(:red)
+end
+
+def green_arrow
+  arrow.colorize(:green)
 end
 
 if File.exists?("./tasks.cr")
@@ -11,6 +22,8 @@ if File.exists?("./tasks.cr")
     shell: true,
     output: true,
     error: true
+elsif ARGV.first? == "init"
+  LuckyCli::InitQuestions.run
 else
   puts <<-MISSING_TASKS_FILE
 
