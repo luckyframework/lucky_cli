@@ -34,10 +34,15 @@ class LuckyCli::Generators::Web
     add_default_project_structure
     add_tasks_file
     add_hello_world_action
+    add_webpacker
     # add_base_classes
     # add_config_file
     # install_shards
     puts "All done!".colorize(:green)
+  end
+
+  private def add_webpacker
+    WebpackerGenerator.run(project_name)
   end
 
   private def remove_generated_src_files
