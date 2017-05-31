@@ -1,7 +1,11 @@
 class LuckyCli::Generators::Web
+  include LuckyCli::GeneratorHelpers
+
   getter :project_name
 
   def initialize(@project_name : String)
+    @template_dir = File.join(__DIR__, "templates")
+    @project_dir = @project_name
   end
 
   def self.run
@@ -137,8 +141,7 @@ class LuckyCli::Generators::Web
 
   private def add_deps_to_shard_file
     puts "Adding deps to shards.yml"
-    shard_file = File.read(shard_file_path)
-    updated_shard_file = shard_file + <<-DEPS_LIST
+    append_text to: "shard.yml", text: <<-DEPS_LIST
 
     dependencies:
       lucky_web:
@@ -148,7 +151,6 @@ class LuckyCli::Generators::Web
       lucky_migrator:
         github: luckyframework/migrator
     DEPS_LIST
-    File.write(shard_file_path, updated_shard_file)
   end
 
   private def shard_file_path

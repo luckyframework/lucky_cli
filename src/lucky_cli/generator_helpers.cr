@@ -23,7 +23,12 @@ module LuckyCli::GeneratorHelpers
     end
   end
 
-  def append_text(text, to)
+  def append_text(to, text)
+    within_project do
+      file = File.read(to)
+      updated_file = file + text
+      File.write(to, updated_file)
+    end
   end
 
   def run_command(command)
