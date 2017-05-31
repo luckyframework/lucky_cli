@@ -152,8 +152,4 @@ class LuckyCli::Generators::Web
         github: luckyframework/migrator
     DEPS_LIST
   end
-
-  private def shard_file_path
-    "./#{project_name}/shard.yml"
-  end
 end
