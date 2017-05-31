@@ -1,0 +1,6 @@
+require "./dependencies"
+require "./models/**"
+require "./queries/**"
+require "./forms/**"
+require "./actions/**"
+require "./pages/**"
