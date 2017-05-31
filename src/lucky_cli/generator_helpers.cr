@@ -12,6 +12,12 @@ module LuckyCli::GeneratorHelpers
     end
   end
 
+  def copy_template(from, to)
+    within_project do
+      FileUtils.cp("#{template_dir}/#{from}", "./#{to}")
+    end
+  end
+
   def create_file(text, filename)
     within_project do
     end
