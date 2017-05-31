@@ -1,5 +1,3 @@
-require "file_utils"
-
 class LuckyCli::Generators::Web
   getter :project_name
 
@@ -42,7 +40,7 @@ class LuckyCli::Generators::Web
   end
 
   private def add_webpacker
-    WebpackerGenerator.run(project_name)
+    LuckyCli::Generators::Webpack.run(project_name)
   end
 
   private def remove_generated_src_files

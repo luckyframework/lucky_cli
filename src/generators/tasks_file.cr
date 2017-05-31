@@ -1,7 +1,7 @@
 require "ecr"
 
 class LuckyCli::Generators::TasksFile
-  ECR.def_to_s "#{__DIR__}/templates/tasks.cr.ecr"
+  ECR.def_to_s "#{__DIR__}/templates/tasks_file/tasks.cr.ecr"
 
   def self.run
     new.run
