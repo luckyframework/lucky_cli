@@ -35,7 +35,7 @@ class LuckyCli::Generators::Web
     add_webpacker
     # add_base_classes
     # add_config_file
-    # install_shards
+    install_shards
     puts "All done!".colorize(:green)
   end
 
@@ -49,6 +49,11 @@ class LuckyCli::Generators::Web
 
   private def remove_generated_src_files
     FileUtils.rm_r("#{project_dir}/src")
+  end
+
+  private def install_shards
+    puts "Installing shards"
+    run_command "shards install"
   end
 
   private def add_tasks_file

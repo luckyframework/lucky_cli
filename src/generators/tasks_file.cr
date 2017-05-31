@@ -1,8 +1,4 @@
-require "ecr"
-
 class LuckyCli::Generators::TasksFile
-  ECR.def_to_s "#{__DIR__}/templates/tasks_file/tasks.cr.ecr"
-
   def self.run
     new.run
   end
@@ -13,6 +9,6 @@ class LuckyCli::Generators::TasksFile
   end
 
   private def default_tasks_file
-    to_s
+    File.read(default_tasks_file)
   end
 end
