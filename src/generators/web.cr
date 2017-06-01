@@ -33,7 +33,6 @@ class LuckyCli::Generators::Web
     add_default_lucky_structure_to_src
     add_tasks_file
     add_webpacker
-    # add_base_classes
     # add_config_file
     install_shards
     puts "All done!".colorize(:green)
