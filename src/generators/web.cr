@@ -31,11 +31,16 @@ class LuckyCli::Generators::Web
     add_deps_to_shard_file
     remove_generated_src_files
     add_default_lucky_structure_to_src
+    setup_gitignore
     add_tasks_file
     add_webpacker
     # add_config_file
     install_shards
     puts "All done!".colorize(:green)
+  end
+
+  private def setup_gitignore
+    append_text to: ".gitignore", text: "/node_modules/"
   end
 
   private def add_default_lucky_structure_to_src
