@@ -1,2 +1,2 @@
-class BaseAction < LuckyWeb::Action
+abstract class BaseAction < LuckyWeb::Action
 end

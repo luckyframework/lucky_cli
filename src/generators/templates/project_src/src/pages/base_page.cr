@@ -1,2 +1,2 @@
-class BasePage < LuckyWeb::HTMLView
+abstract class BasePage < LuckyWeb::HTMLView
 end

@@ -1,2 +1,2 @@
-class BaseModel < LuckyRecord::Model
+abstract class BaseModel < LuckyRecord::Model
 end
