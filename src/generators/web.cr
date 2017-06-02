@@ -40,7 +40,11 @@ class LuckyCli::Generators::Web
   end
 
   private def setup_gitignore
-    append_text to: ".gitignore", text: "/node_modules/"
+    append_text to: ".gitignore", text: <<-TEXT
+    /node_modules
+    yarn-error.log
+    /public/
+    TEXT
   end
 
   private def add_default_lucky_structure_to_src
