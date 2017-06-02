@@ -27,7 +27,8 @@ class LuckyCli::Generators::Webpack
       "babel-core babel-preset-env babel-polyfill compression-webpack-plugin rails-erb-loader glob " \
       "extract-text-webpack-plugin node-sass file-loader sass-loader css-loader style-loader " \
       "postcss-loader postcss-cssnext postcss-smart-import resolve-url-loader " \
-      "babel-plugin-syntax-dynamic-import babel-plugin-transform-class-properties"
+      "babel-plugin-syntax-dynamic-import babel-plugin-transform-class-properties" \
+      "turoblinks rails-ujs"
     )
 
     puts "Installing dev server for live reloading"
