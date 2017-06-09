@@ -5,6 +5,7 @@
 /.shards/
 lucky
 /test-project/
+/node_modules
 
 # Libraries don't need dependency lock
 # Dependencies will be locked in application that uses them
