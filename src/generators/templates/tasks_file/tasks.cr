@@ -6,7 +6,7 @@ require "lucky_cli"
 
 # Uncomment this to include tasks from the tasks directory of your project
 # If you have a lot of tasks, this can be cleaner than putting them in this file
-# require "./tasks/*"
+# require "./tasks/**"
 
 # Write tasks here (or uncomment the line above). Here's an example task
 # class App::SendDailyNotifications < LuckyCli::Task
