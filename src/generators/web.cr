@@ -36,7 +36,7 @@ class LuckyCli::Generators::Web
     add_webpacker
     # add_config_file
     install_shards
-    puts "All done!".colorize(:green)
+    puts "\nAll done! cd into #{project_name} and run: lucky dev".colorize(:green)
   end
 
   private def setup_gitignore
