@@ -19,6 +19,5 @@ require "lucky_cli"
 #   end
 # end
 
-
 # Make sure this goes last
 LuckyCli::Runner.run

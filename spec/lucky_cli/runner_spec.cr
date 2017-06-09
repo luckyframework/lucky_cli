@@ -15,9 +15,17 @@ class Some::Other::Task < LuckyCli::Task
   end
 end
 
+class AnotherTask < LuckyCli::Task
+  banner "this should be first"
+
+  def call
+  end
+end
+
 describe LuckyCli::Runner do
   it "adds tasks to the runner when task classes are created" do
     LuckyCli::Runner.tasks.map(&.name).should eq [
+      "another_task",
       "my.cool.task",
       "some.other.task",
     ]
@@ -25,6 +33,7 @@ describe LuckyCli::Runner do
 
   it "lists all the available tasks" do
     LuckyCli::Runner.tasks_list.should eq <<-TASK_LIST
+    another_task     -> this should be first
     my.cool.task     -> foo
     some.other.task  -> bar
 

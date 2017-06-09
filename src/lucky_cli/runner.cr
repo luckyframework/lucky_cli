@@ -4,7 +4,7 @@ class LuckyCli::Runner
   @@tasks = [] of LuckyCli::Task
 
   def self.tasks
-    @@tasks
+    @@tasks.sort_by!(&.name)
   end
 
   def self.run(args = ARGV)
