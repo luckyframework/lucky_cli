@@ -70,7 +70,7 @@ class LuckyCli::Generators::Web
     # Load Lucky and the app (actions, models, etc.)
     require "./src/app"
     # You can add your own tasks here in the ./tasks folder
-    require "./tasks/*"
+    require "./tasks/**"
 
     LuckyCli::Runner.run
     TASKS_FILE
