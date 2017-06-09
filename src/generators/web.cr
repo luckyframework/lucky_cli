@@ -33,6 +33,7 @@ class LuckyCli::Generators::Web
     add_default_lucky_structure_to_src
     setup_gitignore
     add_tasks_file
+    add_tasks_folder
     add_webpack
     # add_config_file
     install_shards
@@ -76,6 +77,10 @@ class LuckyCli::Generators::Web
     TASKS_FILE
 
     File.write("#{project_name}/tasks.cr", tasks_file)
+  end
+
+  private def add_tasks_folder
+    copy_template from: "root/tasks", to: ""
   end
 
   private def generate_default_crystal_project
