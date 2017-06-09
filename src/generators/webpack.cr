@@ -13,7 +13,7 @@ class LuckyCli::Generators::Webpack
 
   def install
     copy_all_templates from: "assets", to: "assets"
-    copy_all_templates from: "webpacker", to: "config"
+    copy_all_templates from: "webpack_config", to: "config"
     copy_template from: "root/.babelrc", to: ""
     copy_template from: "root/.postcssrc.yml", to: ""
     add_yarn_deps
