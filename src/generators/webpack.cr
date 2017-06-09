@@ -7,7 +7,7 @@ class LuckyCli::Generators::Webpack
   end
 
   def self.run(project_name : String)
-    puts "Adding webpacker config and asset directories"
+    puts "Adding webpack config and asset directories"
     new(project_name).install
   end
 

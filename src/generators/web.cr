@@ -33,7 +33,7 @@ class LuckyCli::Generators::Web
     add_default_lucky_structure_to_src
     setup_gitignore
     add_tasks_file
-    add_webpacker
+    add_webpack
     # add_config_file
     install_shards
     puts "\nAll done! cd into #{project_name} and run: lucky dev".colorize(:green)
@@ -51,7 +51,7 @@ class LuckyCli::Generators::Web
     copy_all_templates from: "project_src/src", to: "src"
   end
 
-  private def add_webpacker
+  private def add_webpack
     LuckyCli::Generators::Webpack.run(project_name)
   end
 
