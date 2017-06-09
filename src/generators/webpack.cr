@@ -28,7 +28,7 @@ class LuckyCli::Generators::Webpack
       "extract-text-webpack-plugin node-sass file-loader sass-loader css-loader style-loader " \
       "postcss-loader postcss-cssnext postcss-smart-import resolve-url-loader " \
       "babel-plugin-syntax-dynamic-import babel-plugin-transform-class-properties " \
-      "turbolinks rails-ujs"
+      "turbolinks rails-ujs uglifyjs-webpack-plugin"
     )
 
     puts "Installing dev server for live reloading"
