@@ -36,8 +36,13 @@ class LuckyCli::Generators::Web
     add_tasks_folder
     add_webpack
     # add_config_file
+    add_procfiles
     install_shards
     puts "\nAll done! cd into #{project_name} and run: lucky dev".colorize(:green)
+  end
+
+  private def add_procfiles
+    copy_template from: "root/Procfile.dev", to: ""
   end
 
   private def setup_gitignore
