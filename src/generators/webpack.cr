@@ -22,13 +22,13 @@ class LuckyCli::Generators::Webpack
   private def add_yarn_deps
     puts "Installing all JavaScript dependencies"
     run_command(
-      "yarn add webpack webpack-merge js-yaml path-complete-extname " \
+      "yarn add webpack webpack-merge js-yaml path-complete-extname precss " \
       "webpack-manifest-plugin babel-loader@7.x coffee-loader coffee-script " \
       "babel-core babel-preset-env babel-polyfill compression-webpack-plugin rails-erb-loader glob " \
       "extract-text-webpack-plugin node-sass file-loader sass-loader css-loader style-loader " \
       "postcss-loader postcss-cssnext postcss-smart-import resolve-url-loader " \
-      "babel-plugin-syntax-dynamic-import babel-plugin-transform-class-properties" \
-      "turoblinks rails-ujs"
+      "babel-plugin-syntax-dynamic-import babel-plugin-transform-class-properties " \
+      "turbolinks rails-ujs"
     )
 
     puts "Installing dev server for live reloading"
