@@ -45,6 +45,7 @@ class LuckyCli::Generators::Web
     /node_modules
     yarn-error.log
     /public/
+    server
     TEXT
   end
 
