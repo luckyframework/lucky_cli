@@ -8,10 +8,13 @@ class LuckyCli::Generators::Web
     @project_dir = @project_name
   end
 
-  def self.run
-    project_name = ask_for_project_name
-
-    new(project_name).run
+  def self.run(project_name : String? = nil)
+    if project_name
+      new(project_name).run
+    else
+      project_name = ask_for_project_name
+      new(project_name).run
+    end
   end
 
   def self.ask_for_project_name

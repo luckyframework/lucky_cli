@@ -4,15 +4,27 @@ class LuckyCli::InitQuestions
   end
 
   def run
-    case ask_for_project_type
-    when "web"
-      LuckyCli::Generators::Web.run
-    when "tasks.cr"
-      LuckyCli::Generators::TasksFile.run
+    if name_given?
+      LuckyCli::Generators::Web.run(name)
     else
-      puts "Must choose either 'web' or 'tasks.cr'".colorize(:yellow)
-      ask_again
+      case ask_for_project_type
+      when "web"
+        LuckyCli::Generators::Web.run
+      when "tasks.cr"
+        LuckyCli::Generators::TasksFile.run
+      else
+        puts "Must choose either 'web' or 'tasks.cr'".colorize(:yellow)
+        ask_again
+      end
     end
+  end
+
+  private def name_given?
+    !name.nil?
+  end
+
+  private def name
+    ARGV[1]?
   end
 
   private def ask_for_project_type
