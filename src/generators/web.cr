@@ -82,6 +82,9 @@ class LuckyCli::Generators::Web
     # You can add your own tasks here in the ./tasks folder
     require "./tasks/**"
 
+    # Load Lucky tasks (dev, webpack.watch, etc.)
+    require "lucky_web/tasks/**"
+
     LuckyCli::Runner.run
     TASKS_FILE
 
@@ -89,7 +92,7 @@ class LuckyCli::Generators::Web
   end
 
   private def add_tasks_folder
-    copy_template from: "root/tasks", to: ""
+    copy_all_templates from: "root/tasks", to: "tasks"
   end
 
   private def generate_default_crystal_project

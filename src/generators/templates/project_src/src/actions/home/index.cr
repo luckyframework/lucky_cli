@@ -1,5 +1,5 @@
 class Home::Index < BaseAction
   get "/" do
-    render_text "Welcome to Lucky!"
+    render name: "Human"
   end
 end
