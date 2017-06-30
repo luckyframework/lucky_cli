@@ -1,5 +1,5 @@
 class Home::Index < BaseAction
   get "/" do
-    render name: "Human"
+    render LuckyWeb::WelcomePage
   end
 end
