@@ -1,4 +1,5 @@
-class MainLayout < BasePage
+class MainLayout
+  include LuckyWeb::Page
   include LuckyWeb::Layout
 
   @page : BasePage
