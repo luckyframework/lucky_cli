@@ -114,6 +114,8 @@ class LuckyCli::Generators::Web
         github: luckyframework/record
       lucky_migrator:
         github: luckyframework/migrator
+      habitat:
+        github: luckyframework/habitat
     DEPS_LIST
   end
 end
