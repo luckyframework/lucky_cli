@@ -7,7 +7,9 @@
 // Reference script files like this. Note the extension is not required.
 // import 'js/my_code'
 
-import 'rails-ujs'
+import RailsUjs from 'rails-ujs'
+RailsUjs.start()
+
 import Turbolinks from 'turbolinks'
 Turbolinks.start()
 
