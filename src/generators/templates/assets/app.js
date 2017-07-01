@@ -9,7 +9,7 @@
 
 import 'rails-ujs'
 import Turbolinks from 'turbolinks'
-Turbolinks.start
+Turbolinks.start()
 
 // Require all image files in assets/images
 require.context('./images', true, /\./)
