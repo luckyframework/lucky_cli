@@ -2,6 +2,7 @@ require "colorize"
 require "./lucky_cli"
 require "./generators/*"
 require "./init_questions"
+require "./dev"
 
 args = ARGV.join(" ")
 
@@ -17,7 +18,9 @@ def green_arrow
   arrow.colorize(:green)
 end
 
-if File.exists?("./tasks.cr")
+if ARGV.first? == "dev"
+  LuckyCli::Dev.new.call
+elsif File.exists?("./tasks.cr")
   Process.run "crystal run ./tasks.cr -- #{args}",
     shell: true,
     output: true,
