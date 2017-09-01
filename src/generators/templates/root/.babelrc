@@ -11,7 +11,6 @@
   ],
 
   "plugins": [
-    "syntax-dynamic-import",
     ["transform-class-properties", { "spec": true }]
   ]
 }
