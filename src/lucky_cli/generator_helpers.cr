@@ -25,8 +25,9 @@ module LuckyCli::GeneratorHelpers
     end
   end
 
-  def create_file(text, filename)
+  def create_file(path, contents)
     within_project do
+      File.write("./#{path}", contents)
     end
   end
 
