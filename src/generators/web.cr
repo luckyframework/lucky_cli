@@ -37,7 +37,7 @@ class LuckyCli::Generators::Web
     setup_gitignore
     add_tasks_file
     add_tasks_folder
-    add_webpack
+    add_asset_compilation
     # add_config_file
     add_procfiles
     install_shards
@@ -61,8 +61,8 @@ class LuckyCli::Generators::Web
     copy_all_templates from: "project_src/src", to: "src"
   end
 
-  private def add_webpack
-    LuckyCli::Generators::Webpack.run(project_name)
+  private def add_asset_compilation
+    LuckyCli::Generators::AssetCompiler.run(project_name)
   end
 
   private def remove_generated_src_files
@@ -76,19 +76,7 @@ class LuckyCli::Generators::Web
 
   private def add_tasks_file
     puts "Adding tasks"
-    tasks_file = <<-TASKS_FILE
-    # Load Lucky and the app (actions, models, etc.)
-    require "./src/app"
-    # You can add your own tasks here in the ./tasks folder
-    require "./tasks/**"
-
-    # Load Lucky tasks (dev, webpack.watch, etc.)
-    require "lucky_web/tasks/**"
-
-    LuckyCli::Runner.run
-    TASKS_FILE
-
-    File.write("#{project_name}/tasks.cr", tasks_file)
+    copy_template from: "root/tasks.cr", to: ""
   end
 
   private def add_tasks_folder
