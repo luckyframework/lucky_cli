@@ -42,7 +42,7 @@ class LuckyCli::Generators::Web
     add_procfiles
     add_asset_compilation
     install_shards
-    puts "\nAll done! #{"cd into #{project_name}".colorize(:green)} and run #{"lucky dev".colorize(:green)}"
+    puts "\nAll done! cd into #{project_name.colorize(:green)} and run #{"lucky dev".colorize(:green)}"
   end
 
   private def setup_config
