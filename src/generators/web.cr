@@ -34,14 +34,14 @@ class LuckyCli::Generators::Web
     add_deps_to_shard_file
     remove_generated_src_files
     add_default_lucky_structure_to_src
+    add_migrations_folder
     setup_gitignore
     add_tasks_file
     add_tasks_folder
     add_asset_compilation
-    # add_config_file
     add_procfiles
     install_shards
-    puts "\nAll done! cd into #{project_name.colorize(:green)} and run: #{"lucky dev".colorize(:green)}"
+    puts "\nAll done! #{"cd into #{project_name}".colorize(:green)} and run #{"lucky dev".colorize(:green)}"
   end
 
   private def add_procfiles
@@ -89,6 +89,10 @@ class LuckyCli::Generators::Web
       shell: true,
       output: true,
       error: true
+  end
+
+  def add_migrations_folder
+    create_empty_dir at: "db/migrations"
   end
 
   private def add_deps_to_shard_file
