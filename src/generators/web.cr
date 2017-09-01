@@ -38,10 +38,22 @@ class LuckyCli::Generators::Web
     setup_gitignore
     add_tasks_file
     add_tasks_folder
-    add_asset_compilation
+    setup_config
     add_procfiles
+    add_asset_compilation
     install_shards
     puts "\nAll done! #{"cd into #{project_name}".colorize(:green)} and run #{"lucky dev".colorize(:green)}"
+  end
+
+  private def setup_config
+    within_project do
+      FileUtils.mkdir_p("./config")
+    end
+
+    create_file "config/development.cr", <<-TEXT
+    LuckyRecord::Repo.db_name = "#{project_name}_development"
+    LuckyMigrator::Runner.db_name = LuckyRecord::Repo.db_name
+    TEXT
   end
 
   private def add_procfiles
