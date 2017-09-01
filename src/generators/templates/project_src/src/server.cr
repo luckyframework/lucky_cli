@@ -8,6 +8,6 @@ server = HTTP::Server.new("127.0.0.1", 8080, [
   HTTP::StaticFileHandler.new("./public", false),
 ])
 
-puts "Listening on http://127.0.0.1:8080...".colorize(:green)
+puts "Listening on http://127.0.0.1:8080..."
 
 server.listen
