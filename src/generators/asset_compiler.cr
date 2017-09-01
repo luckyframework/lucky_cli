@@ -24,7 +24,7 @@ class LuckyCli::Generators::AssetCompiler
   private def add_yarn_deps
     puts "Installing all JavaScript dependencies"
     run_command(
-      "yarn add webpack #{yarn_packages}"
+      "yarn add #{yarn_packages}"
     )
   end
 
