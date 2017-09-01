@@ -1,4 +1,7 @@
 @import "normalize.css";
-@import "variables/**.pcss";
-@import "mixins/**.pcss";
-@import "components/**.pcss";
+
+// Uncomment these lines when you add files to variables, mixins or components
+//
+// @import "variables/**.pcss";
+// @import "mixins/**.pcss";
+// @import "components/**.pcss";
