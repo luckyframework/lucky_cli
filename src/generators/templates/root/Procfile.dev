@@ -1,2 +1,2 @@
 web: lucky watch
-webpack: lucky webpack.watch
+assets: yarn run brunch -- watch

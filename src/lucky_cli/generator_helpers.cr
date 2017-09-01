@@ -18,6 +18,13 @@ module LuckyCli::GeneratorHelpers
     end
   end
 
+  def create_empty_dir(at path)
+    within_project do
+      FileUtils.mkdir_p("./#{path}")
+      File.write("./#{path}/.keep", "")
+    end
+  end
+
   def create_file(text, filename)
     within_project do
     end
