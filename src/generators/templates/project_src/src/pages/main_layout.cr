@@ -15,7 +15,6 @@ class MainLayout
       end
 
       body do
-        h1 "What a wonderful day"
         @page.render_inner
       end
     end
