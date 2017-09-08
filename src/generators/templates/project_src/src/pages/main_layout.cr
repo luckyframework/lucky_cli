@@ -10,8 +10,8 @@ class MainLayout
     html do
       head do
         title @page.page_title
-        css_link asset("app.css")
-        js_link asset("app.js")
+        css_link asset("css/app.css")
+        js_link asset("js/app.js")
       end
 
       body do
