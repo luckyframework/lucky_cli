@@ -51,7 +51,7 @@ class LuckyCli::Generators::Web
     end
 
     create_file "config/development.cr", <<-TEXT
-    LuckyRecord::Repo.db_name = "#{project_name}_development"
+    LuckyRecord::Repo.db_name = "#{project_name.gsub("-", "_")}_development"
     LuckyMigrator::Runner.db_name = LuckyRecord::Repo.db_name
     TEXT
   end
