@@ -10,7 +10,9 @@ A Crystal library for creating and running tasks
 
 Run `which lucky` from the command line to make sure it is installed.
 
-## Using LuckyCli in your app
+**If you're generating a Lucky web project, you're all done. Run `lucky init {project_name}`**
+
+## Using LuckyCli in a non-Lucky web app
 
 Add this to your application's `shard.yml`:
 
