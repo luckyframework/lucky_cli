@@ -34,30 +34,10 @@ class LuckyCli::Generators::Web
     add_deps_to_shard_file
     remove_generated_src_files
     add_default_lucky_structure_to_src
-    add_migrations_folder
     setup_gitignore
-    add_tasks_file
-    add_tasks_folder
-    setup_config
-    add_procfiles
     add_asset_compilation
     install_shards
     puts "\nAll done! cd into #{project_name.colorize(:green)} and run #{"lucky dev".colorize(:green)}"
-  end
-
-  private def setup_config
-    within_project do
-      FileUtils.mkdir_p("./config")
-    end
-
-    create_file "config/development.cr", <<-TEXT
-    LuckyRecord::Repo.db_name = "#{project_name.gsub("-", "_")}_development"
-    LuckyMigrator::Runner.db_name = LuckyRecord::Repo.db_name
-    TEXT
-  end
-
-  private def add_procfiles
-    copy_template from: "root/Procfile.dev", to: ""
   end
 
   private def setup_gitignore
@@ -70,7 +50,7 @@ class LuckyCli::Generators::Web
   end
 
   private def add_default_lucky_structure_to_src
-    copy_all_templates from: "project_src/src", to: "src"
+    SrcTemplate.new(project_name).render("./#{project_name}")
   end
 
   private def add_asset_compilation
@@ -86,25 +66,12 @@ class LuckyCli::Generators::Web
     run_command "shards install"
   end
 
-  private def add_tasks_file
-    puts "Adding tasks"
-    copy_template from: "root/tasks.cr", to: ""
-  end
-
-  private def add_tasks_folder
-    copy_all_templates from: "root/tasks", to: "tasks"
-  end
-
   private def generate_default_crystal_project
     puts "Generating crystal project for #{project_name.colorize(:cyan)}"
     Process.run "crystal init app #{project_name}",
       shell: true,
       output: true,
       error: true
-  end
-
-  def add_migrations_folder
-    create_empty_dir at: "db/migrations"
   end
 
   private def add_deps_to_shard_file

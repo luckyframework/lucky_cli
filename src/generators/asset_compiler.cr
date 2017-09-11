@@ -12,12 +12,6 @@ class LuckyCli::Generators::AssetCompiler
   end
 
   def install
-    copy_all_templates from: "static", to: "static"
-    copy_all_templates from: "public", to: "public"
-    copy_template from: "root/.babelrc", to: ""
-    copy_template from: "root/brunch-config.js", to: ""
-    copy_template from: "root/.postcssrc.yml", to: ""
-    copy_template from: "root/bs-config.js", to: ""
     add_yarn_deps
   end
 

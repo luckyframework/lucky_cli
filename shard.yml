@@ -8,3 +8,7 @@ authors:
 crystal: 0.20.1
 
 license: MIT
+
+dependencies:
+  teeplate:
+    github: mosop/teeplate
