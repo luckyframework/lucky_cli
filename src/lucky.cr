@@ -21,7 +21,7 @@ end
 if ARGV.first? == "dev"
   LuckyCli::Dev.new.call
 elsif File.exists?("./tasks.cr")
-  Process.run "crystal run ./tasks.cr -- #{args}",
+  Process.run "crystal run ./tasks.cr --no-debug -- #{args}",
     shell: true,
     output: true,
     error: true
