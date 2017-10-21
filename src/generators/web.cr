@@ -73,7 +73,6 @@ class LuckyCli::Generators::Web
       output: true,
       error: true
   end
-
   private def add_deps_to_shard_file
     puts "Adding deps to shards.yml"
     append_text to: "shard.yml", text: <<-DEPS_LIST
@@ -81,12 +80,10 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky_web:
         github: luckyframework/web
-      lucky_record:
-        github: luckyframework/record
+        version: ~> 0.4.2
       lucky_migrator:
         github: luckyframework/migrator
-      habitat:
-        github: luckyframework/habitat
+        version: ~> 0.2.3
     DEPS_LIST
   end
 end
