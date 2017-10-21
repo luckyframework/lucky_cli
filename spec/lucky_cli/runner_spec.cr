@@ -32,12 +32,9 @@ describe LuckyCli::Runner do
   end
 
   it "lists all the available tasks" do
-    LuckyCli::Runner.tasks_list.should eq <<-TASK_LIST
-    another_task     -> this should be first
-    my.cool.task     -> foo
-    some.other.task  -> bar
-
-    TASK_LIST
+    LuckyCli::Runner.tasks.map(&.name).each do |name|
+      LuckyCli::Runner.tasks_list.should contain(name)
+    end
   end
 
   it "calls the task if one is found" do

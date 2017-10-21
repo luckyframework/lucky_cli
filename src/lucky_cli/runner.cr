@@ -1,7 +1,10 @@
 require "colorize"
+require "./text_helpers"
 
 class LuckyCli::Runner
   @@tasks = [] of LuckyCli::Task
+
+  extend LuckyCli::TextHelpers
 
   def self.tasks
     @@tasks.sort_by!(&.name)
@@ -44,7 +47,7 @@ class LuckyCli::Runner
   def self.tasks_list
     String.build do |list|
       tasks.each do |task|
-        list << ("  * " + task.name).colorize(:green)
+        list << ("  #{arrow} " + task.name).colorize(:green)
         list << list_padding_for(task.name)
         list << task.banner
         list << "\n"

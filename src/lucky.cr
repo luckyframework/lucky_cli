@@ -4,19 +4,9 @@ require "./generators/*"
 require "./init_questions"
 require "./dev"
 
+include LuckyCli::TextHelpers
+
 args = ARGV.join(" ")
-
-def arrow
-  "▸"
-end
-
-def red_arrow
-  arrow.colorize(:red)
-end
-
-def green_arrow
-  arrow.colorize(:green)
-end
 
 if ARGV.first? == "dev"
   LuckyCli::Dev.new.call
