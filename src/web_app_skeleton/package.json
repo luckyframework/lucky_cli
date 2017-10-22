@@ -17,5 +17,8 @@
     "precss": "^2.0.0",
     "rails-ujs": "^5.1.4",
     "turbolinks": "^5.0.3"
+  },
+  "scripts": {
+    "heroku-postbuild": "yarn run brunch -- build --production"
   }
 }
