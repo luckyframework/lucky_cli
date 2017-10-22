@@ -17,6 +17,8 @@ elsif File.exists?("./tasks.cr")
     error: true
 elsif ARGV.first? == "init"
   LuckyCli::InitQuestions.run
+elsif ["-v", "--version"].includes?(ARGV.first?)
+  puts LuckyCli::VERSION
 else
   puts <<-MISSING_TASKS_FILE
 
