@@ -9,6 +9,6 @@ class LuckyCli::Generators::TasksFile
   end
 
   private def default_tasks_file
-    File.read("./templates/tasks_file/tasks.cr")
+    File.read("./templates/tasks.cr")
   end
 end
