@@ -1,0 +1,6 @@
+require "./server"
+
+LuckyWeb::Session::Store.configure do
+  settings.key = "<%= crystal_project_name %>"
+  settings.secret = LuckyWeb::Server.settings.secret_key_base
+end
