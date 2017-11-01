@@ -11,5 +11,5 @@ abstract class BrowserAction < BaseAction
   #    find_the_user...
   #  end
   #
-  # Then add an assign for it in your BasePage
+  # Then add an assign for it in your MainPage
 end
