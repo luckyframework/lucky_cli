@@ -7,6 +7,7 @@ describe "Initializing a new web project" do
     should_run_successfully "crystal src/lucky.cr init test-project"
     FileUtils.cd "test-project" do
       should_run_successfully "crystal build src/server.cr"
+      should_run_successfully "crystal src/app.cr"
     end
   end
 end
