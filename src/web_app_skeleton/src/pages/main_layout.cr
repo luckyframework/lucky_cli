@@ -7,7 +7,7 @@ class MainLayout
   render do
     html_doctype
 
-    html do
+    html lang: "en" do
       head do
         utf8_charset
         title @page.page_title
