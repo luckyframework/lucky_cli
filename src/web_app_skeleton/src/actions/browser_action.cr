@@ -1,3 +1,5 @@
+require "./base_action"
+
 abstract class BrowserAction < BaseAction
   # If something should always be exposed to your pages, expose them here.
   #
