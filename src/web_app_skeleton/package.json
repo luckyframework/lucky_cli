@@ -19,6 +19,6 @@
     "turbolinks": "^5.0.3"
   },
   "scripts": {
-    "heroku-postbuild": "yarn run brunch -- build --production"
+    "heroku-postbuild": "bin/compile_assets build --production"
   }
 }
