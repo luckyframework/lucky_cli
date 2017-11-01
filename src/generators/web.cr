@@ -80,7 +80,7 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky_web:
         github: luckyframework/web
-        version: ~> 0.4.2
+        branch: master
       lucky_migrator:
         github: luckyframework/migrator
         version: ~> 0.2.3
