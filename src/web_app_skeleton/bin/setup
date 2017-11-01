@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Exit if any subcommand fails
+set -e
+
+echo "\n▸ Installing node dependencies"
+yarn install
+
+echo "\n▸ Compiling assets"
+bin/compile_assets build
+
+echo "\n▸ Installing shards"
+crystal deps
+
+echo "\n▸ Setting up the database"
+lucky db.create
+lucky db.migrate
+
+echo "\n▸ Run 'lucky dev' to start the app"
