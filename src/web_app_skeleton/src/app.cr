@@ -16,3 +16,5 @@ require "./pages/**"
 require "./handlers/**"
 require "../config/env"
 require "../config/**"
+
+Habitat.raise_if_missing_settings!
