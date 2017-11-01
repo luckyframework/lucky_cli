@@ -1,5 +1,6 @@
 require "./base_action"
 
 abstract class ApiAction < BaseAction
-  include OnlyAllowJsonPipe
+  # in src/pipes/only_allow_json.cr
+  include OnlyAllowJson
 end

@@ -1,4 +1,4 @@
-module OnlyAllowJsonPipe
+module OnlyAllowJson
   macro included
     before only_allow_json
   end
