@@ -1,9 +1,10 @@
 class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers
 
-  getter :project_name
+  getter project_name
 
   def initialize(@project_name : String)
+    @project_name = @project_name.gsub(" ", "")
     @template_dir = File.join(__DIR__, "templates")
     @project_dir = @project_name
   end

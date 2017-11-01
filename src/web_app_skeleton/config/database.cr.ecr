@@ -1,4 +1,4 @@
-database = "<%= project_name.gsub("-", "_") %>_#{Lucky::Env.name}"
+database = "<%= crystal_project_name %>_#{Lucky::Env.name}"
 
 LuckyRecord::Repo.configure do
   if Lucky::Env.production?
