@@ -43,12 +43,21 @@ class LuckyCli::Generators::Web
   end
 
   private def setup_gitignore
+    remove_bin_from_gitignore
     append_text to: ".gitignore", text: <<-TEXT
     /node_modules
     yarn-error.log
     /public/
     server
     TEXT
+  end
+
+  private def remove_bin_from_gitignore
+    within_project do
+      file = File.read(".gitignore")
+      updated_file = file.gsub("/bin/\n", "")
+      File.write(".gitignore", updated_file)
+    end
   end
 
   private def add_default_lucky_structure_to_src
