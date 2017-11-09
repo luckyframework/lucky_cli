@@ -3,6 +3,8 @@ require "./app"
 server = HTTP::Server.new("127.0.0.1", 8080, [
   LuckyWeb::HttpMethodOverrideHandler.new,
   HTTP::LogHandler.new,
+  LuckyWeb::SessionHandler.new,
+  LuckyWeb::Flash::Handler.new,
   LuckyWeb::ErrorHandler.new(action: Errors::Show),
   LuckyWeb::RouteHandler.new,
   HTTP::StaticFileHandler.new("./public", false),
