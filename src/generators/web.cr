@@ -31,6 +31,7 @@ class LuckyCli::Generators::Web
   end
 
   def run
+    ensure_directory_does_not_exist
     generate_default_crystal_project
     add_deps_to_shard_file
     remove_generated_src_files
@@ -88,6 +89,7 @@ class LuckyCli::Generators::Web
       output: true,
       error: true
   end
+
   private def add_deps_to_shard_file
     puts "Adding deps to shards.yml"
     append_text to: "shard.yml", text: <<-DEPS_LIST
@@ -101,4 +103,11 @@ class LuckyCli::Generators::Web
         version: ~> 0.2.3
     DEPS_LIST
   end
+
+    private def ensure_directory_does_not_exist
+      if Dir.exists?("./#{project_dir}")
+        puts "Folder named #{project_name} already exists, please use a different name"
+        exit
+      end
+    end
 end
