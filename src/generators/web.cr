@@ -38,9 +38,13 @@ class LuckyCli::Generators::Web
     remove_default_readme
     add_default_lucky_structure_to_src
     setup_gitignore
-    add_asset_compilation
-    install_shards
-    puts "\nAll done! cd into #{project_name.colorize(:green)} and run #{"lucky dev".colorize(:green)}"
+    puts <<-TEXT
+    Done generating your Lucky project
+
+      #{green_arrow} cd into #{project_name.colorize(:green)}
+      #{green_arrow} run #{"bin/setup".colorize(:green)}
+      #{green_arrow} run #{"lucky dev".colorize(:green)} to start the server
+    TEXT
   end
 
   private def setup_gitignore
@@ -65,10 +69,6 @@ class LuckyCli::Generators::Web
     SrcTemplate.new(project_name).render("./#{project_name}")
   end
 
-  private def add_asset_compilation
-    LuckyCli::Generators::AssetCompiler.run(project_name)
-  end
-
   private def remove_generated_src_files
     FileUtils.rm_r("#{project_dir}/src")
   end
@@ -84,14 +84,15 @@ class LuckyCli::Generators::Web
 
   private def generate_default_crystal_project
     puts "Generating crystal project for #{project_name.colorize(:cyan)}"
+    io = IO::Memory.new
     Process.run "crystal init app #{project_name}",
       shell: true,
-      output: true,
+      output: io,
       error: true
   end
 
   private def add_deps_to_shard_file
-    puts "Adding deps to shards.yml"
+    puts "Adding Lucky dependencies to shards.yml"
     append_text to: "shard.yml", text: <<-DEPS_LIST
 
     dependencies:
