@@ -1,6 +1,4 @@
-require "./base_action"
-
-abstract class BrowserAction < BaseAction
+abstract class BrowserAction < LuckyWeb::Action
   # If something should always be exposed to your pages, expose them here.
   #
   # Example:
