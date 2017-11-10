@@ -9,12 +9,6 @@ if ! command -v yarn > /dev/null; then
   exit 1
 fi
 
-if ! command -v brunch > /dev/null; then
-  printf 'Brunch is not installed.\n'
-  printf 'Run "npm install -g brunch" to install brunch.\n'
-  exit 1
-fi
-
 echo "\n▸ Installing node dependencies"
 yarn install
 
