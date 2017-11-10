@@ -14,6 +14,8 @@ crystal deps
 
 echo "\n▸ Setting up the database"
 lucky db.create
+
+echo "\n▸ Migrating the database"
 lucky db.migrate
 
-echo "\n▸ Run 'lucky dev' to start the app"
+echo "\n▸ All done. Run 'lucky dev' to start the app"
