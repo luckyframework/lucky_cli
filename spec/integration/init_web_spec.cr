@@ -25,7 +25,7 @@ describe "Initializing a new web project" do
         output: output,
         shell: true
       )
-      message = "Folder with test-project already exists, please use a different name"
+      message = "Folder named test-project already exists, please use a different name"
       output.to_s.strip.should eq(message)
     ensure
       FileUtils.rm_r "test-project"

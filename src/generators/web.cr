@@ -106,7 +106,7 @@ class LuckyCli::Generators::Web
 
     private def ensure_directory_does_not_exist
       if Dir.exists?("./#{project_dir}")
-        puts "Folder with #{project_name} already exists, please use a different name"
+        puts "Folder named #{project_name} already exists, please use a different name"
         exit
       end
     end
