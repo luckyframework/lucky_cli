@@ -10,6 +10,20 @@ describe "Initializing a new web project" do
       should_run_successfully "crystal build src/test_project.cr"
       should_run_successfully "crystal src/app.cr"
     end
+    FileUtils.rm_r "test-project"
+  end
+
+  it "does not create project if directory with same name already exist" do
+    FileUtils.mkdir "test-project"
+    output = IO::Memory.new
+    Process.run(
+      "crystal src/lucky.cr init test-project",
+      output: output,
+      shell: true
+    )
+    FileUtils.rm_r "test-project"
+    message = "Folder with test-project already exists, please use a different name"
+    output.to_s.strip.should eq(message)
   end
 end
 
