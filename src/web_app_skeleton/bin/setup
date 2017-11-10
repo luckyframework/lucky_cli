@@ -9,6 +9,12 @@ if ! command -v yarn > /dev/null; then
   exit 1
 fi
 
+if ! command -v heroku > /dev/null; then
+  printf 'Heroku CLI is not installed.\n'
+  printf 'See https://devcenter.heroku.com/articles/heroku-cli for install instructions.\n'
+  exit 1
+fi
+
 echo "\n▸ Installing node dependencies"
 yarn install
 
