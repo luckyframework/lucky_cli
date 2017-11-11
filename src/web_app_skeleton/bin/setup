@@ -15,19 +15,25 @@ if ! command -v heroku > /dev/null; then
   exit 1
 fi
 
+indent() {
+  while read LINE; do
+    echo "  $LINE" || true
+  done
+}
+
 echo "\n▸ Installing node dependencies"
-yarn install 2>&1 | sed 's/^/  /'
+yarn install | indent
 
 echo "\n▸ Compiling assets"
-bin/compile_assets build 2>&1 | sed 's/^/  /'
+bin/compile_assets | indent
 
 echo "\n▸ Installing shards"
-crystal deps 2>&1 | sed 's/^/  /'
+crystal deps | indent
 
 echo "\n▸ Setting up the database"
-lucky db.create 2>&1 | sed 's/^/  /'
+lucky db.create | indent
 
 echo "\n▸ Migrating the database"
-lucky db.migrate 2>&1 | sed 's/^/  /'
+lucky db.migrate | indent
 
 echo "\n▸ All done. Run 'lucky dev' to start the app"
