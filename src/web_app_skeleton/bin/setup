@@ -16,18 +16,18 @@ if ! command -v heroku > /dev/null; then
 fi
 
 echo "\n▸ Installing node dependencies"
-yarn install
+yarn install 2>&1 | sed 's/^/  /'
 
 echo "\n▸ Compiling assets"
-bin/compile_assets build
+bin/compile_assets build 2>&1 | sed 's/^/  /'
 
 echo "\n▸ Installing shards"
-crystal deps
+crystal deps 2>&1 | sed 's/^/  /'
 
 echo "\n▸ Setting up the database"
-lucky db.create
+lucky db.create 2>&1 | sed 's/^/  /'
 
 echo "\n▸ Migrating the database"
-lucky db.migrate
+lucky db.migrate 2>&1 | sed 's/^/  /'
 
 echo "\n▸ All done. Run 'lucky dev' to start the app"
