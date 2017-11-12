@@ -1,5 +1,7 @@
 abstract class MainLayout
   include LuckyWeb::HTMLPage
+  include Shared::FieldErrorsComponent
+  include Shared::FlashComponent
 
   # You can put things here that all pages need
   #
@@ -29,22 +31,5 @@ abstract class MainLayout
 
   def page_title
     "Welcome to Lucky"
-  end
-
-  private def render_flash
-    @flash.each do |flash_type, flash_message|
-      div class: "flash-#{flash_type}" do
-        text flash_message
-      end
-    end
-  end
-
-  def errors_for(field : LuckyRecord::AllowedField)
-    # Customize the markup and styles to match your application
-    unless field.valid?
-      div class: "error" do
-        text "#{field.name.to_s.capitalize} #{field.errors.join(", ")}"
-      end
-    end
   end
 end
