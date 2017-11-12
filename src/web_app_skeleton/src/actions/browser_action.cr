@@ -10,4 +10,5 @@ abstract class BrowserAction < LuckyWeb::Action
   #  end
   #
   # Then add an assign for it in your MainPage
+  expose flash
 end

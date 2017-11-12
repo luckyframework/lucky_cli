@@ -13,7 +13,7 @@ describe "Initializing a new web project" do
         should_run_successfully "crystal src/app.cr"
       end
     ensure
-      FileUtils.rm_r "test-project"
+      FileUtils.rm_rf "test-project"
     end
   end
 
@@ -29,7 +29,7 @@ describe "Initializing a new web project" do
       message = "Folder named test-project already exists, please use a different name"
       output.to_s.strip.should eq(message)
     ensure
-      FileUtils.rm_r "test-project"
+      FileUtils.rm_rf "test-project"
     end
   end
 end

@@ -1,10 +1,11 @@
 abstract class MainLayout
   include LuckyWeb::HTMLPage
 
-  # You can put assigns here that all pages need
+  # You can put things here that all pages need
   #
   # Example:
-  #   assign current_user : User
+  #   needs current_user : User
+  needs flash : LuckyWeb::Flash::Store
 
   abstract def inner
 
