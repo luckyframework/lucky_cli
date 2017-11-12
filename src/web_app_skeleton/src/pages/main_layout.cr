@@ -21,6 +21,7 @@ abstract class MainLayout
       end
 
       body do
+        render_flash
         inner
       end
     end
@@ -28,6 +29,14 @@ abstract class MainLayout
 
   def page_title
     "Welcome to Lucky"
+  end
+
+  private def render_flash
+    @flash.each do |flash_type, flash_message|
+      div class: "flash-#{flash_type}" do
+        text flash_message
+      end
+    end
   end
 
   def errors_for(field : LuckyRecord::AllowedField)
