@@ -1,32 +1,10 @@
 require "../spec_helper"
 
-class My::Cool::Task < LuckyCli::Task
-  banner "foo"
-
-  def call
-    :my_cool_task_was_called
-  end
-end
-
-class Some::Other::Task < LuckyCli::Task
-  banner "bar"
-
-  def call
-  end
-end
-
-class AnotherTask < LuckyCli::Task
-  banner "this should be first"
-
-  def call
-  end
-end
-
 describe LuckyCli::Runner do
   it "adds tasks to the runner when task classes are created" do
     LuckyCli::Runner.tasks.map(&.name).should eq [
       "another_task",
-      "my.cool.task",
+      "my.cool_task",
       "some.other.task",
     ]
   end
@@ -39,7 +17,7 @@ describe LuckyCli::Runner do
 
   it "calls the task if one is found" do
     LuckyCli::Runner
-      .run(args: ["my.cool.task"])
+      .run(args: ["my.cool_task"])
       .should have_called_my_cool_task
   end
 
