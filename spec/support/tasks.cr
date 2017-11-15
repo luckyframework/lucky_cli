@@ -19,5 +19,3 @@ class AnotherTask < LuckyCli::Task
   def call
   end
 end
-
-
