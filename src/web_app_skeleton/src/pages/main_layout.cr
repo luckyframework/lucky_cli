@@ -11,7 +11,7 @@ abstract class MainLayout
 
   abstract def inner
 
-  render do
+  def render
     html_doctype
 
     html lang: "en" do
