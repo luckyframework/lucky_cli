@@ -1,4 +1,6 @@
 {
+  "license": "UNLICENSED",
+  "private": true,
   "dependencies": {
     "babel-brunch": "^6.1.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
