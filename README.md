@@ -20,7 +20,7 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   lucky_cli:
-    github: luckyframework/cli
+    github: luckyframework/lucky_cli
 ```
 
 Create a file `tasks.cr` at the root of your project
@@ -56,7 +56,7 @@ You can see all available tasks by running `lucky --help`
 
 ## Contributing
 
-1. Fork it ( https://github.com/luckyframework/cli/fork )
+1. Fork it ( https://github.com/luckyframework/lucky_cli/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)

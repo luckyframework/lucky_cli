@@ -1,3 +1,3 @@
 require "lucky_record"
-require "lucky_web"
+require "lucky"
 require "lucky_migrator"

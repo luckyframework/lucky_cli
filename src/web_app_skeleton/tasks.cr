@@ -8,6 +8,6 @@ require "./tasks/**"
 require "./db/migrations/**"
 
 # Load Lucky tasks (dev, routes, etc.)
-require "lucky_web/tasks/**"
+require "lucky/tasks/**"
 
 LuckyCli::Runner.run
