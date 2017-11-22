@@ -1,5 +1,5 @@
 abstract class MainLayout
-  include LuckyWeb::HTMLPage
+  include Lucky::HTMLPage
   include Shared::FieldErrorsComponent
   include Shared::FlashComponent
 
@@ -7,7 +7,7 @@ abstract class MainLayout
   #
   # Example:
   #   needs current_user : User
-  needs flash : LuckyWeb::Flash::Store
+  needs flash : Lucky::Flash::Store
 
   abstract def inner
 

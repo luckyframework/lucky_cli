@@ -1,4 +1,4 @@
-LuckyWeb::Server.configure do
+Lucky::Server.configure do
   if Lucky::Env.production?
     settings.secret_key_base = secret_key_from_env
   else

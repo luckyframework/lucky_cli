@@ -1,5 +1,5 @@
 class Home::Index < BrowserAction
   get "/" do
-    render LuckyWeb::WelcomePage
+    render Lucky::WelcomePage
   end
 end

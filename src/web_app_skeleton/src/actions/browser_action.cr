@@ -1,4 +1,4 @@
-abstract class BrowserAction < LuckyWeb::Action
+abstract class BrowserAction < Lucky::Action
   # If something should always be exposed to your pages, expose them here.
   #
   # Example:
