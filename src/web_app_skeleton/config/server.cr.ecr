@@ -4,6 +4,8 @@ Lucky::Server.configure do
   else
     settings.secret_key_base = "<%= secret_key_base %>"
   end
+  settings.host = "0.0.0.0"
+  settings.port = (ENV["PORT"]? || 8080).to_i
 end
 
 private def secret_key_from_env

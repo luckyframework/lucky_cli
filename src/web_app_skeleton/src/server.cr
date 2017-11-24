@@ -1,6 +1,9 @@
 require "./app"
 
-server = HTTP::Server.new("0.0.0.0", 8080, [
+host = Lucky::Server.settings.host
+port = Lucky::Server.settings.port
+
+server = HTTP::Server.new(host, port, [
   Lucky::HttpMethodOverrideHandler.new,
   Lucky::LogHandler.new,
   Lucky::SessionHandler.new,
@@ -10,6 +13,6 @@ server = HTTP::Server.new("0.0.0.0", 8080, [
   Lucky::StaticFileHandler.new("./public", false),
 ])
 
-puts "Listening on http://0.0.0.0:8080..."
+puts "Listening on http://#{host}:#{port}"
 
 server.listen
