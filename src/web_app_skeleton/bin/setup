@@ -25,7 +25,7 @@ echo "\n▸ Installing node dependencies"
 yarn install | indent
 
 echo "\n▸ Compiling assets"
-bin/compile_assets | indent
+bin/compile_assets build | indent
 
 echo "\n▸ Installing shards"
 crystal deps | indent
