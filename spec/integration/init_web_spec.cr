@@ -40,9 +40,9 @@ private def should_run_successfully(command)
     shell: true,
     output: true,
     error: true
-  ).exit_status.should be_succeful
+  ).exit_status.should be_successful
 end
 
-private def be_succeful
+private def be_successful
   eq 0
 end
