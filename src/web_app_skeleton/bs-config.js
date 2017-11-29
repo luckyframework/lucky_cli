@@ -33,7 +33,6 @@ module.exports = {
   },
   server: false,
   proxy: "localhost:8080",
-  port: 3000,
   middleware: false,
   serveStatic: [],
   ghostMode: {
