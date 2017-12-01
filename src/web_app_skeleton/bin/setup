@@ -23,6 +23,7 @@ indent() {
 
 echo "\n▸ Installing node dependencies"
 yarn install --silent | indent
+echo "\n▸ Done installing node dependencies"
 
 echo "\n▸ Compiling assets"
 bin/compile_assets build | indent
