@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       docker:
-      - image: yarnpkg/dev:latest
+      - image: circleci/node:6
       - image: crystallang/crystal
         environment:
           DATABASE_URL: postgres://myapp-user@127.0.0.1/myapp-test
