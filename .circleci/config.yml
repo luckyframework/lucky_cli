@@ -2,6 +2,8 @@ version: 2
 jobs:
   build:
     docker:
+      docker:
+      - image: yarnpkg/dev:latest
       - image: crystallang/crystal
         environment:
           DATABASE_URL: postgres://myapp-user@127.0.0.1/myapp-test
