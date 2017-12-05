@@ -11,6 +11,7 @@ describe "Initializing a new web project" do
         should_run_successfully "crystal build src/server.cr"
         should_run_successfully "crystal build src/test_project.cr"
         should_run_successfully "crystal src/app.cr"
+        should_run_successfully "crystal spec"
       end
     ensure
       FileUtils.rm_rf "test-project"

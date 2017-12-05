@@ -39,14 +39,6 @@ module LuckyCli::GeneratorHelpers
     end
   end
 
-  def prepend_text(to, text)
-    within_project do
-      file = File.read(to)
-      updated_file = text + file
-      File.write(to, updated_file)
-    end
-  end
-
   def run_command(command)
     within_project do
       Process.run command,
