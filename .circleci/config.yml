@@ -13,7 +13,7 @@ jobs:
     working_directory: ~/app
     steps:
       - checkout
-      - run: /usr/local/bin/yarn instal
+      - run: yarn
       - run:
           name: "Install dependencies"
           command: crystal deps
