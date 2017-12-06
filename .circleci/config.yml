@@ -9,7 +9,7 @@ jobs:
         environment:
           POSTGRES_DB: myapp-test
           POSTGRES_USER: myapp-user
-      - image: circleci/node:6
+      - image: node:8
     working_directory: ~/app
     steps:
       - checkout
