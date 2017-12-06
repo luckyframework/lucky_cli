@@ -2,8 +2,6 @@ version: 2
 jobs:
   build:
     docker:
-      docker:
-      - image: circleci/node:6
       - image: crystallang/crystal
         environment:
           DATABASE_URL: postgres://myapp-user@127.0.0.1/myapp-test
@@ -11,6 +9,7 @@ jobs:
         environment:
           POSTGRES_DB: myapp-test
           POSTGRES_USER: myapp-user
+      - image: circleci/node:6
     working_directory: ~/app
     steps:
       - checkout
