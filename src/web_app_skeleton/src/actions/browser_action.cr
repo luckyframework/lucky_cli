@@ -9,6 +9,6 @@ abstract class BrowserAction < Lucky::Action
   #    find_the_user...
   #  end
   #
-  # Then add an assign for it in your MainPage
+  # Then add an assign for it in your MainLayout
   expose flash
 end
