@@ -26,6 +26,7 @@ class LuckyCli::Runner
         task.call
       else
         TaskNotFoundErrorMessage.print(task_name)
+        exit(127)
       end
     end
   end
