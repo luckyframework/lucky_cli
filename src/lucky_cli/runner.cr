@@ -3,6 +3,7 @@ require "./text_helpers"
 
 class LuckyCli::Runner
   @@tasks = [] of LuckyCli::Task
+  class_property exit_with_error_if_not_found = true
 
   extend LuckyCli::TextHelpers
 
@@ -26,7 +27,9 @@ class LuckyCli::Runner
         task.call
       else
         TaskNotFoundErrorMessage.print(task_name)
-        exit(127)
+        if (@@exit_with_error_if_not_found)
+          exit(127)
+        end
       end
     end
   end
