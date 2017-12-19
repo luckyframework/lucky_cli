@@ -8,6 +8,13 @@ class Errors::Show < Lucky::ErrorAction
   end
 
   def handle_error(error : Exception)
-    head status: 500
+    error.inspect_with_backtrace(STDERR)
+
+    if json?
+      json({error: "An unexpected error occured"}, status: 500)
+    else
+      response.status_code = 500
+      render_text "Something went wrong"
+    end
   end
 end
