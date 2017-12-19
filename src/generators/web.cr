@@ -35,7 +35,7 @@ class LuckyCli::Generators::Web
     generate_default_crystal_project
     add_deps_to_shard_file
     remove_generated_src_files
-    remove_generatred_spec_files
+    remove_generated_spec_files
     remove_default_readme
     add_default_lucky_structure_to_src
     setup_gitignore
@@ -74,7 +74,7 @@ class LuckyCli::Generators::Web
     FileUtils.rm_r("#{project_dir}/src")
   end
 
-  private def remove_generatred_spec_files
+  private def remove_generated_spec_files
     FileUtils.rm_r("#{project_dir}/spec")
   end
 
