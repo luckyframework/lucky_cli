@@ -25,7 +25,7 @@ class LuckyCli::Runner
       if task = find_task(task_name)
         task.call
       else
-        STDERR.puts %(Task #{task_name.colorize(:cyan)} not found)
+        TaskNotFoundErrorMessage.print(task_name)
       end
     end
   end
