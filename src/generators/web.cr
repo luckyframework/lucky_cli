@@ -35,6 +35,7 @@ class LuckyCli::Generators::Web
     generate_default_crystal_project
     add_deps_to_shard_file
     remove_generated_src_files
+    remove_generatred_spec_files
     remove_default_readme
     add_default_lucky_structure_to_src
     setup_gitignore
@@ -73,6 +74,10 @@ class LuckyCli::Generators::Web
     FileUtils.rm_r("#{project_dir}/src")
   end
 
+  private def remove_generatred_spec_files
+    FileUtils.rm_r("#{project_dir}/spec")
+  end
+
   private def remove_default_readme
     FileUtils.rm_r("#{project_dir}/README.md")
   end
@@ -105,10 +110,10 @@ class LuckyCli::Generators::Web
     DEPS_LIST
   end
 
-    private def ensure_directory_does_not_exist
-      if Dir.exists?("./#{project_dir}")
-        puts "Folder named #{project_name} already exists, please use a different name"
-        exit
-      end
+  private def ensure_directory_does_not_exist
+    if Dir.exists?("./#{project_dir}")
+      puts "Folder named #{project_name} already exists, please use a different name"
+      exit
     end
+  end
 end
