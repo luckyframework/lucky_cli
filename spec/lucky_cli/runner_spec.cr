@@ -28,9 +28,15 @@ describe LuckyCli::Runner do
   end
 
   it "does not call the task task is not found" do
-    LuckyCli::Runner
-      .run(args: ["not.real"])
-      .should_not have_called_my_cool_task
+    begin
+      LuckyCli::Runner.exit_with_error_if_not_found = false
+
+      LuckyCli::Runner
+        .run(args: ["not.real"])
+        .should_not have_called_my_cool_task
+    ensure
+      LuckyCli::Runner.exit_with_error_if_not_found = true
+    end
   end
 end
 
