@@ -1,4 +1,4 @@
-require "secure_random"
+require "random/secure"
 
 class SrcTemplate < Teeplate::FileTree
   directory "#{__DIR__}/../web_app_skeleton"
@@ -10,6 +10,6 @@ class SrcTemplate < Teeplate::FileTree
   end
 
   def secret_key_base
-    SecureRandom.base64(32)
+    Random::Secure.base64(32)
   end
 end
