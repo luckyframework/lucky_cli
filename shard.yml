@@ -11,4 +11,5 @@ license: MIT
 
 dependencies:
   teeplate:
-    github: mosop/teeplate
+    github: bcardiff/teeplate
+    branch: crystal/v0.24.0
