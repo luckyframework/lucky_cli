@@ -10,8 +10,8 @@ private def run(process)
   Process.run(
     process,
     shell: true,
-    output: true,
-    error: true
+    output: STDOUT,
+    error: STDERR
   )
 end
 
