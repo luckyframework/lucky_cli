@@ -93,7 +93,7 @@ class LuckyCli::Generators::Web
     Process.run "crystal init app #{project_name}",
       shell: true,
       output: io,
-      error: true
+      error: STDERR
   end
 
   private def add_deps_to_shard_file

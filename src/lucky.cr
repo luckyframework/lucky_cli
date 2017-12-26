@@ -13,8 +13,8 @@ if ARGV.first? == "dev"
 elsif File.exists?("./tasks.cr")
   Process.run "crystal run ./tasks.cr --no-debug -- #{args}",
     shell: true,
-    output: true,
-    error: true
+    output: STDOUT,
+    error: STDERR
 elsif ARGV.first? == "init"
   LuckyCli::InitQuestions.run
 elsif ["-v", "--version"].includes?(ARGV.first?)

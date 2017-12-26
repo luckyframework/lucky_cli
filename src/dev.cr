@@ -3,8 +3,8 @@ class LuckyCli::Dev < LuckyCli::Task
 
   def call
     Process.run "heroku", ["local", "--procfile", "Procfile.dev"],
-      error: true,
-      output: true,
+      output: STDOUT,
+      error: STDERR,
       shell: true
   end
 end

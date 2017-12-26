@@ -39,8 +39,8 @@ private def should_run_successfully(command)
   Process.run(
     command,
     shell: true,
-    output: true,
-    error: true
+    output: STDOUT,
+    error: STDERR
   ).exit_status.should be_successful
 end
 
