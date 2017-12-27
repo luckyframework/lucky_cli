@@ -7,7 +7,6 @@ abstract class MainLayout
   #
   # Example:
   #   needs current_user : User
-  needs flash : Lucky::Flash::Store
 
   abstract def inner
 

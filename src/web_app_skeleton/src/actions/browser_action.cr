@@ -10,5 +10,4 @@ abstract class BrowserAction < Lucky::Action
   #  end
   #
   # Then add an assign for it in your MainLayout
-  expose flash
 end
