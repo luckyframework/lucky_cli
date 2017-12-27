@@ -4,6 +4,7 @@ Lucky::RouteHelper.configure do
     # Example: https://my_app.com
     settings.domain = ENV.fetch("APP_DOMAIN")
   else
-    settings.domain = "http:://localhost:5000"
+    # Set domain to the default host/port in development
+    settings.domain = "http:://localhost:3001"
   end
 end
