@@ -103,10 +103,10 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        branch: master
+        version: "~> 0.7.0"
       lucky_migrator:
         github: luckyframework/lucky_migrator
-        version: ~> 0.3.0
+        version: "~> 0.3.0"
     DEPS_LIST
   end
 
