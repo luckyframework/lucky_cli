@@ -106,7 +106,7 @@ class LuckyCli::Generators::Web
         version: "~> 0.7.0"
       lucky_migrator:
         github: luckyframework/lucky_migrator
-        version: "~> 0.3.0"
+        version: "~> 0.4.0"
     DEPS_LIST
   end
 
