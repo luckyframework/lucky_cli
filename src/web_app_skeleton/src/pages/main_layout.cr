@@ -20,6 +20,7 @@ abstract class MainLayout
         title page_title
         css_link asset("css/app.css")
         js_link asset("js/app.js")
+        csrf_meta_tags
       end
 
       body do
