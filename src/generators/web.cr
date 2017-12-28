@@ -56,6 +56,7 @@ class LuckyCli::Generators::Web
     /public/
     server
     *.dwarf
+    *.local.cr
     TEXT
   end
 
