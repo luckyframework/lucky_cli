@@ -55,6 +55,7 @@ class LuckyCli::Generators::Web
     yarn-error.log
     /public/
     server
+    *.dwarf
     TEXT
   end
 
