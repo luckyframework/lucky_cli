@@ -1,10 +1,7 @@
 class LuckyCli::Dev < LuckyCli::Task
-  banner "Run Procfile.dev using 'heroku local'"
+  banner "Start your app with a process runner and Procfile.dev"
 
-  def call
-    Process.run "heroku", ["local", "--procfile", "Procfile.dev"],
-      output: STDOUT,
-      error: STDERR,
-      shell: true
+  def call(process_runner = LuckyCli::ProcessRunner)
+    process_runner.start
   end
 end
