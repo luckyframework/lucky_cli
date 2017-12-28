@@ -2,7 +2,7 @@ require "../spec_helper"
 
 describe LuckyCli::Runner do
   it "adds tasks to the runner when task classes are created" do
-    LuckyCli::Runner.tasks.map(&.name).should eq [
+    LuckyCli::Runner.tasks.map(&.name).reject(&.==("lucky_cli.dev")).should eq [
       "another_task",
       "my.cool_task",
       "some.other.task",

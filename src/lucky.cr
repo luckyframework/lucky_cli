@@ -1,7 +1,6 @@
 require "colorize"
 require "./lucky_cli"
 require "./generators/*"
-require "./init_questions"
 require "./dev"
 
 include LuckyCli::TextHelpers
