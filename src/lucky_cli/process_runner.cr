@@ -18,7 +18,7 @@ module LuckyCli
       end
     end
 
-    private def self.installed_process_runners
+    def self.installed_process_runners
       RUNNERS.select(&.new.installed?)
     end
 

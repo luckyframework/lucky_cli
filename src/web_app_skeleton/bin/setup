@@ -9,10 +9,9 @@ if ! command -v yarn > /dev/null; then
   exit 1
 fi
 
-if ! command -v heroku > /dev/null; then
-  printf 'Heroku CLI is not installed.\n'
-  printf 'See https://devcenter.heroku.com/articles/heroku-cli for install instructions.\n'
-  exit 1
+# Only if this isn't CI
+if [ -z "$CI" ]; then
+  lucky ensure_process_runner_installed
 fi
 
 indent() {

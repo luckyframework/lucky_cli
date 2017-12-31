@@ -2,6 +2,7 @@ require "colorize"
 require "./lucky_cli"
 require "./generators/*"
 require "./dev"
+require "./ensure_process_runner_installed"
 
 include LuckyCli::TextHelpers
 
@@ -9,6 +10,8 @@ args = ARGV.join(" ")
 
 if ARGV.first? == "dev"
   LuckyCli::Dev.new.call
+elsif ARGV.first? == "ensure_process_runner_installed"
+  LuckyCli::EnsureProcessRunnerInstalled.new.call
 elsif File.exists?("./tasks.cr")
   Process.run "crystal run ./tasks.cr --no-debug -- #{args}",
     shell: true,
