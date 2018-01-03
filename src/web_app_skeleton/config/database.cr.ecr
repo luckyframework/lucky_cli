@@ -1,10 +1,10 @@
 database = "<%= crystal_project_name %>_#{Lucky::Env.name}"
 
 LuckyRecord::Repo.configure do
-  if url = ENV["DATABASE_URL"]?
-    settings.url = url
+  if Lucky::Env.production?
+    settings.url = ENV.fetch("DATABASE_URL")
   else
-    settings.url = LuckyRecord::PostgresURL.build(
+    settings.url = ENV["DATABASE_URL"]? || LuckyRecord::PostgresURL.build(
       hostname: "localhost",
       database: database
     )
