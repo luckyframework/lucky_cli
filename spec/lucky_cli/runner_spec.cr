@@ -5,7 +5,7 @@ describe LuckyCli::Runner do
     LuckyCli::Runner.tasks.map(&.name).reject(&.==("lucky_cli.dev")).should eq [
       "another_task",
       "my.cool_task",
-      "some.other.task",
+      "my.custom_name",
     ]
   end
 
