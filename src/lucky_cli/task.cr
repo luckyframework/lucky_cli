@@ -13,6 +13,12 @@ abstract class LuckyCli::Task
     end
   end
 
+  macro name(name_text)
+    def name
+      {{name_text}}
+    end
+  end
+
   abstract def call
   abstract def banner
 end

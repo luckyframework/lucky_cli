@@ -8,6 +8,7 @@ end
 
 class Some::Other::Task < LuckyCli::Task
   banner "bar"
+  name "my.custom_name"
 
   def call
   end
