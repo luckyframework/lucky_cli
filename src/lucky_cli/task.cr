@@ -13,6 +13,18 @@ abstract class LuckyCli::Task
     end
   end
 
+  # Set a custom title for the task
+  #
+  # By default the name is derived from the full module and class name.
+  # However if that name is not desired, a custom one can be set here.
+  # ```
+  # class Dev::Prime < LuckyCli::Task
+  #   name "Development database primer"
+  #   banner "Seed the development database with example data"
+  #
+  #   # other methods, etc.
+  # end
+  # ```
   macro name(name_text)
     def name
       {{name_text}}
