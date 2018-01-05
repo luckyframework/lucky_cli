@@ -4,7 +4,7 @@ LuckyRecord::Repo.configure do
   if Lucky::Env.production?
     settings.url = ENV.fetch("DATABASE_URL")
   else
-    settings.url = LuckyRecord::PostgresURL.build(
+    settings.url = ENV["DATABASE_URL"]? || LuckyRecord::PostgresURL.build(
       hostname: "localhost",
       database: database
     )
