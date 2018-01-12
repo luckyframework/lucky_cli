@@ -13,10 +13,12 @@ if ARGV.first? == "dev"
 elsif ARGV.first? == "ensure_process_runner_installed"
   LuckyCli::EnsureProcessRunnerInstalled.new.call
 elsif File.exists?("./tasks.cr")
-  Process.run "crystal run ./tasks.cr --no-debug -- #{args}",
+  exit Process.run(
+    "crystal run ./tasks.cr -- #{args}",
     shell: true,
     output: STDOUT,
     error: STDERR
+  ).exit_status
 elsif ARGV.first? == "init"
   LuckyCli::InitQuestions.run
 elsif ["-v", "--version"].includes?(ARGV.first?)
