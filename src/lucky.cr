@@ -28,7 +28,7 @@ else
 
   Try this...
 
-    #{red_arrow} Change to the directory with the task.cr file,
+    #{red_arrow} Change to the directory with the tasks.cr file,
       usually your project root
     #{red_arrow} If this is a new project, run #{"lucky init".colorize(:green)} to
       create a default tasks.cr file
