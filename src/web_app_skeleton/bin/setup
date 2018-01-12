@@ -9,11 +9,6 @@ if ! command -v yarn > /dev/null; then
   exit 1
 fi
 
-# Only if this isn't CI
-if [ -z "$CI" ]; then
-  lucky ensure_process_runner_installed
-fi
-
 indent() {
   while read LINE; do
     echo "  $LINE" || true
@@ -22,7 +17,6 @@ indent() {
 
 echo "\n▸ Installing node dependencies"
 yarn install --silent | indent
-echo "\n▸ Done installing node dependencies"
 
 echo "\n▸ Compiling assets"
 bin/compile_assets build | indent
@@ -30,10 +24,17 @@ bin/compile_assets build | indent
 echo "\n▸ Installing shards"
 crystal deps | indent
 
+echo "\n▸ Checking that a process runner is installed"
+# Only if this isn't CI
+if [ -z "$CI" ]; then
+  lucky ensure_process_runner_installed
+fi
+echo "✔ Done" | indent
+
 echo "\n▸ Setting up the database"
 lucky db.create | indent
 
 echo "\n▸ Migrating the database"
 lucky db.migrate | indent
 
-echo "\n▸ All done. Run 'lucky dev' to start the app"
+echo "\n✔ All done. Run 'lucky dev' to start the app"
