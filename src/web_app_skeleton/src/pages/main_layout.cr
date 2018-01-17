@@ -8,7 +8,7 @@ abstract class MainLayout
   # Example:
   #   needs current_user : User
 
-  abstract def inner
+  abstract def content
 
   def render
     html_doctype
@@ -24,7 +24,7 @@ abstract class MainLayout
 
       body do
         render_flash
-        inner
+        content
       end
     end
   end
