@@ -1,7 +1,8 @@
 /doc/
 /libs/
 /lib/
-/bin/
+/bin/generate_test_project
+/bin/*.dwarf
 /.shards/
 lucky
 /test-project/

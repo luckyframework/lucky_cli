@@ -4,13 +4,21 @@ describe "Running a task" do
   it "returns a non-zero exit code when running a missing task" do
     task("missing.task").exit_status.should_not be_successful
   end
+
+  it "runs precompiled tasks" do
+    io = IO::Memory.new
+
+    run("crystal src/lucky.cr precompiled_task", output: io)
+
+    io.to_s.should eq "Ran precompiled task\n"
+  end
 end
 
-private def run(process)
+private def run(process, output = STDOUT)
   Process.run(
     process,
     shell: true,
-    output: STDOUT,
+    output: output,
     error: STDERR
   )
 end
