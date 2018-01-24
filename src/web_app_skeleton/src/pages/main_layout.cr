@@ -20,6 +20,7 @@ abstract class MainLayout
         css_link asset("css/app.css")
         js_link asset("js/app.js")
         csrf_meta_tags
+        responsive_meta_tag
       end
 
       body do
