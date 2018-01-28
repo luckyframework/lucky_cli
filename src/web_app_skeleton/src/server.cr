@@ -15,4 +15,8 @@ server = HTTP::Server.new(host, port, [
 
 puts "Listening on http://#{host}:#{port}"
 
+Signal::INT.trap do
+  server.close
+end
+
 server.listen
