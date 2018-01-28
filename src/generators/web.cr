@@ -54,6 +54,7 @@ class LuckyCli::Generators::Web
     /node_modules
     yarn-error.log
     /public/
+    /bin/lucky/
     server
     *.dwarf
     *.local.cr
