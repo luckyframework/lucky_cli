@@ -9,6 +9,8 @@ LuckyRecord::Repo.configure do
       database: database
     )
   end
+  # In development and test, raise an error if you forget to preload associations
+  settings.lazy_load_enabled = Lucky::Env.production?
 end
 
 LuckyMigrator::Runner.configure do
