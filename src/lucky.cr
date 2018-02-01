@@ -13,7 +13,14 @@ private def task_name : String?
 end
 
 private def task_precompiled? : Bool
-  !task_name.nil? && File.exists?("bin/lucky/#{task_name}")
+  path = precompiled_task_path
+  !path.nil? && File.exists?(path)
+end
+
+private def precompiled_task_path : String?
+  if task_name
+    "bin/lucky/#{task_name.not_nil!.gsub(".", "/")}"
+  end
 end
 
 if task_name == "dev"
@@ -22,7 +29,7 @@ elsif task_name == "ensure_process_runner_installed"
   LuckyCli::EnsureProcessRunnerInstalled.new.call
 elsif task_precompiled?
   exit Process.run(
-    "bin/lucky/#{task_name}",
+    precompiled_task_path.not_nil!,
     shell: true,
     output: STDOUT,
     error: STDERR
