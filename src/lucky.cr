@@ -29,7 +29,7 @@ elsif task_name == "ensure_process_runner_installed"
   LuckyCli::EnsureProcessRunnerInstalled.new.call
 elsif task_precompiled?
   exit Process.run(
-    precompiled_task_path.not_nil!,
+    "#{precompiled_task_path.not_nil!} #{ARGV.skip(1).join(" ")}",
     shell: true,
     output: STDOUT,
     error: STDERR
