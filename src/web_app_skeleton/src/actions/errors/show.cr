@@ -9,6 +9,14 @@ class Errors::Show < Lucky::ErrorAction
     end
   end
 
+  def handle_error(error : Lucky::RouteNotFoundError)
+    if json?
+      json Errors::ShowSerializer.new("Not found"), status: 404
+    else
+      render_error_page title: "Sorry, we couldn't find that page.", status: 404
+    end
+  end
+
   def handle_error(error : Exception)
     error.inspect_with_backtrace(STDERR)
 
