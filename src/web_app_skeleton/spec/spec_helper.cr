@@ -3,6 +3,6 @@ require "spec"
 require "../src/app"
 require "./support/**"
 
-Spec.after_each do
+Spec.before_each do
   LuckyRecord::Repo.truncate
 end
