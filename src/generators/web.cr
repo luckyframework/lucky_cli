@@ -48,7 +48,7 @@ class LuckyCli::Generators::Web
 
       #{green_arrow} cd into #{project_name.colorize(:green)}
       #{green_arrow} run #{"bin/setup".colorize(:green)}
-      #{green_arrow} run #{"lucky dev".colorize(:green)} to start the server
+      #{green_arrow} run #{"lucky dev".colorize(:green)new} to start the server
     TEXT
   end
 
@@ -74,7 +74,7 @@ class LuckyCli::Generators::Web
   end
 
   private def add_default_lucky_structure_to_src
-    SrcTemplate.new(project_name).render("./#{project_name}")
+    SrcTemplate.new(project_name, @api_only).render("./#{project_name}")
   end
 
   private def remove_generated_src_files
