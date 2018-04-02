@@ -9,7 +9,6 @@ indent() {
   done
 }
 
-<%- unless api_only -%>
 if ! command -v yarn > /dev/null; then
   printf 'Yarn is not installed.\n'
   printf 'See https://yarnpkg.com/lang/en/docs/install/ for install instructions.\n'
@@ -19,6 +18,7 @@ fi
 echo "\n▸ Installing node dependencies"
 yarn install --silent | indent
 
+<%- unless @api_only -%>
 echo "\n▸ Compiling assets"
 bin/compile_assets build | indent
 
