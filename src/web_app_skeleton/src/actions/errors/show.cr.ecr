@@ -33,7 +33,6 @@ class Errors::Show < Lucky::ErrorAction
 
     <%- if @api_only -%>
     json Errors::ShowSerializer.new(message), status: 500
-
     <%- else -%>
     if json?
       json Errors::ShowSerializer.new(message), status: 500
