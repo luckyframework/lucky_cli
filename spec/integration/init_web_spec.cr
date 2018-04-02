@@ -6,7 +6,7 @@ describe "Initializing a new web project" do
       puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
       should_run_successfully "rm -rf ./test-project"
       should_run_successfully "crystal src/lucky.cr init test-project"
-      compile_test_project
+      compile_and_run_specs_on_test_project
     ensure
       FileUtils.rm_rf "test-project"
     end
@@ -16,10 +16,12 @@ describe "Initializing a new web project" do
     begin
       puts "Api Only: Running integration spec. This might take awhile...".colorize(:yellow)
       should_run_successfully "rm -rf ./test-project"
-      should_run_successfully "crystal src/lucky.cr init test-project -D --api"
-      compile_test_project
+      should_run_successfully "crystal build src/lucky.cr -o api_only"
+      should_run_successfully "./api_only init test-project --api"
+      compile_and_run_specs_on_test_project
     ensure
       FileUtils.rm_rf "test-project"
+      FileUtils.rm "api_only"
     end
   end
 
@@ -40,7 +42,7 @@ describe "Initializing a new web project" do
   end
 end
 
-private def compile_test_project
+private def compile_and_run_specs_on_test_project
   FileUtils.cd "test-project" do
     should_run_successfully "bin/setup"
     should_run_successfully "crystal build src/server.cr"
