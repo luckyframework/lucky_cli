@@ -1,0 +1,38 @@
+class Errors::Show < Lucky::ErrorAction
+  def handle_error(error : JSON::ParseException)
+    <%- unless @api_only -%>if json? <%- end -%>
+      message = "There was a problem parsing the JSON." \
+                " Please check that it is formed correctly"
+      json Errors::ShowSerializer.new(message), status: 400
+    <%- unless @api_only -%>else
+      render_error_response status: 500
+    end<%- end -%>
+  end
+
+  def handle_error(error : Lucky::RouteNotFoundError)
+    <%- unless @api_only -%>if json? <%- end -%>
+      json Errors::ShowSerializer.new("Not found"), status: 404
+    <%- unless @api_only -%>else
+      render_error_response title: "Sorry, we couldn't find that page.", status: 404
+    end<%- end -%>
+  end
+
+  def handle_error(error : Exception)
+    error.inspect_with_backtrace(STDERR)
+
+    <%- unless @api_only -%>if json? <%- end -%>
+      message = "An unexpected error occurred"
+      json Errors::ShowSerializer.new(message), status: 500
+    <%- unless @api_only -%>else
+      render_error_response status: 500
+    end<%- end -%>
+  end
+
+  private def render_error_response(status : Int32, title : String = "We're sorry. Something went wrong.")
+    <%-if @api_only -%>
+    json Errors::ShowSerializer.new(title), status: status
+    <%- else -%>
+    render Errors::ShowPage, status: status, title: title
+    <%- end -%>
+  end
+end
