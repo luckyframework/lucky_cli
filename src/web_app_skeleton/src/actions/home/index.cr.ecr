@@ -1,4 +1,4 @@
-class Home::Index < <%- if @api_only -%> ApiAction <%- else -%> BrowserAction <%- end %>
+class Home::Index < <%- if @api_only -%>ApiAction<%- else -%>BrowserAction<%- end %>
   get "/" do
     render Lucky::WelcomePage
   end
