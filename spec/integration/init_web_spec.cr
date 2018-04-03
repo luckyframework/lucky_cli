@@ -1,7 +1,7 @@
 require "../spec_helper"
 
 describe "Initializing a new web project" do
-  it "creates a full web app successfully" do
+  pending "creates a full web app successfully" do
     begin
       puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
       should_run_successfully "rm -rf ./test-project"
@@ -16,12 +16,10 @@ describe "Initializing a new web project" do
     begin
       puts "Api Only: Running integration spec. This might take awhile...".colorize(:yellow)
       should_run_successfully "rm -rf ./test-project"
-      should_run_successfully "crystal build src/lucky.cr -o api_only"
-      should_run_successfully "./api_only init test-project --api"
+      should_run_successfully "crystal src/lucky.cr init test-project -- --api"
       compile_and_run_specs_on_test_project
     ensure
       FileUtils.rm_rf "test-project"
-      FileUtils.rm "api_only"
     end
   end
 
