@@ -1,2 +1,6 @@
+<%- if @api_only -%>
 web: lucky watch
-<%- unless @api_only -%>assets: bin/compile_assets watch<%- end -%>
+<%- else -%>
+web: lucky watch --reload-browser
+assets: bin/compile_assets watch
+<%- end -%>
