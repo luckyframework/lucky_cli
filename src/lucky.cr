@@ -31,6 +31,7 @@ elsif task_precompiled?
   exit Process.run(
     "#{precompiled_task_path.not_nil!} #{ARGV.skip(1).join(" ")}",
     shell: true,
+    input: STDIN,
     output: STDOUT,
     error: STDERR
   ).exit_status
@@ -38,6 +39,7 @@ elsif File.exists?("./tasks.cr")
   exit Process.run(
     "crystal run ./tasks.cr -- #{args}",
     shell: true,
+    input: STDIN,
     output: STDOUT,
     error: STDERR
   ).exit_status
