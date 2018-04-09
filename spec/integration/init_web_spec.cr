@@ -1,7 +1,7 @@
 require "../spec_helper"
 
 describe "Initializing a new web project" do
-  pending "creates a full web app successfully" do
+  it "creates a full web app successfully" do
     begin
       puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
       should_run_successfully "rm -rf ./test-project"
