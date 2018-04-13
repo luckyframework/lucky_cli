@@ -10,7 +10,7 @@ require "./serializers/**"
 require "./pipes/**"
 require "./handlers/**"
 require "./actions/**"
-<%- unless @api_only -%>
+<%- if browser? -%>
 require "./components/**"
 require "./pages/**"
 <%- end -%>
