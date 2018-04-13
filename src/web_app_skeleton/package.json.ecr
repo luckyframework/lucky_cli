@@ -2,6 +2,10 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+  <%- if @api_only -%>
+    "browser-sync": "^2.18.13"
+  }
+  <%- else -%>
     "babel-brunch": "^6.1.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.0",
@@ -19,8 +23,9 @@
     "precss": "^2.0.0",
     "rails-ujs": "^5.1.4",
     "turbolinks": "^5.0.3"
-  },
+  }
   "scripts": {
     "heroku-postbuild": "bin/compile_assets build --production"
   }
+  <%- end -%>
 }

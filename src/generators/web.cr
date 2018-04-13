@@ -1,9 +1,13 @@
+require "option_parser"
+
 class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers
 
   getter project_name
+  @api_only = false
 
   def initialize(@project_name : String)
+    parse_options
     @project_name = @project_name.gsub(" ", "")
     @template_dir = File.join(__DIR__, "templates")
     @project_dir = @project_name
@@ -38,6 +42,9 @@ class LuckyCli::Generators::Web
     remove_generated_spec_files
     remove_default_readme
     add_default_lucky_structure_to_src
+    unless @api_only
+      add_browser_app_structure_to_src
+    end
     setup_gitignore
     puts <<-TEXT
     Done generating your Lucky project
@@ -70,7 +77,11 @@ class LuckyCli::Generators::Web
   end
 
   private def add_default_lucky_structure_to_src
-    SrcTemplate.new(project_name).render("./#{project_name}")
+    SrcTemplate.new(project_name, @api_only).render("./#{project_name}")
+  end
+
+  private def add_browser_app_structure_to_src
+    BrowserSrcTemplate.new.render("./#{project_name}")
   end
 
   private def remove_generated_src_files
@@ -117,6 +128,17 @@ class LuckyCli::Generators::Web
     if Dir.exists?("./#{project_dir}")
       puts "Folder named #{project_name} already exists, please use a different name"
       exit
+    end
+  end
+
+  private def parse_options
+    OptionParser.parse! do |parser|
+      parser.banner = "Usage: lucky init [arguments]"
+      parser.on("--api", "Generates an api-only web app") { @api_only = true }
+      parser.on("-h", "--help", "Help here") {
+        puts parser
+        exit(0)
+      }
     end
   end
 end

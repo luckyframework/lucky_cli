@@ -8,10 +8,12 @@ require "./forms/mixins/**"
 require "./forms/**"
 require "./serializers/**"
 require "./pipes/**"
+require "./handlers/**"
 require "./actions/**"
+<%- unless @api_only -%>
 require "./components/**"
 require "./pages/**"
-require "./handlers/**"
+<%- end -%>
 require "../config/env"
 require "../config/**"
 
