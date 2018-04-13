@@ -4,7 +4,7 @@ class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers
 
   getter project_name
-  @api_only = false
+  getter? api_only : Bool = false
 
   def initialize(@project_name : String)
     parse_options
@@ -34,6 +34,10 @@ class LuckyCli::Generators::Web
     end
   end
 
+  private def browser?
+    !api_only?
+  end
+
   def run
     ensure_directory_does_not_exist
     generate_default_crystal_project
@@ -42,7 +46,7 @@ class LuckyCli::Generators::Web
     remove_generated_spec_files
     remove_default_readme
     add_default_lucky_structure_to_src
-    unless @api_only
+    if browser?
       add_browser_app_structure_to_src
     end
     setup_gitignore

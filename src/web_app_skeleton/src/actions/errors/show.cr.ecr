@@ -3,7 +3,7 @@ class Errors::Show < Lucky::ErrorAction
     message = "There was a problem parsing the JSON." \
             " Please check that it is formed correctly"
 
-    <%- if @api_only -%>
+    <%- if api_only? -%>
     json Errors::ShowSerializer.new(message), status: 400
     <%- else -%>
     if json?
@@ -15,7 +15,7 @@ class Errors::Show < Lucky::ErrorAction
   end
 
   def handle_error(error : Lucky::RouteNotFoundError)
-    <%- if @api_only -%>
+    <%- if api_only? -%>
     json Errors::ShowSerializer.new("Not found"), status: 404
     <%- else -%>
     if json?
@@ -31,7 +31,7 @@ class Errors::Show < Lucky::ErrorAction
 
     message = "An unexpected error occurred"
 
-    <%- if @api_only -%>
+    <%- if api_only? -%>
     json Errors::ShowSerializer.new(message), status: 500
     <%- else -%>
     if json?
@@ -42,7 +42,7 @@ class Errors::Show < Lucky::ErrorAction
     <%- end -%>
   end
 
-  <%- unless @api_only -%>
+  <%- unless api_only? -%>
   private def render_error_page(status : Int32, title : String = "We're sorry. Something went wrong.")
     render Errors::ShowPage, status: status, title: title
   end
