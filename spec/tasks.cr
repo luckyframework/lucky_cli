@@ -6,4 +6,13 @@ class PlaceholderTask < LuckyCli::Task
   def banner; end
 end
 
+class TaskWithInput < LuckyCli::Task
+  banner "this should be first"
+
+  def call
+    input = gets
+    puts "input: #{input}"
+  end
+end
+
 LuckyCli::Runner.run

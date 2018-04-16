@@ -7,6 +7,7 @@ require "./ensure_process_runner_installed"
 include LuckyCli::TextHelpers
 
 args = ARGV.join(" ")
+tasks_file = ENV.fetch("LUCKY_TASKS_FILE", "./tasks.cr")
 
 private def task_name : String?
   ARGV.first?
@@ -31,13 +32,15 @@ elsif task_precompiled?
   exit Process.run(
     "#{precompiled_task_path.not_nil!} #{ARGV.skip(1).join(" ")}",
     shell: true,
+    input: STDIN,
     output: STDOUT,
     error: STDERR
   ).exit_status
-elsif File.exists?("./tasks.cr")
+elsif File.exists?(tasks_file)
   exit Process.run(
-    "crystal run ./tasks.cr -- #{args}",
+    "crystal run #{tasks_file} -- #{args}",
     shell: true,
+    input: STDIN,
     output: STDOUT,
     error: STDERR
   ).exit_status
