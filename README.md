@@ -41,6 +41,10 @@ class App::SendDailyNotifications < LuckyCli::Task
   # What this task does
   banner "Send notifications to users"
 
+  # Name is inferred from class name ("app.send_daily_notifications")
+  # It can be overriden if desired
+  #name "app.send_daily_notifications"
+
   def call
     # Code that sends notifications to all your users
     puts "Sent daily notifications!"
@@ -50,7 +54,8 @@ end
 # LuckyCli::Runner.run is below this
 ```
 
-This will create a task that can be run with `lucky app.send_daily_notifications`. The name is inferred from the name of the class.
+This will create a task that can be run with `lucky app.send_daily_notifications`.
+The name is inferred from the name of the class unless explicitly set with `name`.
 
 You can see all available tasks by running `lucky --help`
 
