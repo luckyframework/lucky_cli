@@ -42,8 +42,9 @@ class App::SendDailyNotifications < LuckyCli::Task
   banner "Send notifications to users"
 
   # Name is inferred from class name ("app.send_daily_notifications")
-  # It can be overriden if desired
-  #name "app.send_daily_notifications"
+  # It can be overriden if desired:
+  # 
+  #    name "app.send_daily_notifications"
 
   def call
     # Code that sends notifications to all your users
