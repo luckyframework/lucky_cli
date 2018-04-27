@@ -122,6 +122,15 @@ class LuckyCli::Generators::Web
       lucky:
         github: luckyframework/lucky
         branch: master
+      lucky_flow:
+        github: luckyframework/lucky_flow
+        branch: master
+      authentic:
+        github: luckyframework/authentic
+        branch: master
+      carbon:
+        github: luckyframework/carbon
+        branch: master
       lucky_migrator:
         github: luckyframework/lucky_migrator
         version: "~> 0.4.0"
