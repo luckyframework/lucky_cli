@@ -20,3 +20,40 @@ require "../config/env"
 require "../config/**"
 
 Habitat.raise_if_missing_settings!
+
+class App
+  private getter server
+
+  def initialize
+    @server = HTTP::Server.new(host, port, [
+      Lucky::HttpMethodOverrideHandler.new,
+      Lucky::LogHandler.new,
+      Lucky::SessionHandler.new,
+      Lucky::Flash::Handler.new,
+      Lucky::ErrorHandler.new(action: Errors::Show),
+      Lucky::RouteHandler.new,
+      Lucky::StaticFileHandler.new("./public", false),
+      Lucky::RouteNotFoundHandler.new,
+    ])
+  end
+
+  def base_uri
+    "http://#{host}:#{port}"
+  end
+
+  def host
+    Lucky::Server.settings.host
+  end
+
+  def port
+    Lucky::Server.settings.port
+  end
+
+  def listen
+    server.listen
+  end
+
+  def close
+    server.close
+  end
+end

@@ -1,23 +1,9 @@
 require "./app"
 
-host = Lucky::Server.settings.host
-port = Lucky::Server.settings.port
-
-server = HTTP::Server.new(host, port, [
-  Lucky::HttpMethodOverrideHandler.new,
-  Lucky::LogHandler.new,
-  Lucky::SessionHandler.new,
-  Lucky::Flash::Handler.new,
-  Lucky::ErrorHandler.new(action: Errors::Show),
-  Lucky::RouteHandler.new,
-  Lucky::StaticFileHandler.new("./public", false),
-  Lucky::RouteNotFoundHandler.new,
-])
-
-puts "Listening on http://#{host}:#{port}"
+app = App.new
+puts "Listening on #{app.base_uri}"
+app.listen
 
 Signal::INT.trap do
-  server.close
+  app.close
 end
-
-server.listen
