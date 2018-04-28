@@ -1,8 +1,7 @@
 abstract class BrowserAction < Lucky::Action
   include Lucky::ProtectFromForgery
-  include Authentic::ActionHelpers
+  include Authentic::ActionHelpers(User)
   include Auth::RequireSignIn
-  expose current_user
 
   # If something should always be exposed to your pages, expose them here.
   #
@@ -15,4 +14,9 @@ abstract class BrowserAction < Lucky::Action
   #  end
   #
   # Then add an assign for it in your MainLayout
+  expose current_user
+
+  private def find_current_user(id) : User
+    UserQuery.find(id)
+  end
 end

@@ -1,5 +1,6 @@
 class User < BaseModel
   include Carbon::Emailable
+  include Authentic::PasswordAuthenticatable
 
   table :users do
     column email : String
