@@ -4,7 +4,7 @@ module Auth::RequireSignIn
   end
 
   private def require_sign_in
-    if signed_in?
+    if current_user?
       continue
     else
       Authentic.remember_requested_path(self)
@@ -13,7 +13,7 @@ module Auth::RequireSignIn
     end
   end
 
-  # Tells the compiler that the current_user is not nil since we have check
+  # Tells the compiler that the current_user is not nil since we have checked
   # that the user is signed in
   private def current_user : User
     current_user?.not_nil!
