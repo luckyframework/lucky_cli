@@ -1,4 +1,8 @@
 class Home::Index < <% if api_only? %>ApiAction<% else %>BrowserAction<% end %>
+  <%- unless api_only? -%>
+  include Auth::SkipRequireSignIn
+
+  <%-  end - %>
   get "/" do
     <%- if api_only? -%>
     json({hello: "Hello World from Home::Index"})
