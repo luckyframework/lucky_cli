@@ -7,7 +7,7 @@ module Auth::PasswordResets::RequireToken
   abstract def user : User
 
   private def require_valid_password_reset_token
-    if Authentic.correct_password_reset_token?(user, token)
+    if Authentic.valid_password_reset_token?(user, token)
       continue
     else
       flash.danger = "The password reset link is incorrect or expired. Please try again."
