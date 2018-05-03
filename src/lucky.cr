@@ -15,7 +15,7 @@ end
 
 private def task_precompiled? : Bool
   path = precompiled_task_path
-  !path.nil? && File.exists?(path)
+  !path.nil? && File.file?(path)
 end
 
 private def precompiled_task_path : String?
@@ -36,7 +36,7 @@ elsif task_precompiled?
     output: STDOUT,
     error: STDERR
   ).exit_status
-elsif File.exists?(tasks_file)
+elsif File.file?(tasks_file)
   exit Process.run(
     "crystal run #{tasks_file} -- #{args}",
     shell: true,
