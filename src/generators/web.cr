@@ -50,6 +50,7 @@ class LuckyCli::Generators::Web
       add_browser_app_structure_to_src
     end
     setup_gitignore
+    remove_default_license
     puts <<-TEXT
     Done generating your Lucky project
 
@@ -100,6 +101,22 @@ class LuckyCli::Generators::Web
     FileUtils.rm_r("#{project_dir}/README.md")
   end
 
+  private def remove_default_license
+    remove_license_from_shard
+    FileUtils.rm_r("#{project_dir}/LICENSE")
+  rescue e : Errno
+    puts "License file not deleted because it does not exist"
+  end
+
+  private def remove_license_from_shard
+    shard_path = "#{project_dir}/shard.yml"
+    lines = [] of String
+    File.each_line shard_path do |line|
+      lines << line unless line.includes?("license")
+    end
+    File.write shard_path, lines.join("\n")
+  end
+
   private def install_shards
     puts "Installing shards"
     run_command "shards install"
@@ -117,7 +134,6 @@ class LuckyCli::Generators::Web
   private def add_deps_to_shard_file
     puts "Adding Lucky dependencies to shards.yml"
     append_text to: "shard.yml", text: <<-DEPS_LIST
-
     dependencies:
       lucky:
         github: luckyframework/lucky
