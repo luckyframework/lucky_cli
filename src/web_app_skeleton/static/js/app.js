@@ -1,3 +1,6 @@
 /* eslint no-console:0 */
-import RailsUjs from "rails-ujs"
-import Turbolinks from "turbolinks"
+import RailsUjs from "rails-ujs";
+import Turbolinks from "turbolinks";
+
+RailsUjs.start();
+Turbolinks.start();
