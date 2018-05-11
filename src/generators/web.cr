@@ -141,6 +141,12 @@ class LuckyCli::Generators::Web
       lucky_migrator:
         github: luckyframework/lucky_migrator
         version: "~> 0.4.0"
+      authentic:
+        github: luckyframework/authentic
+        branch: master
+      carbon:
+        github: luckyframework/carbon
+        branch: master
     DEPS_LIST
   end
 

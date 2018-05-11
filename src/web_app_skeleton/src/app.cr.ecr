@@ -12,10 +12,10 @@ require "./emails/**"
 require "./handlers/**"
 require "./actions/mixins/**"
 require "./actions/**"
-<%- browser? -%>
+<%- if browser? -%>
 require "./components/**"
 require "./pages/**"
-<%- browser? -%>
+<%- end -%>
 require "../config/env"
 require "../config/**"
 
