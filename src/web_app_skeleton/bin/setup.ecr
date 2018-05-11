@@ -39,4 +39,8 @@ lucky db.create | indent
 echo "\n▸ Migrating the database"
 lucky db.migrate | indent
 
+echo "\n▸ Seed the database with required and sample records"
+lucky db.required_seeds | indent
+lucky db.helpful_seeds | indent
+
 echo "\n✔ All done. Run 'lucky dev' to start the app"
