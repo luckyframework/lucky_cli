@@ -148,6 +148,15 @@ class LuckyCli::Generators::Web
         github: luckyframework/carbon
         branch: master
     DEPS_LIST
+
+    if browser?
+      append_text to: "shard.yml", text: <<-DEPS_LIST
+
+        lucky_flow:
+          github: luckyframework/lucky_flow
+          branch: master
+      DEPS_LIST
+    end
   end
 
   private def ensure_directory_does_not_exist

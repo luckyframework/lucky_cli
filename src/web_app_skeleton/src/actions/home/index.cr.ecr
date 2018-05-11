@@ -1,9 +1,20 @@
-class Home::Index < <% if api_only? %>ApiAction<% else %>BrowserAction<% end %>
+<%- if api_only? -%>
+class Home::Index < ApiAction
   get "/" do
-    <%- if api_only? -%>
     json({hello: "Hello World from Home::Index"})
-    <%- else -%>
-    render Lucky::WelcomePage
-    <%- end -%>
   end
 end
+<%- else -%>
+class Home::Index < BrowserAction
+  include Auth::SkipRequireSignIn
+  unexpose current_user
+
+  get "/" do
+    if current_user?
+      redirect Me::Show
+    else
+      render Lucky::WelcomePage
+    end
+  end
+end
+<%- end -%>
