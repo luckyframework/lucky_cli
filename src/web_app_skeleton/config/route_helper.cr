@@ -4,7 +4,7 @@ Lucky::RouteHelper.configure do
     # Example: https://my_app.com
     settings.base_uri = ENV.fetch("APP_DOMAIN")
   else
-    # Set base_uri to the default host/port in development
-    settings.base_uri = "http://localhost:3001"
+    # Set domain to the default host/port in development/test
+    settings.base_uri = "http://#{Lucky::ServerSettings.host}:#{Lucky::ServerSettings.port}"
   end
 end
