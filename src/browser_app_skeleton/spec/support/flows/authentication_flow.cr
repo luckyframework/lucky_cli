@@ -15,8 +15,7 @@ class AuthenticationFlow < BaseFlow
 
   def sign_out
     visit Me::Show
-    # sign_out_button.click
-    click "@sign-out-button"
+    sign_out_button.click
   end
 
   def sign_in(password)
