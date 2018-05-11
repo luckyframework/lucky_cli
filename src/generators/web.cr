@@ -140,7 +140,7 @@ class LuckyCli::Generators::Web
         branch: master
       lucky_migrator:
         github: luckyframework/lucky_migrator
-        version: "~> 0.4.0"
+        branch: master
       authentic:
         github: luckyframework/authentic
         branch: master
