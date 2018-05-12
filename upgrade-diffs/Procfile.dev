@@ -1,2 +1,0 @@
-web: lucky watch --reload-browser
-assets: yarn watch
