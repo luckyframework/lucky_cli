@@ -137,16 +137,16 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        branch: master
+        tag: v0.9.0-rc1
       lucky_migrator:
         github: luckyframework/lucky_migrator
-        branch: master
+        tag: v0.5.0-rc1
       authentic:
         github: luckyframework/authentic
-        branch: master
+        version: ~> 0.1.0
       carbon:
         github: luckyframework/carbon
-        branch: master
+        version: ~> 0.1.0
     DEPS_LIST
 
     if browser?
@@ -154,7 +154,7 @@ class LuckyCli::Generators::Web
 
         lucky_flow:
           github: luckyframework/lucky_flow
-          branch: master
+          version: 0.1.0
       DEPS_LIST
     end
   end
