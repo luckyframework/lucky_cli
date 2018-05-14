@@ -1,12 +1,12 @@
 require "../spec/support/boxes/**"
 
-# Only add seeds here that are *required* for your app to work.
+# Add seeds here that are *required* for your app to work.
 # For example, you might need at least one admin user or you might need at least
 # one category for your blog posts for the app to work.
 #
-# Use `Db::HelpfulSeeds` if your only want to add sample data helpful for
+# Use `Db::CreateSampleSeeds` if your only want to add sample data helpful for
 # development.
-class Db::RequiredSeeds < LuckyCli::Task
+class Db::CreateRequiredSeeds < LuckyCli::Task
   banner "Add database records required for the app to work"
 
   def call

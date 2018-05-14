@@ -40,7 +40,7 @@ echo -e "\n▸ Migrating the database"
 lucky db.migrate | indent
 
 echo -e "\n▸ Seed the database with required and sample records"
-lucky db.required_seeds | indent
-lucky db.helpful_seeds | indent
+lucky db.create_required_seeds | indent
+lucky db.create_sample_seeds | indent
 
 echo -e "\n✔ All done. Run 'lucky dev' to start the app"

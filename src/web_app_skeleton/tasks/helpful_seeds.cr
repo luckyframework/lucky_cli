@@ -1,9 +1,10 @@
 require "../spec/support/boxes/**"
 
-# Only add sample data helpful for development, e.g. (fake users, blog posts, etc.)
+# Add sample data helpful for development, e.g. (fake users, blog posts, etc.)
 #
-# Use `Db::RequiredSeeds` if you need data required for your app to work.
-class Db::HelpfulSeeds < LuckyCli::Task
+# Use `Db::CreateRequiredSeeds` if you need to create data *required* for your
+# app to work.
+class Db::CreatesampleSeeds < LuckyCli::Task
   banner "Add sample database records helpful for development"
 
   def call
