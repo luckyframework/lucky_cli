@@ -16,31 +16,31 @@ if ! command -v yarn > /dev/null; then
   exit 1
 fi
 
-echo -e "\n▸ Installing node dependencies"
+printf "\n▸ Installing node dependencies"
 yarn install --silent | indent
 
-echo -e "\n▸ Compiling assets"
+printf "\n▸ Compiling assets"
 yarn dev | indent
 
 <%- end -%>
-echo -e "\n▸ Installing shards"
+printf "\n▸ Installing shards"
 crystal deps | indent
 
-echo -e "\n▸ Checking that a process runner is installed"
+printf "\n▸ Checking that a process runner is installed"
 # Only if this isn't CI
 if [ -z "$CI" ]; then
   lucky ensure_process_runner_installed
 fi
 echo "✔ Done" | indent
 
-echo -e "\n▸ Setting up the database"
+printf "\n▸ Setting up the database"
 lucky db.create | indent
 
-echo -e "\n▸ Migrating the database"
+printf "\n▸ Migrating the database"
 lucky db.migrate | indent
 
-echo -e "\n▸ Seed the database with required and sample records"
+printf "\n▸ Seed the database with required and sample records"
 lucky db.create_required_seeds | indent
 lucky db.create_sample_seeds | indent
 
-echo -e "\n✔ All done. Run 'lucky dev' to start the app"
+printf "\n✔ All done. Run 'lucky dev' to start the app"
