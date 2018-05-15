@@ -4,7 +4,7 @@ require "../spec/support/boxes/**"
 #
 # Use `Db::CreateRequiredSeeds` if you need to create data *required* for your
 # app to work.
-class Db::CreatesampleSeeds < LuckyCli::Task
+class Db::CreateSampleSeeds < LuckyCli::Task
   banner "Add sample database records helpful for development"
 
   def call
