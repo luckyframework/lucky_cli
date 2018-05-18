@@ -1,3 +1,3 @@
 module LuckyCli
-  VERSION = "0.10.0-rc3"
+  VERSION = "0.10.0"
 end
