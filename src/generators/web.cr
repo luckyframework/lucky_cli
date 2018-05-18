@@ -137,10 +137,10 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        tag: v0.10.0-rc2
+        version: ~> 0.10.0
       lucky_migrator:
         github: luckyframework/lucky_migrator
-        tag: v0.5.0-rc1
+        version: ~> 0.5.0
       authentic:
         github: luckyframework/authentic
         version: ~> 0.1.0
