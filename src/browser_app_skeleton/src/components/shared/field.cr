@@ -4,8 +4,8 @@ module Shared::Field
   #
   # ## Usage
   #
-  #     render_field(form.email) { |i| email_input i }
-  #     render_field(form.email) { |i| email_input i, autofocus: "true" }
+  #     field(form.email) { |i| email_input i }
+  #     field(form.email) { |i| email_input i, autofocus: "true" }
   #
   # ## Customization
   #
