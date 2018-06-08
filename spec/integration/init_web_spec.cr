@@ -7,6 +7,7 @@ describe "Initializing a new web project" do
       should_run_successfully "rm -rf ./test-project"
       should_run_successfully "crystal src/lucky.cr init test-project"
       compile_and_run_specs_on_test_project
+      File.read("test-project/.travis.yml").should contain "postgresql"
     ensure
       FileUtils.rm_rf "test-project"
     end
