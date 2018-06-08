@@ -24,7 +24,9 @@ mix
     postCss: [require("lost")],
     // If you want to process images, change this to true and add options from
     // https://github.com/tcoopman/image-webpack-loader
-    imgLoaderOptions: { enabled: false }
+    imgLoaderOptions: { enabled: false },
+    // Stops Mix from clearing the console when compilation succeeds
+    clearConsole: false
   })
   // Set public path so manifest gets output here
   .setPublicPath("public")
