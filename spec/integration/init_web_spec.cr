@@ -1,43 +1,35 @@
 require "../spec_helper"
 
+Spec.before_each do
+  FileUtils.rm_rf("test-project")
+end
+
 describe "Initializing a new web project" do
   it "creates a full web app successfully" do
-    begin
-      puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
-      should_run_successfully "rm -rf ./test-project"
-      should_run_successfully "crystal src/lucky.cr init test-project"
-      compile_and_run_specs_on_test_project
-      File.read("test-project/.travis.yml").should contain "postgresql"
-    ensure
-      FileUtils.rm_rf "test-project"
-    end
+    puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
+    should_run_successfully "crystal src/lucky.cr init test-project"
+    FileUtils.cp("spec/support/cat.gif", "test-project/public/assets/images/")
+    compile_and_run_specs_on_test_project
+    File.read("test-project/.travis.yml").should contain "postgresql"
+    File.read("test-project/public/mix-manifest.json").should contain "images/cat.gif"
   end
 
   it "creates an api only web app successfully" do
-    begin
-      puts "Api Only: Running integration spec. This might take awhile...".colorize(:yellow)
-      should_run_successfully "rm -rf ./test-project"
-      should_run_successfully "crystal src/lucky.cr init test-project -- --api"
-      compile_and_run_specs_on_test_project
-    ensure
-      FileUtils.rm_rf "test-project"
-    end
+    puts "Api Only: Running integration spec. This might take awhile...".colorize(:yellow)
+    should_run_successfully "crystal src/lucky.cr init test-project -- --api"
+    compile_and_run_specs_on_test_project
   end
 
   it "does not create project if directory with same name already exist" do
-    begin
-      FileUtils.mkdir "test-project"
-      output = IO::Memory.new
-      Process.run(
-        "crystal src/lucky.cr init test-project",
-        output: output,
-        shell: true
-      )
-      message = "Folder named test-project already exists, please use a different name"
-      output.to_s.strip.should eq(message)
-    ensure
-      FileUtils.rm_rf "test-project"
-    end
+    FileUtils.mkdir "test-project"
+    output = IO::Memory.new
+    Process.run(
+      "crystal src/lucky.cr init test-project",
+      output: output,
+      shell: true
+    )
+    message = "Folder named test-project already exists, please use a different name"
+    output.to_s.strip.should eq(message)
   end
 end
 

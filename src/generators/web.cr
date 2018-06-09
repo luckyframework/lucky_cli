@@ -66,7 +66,9 @@ class LuckyCli::Generators::Web
     append_text to: ".gitignore", text: <<-TEXT
     /node_modules
     yarn-error.log
-    /public/
+    /public/mix-manifest.json
+    /public/js
+    /public/css
     /bin/lucky/
     server
     *.dwarf
