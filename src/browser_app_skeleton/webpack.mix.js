@@ -14,9 +14,9 @@ mix
   //
   // More info and options (like React support) here:
   // https://github.com/JeffreyWay/laravel-mix/blob/master/docs/mixjs.md
-  .js("static/js/app.js", "public/js")
+  .js("src/js/app.js", "public/js")
   // SASS entry file. Uses autoprefixer automatically.
-  .sass("static/css/app.scss", "public/css")
+  .sass("src/css/app.scss", "public/css")
   // Customize postCSS:
   // https://github.com/JeffreyWay/laravel-mix/blob/master/docs/css-preprocessors.md#postcss-plugins
   .options({
@@ -30,8 +30,6 @@ mix
   })
   // Set public path so manifest gets output here
   .setPublicPath("public")
-  // Copies static assets like images and fonts
-  .copyDirectory("static/assets", "public/assets")
   // Add assets to the manifest
   .version(["public/assets"])
   // Silence most output from webpack
