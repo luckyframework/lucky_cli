@@ -1,7 +1,7 @@
 class Errors::Show < Lucky::ErrorAction
   def handle_error(error : JSON::ParseException)
-    message = "There was a problem parsing the JSON." \
-            " Please check that it is formed correctly"
+    message = "There was a problem parsing the JSON." +
+              " Please check that it is formed correctly"
 
     <%- if api_only? -%>
     json Errors::ShowSerializer.new(message), status: 400
@@ -41,8 +41,8 @@ class Errors::Show < Lucky::ErrorAction
     end
     <%- end -%>
   end
-
   <%- unless api_only? -%>
+
   private def render_error_page(status : Int32, title : String = "We're sorry. Something went wrong.")
     context.response.status_code = status
     render Errors::ShowPage, status: status, title: title
