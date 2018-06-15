@@ -4,11 +4,11 @@ version: 0.10.0
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
-crystal: 0.24.1
+crystal: 0.25.0
 
 license: MIT
 
 dependencies:
   teeplate:
     github: bcardiff/teeplate
-    branch: crystal/v0.24.0
+    branch: crystal/v0.25.0
