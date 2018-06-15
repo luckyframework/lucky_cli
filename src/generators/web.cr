@@ -144,10 +144,10 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        branch: master
+        version: ~> 0.11
       lucky_migrator:
         github: luckyframework/lucky_migrator
-        branch: master
+        version: ~> 0.6
       authentic:
         github: luckyframework/authentic
         version: ~> 0.1.0
@@ -161,7 +161,7 @@ class LuckyCli::Generators::Web
 
         lucky_flow:
           github: luckyframework/lucky_flow
-          version: ~> 0.1.0
+          version: ~> 0.2
       DEPS_LIST
     end
   end

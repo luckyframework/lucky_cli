@@ -1,5 +1,5 @@
 name: lucky_cli
-version: 0.10.0
+version: 0.11.0
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -11,4 +11,4 @@ license: MIT
 dependencies:
   teeplate:
     github: mosop/teeplate
-    branch: master
+    version: ~> 0.6.1
