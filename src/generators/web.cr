@@ -144,7 +144,7 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        version: ~> 0.10.0
+        branch: master
       lucky_migrator:
         github: luckyframework/lucky_migrator
         version: ~> 0.5.0
