@@ -1,5 +1,7 @@
 require "../spec_helper"
 
+include ShouldRunSuccessfully
+
 Spec.before_each do
   FileUtils.rm_rf("test-project")
 end
@@ -42,17 +44,4 @@ private def compile_and_run_specs_on_test_project
     should_run_successfully "crystal src/app.cr"
     should_run_successfully "crystal spec"
   end
-end
-
-private def should_run_successfully(command)
-  Process.run(
-    command,
-    shell: true,
-    output: STDOUT,
-    error: STDERR
-  ).exit_status.should be_successful
-end
-
-private def be_successful
-  eq 0
 end

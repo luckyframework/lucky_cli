@@ -2,9 +2,33 @@ language: crystal
 crystal:
   - latest
   - nightly
+addons:
+  chrome: stable
+services:
+  - postgresql
+install:
+  # Setup chromedriver for LuckyFlow
+  - sudo apt-get install chromium-chromedriver
+  - sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+  # Install shards
+  - shards install
+  # Setup Heroku
+  - sudo wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+  - echo 'machine git.heroku.com' >> ~/.netrc
+  - echo "  login $HEROKU_EMAIL" >> ~/.netrc
+  - echo "  password $HEROKU_API_KEY" >> ~/.netrc
 matrix:
   allow_failures:
     - crystal: nightly
 script:
-  - crystal spec
+  # Install Lucky CLI
+  - crystal build src/lucky.cr --no-debug --release
+  - sudo cp lucky /usr/local/bin
+  # Run specs
+  - crystal spec -D run-deploy-specs
   - crystal tool format spec src --check
+notifications:
+  email: false

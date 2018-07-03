@@ -3,14 +3,14 @@ require "option_parser"
 class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers
 
-  getter project_name
+  getter project_name : String
   getter? api_only : Bool = false
 
-  def initialize(@project_name : String)
+  def initialize(project_name : String)
     parse_options
-    @project_name = @project_name.gsub(" ", "")
+    @project_dir = project_name.gsub(" ", "_")
+    @project_name = @project_dir.gsub("-", "_")
     @template_dir = File.join(__DIR__, "templates")
-    @project_dir = @project_name
   end
 
   def self.run(project_name : String? = nil)
@@ -55,7 +55,7 @@ class LuckyCli::Generators::Web
     puts <<-TEXT
     Done generating your Lucky project
 
-      #{green_arrow} cd into #{project_name.colorize(:green)}
+      #{green_arrow} cd into #{project_dir.colorize(:green)}
       #{green_arrow} run #{"bin/setup".colorize(:green)}
       #{green_arrow} run #{"lucky dev".colorize(:green)} to start the server
     TEXT
@@ -66,14 +66,18 @@ class LuckyCli::Generators::Web
     append_text to: ".gitignore", text: <<-TEXT
     /node_modules
     yarn-error.log
-    /public/mix-manifest.json
-    /public/js
-    /public/css
     /bin/lucky/
     server
     *.dwarf
     *.local.cr
     TEXT
+    if browser?
+      append_text to: ".gitignore", text: <<-TEXT
+      /public/js
+      /public/css
+      /public/mix-manifest.json
+      TEXT
+    end
   end
 
   private def remove_bin_from_gitignore
@@ -85,11 +89,11 @@ class LuckyCli::Generators::Web
   end
 
   private def add_default_lucky_structure_to_src
-    SrcTemplate.new(project_name, @api_only).render("./#{project_name}")
+    SrcTemplate.new(project_name, @api_only).render("./#{project_dir}")
   end
 
   private def add_browser_app_structure_to_src
-    BrowserSrcTemplate.new.render("./#{project_name}")
+    BrowserSrcTemplate.new.render("./#{project_dir}")
   end
 
   private def remove_generated_src_files
@@ -132,7 +136,7 @@ class LuckyCli::Generators::Web
   private def generate_default_crystal_project
     puts "Generating crystal project for #{project_name.colorize(:cyan)}"
     io = IO::Memory.new
-    Process.run "crystal init app #{project_name}",
+    Process.run "crystal init app #{project_name} #{project_dir}",
       shell: true,
       output: io,
       error: STDERR
@@ -168,7 +172,7 @@ class LuckyCli::Generators::Web
 
   private def ensure_directory_does_not_exist
     if Dir.exists?("./#{project_dir}")
-      puts "Folder named #{project_name} already exists, please use a different name"
+      puts "Folder named #{project_dir} already exists, please use a different name"
       exit
     end
   end
