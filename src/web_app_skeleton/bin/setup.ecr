@@ -2,6 +2,7 @@
 
 # Exit if any subcommand fails
 set -e
+set -o pipefail
 
 indent() {
   while read LINE; do

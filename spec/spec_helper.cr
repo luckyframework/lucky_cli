@@ -1,5 +1,7 @@
 require "spec"
 require "file_utils"
+require "json"
+require "http"
 require "../src/lucky_cli"
 require "./support/**"
 

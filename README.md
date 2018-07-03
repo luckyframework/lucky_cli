@@ -4,14 +4,13 @@ A Crystal library for creating and running tasks
 
 ## Installing the CLI
 
-1. Install [homebrew](http://brew.sh)
-2. Run `brew tap luckyframework/lucky`
-3. Run `brew install lucky`
+1.  Install [homebrew](http://brew.sh)
+2.  Run `brew tap luckyframework/lucky`
+3.  Run `brew install lucky`
 
 Run `which lucky` from the command line to make sure it is installed.
 
-**If you're generating a Lucky web project, [install the required dependencies](https://luckyframework.org/guides/installing.html#install-required-dependencies). Then run `lucky
-init {project_name}`**
+**If you're generating a Lucky web project, [install the required dependencies](https://luckyframework.org/guides/installing.html#install-required-dependencies). Then run `lucky init {project_name}`**
 
 ## Using LuckyCli in a non-Lucky web app
 
@@ -43,7 +42,7 @@ class App::SendDailyNotifications < LuckyCli::Task
 
   # Name is inferred from class name ("app.send_daily_notifications")
   # It can be overriden if desired:
-  # 
+  #
   #    name "app.send_daily_notifications"
 
   def call
@@ -62,11 +61,13 @@ You can see all available tasks by running `lucky --help`
 
 ## Contributing
 
-1. Fork it ( https://github.com/luckyframework/lucky_cli/fork )
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Push to the branch (git push origin my-new-feature)
-5. Create a new Pull Request
+1.  Fork it ( https://github.com/luckyframework/lucky_cli/fork )
+1.  Create your feature branch (git checkout -b my-new-feature)
+1.  [Install the required dependencies](https://luckyframework.org/guides/installing.html#install-required-dependencies
+1.  Make sure specs pass: `crystal spec`
+1.  Commit your changes (git commit -am 'Add some feature')
+1.  Push to the branch (git push origin my-new-feature)
+1.  Create a new Pull Request
 
 ## Contributors
 
