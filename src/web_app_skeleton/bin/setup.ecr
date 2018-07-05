@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Exit if any subcommand fails
 set -e
@@ -32,7 +32,7 @@ printf "\n▸ Checking that a process runner is installed\n"
 if [ -z "$CI" ]; then
   lucky ensure_process_runner_installed
 fi
-echo "✔ Done\n" | indent
+printf "✔ Done\n" | indent
 
 printf "\n▸ Setting up the database\n"
 lucky db.create | indent
