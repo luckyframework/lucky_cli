@@ -4,7 +4,7 @@ class Home::Index < ApiAction
     json({hello: "Hello World from Home::Index"})
   end
 end
-<%- else -%>
+<%- elsif generate_auth? -%>
 class Home::Index < BrowserAction
   include Auth::SkipRequireSignIn
   unexpose current_user
@@ -15,6 +15,12 @@ class Home::Index < BrowserAction
     else
       render Lucky::WelcomePage
     end
+  end
+end
+<%- else -%>
+class Home::Index < BrowserAction
+  get "/" do
+    render Lucky::WelcomePage
   end
 end
 <%- end -%>

@@ -1,5 +1,6 @@
 abstract class BrowserAction < Lucky::Action
   include Lucky::ProtectFromForgery
+  <%- if generate_auth? -%>
   # This module provides current_user, sign_in, and sign_out methods
   include Authentic::ActionHelpers(User)
 
@@ -25,4 +26,5 @@ abstract class BrowserAction < Lucky::Action
   private def find_current_user(id) : User
     UserQuery.find(id)
   end
+  <%- end -%>
 end
