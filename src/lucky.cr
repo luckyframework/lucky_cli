@@ -45,7 +45,7 @@ elsif File.file?(tasks_file)
     error: STDERR
   ).exit_status
 elsif task_name == "init"
-  LuckyCli::InitQuestions.run
+  LuckyCli::Init.run
 elsif ["-v", "--version"].includes?(task_name)
   puts LuckyCli::VERSION
 else

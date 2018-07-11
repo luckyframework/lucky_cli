@@ -1,12 +1,16 @@
 module ShouldRunSuccessfully
   private def should_run_successfully(command)
     io = IO::Memory.new
-    Process.run(
+    result = Process.run(
       command,
       shell: true,
       output: io,
       error: STDERR
-    ).exit_status.should be_successful
+    )
+    if result.exit_status != 0
+      puts io.to_s
+    end
+    result.exit_status.should be_successful
     io
   end
 

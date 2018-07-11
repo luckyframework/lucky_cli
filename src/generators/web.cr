@@ -4,34 +4,19 @@ class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers
 
   getter project_name : String
-  getter? api_only : Bool = false
+  delegate api_only?, generate_auth?, to: @options
 
-  def initialize(project_name : String)
-    parse_options
+  def initialize(
+    project_name : String,
+    @options : Options
+  )
     @project_dir = project_name.gsub(" ", "_")
     @project_name = @project_dir.gsub("-", "_")
     @template_dir = File.join(__DIR__, "templates")
   end
 
-  def self.run(project_name : String? = nil)
-    if project_name
-      new(project_name).run
-    else
-      project_name = ask_for_project_name
-      new(project_name).run
-    end
-  end
-
-  def self.ask_for_project_name
-    puts "#{arrow} What is the name of your project?"
-    project_name = gets.to_s
-
-    if project_name.strip == ""
-      puts "Enter a project name".colorize(:yellow)
-      ask_for_project_name
-    else
-      project_name
-    end
+  def self.run(*args, **named_args)
+    new(*args, **named_args).run
   end
 
   private def browser?
@@ -47,13 +32,28 @@ class LuckyCli::Generators::Web
     remove_generated_spec_files
     remove_default_readme
     add_default_lucky_structure_to_src
+
     if browser?
       add_browser_app_structure_to_src
     end
+
+    if generate_auth?
+      add_base_auth_to_src
+    end
+
+    if browser? && generate_auth?
+      add_browser_authentication_to_src
+    end
+
+    # TODO: Add API auth with JWT
+    # if api_only? && generate_auth?
+    #   add_api_authentication_to_src
+    # end
+
     setup_gitignore
     remove_default_license
     puts <<-TEXT
-    Done generating your Lucky project
+    #{"Done generating your Lucky project".colorize.bold}
 
       #{green_arrow} cd into #{project_dir.colorize(:green)}
       #{green_arrow} run #{"bin/setup".colorize(:green)}
@@ -89,11 +89,19 @@ class LuckyCli::Generators::Web
   end
 
   private def add_default_lucky_structure_to_src
-    SrcTemplate.new(project_name, @api_only).render("./#{project_dir}")
+    SrcTemplate.new(project_name, @options).render("./#{project_dir}", force: true)
   end
 
   private def add_browser_app_structure_to_src
-    BrowserSrcTemplate.new.render("./#{project_dir}")
+    BrowserSrcTemplate.new(@options).render("./#{project_dir}", force: true)
+  end
+
+  private def add_base_auth_to_src
+    BaseAuthenticationSrcTemplate.new.render("./#{project_dir}", force: true)
+  end
+
+  private def add_browser_authentication_to_src
+    BrowserAuthenticationSrcTemplate.new.render("./#{project_dir}", force: true)
   end
 
   private def remove_generated_src_files
@@ -134,7 +142,6 @@ class LuckyCli::Generators::Web
   end
 
   private def generate_default_crystal_project
-    puts "Generating crystal project for #{project_name.colorize(:cyan)}"
     io = IO::Memory.new
     Process.run "crystal init app #{project_name} #{project_dir}",
       shell: true,
@@ -143,7 +150,6 @@ class LuckyCli::Generators::Web
   end
 
   private def add_deps_to_shard_file
-    puts "Adding Lucky dependencies to shards.yml"
     append_text to: "shard.yml", text: <<-DEPS_LIST
     dependencies:
       lucky:
@@ -172,19 +178,18 @@ class LuckyCli::Generators::Web
 
   private def ensure_directory_does_not_exist
     if Dir.exists?("./#{project_dir}")
-      puts "Folder named #{project_dir} already exists, please use a different name"
+      puts "Folder named #{project_dir} already exists, please use a different name".colorize.red.bold
       exit
     end
   end
 
-  private def parse_options
-    OptionParser.parse! do |parser|
-      parser.banner = "Usage: lucky init [arguments]"
-      parser.on("--api", "Generates an api-only web app") { @api_only = true }
-      parser.on("-h", "--help", "Help here") {
-        puts parser
-        exit(0)
-      }
+  class Options
+    getter? api_only, generate_auth
+
+    def initialize(
+      api_only? @api_only : Bool,
+      generate_auth? @generate_auth : Bool
+    )
     end
   end
 end

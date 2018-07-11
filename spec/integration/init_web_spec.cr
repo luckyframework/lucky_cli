@@ -17,8 +17,20 @@ describe "Initializing a new web project" do
   end
 
   it "creates an api only web app successfully" do
-    puts "Api Only: Running integration spec. This might take awhile...".colorize(:yellow)
+    puts "Api only: Running integration spec. This might take awhile...".colorize(:yellow)
     should_run_successfully "crystal src/lucky.cr init test-project -- --api"
+    compile_and_run_specs_on_test_project
+  end
+
+  it "creates an api only app without auth" do
+    puts "Api only without auth: Running integration spec. This might take awhile...".colorize(:yellow)
+    should_run_successfully "crystal src/lucky.cr init test-project -- --api --no-auth"
+    compile_and_run_specs_on_test_project
+  end
+
+  it "creates a full app without auth" do
+    puts "Web app without auth: Running integration spec. This might take awhile...".colorize(:yellow)
+    should_run_successfully "crystal src/lucky.cr init test-project -- --no-auth"
     compile_and_run_specs_on_test_project
   end
 
@@ -31,7 +43,7 @@ describe "Initializing a new web project" do
       shell: true
     )
     message = "Folder named test-project already exists, please use a different name"
-    output.to_s.strip.should eq(message)
+    output.to_s.strip.should contain(message)
   end
 end
 
