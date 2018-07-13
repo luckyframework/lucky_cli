@@ -6,6 +6,12 @@ addons:
   chrome: stable
 services:
   - postgresql
+before_script:
+  # Setup Heroku
+  - sudo wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+  - echo 'machine git.heroku.com' >> ~/.netrc
+  - echo "  login $HEROKU_EMAIL" >> ~/.netrc
+  - echo "  password $HEROKU_API_KEY" >> ~/.netrc
 install:
   # Setup chromedriver for LuckyFlow
   - sudo apt-get install chromium-chromedriver
@@ -15,11 +21,6 @@ install:
   - sleep 3 # give xvfb some time to start
   # Install shards
   - shards install
-  # Setup Heroku
-  - sudo wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
-  - echo 'machine git.heroku.com' >> ~/.netrc
-  - echo "  login $HEROKU_EMAIL" >> ~/.netrc
-  - echo "  password $HEROKU_API_KEY" >> ~/.netrc
 matrix:
   allow_failures:
     - crystal: nightly
