@@ -34,7 +34,7 @@ module LuckyCli::GeneratorHelpers
   def append_text(to, text)
     within_project do
       file = File.read(to)
-      updated_file = file + text
+      updated_file = file + text + "\n"
       File.write(to, updated_file)
     end
   end
