@@ -24,4 +24,5 @@ include Carbon::Expectations
 include LuckyFlow::Expectations
 <%- end -%>
 
+LuckyMigrator::Runner.new.ensure_migrated!
 Habitat.raise_if_missing_settings!
