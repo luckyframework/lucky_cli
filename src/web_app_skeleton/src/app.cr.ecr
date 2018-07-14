@@ -26,11 +26,22 @@ class App
     @server = HTTP::Server.new [
       Lucky::HttpMethodOverrideHandler.new,
       Lucky::LogHandler.new,
+      <%- if browser? -%>
       Lucky::SessionHandler.new,
       Lucky::Flash::Handler.new,
+      <%- else %>
+      # Disabled in API mode, but can be enabled if you need them:
+      # Lucky::SessionHandler.new,
+      # Lucky::Flash::Handler.new,
+      <%- end -%>
       Lucky::ErrorHandler.new(action: Errors::Show),
       Lucky::RouteHandler.new,
+      <%- if browser? -%>
       Lucky::StaticFileHandler.new("./public", false),
+      <%- else %>
+      # Disabled in API mode:
+      # Lucky::StaticFileHandler.new("./public", false),
+      <%- end -%>
       Lucky::RouteNotFoundHandler.new,
     ]
   end
