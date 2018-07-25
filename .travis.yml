@@ -12,6 +12,9 @@ before_script:
   - echo 'machine git.heroku.com' >> ~/.netrc
   - echo "  login $HEROKU_EMAIL" >> ~/.netrc
   - echo "  password $HEROKU_API_KEY" >> ~/.netrc
+  - echo 'machine api.heroku.com' >> ~/.netrc
+  - echo "  login $HEROKU_EMAIL" >> ~/.netrc
+  - echo "  password $HEROKU_API_KEY" >> ~/.netrc
 install:
   # Setup chromedriver for LuckyFlow
   - sudo apt-get install chromium-chromedriver
