@@ -6,7 +6,7 @@ addons:
 services:
   - postgresql
 <%- if browser? -%>
-before_install:
+install:
   # Setup chromedriver for LuckyFlow
   - sudo apt-get install chromium-chromedriver
   - sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
@@ -17,6 +17,8 @@ before_install:
   # Setup assets
   - yarn install
   - yarn prod
+  # Install shards
+  - shards install
 <%- end -%>
 script:
   - crystal spec
