@@ -4,6 +4,7 @@ Authentic.configure do
   settings.secret_key = Lucky::Server.settings.secret_key_base
 
   unless Lucky::Env.production?
-    settings.encryption_cost = 4
+    fastest_encryption_possible = 4
+    settings.encryption_cost = fastest_encryption_possible
   end
 end
