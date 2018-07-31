@@ -7,7 +7,7 @@ Spec.before_each do
 end
 
 describe "Initializing a new web project" do
-  it "puts hi"
+  it "puts hi" do
     puts "hi"
   end
 
