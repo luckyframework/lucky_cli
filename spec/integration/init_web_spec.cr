@@ -7,6 +7,10 @@ Spec.before_each do
 end
 
 describe "Initializing a new web project" do
+  it "puts hi"
+    puts "hi"
+  end
+
   it "creates a full web app successfully" do
     puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
     should_run_successfully "crystal src/lucky.cr init test-project"
