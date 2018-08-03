@@ -1,6 +1,6 @@
 require "../spec_helper"
 
-{% if flag?("run-deploy-specs") %}
+{% if env("RUN_HEROKU_SPECS") %}
   include ShouldRunSuccessfully
 
   Spec.before_each do

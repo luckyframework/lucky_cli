@@ -65,6 +65,7 @@ You can see all available tasks by running `lucky --help`
 1.  Create your feature branch (git checkout -b my-new-feature)
 1.  [Install the required dependencies](https://luckyframework.org/guides/installing.html#install-required-dependencies
 1.  Make sure specs pass: `crystal spec`
+1.  To specs that deploy a sample app to Heroku, run `RUN_HEROKU_SPECS=1 crystal spec`. Make sure you've setup Heroku CLI locally first.
 1.  Commit your changes (git commit -am 'Add some feature')
 1.  Push to the branch (git push origin my-new-feature)
 1.  Create a new Pull Request
