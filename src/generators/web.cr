@@ -175,7 +175,7 @@ class LuckyCli::Generators::Web
       DEPS_LIST
     end
 
-    if api_only? && generate_auth?
+    if generate_auth?
       append_text to: "shard.yml", text: <<-DEPS_LIST
         jwt:
           github: crystal-community/jwt
