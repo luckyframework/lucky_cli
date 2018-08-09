@@ -10,11 +10,9 @@ class User < BaseModel
   def emailable
     Carbon::Address.new(email)
   end
-  <%- if api_only? -%>
 
   def generate_token
     payload = {"sub" => id, "exp" => 14.days.from_now.epoch}
     JWT.encode(payload, Lucky::Server.settings.secret_key_base, "HS256")
   end
-  <%- end -%>
 end
