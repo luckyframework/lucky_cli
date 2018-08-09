@@ -42,14 +42,11 @@ class LuckyCli::Generators::Web
 
     if generate_auth?
       add_base_auth_to_src
+      add_api_authentication_to_src
     end
 
     if browser? && generate_auth?
       add_browser_authentication_to_src
-    end
-
-    if api_only? && generate_auth?
-      add_api_authentication_to_src
     end
 
     setup_gitignore
