@@ -12,6 +12,16 @@ Lucky::Server.configure do
   end
 end
 
+Lucky::ForceSSLHandler.configure do
+  # To force SSL in production, uncomment the line below.
+  # This will cause http requests to be redirected to https:
+  #
+  #    settings.enabled = Lucky::Env.production?
+  #
+  # Or, leave it disabled:
+  settings.enabled = false
+end
+
 private def secret_key_from_env
   ENV["SECRET_KEY_BASE"]? || raise_missing_secret_key_in_production
 end
