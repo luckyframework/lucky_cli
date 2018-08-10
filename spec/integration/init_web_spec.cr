@@ -16,6 +16,27 @@ describe "Initializing a new web project" do
     File.read("test-project/public/mix-manifest.json").should contain "images/cat.gif"
   end
 
+  it "creates a full web app with generator" do
+    puts "Web app generators: Running integration spec. This might take awhile...".colorize(:yellow)
+    should_run_successfully "crystal src/lucky.cr init test-project"
+
+    FileUtils.cd "test-project" do
+      should_run_successfully "shards install"
+      should_run_successfully "lucky gen.action.api Api::Users::Show"
+      should_run_successfully "lucky gen.action.browser Users::Show"
+      should_run_successfully "lucky gen.migration CreateThings"
+      should_run_successfully "lucky gen.model User"
+      should_run_successfully "lucky gen.page Users::IndexPage"
+      should_run_successfully "lucky gen.resource.browser Comment title:String"
+
+      File.read("src/actions/comments/index.cr").should contain "Comments::Index"
+      File.read("src/actions/api/users/show.cr").should_not be_nil
+      File.read("src/actions/users/show.cr").should_not be_nil
+      File.read("src/pages/users/index_page.cr").should_not be_nil
+      should_run_successfully "crystal build src/server.cr"
+    end
+  end
+
   it "creates an api only web app successfully" do
     puts "Api only: Running integration spec. This might take awhile...".colorize(:yellow)
     should_run_successfully "crystal src/lucky.cr init test-project -- --api"

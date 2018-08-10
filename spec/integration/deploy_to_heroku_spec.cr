@@ -44,8 +44,10 @@ require "../spec_helper"
     Dir.cd("./test-project") do
       puts "Deploying #{app_name}"
       should_run_successfully "yarn install"
-      should_run_successfully("heroku apps").to_s.split("\n").select(&.starts_with?(app_name_base)).each do |app|
-        should_run_successfully("heroku apps:destroy #{app} --confirm #{app}").to_s
+      io = IO::Memory.new
+      should_run_successfully("heroku apps", output: io)
+      io.to_s.split("\n").select(&.starts_with?(app_name_base)).each do |app|
+        should_run_successfully "heroku apps:destroy #{app} --confirm #{app}"
       end
       should_run_successfully "heroku apps:create #{app_name}"
       should_run_successfully "heroku git:remote -a #{app_name}"
