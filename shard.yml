@@ -4,7 +4,7 @@ version: 0.11.0
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
-crystal: 0.25.0
+crystal: 0.26
 
 license: MIT
 
