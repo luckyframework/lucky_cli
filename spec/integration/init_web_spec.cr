@@ -68,6 +68,30 @@ describe "Initializing a new web project" do
     message = "Folder named test-project already exists, please use a different name"
     output.to_s.strip.should contain(message)
   end
+
+  it "does not create project if project name is not a valid project name" do
+    output = IO::Memory.new
+    Process.run(
+      "crystal src/lucky.cr init 'test project'",
+      output: output,
+      shell: true
+    )
+    message = "Project name should only contain letters, numbers, underscores, and dashes."
+    output.to_s.strip.should contain(message)
+  end
+
+  it "translates dashes to underscores in the project name" do
+    output = IO::Memory.new
+    Process.run(
+      "crystal src/lucky.cr init 'test-project'",
+      output: output,
+      shell: true
+    )
+
+    shard_yml_name = File.read_lines("test-project/shard.yml").select { |line| line =~ /^name:/ }.first
+    shard_yml_name.should eq("name: test_project")
+    File.exists?("test-project/src/test_project.cr").should be_true
+  end
 end
 
 private def compile_and_run_specs_on_test_project
