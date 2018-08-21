@@ -27,12 +27,14 @@ describe "Initializing a new web project" do
       should_run_successfully "lucky gen.migration CreateThings"
       should_run_successfully "lucky gen.model User"
       should_run_successfully "lucky gen.page Users::IndexPage"
+      should_run_successfully "lucky gen.component Users::Header"
       should_run_successfully "lucky gen.resource.browser Comment title:String"
 
       File.read("src/actions/comments/index.cr").should contain "Comments::Index"
       File.read("src/actions/api/users/show.cr").should_not be_nil
       File.read("src/actions/users/show.cr").should_not be_nil
       File.read("src/pages/users/index_page.cr").should_not be_nil
+      File.read("src/components/users/header.cr").should contain "Users::Header < BaseComponent"
       should_run_successfully "crystal build src/server.cr"
     end
   end
