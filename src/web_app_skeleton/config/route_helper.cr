@@ -1,5 +1,5 @@
 # This is used when generating URLs for your application
-Lucky::RouteHelper.configure do
+Lucky::RouteHelper.configure do |settings|
   if Lucky::Env.production?
     # Example: https://my_app.com
     settings.base_uri = ENV.fetch("APP_DOMAIN")

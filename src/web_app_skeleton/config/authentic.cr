@@ -1,6 +1,6 @@
 require "./server"
 
-Authentic.configure do
+Authentic.configure do |settings|
   settings.secret_key = Lucky::Server.settings.secret_key_base
 
   unless Lucky::Env.production?

@@ -1,4 +1,4 @@
-Lucky::Server.configure do
+Lucky::Server.configure do |settings|
   if Lucky::Env.production?
     settings.secret_key_base = secret_key_from_env
     settings.host = "0.0.0.0"
@@ -12,7 +12,7 @@ Lucky::Server.configure do
   end
 end
 
-Lucky::ForceSSLHandler.configure do
+Lucky::ForceSSLHandler.configure do |settings|
   # To force SSL in production, uncomment the line below.
   # This will cause http requests to be redirected to https:
   #
