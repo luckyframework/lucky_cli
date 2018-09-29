@@ -5,7 +5,7 @@ class PasswordResets::Create < BrowserAction
   post "/password_resets/:user_id" do
     PasswordResetForm.update(user, params) do |form, user|
       if form.saved?
-        session.delete(:password_reset_token)
+        session.unset(:password_reset_token)
         sign_in user
         flash.success = "Your password has been reset"
         redirect to: Home::Index
