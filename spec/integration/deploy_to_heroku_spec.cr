@@ -18,7 +18,9 @@ require "../spec_helper"
         should_run_successfully "heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs"
       }
 
-      HTTP::Client.get("https://#{app}.herokuapp.com").body.should contain("Welcome to Lucky")
+      # For some reason using HTTP::Client raises an End of file error
+      # So instead we use `curl` to circumvent the issue
+      `curl https://#{app}.herokuapp.com`.should contain("Welcome to Lucky")
     end
 
     it "deploys an API app successfully" do
