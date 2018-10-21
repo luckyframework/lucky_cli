@@ -15,6 +15,6 @@ class PasswordResets::New < BrowserAction
   end
 
   private def make_token_available_to_future_actions
-    session[:password_reset_token] = token
+    session.set(:password_reset_token, token)
   end
 end
