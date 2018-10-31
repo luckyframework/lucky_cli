@@ -1,7 +1,3 @@
-Lucky::SessionCookie.configure do |settings|
+Lucky::Session.configure do |settings|
   settings.key = "_<%= crystal_project_name %>_session"
-end
-
-Lucky::CookieJar.configure do |settings|
-  settings.default_expiration = 1.year
 end
