@@ -14,6 +14,7 @@ describe "Initializing a new web project" do
     compile_and_run_specs_on_test_project
     File.read("test-project/.travis.yml").should contain "postgresql"
     File.read("test-project/public/mix-manifest.json").should contain "images/cat.gif"
+    File.exists?("test-project/public/favicon.ico").should eq true
   end
 
   it "creates a full web app with generator" do
