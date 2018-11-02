@@ -7,9 +7,9 @@ abstract class LuckyCli::Task
     end
   end
 
-  macro banner(banner_text)
-    def banner
-      {{banner_text}}
+  macro summary(summary_text)
+    def summary
+      {{summary_text}}
     end
   end
 
@@ -21,7 +21,7 @@ abstract class LuckyCli::Task
   # ```
   # class Dev::Prime < LuckyCli::Task
   #   name "Development database primer"
-  #   banner "Seed the development database with example data"
+  #   summary "Seed the development database with example data"
   #
   #   # other methods, etc.
   # end
@@ -33,5 +33,5 @@ abstract class LuckyCli::Task
   end
 
   abstract def call
-  abstract def banner
+  abstract def summary
 end

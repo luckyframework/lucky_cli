@@ -53,7 +53,7 @@ class LuckyCli::Runner
       tasks.each do |task|
         list << ("  #{arrow} " + task.name).colorize(:green)
         list << list_padding_for(task.name)
-        list << task.banner
+        list << task.summary
         list << "\n"
       end
     end

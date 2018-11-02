@@ -1,5 +1,5 @@
 class My::CoolTask < LuckyCli::Task
-  banner "This task does something awesome"
+  summary "This task does something awesome"
 
   def call
     :my_cool_task_was_called
@@ -7,7 +7,7 @@ class My::CoolTask < LuckyCli::Task
 end
 
 class Some::Other::Task < LuckyCli::Task
-  banner "bar"
+  summary "bar"
   name "my.custom_name"
 
   def call
@@ -15,7 +15,7 @@ class Some::Other::Task < LuckyCli::Task
 end
 
 class AnotherTask < LuckyCli::Task
-  banner "this should be first"
+  summary "this should be first"
 
   def call
   end

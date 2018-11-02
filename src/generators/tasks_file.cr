@@ -23,7 +23,7 @@ class LuckyCli::Generators::TasksFile
     # Write tasks here (or uncomment the line above). Here's an example task
     # class App::SendDailyNotifications < LuckyCli::Task
     #   # What this task does
-    #   banner "Send notifications to users"
+    #   summary "Send notifications to users"
     #
     #   def call
     #     # Code that sends notifications to all your users
