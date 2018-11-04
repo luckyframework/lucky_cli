@@ -158,10 +158,10 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        branch: master
+        tag: v0.12.0-rc1
       authentic:
         github: luckyframework/authentic
-        branch: master
+        version: ~> 0.2
       carbon:
         github: luckyframework/carbon
         version: ~> 0.1.0
@@ -172,7 +172,7 @@ class LuckyCli::Generators::Web
 
         lucky_flow:
           github: luckyframework/lucky_flow
-          version: ~> 0.2
+          version: ~> 0.3
       DEPS_LIST
     end
   end
