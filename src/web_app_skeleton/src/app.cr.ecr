@@ -1,4 +1,10 @@
 require "./dependencies"
+<%- if browser? -%>
+
+# Load the asset manifest in public/mix-manifest.json
+Lucky::AssetHelpers.load_manifest
+
+<%- end -%>
 require "./models/base_model"
 require "./models/mixins/**"
 require "./models/**"
