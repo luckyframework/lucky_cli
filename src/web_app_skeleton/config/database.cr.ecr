@@ -7,6 +7,12 @@ LuckyRecord::Repo.configure do |settings|
     settings.url = ENV["DATABASE_URL"]? || LuckyRecord::PostgresURL.build(
       hostname: "localhost",
       database: database
+
+      # Optional settings:
+      #
+      # username: "postgres",
+      # password: "postgres",
+      # port: 5432
     )
   end
   # In development and test, raise an error if you forget to preload associations
