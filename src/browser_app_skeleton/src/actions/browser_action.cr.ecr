@@ -17,9 +17,6 @@ abstract class BrowserAction < Lucky::Action
   #
   # In default Lucky apps, the `MainLayout` declares it `needs current_user : User`
   # so that any page that inherites from MainLayout can use the `current_user`
-  #
-  # Note that using the `Auth::RedirectIfSignedIn` mixin will `unexpose` the
-  # `current_user` since there will never be a signed in user for those actions.
   expose current_user
 
   # This method tells Authentic how to find the current user
