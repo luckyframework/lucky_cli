@@ -74,6 +74,7 @@ class LuckyCli::Generators::Web
     server
     *.dwarf
     *.local.cr
+    .env
     TEXT
     if browser?
       append_text to: ".gitignore", text: <<-TEXT
@@ -161,7 +162,7 @@ class LuckyCli::Generators::Web
         branch: master
       authentic:
         github: luckyframework/authentic
-        branch: master
+        version: ~> 0.2
       carbon:
         github: luckyframework/carbon
         version: ~> 0.1.0
@@ -172,7 +173,7 @@ class LuckyCli::Generators::Web
 
         lucky_flow:
           github: luckyframework/lucky_flow
-          version: ~> 0.2
+          version: ~> 0.3
       DEPS_LIST
     end
   end

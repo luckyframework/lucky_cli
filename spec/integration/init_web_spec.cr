@@ -15,6 +15,7 @@ describe "Initializing a new web project" do
     File.read("test-project/.travis.yml").should contain "postgresql"
     File.read("test-project/public/mix-manifest.json").should contain "images/cat.gif"
     File.exists?("test-project/public/favicon.ico").should eq true
+    File.exists?("test-project/.env").should eq true
   end
 
   it "creates a full web app with generator" do

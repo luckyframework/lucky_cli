@@ -20,8 +20,6 @@ mix
   // Customize postCSS:
   // https://github.com/JeffreyWay/laravel-mix/blob/master/docs/css-preprocessors.md#postcss-plugins
   .options({
-    // http://lostgrid.org Simple and powerful CSS grids
-    postCss: [require("lost")],
     // If you want to process images, change this to true and add options from
     // https://github.com/tcoopman/image-webpack-loader
     imgLoaderOptions: { enabled: false },

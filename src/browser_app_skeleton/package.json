@@ -5,7 +5,6 @@
     "browser-sync": "^2.18.13",
     "jquery": "^3.2.1",
     "laravel-mix": "^2.1.11",
-    "lost": "^8.2.0",
     "normalize-scss": "^7.0.1",
     "rails-ujs": "^5.1.4",
     "turbolinks": "^5.0.3"
