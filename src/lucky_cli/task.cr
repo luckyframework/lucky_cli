@@ -7,6 +7,10 @@ abstract class LuckyCli::Task
     end
   end
 
+  macro banner(banner_text)
+    {% raise "'banner' has been renamed to 'summary'" %}
+  end
+
   macro summary(summary_text)
     def summary
       {{summary_text}}
