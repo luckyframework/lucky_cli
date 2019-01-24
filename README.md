@@ -38,7 +38,7 @@ In `tasks.cr`
 ```crystal
 class App::SendDailyNotifications < LuckyCli::Task
   # What this task does
-  banner "Send notifications to users"
+  summary "Send notifications to users"
 
   # Name is inferred from class name ("app.send_daily_notifications")
   # It can be overriden if desired:
