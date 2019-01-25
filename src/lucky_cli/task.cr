@@ -8,7 +8,8 @@ abstract class LuckyCli::Task
   end
 
   macro banner(banner_text)
-    {% raise "'banner' has been renamed to 'summary'" %}
+    {% puts("DEPRECATION WARNING: 'banner' has been renamed to 'summary'. This will be removed in future versions.") %}
+    summary({{banner_text}})
   end
 
   macro summary(summary_text)
