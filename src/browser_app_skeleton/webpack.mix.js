@@ -9,6 +9,13 @@
 
 let mix = require("laravel-mix");
 
+// Customize the notifier to be less noisy
+let WebpackNotifierPlugin = require('webpack-notifier');
+let webpackNotifier = new WebpackNotifierPlugin({
+  alwaysNotify: false,
+  skipFirstNotification: true
+})
+
 mix
   // JS entry file. Supports Vue, and uses Babel
   //
@@ -30,9 +37,13 @@ mix
   .setPublicPath("public")
   // Add assets to the manifest
   .version(["public/assets"])
-  // Silence most output from webpack
-  .webpackConfig({ stats: "errors-only" })
-  .disableSuccessNotifications();
+  // Reduce noise in Webpack output
+  .webpackConfig({
+    stats: "errors-only",
+    plugins: [webpackNotifier]
+  })
+  // Disable default Mix notifications because we're using our own notifier
+  .disableNotifications()
 
 // Full API
 // Docs: https://github.com/JeffreyWay/laravel-mix/tree/master/docs#readme
@@ -44,8 +55,6 @@ mix
 // mix.ts(src, output); <-- TypeScript support. Requires tsconfig.json to exist in the same folder as webpack.mix.js
 // mix.extract(vendorLibs);
 // mix.sass(src, output);
-// mix.standaloneSass('src', output); <-- Faster, but isolated from Webpack.
-// mix.fastSass('src', output); <-- Alias for mix.standaloneSass().
 // mix.less(src, output);
 // mix.stylus(src, output);
 // mix.postCss(src, output, [require('postcss-some-plugin')()]);
@@ -65,12 +74,13 @@ mix
 // mix.webpackConfig({}); <-- Override webpack.config.js, without editing the file directly.
 // mix.babelConfig({}); <-- Merge extra Babel configuration (plugins, etc.) with Mix's default.
 // mix.then(function () {}) <-- Will be triggered each time Webpack finishes building.
+// mix.dump(); <-- Dump the generated webpack config object to the console.
 // mix.extend(name, handler) <-- Extend Mix's API with your own components.
 // mix.options({
 //   extractVueStyles: false, // Extract .vue component styling to file, rather than inline.
 //   globalVueStyles: file, // Variables file to be imported in every component.
 //   processCssUrls: true, // Process/optimize relative stylesheet url()'s. Set to false, if you don't want them touched.
 //   purifyCss: false, // Remove unused CSS selectors.
-//   uglify: {}, // Uglify-specific options. https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
+//   terser: {}, // Terser-specific options. https://github.com/webpack-contrib/terser-webpack-plugin#options
 //   postCss: [] // Post-CSS options: https://github.com/postcss/postcss/blob/master/docs/plugins.md
 // });
