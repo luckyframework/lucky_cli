@@ -18,7 +18,7 @@ if ! command -v yarn > /dev/null; then
 fi
 
 printf "\n▸ Installing node dependencies\n"
-yarn install --silent | indent
+yarn install | indent
 
 printf "\n▸ Compiling assets\n"
 yarn dev | indent
