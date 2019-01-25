@@ -13,7 +13,7 @@ end
 
 private def setup_precompiled_task
   Process.run(
-    "crystal build spec/support/precompiled_task.cr -o bin/lucky/precompiled_task",
+    "crystal build spec/support/precompiled_task.cr -o bin/lucky.precompiled_task",
     shell: true,
     output: IO::Memory.new,
     error: STDERR

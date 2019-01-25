@@ -19,8 +19,8 @@ private def task_precompiled? : Bool
 end
 
 private def precompiled_task_path : String?
-  if task_name
-    "bin/lucky/#{task_name.not_nil!.gsub(".", "/")}"
+  task_name.try do |name|
+    "bin/lucky.#{name}"
   end
 end
 
