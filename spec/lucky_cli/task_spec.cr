@@ -9,7 +9,7 @@ describe LuckyCli::Task do
     Some::Other::Task.new.name.should eq "my.custom_name"
   end
 
-  it "creates banner text" do
-    My::CoolTask.new.banner.should eq "This task does something awesome"
+  it "creates summary text" do
+    My::CoolTask.new.summary.should eq "This task does something awesome"
   end
 end

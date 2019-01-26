@@ -8,8 +8,13 @@ abstract class LuckyCli::Task
   end
 
   macro banner(banner_text)
-    def banner
-      {{banner_text}}
+    {% puts("DEPRECATION WARNING: 'banner' has been renamed to 'summary'. This will be removed in future versions.") %}
+    summary({{banner_text}})
+  end
+
+  macro summary(summary_text)
+    def summary
+      {{summary_text}}
     end
   end
 
@@ -21,7 +26,7 @@ abstract class LuckyCli::Task
   # ```
   # class Dev::Prime < LuckyCli::Task
   #   name "Development database primer"
-  #   banner "Seed the development database with example data"
+  #   summary "Seed the development database with example data"
   #
   #   # other methods, etc.
   # end
@@ -33,5 +38,5 @@ abstract class LuckyCli::Task
   end
 
   abstract def call
-  abstract def banner
+  abstract def summary
 end

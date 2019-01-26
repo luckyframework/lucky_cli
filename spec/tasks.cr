@@ -3,11 +3,11 @@ require "../lucky_cli"
 class PlaceholderTask < LuckyCli::Task
   def call; end
 
-  def banner; end
+  def summary; end
 end
 
 class TaskWithInput < LuckyCli::Task
-  banner "this should be first"
+  summary "this should be first"
 
   def call
     input = gets

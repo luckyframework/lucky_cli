@@ -1,7 +1,7 @@
 class LuckyCli::EnsureProcessRunnerInstalled < LuckyCli::Task
   include LuckyCli::TextHelpers
 
-  banner "Ensures that a process runner is installed"
+  summary "Ensures that a process runner is installed"
 
   def call
     if LuckyCli::ProcessRunner.installed_process_runners.empty?
