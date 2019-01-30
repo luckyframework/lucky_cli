@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:11.1-alpine
+    environment:
+      POSTGRES_USER: lucky
+      POSTGRES_PASSWORD: developer
+    volumes:
+      - db:/var/lib/postgresql
+    networks:
+      - internal
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # Maybe set db pass/user
+      SHARDS_CACHE_PATH: /data/.shards
+    volumes:
+      - .:/data
+    depends_on:
+      - db
+    networks:
+      - internal
+      - external
+    command: lucky dev
+    expose:
+      - 5000
+    stdin_open: true
+    tty: true
+
+volumes:
+  db:
+
+networks:
+  external:
+  internal:
