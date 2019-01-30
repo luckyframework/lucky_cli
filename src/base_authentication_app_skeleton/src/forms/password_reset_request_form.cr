@@ -1,4 +1,4 @@
-class PasswordResetRequestForm < LuckyRecord::VirtualForm
+class PasswordResetRequestForm < Avram::VirtualForm
   include Authentic::FormHelpers
   include FindAuthenticatable
 

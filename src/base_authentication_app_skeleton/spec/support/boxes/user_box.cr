@@ -1,4 +1,4 @@
-class UserBox < LuckyRecord::Box
+class UserBox < Avram::Box
   def initialize
     email "test@example.com"
     encrypted_password Authentic.generate_encrypted_password("password")

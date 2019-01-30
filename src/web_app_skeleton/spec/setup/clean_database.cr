@@ -1,3 +1,3 @@
 Spec.before_each do
-  LuckyRecord::Repo.truncate
+  Avram::Repo.truncate
 end

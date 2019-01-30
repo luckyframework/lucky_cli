@@ -10,7 +10,7 @@ class Db::CreateRequiredSeeds < LuckyCli::Task
   summary "Add database records required for the app to work"
 
   def call
-    # Using a LuckyRecord::Box:
+    # Using a Avram::Box:
     #
     # Use the defaults, but override just the email
     # UserBox.create &.email("me@example.com")

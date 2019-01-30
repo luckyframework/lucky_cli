@@ -1,6 +1,6 @@
 require "../spec_helper"
 
-{% if env("RUN_HEROKU_SPECS") %}
+{% if env("RUN_HEROKU_SPECS") == "1" %}
   include ShouldRunSuccessfully
 
   Spec.before_each do
@@ -70,4 +70,6 @@ require "../spec_helper"
   private def wait_to_boot
     sleep 20
   end
+{% else %}
+  {% puts "Skipping Heroku specs because RUN_HEROKU_SPECS was not set to 1" %}
 {% end %}

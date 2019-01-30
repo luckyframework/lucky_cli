@@ -1,4 +1,4 @@
-class SignInForm < LuckyRecord::VirtualForm
+class SignInForm < Avram::VirtualForm
   include Authentic::FormHelpers
   include FindAuthenticatable
 

@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+UNAMEOUT="$(uname -s)"
+case "${UNAMEOUT}" in
+    Linux*)             MACHINE=linux;;
+    Darwin*)            MACHINE=mac;;
+    MINGW64_NT-10.0*)   MACHINE=mingw64;;
+    *)                  MACHINE="UNKNOWN"
+esac
+
+if [ "$MACHINE" == "UNKNOWN" ]; then
+    echo "Unsupported system type"
+    echo "System must be a Macintosh, Linux or Windows"
+    echo ""
+    echo "System detection determined via uname command"
+    echo "If the following is empty, could not find uname command: $(which uname)"
+    echo "Your reported uname is: $(uname -s)"
+fi
+
+# Is the environment running
+PSRESULT="$(docker-compose ps -q app)"
+if [ ! -z "$PSRESULT" ]; then
+    COMPOSE="docker-compose exec"
+else
+    COMPOSE="docker-compose run --rm"
+fi
+
+# If we pass any arguments...
+if [ $# -gt 0 ]; then
+    if [ "$1" == "ssh" ]; then
+        shift 1
+        $COMPOSE app bash
+        
+    else
+        # Else, run command in the app container
+        shift 1
+        run $COMPOSE app "$@"
+    fi
+else
+    # Use the docker-compose up command if nothing else passed through
+    $COMPOSE up -d
+fi

@@ -3,6 +3,7 @@ module ShouldRunSuccessfully
     result = Process.run(
       command,
       shell: true,
+      env: ENV.to_h,
       output: io || STDOUT,
       error: STDERR
     )

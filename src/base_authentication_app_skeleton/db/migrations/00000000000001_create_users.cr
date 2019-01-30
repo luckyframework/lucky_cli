@@ -1,4 +1,4 @@
-class CreateUsers::V00000000000001 < LuckyRecord::Migrator::Migration::V1
+class CreateUsers::V00000000000001 < Avram::Migrator::Migration::V1
   def migrate
     create :users do
       add email : String, unique: true

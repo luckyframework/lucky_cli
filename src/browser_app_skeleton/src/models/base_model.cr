@@ -1,2 +1,2 @@
-abstract class BaseModel < LuckyRecord::Model
+abstract class BaseModel < Avram::Model
 end

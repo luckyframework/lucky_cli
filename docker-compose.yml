@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:11.1-alpine
+    environment:
+      POSTGRES_USER: lucky
+      POSTGRES_PASSWORD: developer
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - internal
+    ports:
+      - 5432
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - HEROKU_EMAIL
+        - HEROKU_API_KEY
+    environment:
+      SHARDS_CACHE_PATH: /data/.shards
+      DB_HOST: postgres
+      DB_USERNAME: lucky
+      DB_PASSWORD: developer
+      RUN_HEROKU_SPECS: "${RUN_HEROKU_SPECS}"
+      HEROKU_EMAIL: "${HEROKU_EMAIL}"
+      HEROKU_API_KEY: "${HEROKU_API_KEY}"
+    volumes:
+      - .:/data
+    depends_on:
+      - postgres
+    networks:
+      - internal
+    env_file: .env
+    command: sleep infinity
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres:
+
+networks:
+  internal:

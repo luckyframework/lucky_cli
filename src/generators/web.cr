@@ -162,10 +162,10 @@ class LuckyCli::Generators::Web
         branch: master
       authentic:
         github: luckyframework/authentic
-        version: ~> 0.2
+        branch: master
       carbon:
         github: luckyframework/carbon
-        version: ~> 0.1.0
+        branch: master
     DEPS_LIST
 
     if browser?
@@ -173,7 +173,7 @@ class LuckyCli::Generators::Web
 
         lucky_flow:
           github: luckyframework/lucky_flow
-          version: ~> 0.3
+          branch: master
       DEPS_LIST
     end
   end

@@ -1,4 +1,4 @@
-require "lucky_record"
+require "avram"
 require "lucky"
 require "carbon"
 require "authentic"
