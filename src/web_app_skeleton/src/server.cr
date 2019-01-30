@@ -1,7 +1,7 @@
 require "./app"
 
 if Lucky::Env.development?
-  LuckyRecord::Migrator::Runner.new.ensure_migrated!
+  Avram::Migrator::Runner.new.ensure_migrated!
 end
 Habitat.raise_if_missing_settings!
 
