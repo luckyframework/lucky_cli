@@ -132,7 +132,7 @@ end
 
 private def compile_and_run_specs_on_test_project
   FileUtils.cd "test-project" do
-    should_run_successfully "bin/setup"
+    should_run_successfully "scripts/setup"
     should_run_successfully "crystal tool format --check spec src"
     should_run_successfully "crystal build src/server.cr"
     should_run_successfully "crystal build src/test_project.cr"

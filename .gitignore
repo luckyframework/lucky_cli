@@ -2,7 +2,6 @@
 /libs/
 /lib/
 /bin
-/bin
 /.shards/
 lucky
 .env
