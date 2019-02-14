@@ -1,8 +1,8 @@
 /doc/
 /libs/
 /lib/
-/bin/generate_test_project
-/bin/*.dwarf
+/bin
+/bin
 /.shards/
 lucky
 .env
