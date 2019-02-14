@@ -60,17 +60,15 @@ class LuckyCli::Generators::Web
 
       #{green_arrow} cd into #{project_dir.colorize(:green)}
       #{green_arrow} check database settings in #{"config/database.cr".colorize(:green)}
-      #{green_arrow} run #{"bin/setup".colorize(:green)}
+      #{green_arrow} run #{"scripts/setup".colorize(:green)}
       #{green_arrow} run #{"lucky dev".colorize(:green)} to start the server
     TEXT
   end
 
   private def setup_gitignore
-    remove_bin_from_gitignore
     append_text to: ".gitignore", text: <<-TEXT
     /node_modules
     yarn-error.log
-    /bin/lucky/
     server
     *.dwarf
     *.local.cr
@@ -82,14 +80,6 @@ class LuckyCli::Generators::Web
       /public/css
       /public/mix-manifest.json
       TEXT
-    end
-  end
-
-  private def remove_bin_from_gitignore
-    within_project do
-      file = File.read(".gitignore")
-      updated_file = file.gsub("/bin/\n", "")
-      File.write(".gitignore", updated_file)
     end
   end
 
