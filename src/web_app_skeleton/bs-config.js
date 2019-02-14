@@ -24,5 +24,6 @@ module.exports = {
   files: ["public/css/**/*.css", "public/js/**/*.js"],
   watchEvents: ["change"],
   open: false,
-  browser: "default"
+  browser: "default",
+  ghostMode: false
 };
