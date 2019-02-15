@@ -13,3 +13,5 @@ fi
 cp -n .env.sample .env || true
 
 docker-compose build
+
+docker-compose run --rm app shards install
