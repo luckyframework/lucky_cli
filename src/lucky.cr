@@ -51,14 +51,12 @@ elsif ["-v", "--version"].includes?(task_name)
 else
   puts <<-MISSING_TASKS_FILE
 
-  #{"Missing tasks.cr file".colorize(:red)}
+  #{"You are not in a Lucky project".colorize(:red)}
 
   Try this...
 
-    #{red_arrow} Change to the directory with the tasks.cr file,
-      usually your project root
-    #{red_arrow} If this is a new project, run #{"lucky init".colorize(:green)} to
-      create a default tasks.cr file
+    #{red_arrow} Run #{"lucky init".colorize(:green)} to create a Lucky project.
+    #{red_arrow} Change your project's root directory to see what tasks are available.
 
   MISSING_TASKS_FILE
 end
