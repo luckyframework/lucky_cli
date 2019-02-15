@@ -25,7 +25,8 @@ abstract class LuckyCli::Task
   #
   # ```
   # class Dev::Prime < LuckyCli::Task
-  #   name "Development database primer"
+  #   # Would be "dev.prime" by default, but we want to set it to "dev.setup":
+  #   name "dev.setup"
   #   summary "Seed the development database with example data"
   #
   #   # other methods, etc.
