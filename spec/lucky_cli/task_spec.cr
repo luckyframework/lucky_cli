@@ -1,5 +1,8 @@
 require "../spec_helper"
 
+private abstract class ShouldNotBlowUpForAbstractClasses < LuckyCli::Task
+end
+
 describe LuckyCli::Task do
   it "creates a name from the class name when inheriting from LuckyCli::Task" do
     My::CoolTask.new.name.should eq "my.cool_task"

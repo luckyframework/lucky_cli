@@ -1,6 +1,8 @@
 abstract class LuckyCli::Task
   macro inherited
-    LuckyCli::Runner.tasks << self.new
+    {% if !@type.abstract? %}
+      LuckyCli::Runner.tasks << self.new
+    {% end %}
 
     def name
       "{{@type.name.gsub(/::/, ".").underscore}}"
