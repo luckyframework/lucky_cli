@@ -29,7 +29,7 @@ services:
       HEROKU_EMAIL: "${HEROKU_EMAIL}"
       HEROKU_API_KEY: "${HEROKU_API_KEY}"
     volumes:
-      - .:/data
+      - .:/data:delegated
     depends_on:
       - postgres
     networks:

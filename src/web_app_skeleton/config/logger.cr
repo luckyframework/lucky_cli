@@ -1,9 +1,12 @@
+require "file_utils"
+
 logger =
   if Lucky::Env.test?
     # Logs to `tmp/test.log` so you can see what's happening without having
     # a bunch of log output in your specs results.
+    FileUtils.mkdir("tmp")
     Lucky::Logger.new(
-      io: File.new("tmp/test.log"),
+      io: File.new("tmp/test.log", mode: "w"),
       level: Logger::Severity::DEBUG,
       log_formatter: Lucky::PrettyLogFormatter.new
     )
