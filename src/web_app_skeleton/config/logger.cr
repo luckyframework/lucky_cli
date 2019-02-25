@@ -14,16 +14,14 @@ logger =
     # This sets the log formatter to JSON so you can parse the logs with
     # services like Logentries or Logstash.
     #
-    # If you want pretty logs like in develpoment, remove the `log_formatter`
-    # from this call.
+    # If you want logs like in develpoment use `Lucky::PrettyLogFormatter`.
     Lucky::Logger.new(
       io: STDOUT,
       level: Logger::Severity::INFO,
       log_formatter: Lucky::JsonLogFormatter.new
     )
   else
-    # For development, log everything to STDOUT with the default pretty
-    # formatter.
+    # For development, log everything to STDOUT with the pretty formatter
     Lucky::Logger.new(
       io: STDOUT,
       level: Logger::Severity::DEBUG,
