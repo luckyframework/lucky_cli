@@ -6,7 +6,9 @@ end
 Habitat.raise_if_missing_settings!
 
 app = App.new
+<%- if !proxied_through_browsersync? -%>
 puts "Listening on #{app.base_uri}"
+<%- end -%>
 
 Signal::INT.trap do
   app.close
