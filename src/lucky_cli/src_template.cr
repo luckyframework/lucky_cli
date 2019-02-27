@@ -12,6 +12,10 @@ class SrcTemplate < Teeplate::FileTree
     @crystal_project_name = @project_name.gsub("-", "_")
   end
 
+  def proxied_through_browsersync?
+    browser?
+  end
+
   private def browser?
     !api_only?
   end
