@@ -56,7 +56,8 @@ class App < Lucky::BaseApp
   end
 
   def listen
-    server.bind_tcp(host, port, false)
+    # https://crystal-lang.org/api/0.27.2/HTTP/Server.html#bind_tcp%28host%3AString%2Cport%3AInt32%2Creuse_port%3ABool%3Dfalse%29%3ASocket%3A%3AIPAddress-instance-method
+    server.bind_tcp(host, port, reuse_port: false)
     server.listen
   end
 end
