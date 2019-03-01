@@ -50,4 +50,13 @@ class App < Lucky::BaseApp
       Lucky::RouteNotFoundHandler.new,
     ]
   end
+
+  def protocol
+    "http"
+  end
+
+  def listen
+    server.bind_tcp(host, port, false)
+    server.listen
+  end
 end
