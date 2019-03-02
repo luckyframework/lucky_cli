@@ -11,7 +11,7 @@ class Me::ShowPage < MainLayout
       li "Modify this page: src/pages/me/show_page.cr"
       li "Change what route you go to after sign in: src/actions/home/index.cr"
       li "To add pages that do not require sign in, include the" +
-         "Auth::SkipRequireSignIn module in your actions"
+         "Auth::AllowGuests module in your actions"
     end
   end
 end

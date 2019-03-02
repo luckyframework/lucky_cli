@@ -1,4 +1,4 @@
-module Auth::SkipRequireSignIn
+module Auth::AllowGuests
   macro included
     skip require_sign_in
   end
