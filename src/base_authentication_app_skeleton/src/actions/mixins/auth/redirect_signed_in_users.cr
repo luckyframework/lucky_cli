@@ -1,10 +1,10 @@
-module Auth::RedirectIfSignedIn
+module Auth::RedirectSignedInUsers
   macro included
     include Auth::AllowGuests
-    before redirect_if_signed_in
+    before redirect_signed_in_users
   end
 
-  private def redirect_if_signed_in
+  private def redirect_signed_in_users
     if current_user?
       flash.success = "You are already signed in"
       redirect to: Home::Index
@@ -13,7 +13,7 @@ module Auth::RedirectIfSignedIn
     end
   end
 
-  # current_user returns nil so that it won't accidentally be used
+  # current_user returns nil because signed in users are redirected.
   def current_user
   end
 end

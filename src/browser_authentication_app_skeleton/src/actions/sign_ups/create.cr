@@ -1,5 +1,5 @@
 class SignUps::Create < BrowserAction
-  include Auth::RedirectIfSignedIn
+  include Auth::RedirectSignedInUsers
 
   route do
     SignUpForm.create(params) do |form, user|
