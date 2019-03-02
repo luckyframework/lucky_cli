@@ -21,7 +21,7 @@ class SignInForm < Avram::VirtualForm
   #
   # If desired, you can add additional checks in this method, e.g.
   #
-  #    if user_from_email.locked?
+  #    if user.locked?
   #      email.add_error "is locked out"
   #    end
   private def validate_credentials(user)
@@ -30,6 +30,9 @@ class SignInForm < Avram::VirtualForm
         password.add_error "is wrong"
       end
     else
+      # Usually ok to say that an email is not in the system:
+      # https://kev.inburke.com/kevin/invalid-username-or-password-useless/
+      # https://github.com/luckyframework/lucky_cli/issues/192
       email.add_error "is not in our system"
     end
   end
