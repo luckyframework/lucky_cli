@@ -1,4 +1,4 @@
-abstract class GuestLayout
+abstract class AuthLayout
   # Edit shared layout code in src/components/shared/layout.cr
   include Shared::Layout
 

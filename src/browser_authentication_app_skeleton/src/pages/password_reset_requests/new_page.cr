@@ -1,4 +1,4 @@
-class PasswordResetRequests::NewPage < GuestLayout
+class PasswordResetRequests::NewPage < AuthLayout
   needs form : PasswordResetRequestForm
 
   def content
