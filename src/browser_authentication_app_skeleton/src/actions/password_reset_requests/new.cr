@@ -1,5 +1,5 @@
 class PasswordResetRequests::New < BrowserAction
-  include Auth::RedirectIfSignedIn
+  include Auth::RedirectSignedInUsers
 
   route do
     render NewPage, form: PasswordResetRequestForm.new
