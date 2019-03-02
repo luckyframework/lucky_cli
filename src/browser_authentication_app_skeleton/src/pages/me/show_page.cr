@@ -9,7 +9,7 @@ class Me::ShowPage < MainLayout
     h3 "Next, you may want to:"
     ul do
       li "Modify this page: src/pages/me/show_page.cr"
-      li "Change what route you go to after sign in: src/actions/home/index.cr"
+      li "Change where you go after sign in: src/actions/home/index.cr"
       li "To add pages that do not require sign in, include the" +
          "Auth::AllowGuests module in your actions"
     end
