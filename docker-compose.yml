@@ -28,6 +28,7 @@ services:
       RUN_HEROKU_SPECS: "${RUN_HEROKU_SPECS}"
       HEROKU_EMAIL: "${HEROKU_EMAIL}"
       HEROKU_API_KEY: "${HEROKU_API_KEY}"
+      CI: "${CI}"
     volumes:
       - .:/data:delegated
     depends_on:
