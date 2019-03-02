@@ -6,7 +6,7 @@ class Home::Index < ApiAction
 end
 <%- elsif generate_auth? -%>
 class Home::Index < BrowserAction
-  include Auth::SkipRequireSignIn
+  include Auth::AllowGuests
 
   get "/" do
     if current_user?
