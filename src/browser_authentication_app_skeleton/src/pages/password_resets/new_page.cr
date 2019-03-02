@@ -1,4 +1,4 @@
-class PasswordResets::NewPage < GuestLayout
+class PasswordResets::NewPage < AuthLayout
   needs form : PasswordResetForm
   needs user_id : Int32
 
