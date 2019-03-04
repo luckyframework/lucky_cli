@@ -3,11 +3,11 @@
 #
 # ## Usage
 #
-#     mount Shared::Field, form.name # Renders text input by default
-#     mount Shared::Field, form.email, &.email_input(autofocus: "true")
-#     mount Shared::Field, form.username, &.email_input(placeholder: "Username")
-#     mount Shared::Field, form.name, &.text_input(append_class: "custom-input-class")
-#     mount Shared::Field, form.nickname, &.text_input(replace_class: "compact-input")
+#     mount Shared::Field.new(form.name) # Renders text input by default
+#     mount Shared::Field.new(form.email), &.email_input(autofocus: "true")
+#     mount Shared::Field.new(form.username), &.email_input(placeholder: "Username")
+#     mount Shared::Field.new(form.name), &.text_input(append_class: "custom-input-class")
+#     mount Shared::Field.new(form.nickname), &.text_input(replace_class: "compact-input")
 #
 # ## Customization
 #
@@ -33,11 +33,11 @@ class Shared::Field(T) < BaseComponent
     #    with_defaults field: @field, class: "input"
     #
     # Will add the class "input" to the generated HTML.
-    with_defaults field: @field do |html|
-      yield html
+    with_defaults field: @field do |tag_builder|
+      yield tag_builder
     end
 
-    mount Shared::FieldErrors, @field
+    mount Shared::FieldErrors.new(@field)
   end
 
   # Use a text_input by default

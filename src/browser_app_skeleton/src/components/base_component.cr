@@ -1,5 +1,2 @@
-abstract class BaseComponent
-  include Lucky::HTMLBuilder
-
-  needs view : IO::Memory
+abstract class BaseComponent < Lucky::BaseComponent
 end
