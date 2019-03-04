@@ -3,6 +3,7 @@
 #
 # ## Usage
 #
+#     mount Shared::Field, form.name # Renders text input by default
 #     mount Shared::Field, form.email, &.email_input(autofocus: "true")
 #     mount Shared::Field, form.username, &.email_input(placeholder: "Username")
 #     mount Shared::Field, form.name, &.text_input(append_class: "custom-input-class")
@@ -37,5 +38,10 @@ class Shared::Field(T) < BaseComponent
     end
 
     mount Shared::FieldErrors, @field
+  end
+
+  # Use a text_input by default
+  def render
+    render &.text_input
   end
 end
