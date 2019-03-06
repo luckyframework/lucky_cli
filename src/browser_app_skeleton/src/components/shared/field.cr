@@ -33,8 +33,8 @@ class Shared::Field(T) < BaseComponent
     #    with_defaults field: @field, class: "input"
     #
     # Will add the class "input" to the generated HTML.
-    with_defaults field: @field do |tag_builder|
-      yield tag_builder
+    with_defaults field: @field do |input_builder|
+      yield input_builder
     end
 
     mount Shared::FieldErrors.new(@field)
