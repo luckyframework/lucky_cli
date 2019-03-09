@@ -156,6 +156,8 @@ class LuckyCli::Generators::Web
       carbon:
         github: luckyframework/carbon
         version: ~> 0.1
+      dotenv:
+        github: gdotdesign/cr-dotenv
     DEPS_LIST
 
     if browser?
