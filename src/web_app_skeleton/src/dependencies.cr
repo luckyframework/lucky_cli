@@ -1,3 +1,4 @@
+require "dotenv"
 require "avram"
 require "lucky"
 require "carbon"
