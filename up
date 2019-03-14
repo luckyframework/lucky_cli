@@ -17,13 +17,9 @@ if [ "$MACHINE" == "UNKNOWN" ]; then
     echo "Your reported uname is: $(uname -s)"
 fi
 
-# Is the environment running
-PSRESULT="$(docker-compose ps -q app)"
-if [ ! -z "$PSRESULT" ]; then
-    COMPOSE="docker-compose exec"
-else
-    COMPOSE="docker-compose run --rm"
-fi
+
+COMPOSE="docker-compose run --rm"
+
 
 # If we pass any arguments...
 if [ $# -gt 0 ]; then
