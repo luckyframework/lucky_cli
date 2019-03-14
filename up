@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Run any command in the 'app' container:
+#
+#  ./up <command>
+#
+# SSH into the container and run whatever you want
+#
+#  ./up ssh
+
 UNAMEOUT="$(uname -s)"
 case "${UNAMEOUT}" in
     Linux*)             MACHINE=linux;;
