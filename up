@@ -33,8 +33,7 @@ if [ $# -gt 0 ]; then
         
     else
         # Else, run command in the app container
-        shift 1
-        run $COMPOSE app "$@"
+        $COMPOSE app "$@"
     fi
 else
     # Use the docker-compose up command if nothing else passed through
