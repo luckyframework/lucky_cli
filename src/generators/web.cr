@@ -180,7 +180,7 @@ class LuckyCli::Generators::Web
   private def validate_project_name(name)
     unless Validators::ProjectName.valid?(name)
       message = <<-TEXT
-      Project name should only contain letters, numbers, underscores, and dashes.
+      Project name should only contain lowercase letters, numbers, underscores, and dashes.
 
       How about: lucky init '#{Validators::ProjectName.sanitize(name)}'?
       TEXT

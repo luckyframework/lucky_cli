@@ -93,7 +93,7 @@ describe "Initializing a new web project" do
         output: output,
         shell: true
       )
-      message = "Project name should only contain letters, numbers, underscores, and dashes."
+      message = "Project name should only contain lowercase letters, numbers, underscores, and dashes."
       output.to_s.strip.should contain(message)
     end
   end
