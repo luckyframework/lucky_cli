@@ -41,7 +41,7 @@ describe "Initializing a new web project" do
         File.read("src/actions/users/show.cr").should_not be_nil
         File.read("src/pages/users/index_page.cr").should_not be_nil
         File.read("src/components/users/header.cr").should contain "Users::Header < BaseComponent"
-        should_run_successfully "crystal build src/server.cr"
+        should_run_successfully "crystal build src/start_server.cr"
       end
     end
   end
@@ -134,7 +134,7 @@ private def compile_and_run_specs_on_test_project
   FileUtils.cd "test-project" do
     should_run_successfully "script/setup"
     should_run_successfully "crystal tool format --check spec src"
-    should_run_successfully "crystal build src/server.cr"
+    should_run_successfully "crystal build src/start_server.cr"
     should_run_successfully "crystal build src/test_project.cr"
     should_run_successfully "crystal src/app.cr"
     should_run_successfully "crystal spec"

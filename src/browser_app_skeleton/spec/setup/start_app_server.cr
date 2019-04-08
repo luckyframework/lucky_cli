@@ -1,10 +1,10 @@
-app = App.new
+app_server = AppServer.new
 
 spawn do
-  app.listen
+  app_server.listen
 end
 
 at_exit do
   LuckyFlow.shutdown
-  app.close
+  app_server.close
 end

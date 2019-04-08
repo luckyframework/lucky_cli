@@ -5,13 +5,13 @@ if Lucky::Env.development?
 end
 Habitat.raise_if_missing_settings!
 
-app = App.new
+app_server = AppServer.new
 <%- if !proxied_through_browsersync? -%>
-puts "Listening on #{app.base_uri}"
+puts "Listening on http://#{app_server.host}:#{app_server.port}"
 <%- end -%>
 
 Signal::INT.trap do
-  app.close
+  app_server.close
 end
 
-app.listen
+app_server.listen

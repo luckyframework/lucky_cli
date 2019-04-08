@@ -1,1 +1,1 @@
-require "./server"
+require "./start_server"
