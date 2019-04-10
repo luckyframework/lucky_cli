@@ -6,7 +6,7 @@ class Shared::FieldErrors(T) < BaseComponent
     unless @field.valid?
       div class: "error" do
         label_text = Wordsmith::Inflector.humanize(@field.name.to_s)
-        text "#{label_text} #{@field.errors.join(", ")}"
+        text "#{label_text} #{@field.errors.first}"
       end
     end
   end
