@@ -69,7 +69,7 @@ class LuckyCli::Generators::Web
     append_text to: ".gitignore", text: <<-TEXT
     /node_modules
     yarn-error.log
-    server
+    start_server
     *.dwarf
     *.local.cr
     .env
