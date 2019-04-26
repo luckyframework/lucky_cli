@@ -7,7 +7,9 @@ Avram::Repo.configure do |settings|
     settings.url = ENV["DATABASE_URL"]? || Avram::PostgresURL.build(
       database: database_name,
       hostname: ENV["DB_HOST"]? || "localhost",
+      # Common default usernames may be "postgres", "root", or your system username
       username: ENV["DB_USERNAME"]? || "postgres",
+      # If no password is necessary, use an empty string ""
       password: ENV["DB_PASSWORD"]? || "postgres"
     )
   end
