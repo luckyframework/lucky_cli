@@ -10,6 +10,10 @@ class Some::Other::Task < LuckyCli::Task
   summary "bar"
   name "my.custom_name"
 
+  def help_message
+    "Run with 'lucky my.custom_name'"
+  end
+
   def call
   end
 end

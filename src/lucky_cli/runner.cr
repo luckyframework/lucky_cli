@@ -24,7 +24,7 @@ class LuckyCli::Runner
       HELP_TEXT
     else
       if task = find_task(task_name)
-        task.call
+        task.print_help_or_call(args)
       else
         TaskNotFoundErrorMessage.print(task_name)
         if exit_with_error_if_not_found?

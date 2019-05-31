@@ -7,6 +7,19 @@ abstract class LuckyCli::Task
     def name
       "{{@type.name.gsub(/::/, ".").underscore}}"
     end
+
+    def help_message
+      "Run this task with `lucky #{name}`"
+    end
+
+    def print_help_or_call(args : Array(String))
+      if args.any? { |arg| ["--help", "-h", "help"].includes?(arg) }
+        STDERR.puts help_message
+        help_message
+      else
+        call
+      end
+    end
   end
 
   macro banner(banner_text)

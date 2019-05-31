@@ -15,4 +15,8 @@ describe LuckyCli::Task do
   it "creates summary text" do
     My::CoolTask.new.summary.should eq "This task does something awesome"
   end
+
+  it "has a default help message" do
+    My::CoolTask.new.help_message.should eq "Run this task with `lucky my.cool_task`"
+  end
 end
