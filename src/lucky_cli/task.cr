@@ -9,16 +9,19 @@ abstract class LuckyCli::Task
     end
 
     def help_message
-      "Run this task with `lucky #{name}`"
+      "Run this task with 'lucky #{name}'"
     end
 
-    def print_help_or_call(args : Array(String))
-      if args.any? { |arg| ["--help", "-h", "help"].includes?(arg) }
-        STDERR.puts help_message
-        help_message
+    def print_help_or_call(args : Array(String), io : IO = STDERR)
+      if wants_help_message?(args)
+        io.puts help_message
       else
         call
       end
+    end
+
+    private def wants_help_message?(args)
+      args.any? { |arg| ["--help", "-h", "help"].includes?(arg) }
     end
   end
 

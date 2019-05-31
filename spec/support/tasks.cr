@@ -11,7 +11,7 @@ class Some::Other::Task < LuckyCli::Task
   name "my.custom_name"
 
   def help_message
-    "Run with 'lucky my.custom_name'"
+    "Custom help message"
   end
 
   def call

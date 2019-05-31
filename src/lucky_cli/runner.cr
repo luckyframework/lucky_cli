@@ -11,20 +11,20 @@ class LuckyCli::Runner
     @@tasks.sort_by!(&.name)
   end
 
-  def self.run(args = ARGV)
+  def self.run(args = ARGV, io : IO = STDERR)
     task_name = args.shift?
 
     if !task_name.nil? && ["--help", "-h"].includes?(task_name)
       puts help_text
     elsif task_name.nil?
-      STDERR.puts <<-HELP_TEXT
+      io.puts <<-HELP_TEXT
       Missing a task name
 
       To see a list of available tasks, run #{"lucky --help".colorize(:green)}
       HELP_TEXT
     else
       if task = find_task(task_name)
-        task.print_help_or_call(args)
+        task.print_help_or_call(args, io: io)
       else
         TaskNotFoundErrorMessage.print(task_name)
         if exit_with_error_if_not_found?
