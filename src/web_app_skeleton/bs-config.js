@@ -20,5 +20,7 @@ module.exports = {
   open: false,
   browser: "default",
   ghostMode: false,
-  ui: false
+  ui: false,
+  online: false,
+  logConnections: false
 };
