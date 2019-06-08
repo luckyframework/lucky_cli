@@ -73,6 +73,7 @@ class LuckyCli::Generators::Web
     *.dwarf
     *.local.cr
     .env
+    /tmp
     TEXT
     if browser?
       append_text to: ".gitignore", text: <<-TEXT
