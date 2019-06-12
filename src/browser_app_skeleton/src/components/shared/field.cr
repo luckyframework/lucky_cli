@@ -17,7 +17,7 @@
 #    div class: "field-wrapper"
 #      label_for field
 #      yield field
-#      errors_for fields
+#      mount Shared::FieldErrors.new(field)
 #    end
 #
 # You may also want to have more more classes if you render fields
