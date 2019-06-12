@@ -1,10 +1,10 @@
 name: lucky_cli
-version: 0.13.2
+version: 0.15.0
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
-crystal: 0.27.2
+crystal: 0.29.0
 
 license: MIT
 

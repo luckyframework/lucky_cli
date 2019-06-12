@@ -1,4 +1,4 @@
-require "../lucky_cli"
+require "../src/lucky_cli"
 
 class PlaceholderTask < LuckyCli::Task
   def call; end

@@ -150,13 +150,13 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        branch: master
+        version: ~> 0.15.0
       authentic:
         github: luckyframework/authentic
-        version: ~> 0.3
+        version: ~> 0.3.0
       carbon:
         github: luckyframework/carbon
-        version: ~> 0.1
+        version: ~> 0.1.0
       dotenv:
         github: gdotdesign/cr-dotenv
     DEPS_LIST
@@ -166,7 +166,7 @@ class LuckyCli::Generators::Web
 
         lucky_flow:
           github: luckyframework/lucky_flow
-          version: ~> 0.4
+          version: ~> 0.4.1
       DEPS_LIST
     end
   end
