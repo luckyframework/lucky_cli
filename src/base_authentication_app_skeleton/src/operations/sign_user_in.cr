@@ -1,5 +1,5 @@
-class SignInForm < Avram::VirtualForm
-  # You can modify this in src/forms/mixins/user_from_email.cr
+class SignUserIn < Avram::VirtualOperation
+  # You can modify this in src/operations/mixins/user_from_email.cr
   include UserFromEmail
 
   virtual email : String

@@ -6,7 +6,7 @@ class AuthenticationFlow < BaseFlow
 
   def sign_up(password)
     visit SignUps::New
-    fill_form SignUpForm,
+    fill_form SignUserUp,
       email: email,
       password: password,
       password_confirmation: password
@@ -20,7 +20,7 @@ class AuthenticationFlow < BaseFlow
 
   def sign_in(password)
     visit SignIns::New
-    fill_form SignInForm,
+    fill_form SignUserIn,
       email: email,
       password: password
     click "@sign-in-button"
