@@ -1,5 +1,5 @@
 class Shared::FieldErrors(T) < BaseComponent
-  needs field : Avram::FillableField(T)
+  needs field : Avram::PermittedAttribute(T)
 
   # Customize the markup and styles to match your application
   def render
