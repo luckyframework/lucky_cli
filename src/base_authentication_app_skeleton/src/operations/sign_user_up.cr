@@ -2,7 +2,7 @@ class SignUserUp < User::SaveOperation
   # Change password validations in src/operations/mixins/password_validations.cr
   include PasswordValidations
 
-  fillable email
+  permit_columns email
   virtual password : String
   virtual password_confirmation : String
 
