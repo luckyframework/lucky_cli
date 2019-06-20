@@ -23,7 +23,7 @@
 # You may also want to have more more classes if you render fields
 # differently in different parts of your app, e.g. `Shared::CompactField``
 class Shared::Field(T) < BaseComponent
-  needs field : Avram::FillableField(T)
+  needs field : Avram::PermittedAttribute(T)
 
   def render
     label_for @field

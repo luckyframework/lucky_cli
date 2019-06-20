@@ -1,5 +1,5 @@
-class PasswordResetForm < User::BaseForm
-  # Change password validations in src/forms/mixins/password_validations.cr
+class ResetPassword < User::SaveOperation
+  # Change password validations in src/operations/mixins/password_validations.cr
   include PasswordValidations
 
   virtual password : String
