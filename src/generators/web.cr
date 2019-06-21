@@ -166,7 +166,7 @@ class LuckyCli::Generators::Web
 
         lucky_flow:
           github: luckyframework/lucky_flow
-          version: ~> 0.4.1
+          branch: master
       DEPS_LIST
     end
   end
