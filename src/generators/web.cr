@@ -67,8 +67,6 @@ class LuckyCli::Generators::Web
 
   private def setup_gitignore
     append_text to: ".gitignore", text: <<-TEXT
-    /node_modules
-    yarn-error.log
     start_server
     *.dwarf
     *.local.cr
@@ -80,6 +78,8 @@ class LuckyCli::Generators::Web
       /public/js
       /public/css
       /public/mix-manifest.json
+      /node_modules
+      yarn-error.log
       TEXT
     end
   end
