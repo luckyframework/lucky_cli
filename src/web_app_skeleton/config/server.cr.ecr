@@ -14,6 +14,19 @@ Lucky::Server.configure do |settings|
     settings.host = Lucky::ServerSettings.host
     settings.port = Lucky::ServerSettings.port
   end
+
+  # By default Lucky will serve static assets in development and production.
+  #
+  # However you could use a CDN when in production like this:
+  #
+  #   Lucky::Server.configure do |settings|
+  #     if Lucky::Env.production?
+  #       settings.asset_host = "https://mycdnhost.com"
+  #     else
+  #       settings.asset_host = ""
+  #     end
+  #   end
+  settings.asset_host = "" # Lucky will serve assets
 end
 
 Lucky::ForceSSLHandler.configure do |settings|
