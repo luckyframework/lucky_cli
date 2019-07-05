@@ -1,5 +1,6 @@
 class Shared::LayoutHead < BaseComponent
   needs page_title : String
+  # This is used by the 'csrf_meta_tags' method
   needs context : HTTP::Server::Context
 
   def render
