@@ -1,3 +1,3 @@
 Spec.before_each do
-  Avram::Repo.truncate
+  AppDatabase.truncate
 end
