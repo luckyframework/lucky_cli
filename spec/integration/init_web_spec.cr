@@ -13,6 +13,7 @@ describe "Initializing a new web project" do
       puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
       should_run_successfully "lucky init test-project"
       FileUtils.cp("#{src_folder_in_docker}/spec/support/cat.gif", "#{temp_folder}/test-project/public/assets/images/")
+      File.delete("test-project/.env")
       compile_and_run_specs_on_test_project
       File.read("test-project/.travis.yml").should contain "postgresql"
       File.read("test-project/public/mix-manifest.json").should contain "images/cat.gif"

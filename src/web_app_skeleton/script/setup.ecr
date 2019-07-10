@@ -34,11 +34,11 @@ if [ -z "$CI" ]; then
 fi
 printf "✔ Done\n" | indent
 
-printf "\n▸ Checking for a .env\n"
 if [ ! -f ".env" ]; then
+  printf "\n▸ No .env found. Creating one.\n"
   touch .env
+  printf "✔ Done\n" | indent
 fi
-printf "✔ Done\n" | indent
 
 printf "\n▸ Setting up the database\n"
 lucky db.create | indent
