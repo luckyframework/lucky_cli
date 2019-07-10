@@ -9,8 +9,11 @@ abstract class BrowserAction < Lucky::Action
   # flow.visit Me::Show, as: UserBox.create
   include Auth::TestBackdoor
 
-  # By default all actions require sign in, unless you use the
-  # `Auth::AllowGuests` module in `src/mixins/auth/allow_guests.cr`
+  # By default all actions that inherit 'BrowserAction' require sign in.
+  #
+  # You can remove the 'include Auth::RequireSignIn' below to allow anyone to
+  # access actions that inherit from 'BrowserAction' or you can
+  # 'include Auth::AllowGuests' in individual actions to skip sign in.
   include Auth::RequireSignIn
 
   # `expose` means that `current_user` will be passed to pages automatically.
