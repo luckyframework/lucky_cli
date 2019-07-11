@@ -2,8 +2,8 @@ class SignUserIn < Avram::VirtualOperation
   # You can modify this in src/operations/mixins/user_from_email.cr
   include UserFromEmail
 
-  virtual email : String
-  virtual password : String
+  attribute email : String
+  attribute password : String
 
   # Run validations and yields the form and the user if valid
   def submit
