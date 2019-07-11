@@ -3,8 +3,8 @@ class SignUserUp < User::SaveOperation
   include PasswordValidations
 
   permit_columns email
-  virtual password : String
-  virtual password_confirmation : String
+  attribute password : String
+  attribute password_confirmation : String
 
   def prepare
     validate_uniqueness_of email

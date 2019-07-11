@@ -2,7 +2,7 @@ class RequestPasswordReset < Avram::VirtualOperation
   # You can modify this in src/operations/mixins/user_from_email.cr
   include UserFromEmail
 
-  virtual email : String
+  attribute email : String
 
   # Run validations and yield the form and the user if valid
   def submit
