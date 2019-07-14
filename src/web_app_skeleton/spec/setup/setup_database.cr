@@ -1,2 +1,2 @@
-Db::Create.new.call
-Db::Migrate.new.call
+Db::Create.new.call(quiet: true)
+Db::Migrate.new.call(quiet: true)
