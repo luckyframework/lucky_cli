@@ -5,8 +5,7 @@ class ResetPassword < User::SaveOperation
   attribute password : String
   attribute password_confirmation : String
 
-  def prepare
-    run_password_validations
+  before_save do
     Authentic.copy_and_encrypt password, to: encrypted_password
   end
 end
