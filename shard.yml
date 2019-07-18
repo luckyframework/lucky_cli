@@ -11,4 +11,4 @@ license: MIT
 dependencies:
   teeplate:
     github: mosop/teeplate
-    version: ~> 0.7
+    version: 0.7.0
