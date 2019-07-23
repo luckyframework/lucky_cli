@@ -10,6 +10,20 @@ indent() {
   done
 }
 
+# Ensure postgres is installed, and booted
+ensure_postgres() {
+  if ! command -v createdb > /dev/null; then
+    printf 'Please install postgres before continuing.\n'
+    printf 'See https://www.postgresql.org/docs/current/tutorial-install.html for install instructions.\n'
+    exit 1
+  fi
+
+  if ! pgrep -x "postgres" > /dev/null; then
+    printf 'Please ensure postgres is running first, then try again.\n'
+    exit 1
+  fi
+}
+
 <%- if browser? -%>
 if ! command -v yarn > /dev/null; then
   printf 'Yarn is not installed.\n'
@@ -39,6 +53,9 @@ if [ ! -f ".env" ]; then
   touch .env
   printf "✔ Done\n" | indent
 fi
+
+printf "\n▸ Checking that postgres is installed and running\n"
+ensure_postgres | indent
 
 printf "\n▸ Setting up the database\n"
 lucky db.create | indent
