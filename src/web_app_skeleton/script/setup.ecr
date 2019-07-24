@@ -14,10 +14,10 @@ indent() {
 check_postgres() {
   if ! command -v createdb > /dev/null; then
     printf 'Please install the postgres CLI tools, then try again.\n'
-    printf 'See https://www.postgresql.org/docs/current/tutorial-install.html for install instructions.\n'
     if [[ "$OSTYPE" == "darwin"* ]]; then
-      printf "\nIf you're using Postgres.app, see https://postgresapp.com/documentation/cli-tools.html.\n"
+      printf "If you're using Postgres.app, see https://postgresapp.com/documentation/cli-tools.html.\n"
     fi
+    printf 'See https://www.postgresql.org/docs/current/tutorial-install.html for install instructions.\n'
     exit 1
   fi
 
@@ -59,6 +59,7 @@ fi
 
 printf "\n▸ Checking that postgres is installed and running\n"
 check_postgres | indent
+printf "✔ Done\n" | indent
 
 printf "\n▸ Setting up the database\n"
 lucky db.create | indent
