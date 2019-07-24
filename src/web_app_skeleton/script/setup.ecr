@@ -11,10 +11,13 @@ indent() {
 }
 
 # Ensure postgres is installed, and booted
-ensure_postgres() {
+check_postgres() {
   if ! command -v createdb > /dev/null; then
-    printf 'Please install postgres before continuing.\n'
+    printf 'Please install the postgres CLI tools, then try again.\n'
     printf 'See https://www.postgresql.org/docs/current/tutorial-install.html for install instructions.\n'
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      printf "\nIf you're using Postgres.app, see https://postgresapp.com/documentation/cli-tools.html.\n"
+    fi
     exit 1
   fi
 
@@ -55,7 +58,7 @@ if [ ! -f ".env" ]; then
 fi
 
 printf "\n▸ Checking that postgres is installed and running\n"
-ensure_postgres | indent
+check_postgres | indent
 
 printf "\n▸ Setting up the database\n"
 lucky db.create | indent
