@@ -10,7 +10,7 @@ indent() {
   done
 }
 
-# Ensure postgres is installed, and booted
+# Ensure postgres client tools are installed
 check_postgres() {
   if ! command -v createdb > /dev/null; then
     printf 'Please install the postgres CLI tools, then try again.\n'
@@ -18,11 +18,6 @@ check_postgres() {
       printf "If you're using Postgres.app, see https://postgresapp.com/documentation/cli-tools.html.\n"
     fi
     printf 'See https://www.postgresql.org/docs/current/tutorial-install.html for install instructions.\n'
-    exit 1
-  fi
-
-  if ! pgrep -x "postgres" > /dev/null; then
-    printf 'Please ensure postgres is running first, then try again.\n'
     exit 1
   fi
 }
@@ -57,7 +52,7 @@ if [ ! -f ".env" ]; then
   printf "✔ Done\n" | indent
 fi
 
-printf "\n▸ Checking that postgres is installed and running\n"
+printf "\n▸ Checking that postgres is installed\n"
 check_postgres | indent
 printf "✔ Done\n" | indent
 
