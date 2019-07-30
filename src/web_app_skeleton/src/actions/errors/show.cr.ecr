@@ -27,7 +27,7 @@ class Errors::Show < Lucky::ErrorAction
   end
 
   # This is the catch all method that renders unhandled exceptions
-  def handle_error(error : Exception)
+  def handle_error(error : Exception) : Lucky::Response
     Lucky.logger.error(unhandled_error: error.inspect_with_backtrace)
 
     if Lucky::ErrorHandler.settings.show_debug_output
