@@ -7,7 +7,7 @@ class User < BaseModel
     column encrypted_password : String
   end
 
-  def emailable
+  def emailable : Carbon::Address
     Carbon::Address.new(email)
   end
 end
