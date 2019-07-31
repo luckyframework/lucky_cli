@@ -56,6 +56,9 @@ printf "\n▸ Checking that postgres is installed\n"
 check_postgres | indent
 printf "✔ Done\n" | indent
 
+printf "\n▸ Verifying postgres connection\n"
+lucky db.verify_connection | indent
+
 printf "\n▸ Setting up the database\n"
 lucky db.create | indent
 
