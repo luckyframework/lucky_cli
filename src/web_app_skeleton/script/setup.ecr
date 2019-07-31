@@ -10,6 +10,18 @@ indent() {
   done
 }
 
+# Ensure postgres client tools are installed
+check_postgres() {
+  if ! command -v createdb > /dev/null; then
+    printf 'Please install the postgres CLI tools, then try again.\n'
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      printf "If you're using Postgres.app, see https://postgresapp.com/documentation/cli-tools.html.\n"
+    fi
+    printf 'See https://www.postgresql.org/docs/current/tutorial-install.html for install instructions.\n'
+    exit 1
+  fi
+}
+
 <%- if browser? -%>
 if ! command -v yarn > /dev/null; then
   printf 'Yarn is not installed.\n'
@@ -39,6 +51,13 @@ if [ ! -f ".env" ]; then
   touch .env
   printf "✔ Done\n" | indent
 fi
+
+printf "\n▸ Checking that postgres is installed\n"
+check_postgres | indent
+printf "✔ Done\n" | indent
+
+printf "\n▸ Verifying postgres connection\n"
+lucky db.verify_connection | indent
 
 printf "\n▸ Setting up the database\n"
 lucky db.create | indent
