@@ -4,11 +4,11 @@ version: 0.15.0
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
-crystal: 0.29.0
+crystal: 0.30.0
 
 license: MIT
 
 dependencies:
   teeplate:
-    github: mosop/teeplate
-    version: 0.7.0
+    github: luckyframework/teeplate
+    version: 0.8.0
