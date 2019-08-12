@@ -2,7 +2,7 @@ class SignIns::Create < BrowserAction
   include Auth::RedirectSignedInUsers
 
   route do
-    SignUserIn.new(params).submit do |operation, authenticated_user|
+    SignInUser.new(params).submit do |operation, authenticated_user|
       if authenticated_user
         sign_in(authenticated_user)
         flash.success = "You're now signed in"

@@ -1,4 +1,4 @@
-class SignUserUp < User::SaveOperation
+class SignUpUser < User::SaveOperation
   # Change password validations in src/operations/mixins/password_validations.cr
   include PasswordValidations
 

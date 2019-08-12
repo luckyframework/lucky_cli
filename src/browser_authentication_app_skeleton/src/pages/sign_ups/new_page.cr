@@ -1,5 +1,5 @@
 class SignUps::NewPage < AuthLayout
-  needs operation : SignUserUp
+  needs operation : SignUpUser
 
   def content
     h1 "Sign Up"

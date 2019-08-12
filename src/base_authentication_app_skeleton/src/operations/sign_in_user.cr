@@ -1,4 +1,4 @@
-class SignUserIn < Avram::Operation
+class SignInUser < Avram::Operation
   # You can modify this in src/operations/mixins/user_from_email.cr
   include UserFromEmail
 

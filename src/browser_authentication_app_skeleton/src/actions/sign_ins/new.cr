@@ -2,6 +2,6 @@ class SignIns::New < BrowserAction
   include Auth::RedirectSignedInUsers
 
   get "/sign_in" do
-    render NewPage, operation: SignUserIn.new
+    render NewPage, operation: SignInUser.new
   end
 end
