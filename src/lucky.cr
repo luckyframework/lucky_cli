@@ -28,6 +28,10 @@ if task_name == "dev"
   LuckyCli::Dev.new.call
 elsif task_name == "ensure_process_runner_installed"
   LuckyCli::EnsureProcessRunnerInstalled.new.call
+elsif task_name == "init"
+  LuckyCli::Init.run
+elsif ["-v", "--version"].includes?(task_name)
+  puts LuckyCli::VERSION
 elsif task_precompiled?
   exit Process.run(
     "#{precompiled_task_path.not_nil!} #{ARGV.skip(1).join(" ")}",
@@ -44,10 +48,6 @@ elsif File.file?(tasks_file)
     output: STDOUT,
     error: STDERR
   ).exit_status
-elsif task_name == "init"
-  LuckyCli::Init.run
-elsif ["-v", "--version"].includes?(task_name)
-  puts LuckyCli::VERSION
 else
   puts <<-MISSING_TASKS_FILE
 
