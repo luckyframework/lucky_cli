@@ -1,4 +1,4 @@
-FROM crystallang/crystal:0.30.0
+FROM crystallang/crystal:0.30.1
 
 RUN apt-get update && \
   apt-get install -y libnss3 libgconf-2-4 chromium-browser build-essential curl libreadline-dev libevent-dev libssl-dev libxml2-dev libyaml-dev libgmp-dev golang-go postgresql postgresql-contrib && \
