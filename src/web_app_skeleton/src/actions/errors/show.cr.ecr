@@ -1,4 +1,10 @@
 class Errors::Show < Lucky::ErrorAction
+  <%- if api_only? -%>
+  default_format :json
+  <%- else -%>
+  default_format :html
+  <%- end -%>
+
   def handle_error(error : JSON::ParseException)
     message = "There was a problem parsing the JSON." +
               " Please check that it is formed correctly"
