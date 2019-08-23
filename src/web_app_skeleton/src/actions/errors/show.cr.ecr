@@ -5,9 +5,9 @@ class Errors::Show < Lucky::ErrorAction
   default_format :html
   <%- end -%>
 
-  def handle_error(error : JSON::ParseException)
-    message = "There was a problem parsing the JSON." +
-              " Please check that it is formed correctly"
+  def handle_error(error : Lucky::ParamParsingError)
+    message = "There was a problem parsing the JSON params." +
+              " Please check that it is formed correctly."
 
     <%- if api_only? -%>
     json Errors::ShowSerializer.new(message), status: 400
