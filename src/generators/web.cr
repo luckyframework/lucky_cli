@@ -164,7 +164,6 @@ class LuckyCli::Generators::Web
 
     if browser?
       append_text to: "shard.yml", text: <<-DEPS_LIST
-
         lucky_flow:
           github: luckyframework/lucky_flow
           version: ~> 0.5.0
