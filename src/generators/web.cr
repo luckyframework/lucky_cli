@@ -42,16 +42,12 @@ class LuckyCli::Generators::Web
 
     if generate_auth?
       add_base_auth_to_src
+      add_api_authentication_to_src
     end
 
     if browser? && generate_auth?
       add_browser_authentication_to_src
     end
-
-    # TODO: Add API auth with JWT
-    # if api_only? && generate_auth?
-    #   add_api_authentication_to_src
-    # end
 
     setup_gitignore
     remove_default_license
@@ -94,6 +90,10 @@ class LuckyCli::Generators::Web
 
   private def add_base_auth_to_src
     BaseAuthenticationSrcTemplate.new.render("./#{project_dir}", force: true)
+  end
+
+  private def add_api_authentication_to_src
+    ApiAuthenticationTemplate.new.render("./#{project_dir}", force: true)
   end
 
   private def add_browser_authentication_to_src
@@ -167,6 +167,14 @@ class LuckyCli::Generators::Web
         lucky_flow:
           github: luckyframework/lucky_flow
           version: ~> 0.5.0
+      DEPS_LIST
+    end
+
+    if generate_auth?
+      append_text to: "shard.yml", text: <<-DEPS_LIST
+        jwt:
+          github: crystal-community/jwt
+          version: ~> 1.1.1
       DEPS_LIST
     end
   end

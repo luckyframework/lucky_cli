@@ -1,7 +1,5 @@
 ENV["LUCKY_ENV"] = "test"
-<%- if browser? -%>
 ENV["PORT"] = "5001"
-<%- end -%>
 require "spec"
 <%- if browser? -%>
 require "lucky_flow"
@@ -20,6 +18,7 @@ require "../db/migrations/**"
 require "./setup/**"
 
 include Carbon::Expectations
+include Lucky::RequestExpectations
 <%- if browser? -%>
 include LuckyFlow::Expectations
 <%- end -%>

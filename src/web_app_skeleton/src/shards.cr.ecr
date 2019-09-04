@@ -7,3 +7,6 @@ require "avram"
 require "lucky"
 require "carbon"
 require "authentic"
+<%- if generate_auth? -%>
+require "jwt"
+<%- end -%>

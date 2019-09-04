@@ -5,6 +5,8 @@ spawn do
 end
 
 at_exit do
+  <%- if browser? -%>
   LuckyFlow.shutdown
+  <%- end -%>
   app_server.close
 end
