@@ -34,9 +34,10 @@ class LuckyCli::Wizard::Web
   end
 
   private def ask_what_options_user_wants : Generators::Web::Options
+    api_only = ask_about_api_only
     Generators::Web::Options.new(
-      api_only?: ask_about_api_only,
-      generate_auth?: ask_about_auth
+      api_only?: api_only,
+      generate_auth?: ask_about_auth(api_only: api_only)
     )
   end
 
@@ -66,17 +67,30 @@ class LuckyCli::Wizard::Web
     )
   end
 
-  private def ask_about_auth : Bool
-    puts <<-HELP_TEXT.colorize.dim
+  private def ask_about_auth(api_only : Bool) : Bool
+    if api_only
+      puts <<-HELP_TEXT.colorize.dim
 
-    Lucky can be generated with email and password authentication
+      Lucky can be generated with email and password authentication with a token
 
-     ● Sign in and sign up
-     ● Mixins for requiring sign in
-     ● Password reset
-     ● Generated files can easily be removed/customized later
+        ● Sign in and sign up endpoints that return a JWT with the user id
+        ● Mixins for requiring an auth token for endpoints
+        ● Generated files can easily be removed/customized later
 
-    HELP_TEXT
+      HELP_TEXT
+    else
+      puts <<-HELP_TEXT.colorize.dim
+
+      Lucky can be generated with email and password authentication
+
+        ● Sign in and sign up
+        ● Mixins for requiring sign in
+        ● Password reset
+        ● Token authentication for API endpoints
+        ● Generated files can easily be removed/customized later
+
+      HELP_TEXT
+    end
     YesNoQuestion.ask("Generate authentication?")
   end
 end

@@ -20,6 +20,44 @@ class Errors::Show < Lucky::ErrorAction
     <%- end -%>
   end
 
+  def handle_error(error : Lucky::Exceptions::MissingNestedParam)
+    <%- if api_only? -%>
+    json ErrorSerializer.new("Missing param key: '#{error.nested_key}'"), status: 400
+    <%- else -%>
+    if json?
+      json ErrorSerializer.new("Missing param key #{error.nested_key}"), status: 400
+    else
+      render_unhandled_error(error)
+    end
+    <%- end -%>
+  end
+
+  # When an operation fails to save return the validation message
+  def handle_error(error : Avram::InvalidOperationError)
+    <%- if api_only? -%>
+    render_invalid_param_json(error)
+    <%- else -%>
+    if json?
+      render_invalid_param_json(error)
+    else
+      render_unhandled_error(error)
+    end
+    <%- end -%>
+  end
+
+  private def render_invalid_param_json(error)
+    invalid_attribute = error.errors.first
+    name = invalid_attribute[0].to_s
+    validation_messages = invalid_attribute[1]
+
+    error_json = ErrorSerializer.new(
+      "Invalid params",
+      param: name,
+      details: "#{name} #{validation_messages.first}"
+    )
+    json error_json, status: :bad_request
+  end
+
   def handle_error(error : Lucky::RouteNotFoundError)
     <%- if api_only? -%>
     json ErrorSerializer.new("Not found"), status: 404
@@ -34,8 +72,6 @@ class Errors::Show < Lucky::ErrorAction
 
   # This is the catch all method that renders unhandled exceptions
   def handle_error(error : Exception) : Lucky::Response
-    Lucky.logger.error(unhandled_error: error.inspect_with_backtrace)
-
     if Lucky::ErrorHandler.settings.show_debug_output
       # In development and test, render a debug page
       render_detailed_exception_page(error)
@@ -46,10 +82,12 @@ class Errors::Show < Lucky::ErrorAction
   end
 
   private def render_detailed_exception_page(error)
+    log_error(error)
     Lucky::ErrorHandler.render_exception_page(context, error)
   end
 
   private def render_unhandled_error(error)
+    log_error(error)
     message = "An unexpected error occurred"
 
     <%- if api_only? -%>
@@ -61,6 +99,10 @@ class Errors::Show < Lucky::ErrorAction
       render_error_page status: 500
     end
     <%- end -%>
+  end
+
+  private def log_error(error)
+    Lucky.logger.error(unhandled_error: error.inspect_with_backtrace)
   end
   <%- unless api_only? -%>
 
