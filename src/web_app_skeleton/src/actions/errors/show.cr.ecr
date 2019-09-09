@@ -72,13 +72,17 @@ class Errors::Show < Lucky::ErrorAction
 
   # This is the catch all method that renders unhandled exceptions
   def handle_error(error : Exception) : Lucky::Response
-    if Lucky::ErrorHandler.settings.show_debug_output
+    <%- if api_only? -%>
+    render_unhandled_error(error)
+    <%- else -%>
+    if Lucky::ErrorHandler.settings.show_debug_output && html?
       # In development and test, render a debug page
       render_detailed_exception_page(error)
     else
       # Otherwise render a nice looking error for users
       render_unhandled_error(error)
     end
+    <%- end -%>
   end
 
   private def render_detailed_exception_page(error)
