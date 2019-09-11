@@ -10,10 +10,10 @@ class Errors::Show < Lucky::ErrorAction
               " Please check that it is formed correctly."
 
     <%- if api_only? -%>
-    json Errors::ShowSerializer.new(message), status: 400
+    json ErrorSerializer.new(message), status: 400
     <%- else -%>
     if json?
-      json Errors::ShowSerializer.new(message), status: 400
+      json ErrorSerializer.new(message), status: 400
     else
       render_error_page status: 500
     end
@@ -22,10 +22,10 @@ class Errors::Show < Lucky::ErrorAction
 
   def handle_error(error : Lucky::RouteNotFoundError)
     <%- if api_only? -%>
-    json Errors::ShowSerializer.new("Not found"), status: 404
+    json ErrorSerializer.new("Not found"), status: 404
     <%- else -%>
     if json?
-      json Errors::ShowSerializer.new("Not found"), status: 404
+      json ErrorSerializer.new("Not found"), status: 404
     else
       render_error_page title: "Sorry, we couldn't find that page.", status: 404
     end
@@ -53,10 +53,10 @@ class Errors::Show < Lucky::ErrorAction
     message = "An unexpected error occurred"
 
     <%- if api_only? -%>
-    json Errors::ShowSerializer.new(message), status: 500
+    json ErrorSerializer.new(message), status: 500
     <%- else -%>
     if json?
-      json Errors::ShowSerializer.new(message), status: 500
+      json ErrorSerializer.new(message), status: 500
     else
       render_error_page status: 500
     end
