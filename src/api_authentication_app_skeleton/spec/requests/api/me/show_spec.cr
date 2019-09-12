@@ -13,6 +13,5 @@ describe Api::Me::Show do
     response = AppClient.exec(Api::Me::Show)
 
     response.status_code.should eq(401)
-    response.should send_json(401, message: "Authentication token is missing.")
   end
 end

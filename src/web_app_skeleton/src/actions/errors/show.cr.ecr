@@ -5,6 +5,34 @@ class Errors::Show < Lucky::ErrorAction
   default_format :html
   <%- end -%>
 
+  def handle_error(error : Lucky::UnknownAcceptHeaderError)
+    message = "Unrecognized Accept header '#{request.headers["Accept"]?}'."
+
+    <%- if api_only? -%>
+    json ErrorSerializer.new(message), status: 406
+    <%- else -%>
+    if json?
+      json ErrorSerializer.new(message), status: 406
+    else
+      render_error_page status: 406, title: message
+    end
+    <%- end -%>
+  end
+
+  def handle_error(error : Lucky::NotAcceptableError)
+    message = "Accept header '#{request.headers["Accept"]?}' is not accepted."
+
+    <%- if api_only? -%>
+    json ErrorSerializer.new(message), status: 406
+    <%- else -%>
+    if json?
+      json ErrorSerializer.new(message), status: 406
+    else
+      render_error_page status: 406, title: message
+    end
+    <%- end -%>
+  end
+
   def handle_error(error : Lucky::ParamParsingError)
     message = "There was a problem parsing the JSON params." +
               " Please check that it is formed correctly."
