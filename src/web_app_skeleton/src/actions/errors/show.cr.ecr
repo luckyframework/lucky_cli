@@ -6,6 +6,7 @@ class Errors::Show < Lucky::ErrorAction
   <%- end -%>
 
   def handle_error(error : Lucky::UnknownAcceptHeaderError)
+    Lucky.logger.debug(error: error.inspect_with_backtrace)
     message = "Unrecognized Accept header '#{request.headers["Accept"]?}'."
 
     <%- if api_only? -%>
@@ -20,6 +21,7 @@ class Errors::Show < Lucky::ErrorAction
   end
 
   def handle_error(error : Lucky::NotAcceptableError)
+    Lucky.logger.debug(error: error.inspect_with_backtrace)
     message = "Accept header '#{request.headers["Accept"]?}' is not accepted."
 
     <%- if api_only? -%>
@@ -34,6 +36,7 @@ class Errors::Show < Lucky::ErrorAction
   end
 
   def handle_error(error : Lucky::ParamParsingError)
+    Lucky.logger.debug(error: error.inspect_with_backtrace)
     message = "There was a problem parsing the JSON params." +
               " Please check that it is formed correctly."
 
@@ -49,6 +52,7 @@ class Errors::Show < Lucky::ErrorAction
   end
 
   def handle_error(error : Lucky::Exceptions::MissingNestedParam)
+    Lucky.logger.debug(error: error.inspect_with_backtrace)
     <%- if api_only? -%>
     json ErrorSerializer.new("Missing param key: '#{error.nested_key}'"), status: 400
     <%- else -%>
@@ -74,6 +78,7 @@ class Errors::Show < Lucky::ErrorAction
   end
 
   private def render_invalid_param_json(error)
+    Lucky.logger.debug(error: error.inspect_with_backtrace)
     invalid_attribute = error.errors.first
     name = invalid_attribute[0].to_s
     validation_messages = invalid_attribute[1]
