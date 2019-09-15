@@ -40,7 +40,10 @@ mix
   // Reduce noise in Webpack output
   .webpackConfig({
     stats: "errors-only",
-    plugins: [webpackNotifier]
+    plugins: [webpackNotifier],
+    watchOptions: {
+      ignored: /node_modules/
+    }
   })
   // Disable default Mix notifications because we're using our own notifier
   .disableNotifications()
