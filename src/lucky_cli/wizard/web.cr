@@ -9,28 +9,35 @@ class LuckyCli::Wizard::Web
   end
 
   def run
+    welcome_to_lucky_banner
     LuckyCli::Generators::Web.run(
       project_name: ask_for_project_name,
       options: options
     )
   end
 
-  private def ask_for_project_name
-    TextQuestion.ask("Project name?").tap do
-      puts "\n"
-    end
+  private def ask_for_project_name : Proc(String)
+    -> {
+      puts <<-HELP_TEXT.colorize.dim
+      Project name should only contain lowercase letters, numbers, underscores, and dashes.
+
+      HELP_TEXT
+      TextQuestion.ask("Project name?").tap do
+        puts "\n"
+      end
+    }
   end
 
-  @_options : Generators::Web::Options?
+  @_options : Proc(Generators::Web::Options)?
 
-  private def options : Generators::Web::Options
-    @_options ||= begin
+  private def options : Proc(Generators::Web::Options)
+    @_options ||= -> {
       ask_what_options_user_wants.tap do
         puts "\n"
         puts "-----------------------".colorize.dim
         puts "\n"
       end
-    end
+    }
   end
 
   private def ask_what_options_user_wants : Generators::Web::Options
@@ -92,5 +99,12 @@ class LuckyCli::Wizard::Web
       HELP_TEXT
     end
     YesNoQuestion.ask("Generate authentication?")
+  end
+
+  private def welcome_to_lucky_banner
+    puts <<-WELCOME_TEXT.colorize.green
+    Welcome to Lucky! v#{LuckyCli::VERSION}
+
+    WELCOME_TEXT
   end
 end

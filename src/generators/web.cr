@@ -4,16 +4,19 @@ class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers
 
   getter project_name : String
+  @options : Options
   delegate api_only?, generate_auth?, to: @options
 
   def initialize(
-    project_name : String,
-    @options : Options
+    project_name : -> String,
+    options : -> Options
   )
-    @project_dir = project_name
-    @project_name = project_name.gsub('-', '_')
+    @project_dir = project_name.call
+    @project_name = @project_dir.gsub('-', '_')
 
     validate_project_name @project_name
+
+    @options = options.call
 
     @template_dir = File.join(__DIR__, "templates")
   end
