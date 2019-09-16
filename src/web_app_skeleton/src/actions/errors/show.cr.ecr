@@ -145,7 +145,7 @@ class Errors::Show < Lucky::ErrorAction
 
   private def render_error_page(status : Int32, title : String = "We're sorry. Something went wrong.")
     context.response.status_code = status
-    render Errors::ShowPage, status: status, title: title
+    html Errors::ShowPage, status: status, title: title
   end
   <%- end -%>
 end
