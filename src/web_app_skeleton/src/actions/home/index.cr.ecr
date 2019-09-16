@@ -20,15 +20,15 @@ class Home::Index < BrowserAction
       #
       # Or maybe show signed out users a marketing page:
       #
-      #   render Marketing::IndexPage
-      render Lucky::WelcomePage
+      #   html Marketing::IndexPage
+      html Lucky::WelcomePage
     end
   end
 end
 <%- else -%>
 class Home::Index < BrowserAction
   get "/" do
-    render Lucky::WelcomePage
+    html Lucky::WelcomePage
   end
 end
 <%- end -%>
