@@ -11,7 +11,7 @@ describe "Initializing a new web project" do
   it "creates a full web app successfully" do
     in_temp_folder do
       puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
-      should_run_successfully "lucky init test-project"
+      should_run_successfully "lucky init.custom test-project"
       FileUtils.cp("#{src_folder_in_docker}/spec/support/cat.gif", "#{temp_folder}/test-project/public/assets/images/")
       File.delete("test-project/.env")
       compile_and_run_specs_on_test_project
@@ -25,7 +25,7 @@ describe "Initializing a new web project" do
   it "creates a full web app with generator" do
     in_temp_folder do
       puts "Web app generators: Running integration spec. This might take awhile...".colorize(:yellow)
-      should_run_successfully "lucky init test-project"
+      should_run_successfully "lucky init.custom test-project"
 
       FileUtils.cd "test-project" do
         should_run_successfully "shards install"
@@ -50,7 +50,7 @@ describe "Initializing a new web project" do
   it "creates an api only web app successfully" do
     in_temp_folder do
       puts "Api only: Running integration spec. This might take awhile...".colorize(:yellow)
-      should_run_successfully "lucky init test-project -- --api"
+      should_run_successfully "lucky init.custom test-project -- --api"
       compile_and_run_specs_on_test_project
     end
   end
@@ -58,7 +58,7 @@ describe "Initializing a new web project" do
   it "creates an api only app without auth" do
     in_temp_folder do
       puts "Api only without auth: Running integration spec. This might take awhile...".colorize(:yellow)
-      should_run_successfully "lucky init test-project -- --api --no-auth"
+      should_run_successfully "lucky init.custom test-project -- --api --no-auth"
       compile_and_run_specs_on_test_project
     end
   end
@@ -66,7 +66,7 @@ describe "Initializing a new web project" do
   it "creates a full app without auth" do
     in_temp_folder do
       puts "Web app without auth: Running integration spec. This might take awhile...".colorize(:yellow)
-      should_run_successfully "lucky init test-project -- --no-auth"
+      should_run_successfully "lucky init.custom test-project -- --no-auth"
       compile_and_run_specs_on_test_project
     end
   end
@@ -76,7 +76,7 @@ describe "Initializing a new web project" do
       FileUtils.mkdir "test-project"
       output = IO::Memory.new
       Process.run(
-        "lucky init test-project",
+        "lucky init.custom test-project",
         output: output,
         shell: true
       )
@@ -89,7 +89,7 @@ describe "Initializing a new web project" do
     in_temp_folder do
       output = IO::Memory.new
       Process.run(
-        "lucky init 'test project'",
+        "lucky init.custom 'test project'",
         env: ENV.to_h,
         output: output,
         shell: true
@@ -103,7 +103,7 @@ describe "Initializing a new web project" do
     in_temp_folder do
       output = IO::Memory.new
       Process.run(
-        "lucky init 'test-project'",
+        "lucky init.custom 'test-project'",
         env: ENV.to_h,
         output: output,
         shell: true
