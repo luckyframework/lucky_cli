@@ -5,7 +5,7 @@ class LuckyCli::CustomInit < LuckyCli::Init
     project_name = ARGV[1]?
     if project_name
       LuckyCli::Generators::Web.run(
-        project_name: -> { project_name.as(String) },
+        project_name_question: Wizard::ProjectNameQuestion.new(project_name.as(String)),
         options: options
       )
     end

@@ -8,13 +8,11 @@ class LuckyCli::Generators::Web
   delegate api_only?, generate_auth?, to: @options
 
   def initialize(
-    project_name : -> String,
+    project_name_question : Wizard::ProjectNameQuestion,
     options : -> Options
   )
-    @project_dir = project_name.call
+    @project_dir = project_name_question.ask
     @project_name = @project_dir.gsub('-', '_')
-
-    validate_project_name @project_name
 
     @options = options.call
 
@@ -185,19 +183,6 @@ class LuckyCli::Generators::Web
   private def ensure_directory_does_not_exist
     if Dir.exists?("./#{project_dir}")
       puts "Folder named #{project_dir} already exists, please use a different name".colorize.red.bold
-      exit
-    end
-  end
-
-  private def validate_project_name(name)
-    unless Validators::ProjectName.valid?(name)
-      message = <<-TEXT
-      Project name should only contain lowercase letters, numbers, underscores, and dashes.
-
-      How about: lucky init '#{Validators::ProjectName.sanitize(name)}'?
-      TEXT
-
-      puts message.colorize(:red)
       exit
     end
   end

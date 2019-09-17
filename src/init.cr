@@ -5,6 +5,6 @@ class LuckyCli::Init
   end
 
   def run
-      LuckyCli::Wizard::Web.run
+    LuckyCli::Wizard::Web.run
   end
 end

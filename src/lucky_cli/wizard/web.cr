@@ -11,21 +11,17 @@ class LuckyCli::Wizard::Web
   def run
     welcome_to_lucky_banner
     LuckyCli::Generators::Web.run(
-      project_name: ask_for_project_name,
+      project_name_question: ask_for_project_name,
       options: options
     )
   end
 
-  private def ask_for_project_name : Proc(String)
-    -> {
-      puts <<-HELP_TEXT.colorize.dim
-      Project name should only contain lowercase letters, numbers, underscores, and dashes.
+  private def ask_for_project_name : ProjectNameQuestion
+    puts <<-HELP_TEXT.colorize.dim
+    Project name should only contain lowercase letters, numbers, underscores, and dashes.
 
-      HELP_TEXT
-      TextQuestion.ask("Project name?").tap do
-        puts "\n"
-      end
-    }
+    HELP_TEXT
+    ProjectNameQuestion.new("Project name?")
   end
 
   @_options : Proc(Generators::Web::Options)?
