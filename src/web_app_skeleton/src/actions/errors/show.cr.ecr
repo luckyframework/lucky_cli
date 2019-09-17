@@ -5,8 +5,7 @@ class Errors::Show < Lucky::ErrorAction
   default_format :html
   <%- end -%>
 
-  def handle_error(error : Lucky::UnknownAcceptHeaderError)
-    Lucky.logger.debug(error: error.inspect_with_backtrace)
+  def render(error : Lucky::UnknownAcceptHeaderError)
     message = "Unrecognized Accept header '#{request.headers["Accept"]?}'."
 
     <%- if api_only? -%>
@@ -20,8 +19,7 @@ class Errors::Show < Lucky::ErrorAction
     <%- end -%>
   end
 
-  def handle_error(error : Lucky::NotAcceptableError)
-    Lucky.logger.debug(error: error.inspect_with_backtrace)
+  def render(error : Lucky::NotAcceptableError)
     message = "Accept header '#{request.headers["Accept"]?}' is not accepted."
 
     <%- if api_only? -%>
@@ -35,8 +33,7 @@ class Errors::Show < Lucky::ErrorAction
     <%- end -%>
   end
 
-  def handle_error(error : Lucky::ParamParsingError)
-    Lucky.logger.debug(error: error.inspect_with_backtrace)
+  def render(error : Lucky::ParamParsingError)
     message = "There was a problem parsing the JSON params." +
               " Please check that it is formed correctly."
 
@@ -51,8 +48,7 @@ class Errors::Show < Lucky::ErrorAction
     <%- end -%>
   end
 
-  def handle_error(error : Lucky::Exceptions::MissingNestedParam)
-    Lucky.logger.debug(error: error.inspect_with_backtrace)
+  def render(error : Lucky::Exceptions::MissingNestedParam)
     <%- if api_only? -%>
     json ErrorSerializer.new("Missing param key: '#{error.nested_key}'"), status: 400
     <%- else -%>
@@ -65,7 +61,7 @@ class Errors::Show < Lucky::ErrorAction
   end
 
   # When an operation fails to save return the validation message
-  def handle_error(error : Avram::InvalidOperationError)
+  def render(error : Avram::InvalidOperationError)
     <%- if api_only? -%>
     render_invalid_param_json(error)
     <%- else -%>
@@ -78,7 +74,6 @@ class Errors::Show < Lucky::ErrorAction
   end
 
   private def render_invalid_param_json(error)
-    Lucky.logger.debug(error: error.inspect_with_backtrace)
     invalid_attribute = error.errors.first
     name = invalid_attribute[0].to_s
     validation_messages = invalid_attribute[1]
@@ -91,7 +86,7 @@ class Errors::Show < Lucky::ErrorAction
     json error_json, status: :bad_request
   end
 
-  def handle_error(error : Lucky::RouteNotFoundError)
+  def render(error : Lucky::RouteNotFoundError)
     <%- if api_only? -%>
     json ErrorSerializer.new("Not found"), status: 404
     <%- else -%>
@@ -104,27 +99,11 @@ class Errors::Show < Lucky::ErrorAction
   end
 
   # This is the catch all method that renders unhandled exceptions
-  def handle_error(error : Exception) : Lucky::Response
-    <%- if api_only? -%>
+  def render(error : Exception) : Lucky::Response
     render_unhandled_error(error)
-    <%- else -%>
-    if Lucky::ErrorHandler.settings.show_debug_output && html?
-      # In development and test, render a debug page
-      render_detailed_exception_page(error)
-    else
-      # Otherwise render a nice looking error for users
-      render_unhandled_error(error)
-    end
-    <%- end -%>
-  end
-
-  private def render_detailed_exception_page(error)
-    log_error(error)
-    Lucky::ErrorHandler.render_exception_page(context, error)
   end
 
   private def render_unhandled_error(error)
-    log_error(error)
     message = "An unexpected error occurred"
 
     <%- if api_only? -%>
@@ -137,15 +116,15 @@ class Errors::Show < Lucky::ErrorAction
     end
     <%- end -%>
   end
-
-  private def log_error(error)
-    Lucky.logger.error(unhandled_error: error.inspect_with_backtrace)
-  end
   <%- unless api_only? -%>
 
   private def render_error_page(status : Int32, title : String = "We're sorry. Something went wrong.")
     context.response.status_code = status
-    render Errors::ShowPage, status: status, title: title
+    html Errors::ShowPage, status: status, title: title
   end
   <%- end -%>
+
+  private def report(error : Exception)
+    # Send to Rollbar, send an email, etc.
+  end
 end
