@@ -1,13 +1,16 @@
 <%- if api_only? -%>
 class Home::Index < ApiAction
+  <%- if generate_auth? -%>
   include Api::Auth::SkipRequireAuthToken
 
+  <%- end -%>
   get "/" do
     json({hello: "Hello World from Home::Index"})
   end
 end
-<%- elsif generate_auth? -%>
+<%- else -%>
 class Home::Index < BrowserAction
+  <%- if generate_auth? -%>
   include Auth::AllowGuests
 
   get "/" do
@@ -24,9 +27,7 @@ class Home::Index < BrowserAction
       html Lucky::WelcomePage
     end
   end
-end
-<%- else -%>
-class Home::Index < BrowserAction
+  <%- else -%>
   get "/" do
     html Lucky::WelcomePage
   end
