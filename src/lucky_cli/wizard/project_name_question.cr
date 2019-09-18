@@ -1,7 +1,7 @@
 class LuckyCli::Wizard::ProjectNameQuestion
   getter question_text
 
-  def initialize(@question_text : String)
+  def initialize(@question_text : String, @default_answer : String? = nil)
   end
 
   def self.ask(*args, **named_args) : String
@@ -10,7 +10,7 @@ class LuckyCli::Wizard::ProjectNameQuestion
 
   def ask : String
     print question_text.colorize.bold.to_s + " "
-    answer = gets.try(&.strip.gsub("'", "")) || ""
+    answer = @default_answer || gets.try(&.strip.gsub("'", "")) || ""
     if answer.empty?
       puts "Can't be empty".colorize.yellow.bold
       ask

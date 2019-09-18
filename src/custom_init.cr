@@ -4,8 +4,9 @@ class LuckyCli::CustomInit < LuckyCli::Init
   def run
     project_name = ARGV[1]?
     if project_name
+      question = Wizard::ProjectNameQuestion.new("", default_answer: project_name.as(String))
       LuckyCli::Generators::Web.run(
-        project_name_question: Wizard::ProjectNameQuestion.new(project_name.as(String)),
+        project_name_question: question,
         options: options
       )
     end
