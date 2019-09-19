@@ -19,6 +19,5 @@ script:
   - sudo cp lucky /usr/local/bin
   # Run specs
   - crystal spec -D run-deploy-specs
-  - crystal tool format spec src --check
 notifications:
   email: false
