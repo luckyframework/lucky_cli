@@ -85,7 +85,7 @@ class Errors::Show < Lucky::ErrorAction
     json ErrorSerializer.new(message: message, details: details, param: param), status: status
   end
 
-  private def report(error : Exception)
+  private def report(error : Exception) : Nil
     # Send to Rollbar, send an email, etc.
   end
 end
