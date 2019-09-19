@@ -72,11 +72,9 @@ You can see all available tasks by running `lucky --help`
 
 1.  Fork it ( https://github.com/luckyframework/lucky_cli/fork )
 1.  Create your feature branch (git checkout -b my-new-feature)
-1.  Install docker and docker-compose: https://docs.docker.com/compose/install/
-1.  Run `script/setup` to build the Docker containers with everything you need.
-1.  Make sure specs pass: `script/test`. This will take a long time.
 1.  Commit your changes (git commit -am 'Add some feature')
 1.  Push to the branch (git push origin my-new-feature)
+1.  Check that specs on Travis CI pass
 1.  Create a new Pull Request
 
 ## Testing Deployment to Heroku
@@ -91,7 +89,7 @@ If you want though, you can also test deployment locally:
 1. Run `heroku authorizations:create --description="Lucky CLI Integration Tests"`.
 1. Grab the token from that command and put it in the generated `.env` file.
 1. Change `RUN_HEROKU_SPECS` from `0` to `1` in the `.env` file.
-1. Run `script/setup` to rebuild the Docker container
+1. Run `script/setup` to make sure all dependencies are installed.
 1. Run `script/test` to test everything, or run `script/test specs/integration/deploy_to_heroku_spec.cr`
 
 ## Contributors
