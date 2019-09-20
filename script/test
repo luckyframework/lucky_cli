@@ -4,15 +4,5 @@
 set -e
 set -o pipefail
 
-COMPOSE="docker-compose exec app"
-
-docker-compose up -d
-
 printf "\nrunning specs with 'crystal spec'\n\n"
-$COMPOSE crystal spec "$@"
-
-function finish {
-    docker-compose down
-}
-
-trap finish EXIT
+crystal spec "$@"
