@@ -22,15 +22,27 @@ class LuckyCli::Init
   private def options : Options
     api_only = false
     authentication = true
-    OptionParser.parse! do |parser|
-      parser.banner = "Usage: lucky init [arguments]"
-      parser.on("--api", "Generates an api-only web app") { api_only = true }
-      parser.on("--no-auth", "Does not generate authentication") { authentication = false }
-      parser.on("-h", "--help", "This help message") {
-        puts parser
-        exit(0)
-      }
-    end
+    {% if compare_versions(Crystal::VERSION, "0.31.0-0") >= 0 %}
+      OptionParser.parse do |parser|
+        parser.banner = "Usage: lucky init [arguments]"
+        parser.on("--api", "Generates an api-only web app") { api_only = true }
+        parser.on("--no-auth", "Does not generate authentication") { authentication = false }
+        parser.on("-h", "--help", "This help message") {
+          puts parser
+          exit(0)
+        }
+      end
+    {% else %}
+      OptionParser.parse! do |parser|
+        parser.banner = "Usage: lucky init [arguments]"
+        parser.on("--api", "Generates an api-only web app") { api_only = true }
+        parser.on("--no-auth", "Does not generate authentication") { authentication = false }
+        parser.on("-h", "--help", "This help message") {
+          puts parser
+          exit(0)
+        }
+      end
+    {% end %}
 
     Generators::Web::Options.new(
       api_only?: api_only,
