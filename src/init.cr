@@ -1,5 +1,4 @@
 class LuckyCli::Init
-
   def self.run
     new.run
   end
