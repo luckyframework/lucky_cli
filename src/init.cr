@@ -22,7 +22,7 @@ class LuckyCli::Init
   private def options : Options
     api_only = false
     authentication = true
-    OptionParser.parse! do |parser|
+    OptionParser.parse do |parser|
       parser.banner = "Usage: lucky init [arguments]"
       parser.on("--api", "Generates an api-only web app") { api_only = true }
       parser.on("--no-auth", "Does not generate authentication") { authentication = false }
