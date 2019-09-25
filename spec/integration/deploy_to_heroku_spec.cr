@@ -38,6 +38,7 @@ require "../spec_helper"
   private def generate_heroku_app_name
     app_name_base + "-" + Random::Secure.hex(4)
   end
+
   private def app_name_base
     ENV["HEROKU_APP_NAME"]? || "lucky-integration"
   end
