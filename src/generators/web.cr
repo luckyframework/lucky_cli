@@ -167,7 +167,7 @@ class LuckyCli::Generators::Web
 
         lucky_flow:
           github: luckyframework/lucky_flow
-          version: ~> 0.5.0
+          tag: v0.6.0-rc1
       DEPS_LIST
     end
   end
