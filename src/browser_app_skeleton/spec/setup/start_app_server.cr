@@ -6,5 +6,4 @@ end
 
 at_exit do
   LuckyFlow.shutdown
-  app_server.close
 end
