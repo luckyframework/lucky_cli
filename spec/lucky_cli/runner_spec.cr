@@ -1,5 +1,7 @@
 require "../spec_helper"
 
+include HaveDefaultHelperMessageMatcher
+
 describe LuckyCli::Runner do
   it "adds tasks to the runner when task classes are created" do
     LuckyCli::Runner.tasks.map(&.name).reject(&.==("lucky_cli.dev")).should eq [
@@ -27,18 +29,6 @@ describe LuckyCli::Runner do
       LuckyCli::Runner.run(args: ["my.cool_task", help_arg], io: io)
       io.to_s.chomp.should have_default_help_message
     end
-  end
-
-  it "prints a custom help_message when set" do
-    io = IO::Memory.new
-    LuckyCli::Runner.run(args: ["my.custom_name", "-h"], io: io)
-    io.to_s.chomp.should eq "Custom help message"
-  end
-
-  it "still calls a found task with non-help options" do
-    LuckyCli::Runner
-      .run(args: ["my.cool_task", "Taco", "--with-guac"])
-      .should have_called_my_cool_task
   end
 
   it "does not call the task if no args passed" do
