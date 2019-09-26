@@ -9,7 +9,11 @@ abstract class LuckyCli::Task
     end
 
     def help_message
-      "Run this task with 'lucky #{name}'"
+      <<-TEXT
+      #{summary}
+
+      Run this task with 'lucky #{name}'
+      TEXT
     end
 
     def print_help_or_call(args : Array(String), io : IO = STDERR)

@@ -19,7 +19,9 @@ describe LuckyCli::Task do
   end
 
   it "has a default help message" do
-    My::CoolTask.new.help_message.should eq "Run this task with 'lucky my.cool_task'"
+    message = My::CoolTask.new.help_message
+    message.should contain "Run this task with 'lucky my.cool_task'"
+    message.should contain(My::CoolTask.new.summary)
   end
 
   describe "print_help_or_call" do
@@ -27,7 +29,7 @@ describe LuckyCli::Task do
       %w(--help -h help).each do |help_arg|
         io = IO::Memory.new
         My::CoolTask.new.print_help_or_call(args: [help_arg], io: io)
-        io.to_s.chomp.should have_default_help_message
+        io.to_s.should have_default_help_message
       end
     end
 
