@@ -53,7 +53,3 @@ end
 private def have_called_my_cool_task
   eq :my_cool_task_was_called
 end
-
-private def have_default_help_message
-  eq "Run this task with 'lucky my.cool_task'"
-end
