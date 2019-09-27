@@ -9,40 +9,29 @@ class LuckyCli::Wizard::Web
   end
 
   def run
-    LuckyCli::Generators::Web.run(
-      project_name: ask_for_project_name,
-      options: options
-    )
-  end
-
-  private def ask_for_project_name
-    TextQuestion.ask("Project name?").tap do
-      puts "\n"
-    end
-  end
-
-  @_options : Generators::Web::Options?
-
-  private def options : Generators::Web::Options
-    @_options ||= begin
-      ask_what_options_user_wants.tap do
-        puts "\n"
-        puts "-----------------------".colorize.dim
-        puts "\n"
-      end
-    end
-  end
-
-  private def ask_what_options_user_wants : Generators::Web::Options
+    print_welcome_to_lucky
+    project_name = ask_for_project_name
     api_only = ask_about_api_only
-    Generators::Web::Options.new(
-      api_only?: api_only,
-      generate_auth?: ask_about_auth(api_only: api_only)
+    generate_auth = ask_about_auth(api_only)
+
+    puts "\n"
+    puts "-----------------------".colorize.dim
+    puts "\n"
+
+    LuckyCli::Generators::Web.run(
+      project_name: project_name,
+      api_only: api_only,
+      generate_auth: generate_auth
     )
+  end
+
+  private def ask_for_project_name : String
+    ProjectNameQuestion.new.ask
   end
 
   private def ask_about_api_only : Bool
     puts <<-HELP_TEXT.colorize.dim
+
     Lucky can generate different types of projects
 
     Full (recommended for most apps)
@@ -92,5 +81,9 @@ class LuckyCli::Wizard::Web
       HELP_TEXT
     end
     YesNoQuestion.ask("Generate authentication?")
+  end
+
+  private def print_welcome_to_lucky
+    puts "Welcome to Lucky v#{LuckyCli::VERSION} 🎉\n\n"
   end
 end
