@@ -1,14 +1,12 @@
 require "random/secure"
 
 class SrcTemplate < Teeplate::FileTree
-  alias Options = LuckyCli::Generators::Web::Options
-
   directory "#{__DIR__}/../web_app_skeleton"
   getter project_name
-  delegate api_only?, generate_auth?, to: @options
+  getter? api_only, generate_auth
   getter crystal_project_name : String
 
-  def initialize(@project_name : String, @options : Options)
+  def initialize(@project_name : String, @generate_auth : Bool, @api_only : Bool)
     @crystal_project_name = @project_name.gsub("-", "_")
   end
 

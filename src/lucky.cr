@@ -28,8 +28,12 @@ if task_name == "dev"
   LuckyCli::Dev.new.call
 elsif task_name == "ensure_process_runner_installed"
   LuckyCli::EnsureProcessRunnerInstalled.new.call
+elsif task_name == "gen.tasks_file"
+  LuckyCli::Generators::TasksFile.run
 elsif task_name == "init"
   LuckyCli::Init.run
+elsif task_name == "init.custom"
+  LuckyCli::CustomInit.run
 elsif ["-v", "--version"].includes?(task_name)
   puts LuckyCli::VERSION
 elsif task_precompiled?

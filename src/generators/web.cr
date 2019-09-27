@@ -4,16 +4,15 @@ class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers
 
   getter project_name : String
-  delegate api_only?, generate_auth?, to: @options
+  getter? api_only, generate_auth
 
   def initialize(
     project_name : String,
-    @options : Options
+    @api_only : Bool,
+    @generate_auth : Bool
   )
     @project_dir = project_name
-    @project_name = project_name.gsub('-', '_')
-
-    validate_project_name @project_name
+    @project_name = @project_dir.gsub('-', '_')
 
     @template_dir = File.join(__DIR__, "templates")
   end
@@ -58,6 +57,7 @@ class LuckyCli::Generators::Web
       #{green_arrow} check database settings in #{"config/database.cr".colorize(:green)}
       #{green_arrow} run #{"script/setup".colorize(:green)}
       #{green_arrow} run #{"lucky dev".colorize(:green)} to start the server
+
     TEXT
   end
 
@@ -81,11 +81,13 @@ class LuckyCli::Generators::Web
   end
 
   private def add_default_lucky_structure_to_src
-    SrcTemplate.new(project_name, @options).render("./#{project_dir}", force: true)
+    SrcTemplate.new(project_name, generate_auth: generate_auth?, api_only: api_only?)
+      .render("./#{project_dir}", force: true)
   end
 
   private def add_browser_app_structure_to_src
-    BrowserSrcTemplate.new(@options).render("./#{project_dir}", force: true)
+    BrowserSrcTemplate.new(generate_auth: generate_auth?)
+      .render("./#{project_dir}", force: true)
   end
 
   private def add_base_auth_to_src
@@ -183,29 +185,6 @@ class LuckyCli::Generators::Web
     if Dir.exists?("./#{project_dir}")
       puts "Folder named #{project_dir} already exists, please use a different name".colorize.red.bold
       exit
-    end
-  end
-
-  private def validate_project_name(name)
-    unless Validators::ProjectName.valid?(name)
-      message = <<-TEXT
-      Project name should only contain lowercase letters, numbers, underscores, and dashes.
-
-      How about: lucky init '#{Validators::ProjectName.sanitize(name)}'?
-      TEXT
-
-      puts message.colorize(:red)
-      exit
-    end
-  end
-
-  class Options
-    getter? api_only, generate_auth
-
-    def initialize(
-      api_only? @api_only : Bool,
-      generate_auth? @generate_auth : Bool
-    )
     end
   end
 end

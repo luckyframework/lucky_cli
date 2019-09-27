@@ -22,7 +22,7 @@ class LuckyCli::Wizard::LabeledYesNoQuestion
     when no_label
       false
     else
-      puts "Must be '#{yes_label}' or '#{no_label}'".colorize.yellow.bold
+      puts "\nMust be '#{yes_label}' or '#{no_label}'".colorize.red
       ask
     end
   end

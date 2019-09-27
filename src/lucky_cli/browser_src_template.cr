@@ -1,11 +1,9 @@
 require "random/secure"
 
 class BrowserSrcTemplate < Teeplate::FileTree
-  alias Options = LuckyCli::Generators::Web::Options
-
-  delegate generate_auth?, to: @options
   directory "#{__DIR__}/../browser_app_skeleton"
+  getter? generate_auth
 
-  def initialize(@options : Options)
+  def initialize(@generate_auth : Bool)
   end
 end
