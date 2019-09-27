@@ -52,6 +52,10 @@ class LuckyCli::CheckCrystalVersionMatches
   end
 
   private def version_from_shard_yaml : CrystalVersion?
+    if File.exists?("shard.yml")
+      version_string = File.read(YAML.parse("shard.yml")["crystal"]?).to_s.chomp
+      CrystalVersion.new(version_string, defined_in: "shard.yml")
+    end
   end
 
   # Get version from .tool-versions (used by asdf)
