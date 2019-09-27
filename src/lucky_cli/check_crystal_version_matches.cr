@@ -1,9 +1,14 @@
+require "./text_helpers"
+require "yaml"
+
 class LuckyCli::CheckCrystalVersionMatches
+  include LuckyCli::TextHelpers
+
   def run!
     if versions_from_config_files.any?
       check_version_files_are_in_agreement!
-      check_for_version_manager!
-      check_correct_version_installed!
+      # check_for_version_manager!
+      # check_correct_version_installed!
     end
   end
 
@@ -11,26 +16,28 @@ class LuckyCli::CheckCrystalVersionMatches
     return if all_version_files_are_in_agreement?
 
     puts <<-TEXT
-    There are multiple files defining Crystal versions and they do not match.
+    #{"There are multiple files defining Crystal versions and they do not match.".colorize.yellow.bold}
 
-    #{foo}
+    #{versions_from_config_files_list}
 
-    Make sure those files all have the same version of Crystal.
+    Try this...
+
+      #{arrow.colorize.dim} Use the same version of Crystal in all files.
+      #{arrow.colorize.dim} Skip version checks: SKIP_CRYSTAL_VERSION_CHECK=1 lucky the.command
+
 
     TEXT
     exit(1)
   end
 
   private def versions_from_config_files_list : String
-    String.build do |string|
-      versions_from_config_files.each do |version|
-        string << "  ● #{version.defined_in} - #{version.verion}"
-      end
-    end
+    versions_from_config_files.map do |version|
+      "  #{version.defined_in} #{arrow.colorize.dim} #{version.version}"
+    end.join("\n")
   end
 
   private def all_version_files_are_in_agreement? : Bool
-    versions_from_config_files.uniq.size == versions_from_config_files.size
+    versions_from_config_files.map(&.version).uniq.size == 1
   end
 
   private def versions_from_config_files : Array(CrystalVersion)
@@ -53,8 +60,10 @@ class LuckyCli::CheckCrystalVersionMatches
 
   private def version_from_shard_yaml : CrystalVersion?
     if File.exists?("shard.yml")
-      version_string = File.read(YAML.parse("shard.yml")["crystal"]?).to_s.chomp
-      CrystalVersion.new(version_string, defined_in: "shard.yml")
+      shard_yaml = File.read("shard.yml").to_s.chomp
+      YAML.parse(shard_yaml)["crystal"]?.try do |version_string|
+        CrystalVersion.new(version_string.as_s, defined_in: "shard.yml")
+      end
     end
   end
 
@@ -63,11 +72,9 @@ class LuckyCli::CheckCrystalVersionMatches
   end
 
   private class CrystalVersion
-    private getter version, defined_in
+    getter version, defined_in
 
     def initialize(@version : String, @defined_in : String)
     end
-
-    def_equals version
   end
 end

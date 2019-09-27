@@ -25,7 +25,7 @@ private def precompiled_task_path : String?
 end
 
 private def check_crystal_version_matches! : Nil
-  if !ENV["SKIP_CRYSTAL_VERSION_CHECK"]
+  if !ENV["SKIP_CRYSTAL_VERSION_CHECK"]?
     LuckyCli::CheckCrystalVersionMatches.new.run!
   end
 end
