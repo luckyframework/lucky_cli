@@ -24,6 +24,14 @@ private def precompiled_task_path : String?
   end
 end
 
+private def check_crystal_version_matches! : Nil
+  if !ENV["SKIP_CRYSTAL_VERSION_CHECK"]
+    LuckyCli::CheckCrystalVersionMatches.new.run!
+  end
+end
+
+check_crystal_version_matches!
+
 if task_name == "dev"
   LuckyCli::Dev.new.call
 elsif task_name == "ensure_process_runner_installed"
