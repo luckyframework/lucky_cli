@@ -4,7 +4,7 @@ class ErrorSerializer < BaseSerializer
   def initialize(
     @message : String,
     @details : String? = nil,
-    @param : String? = nil # If there was a problem with a specific param
+    @param : String? = nil # so you can track which param (if any) caused the problem
   )
   end
 
