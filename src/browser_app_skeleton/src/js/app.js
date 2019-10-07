@@ -5,9 +5,7 @@
 require("@rails/ujs").start();
 
 // Turbolinks is optional. Learn more: https://github.com/turbolinks/turbolinks/
-import Turbolinks from "turbolinks";
-
-Turbolinks.start();
+require("turbolinks").start();
 
 // If using Turbolinks, you can attach events to page load like this:
 //

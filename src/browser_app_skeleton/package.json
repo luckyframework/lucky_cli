@@ -4,7 +4,7 @@
   "dependencies": {
     "@rails/ujs": "^6.0.0",
     "normalize-scss": "^7.0.1",
-    "turbolinks": "^5.0.3"
+    "turbolinks": "^5.2.0"
   },
   "scripts": {
     "heroku-postbuild": "yarn prod",
