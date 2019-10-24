@@ -3,11 +3,11 @@
 #
 # ## Usage
 #
-#     mount Shared::Field.new(form.name) # Renders text input by default
-#     mount Shared::Field.new(form.email), &.email_input(autofocus: "true")
-#     mount Shared::Field.new(form.username), &.email_input(placeholder: "Username")
-#     mount Shared::Field.new(form.name), &.text_input(append_class: "custom-input-class")
-#     mount Shared::Field.new(form.nickname), &.text_input(replace_class: "compact-input")
+#     mount Shared::Field.new(operation.name) # Renders text input by default
+#     mount Shared::Field.new(operation.email), &.email_input(autofocus: "true")
+#     mount Shared::Field.new(operation.username), &.email_input(placeholder: "Username")
+#     mount Shared::Field.new(operation.name), &.text_input(append_class: "custom-input-class")
+#     mount Shared::Field.new(operation.nickname), &.text_input(replace_class: "compact-input")
 #
 # ## Customization
 #
