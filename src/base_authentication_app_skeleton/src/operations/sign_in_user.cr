@@ -6,7 +6,7 @@ class SignInUser < Avram::Operation
   attribute email : String
   attribute password : String
 
-  # Run validations and yields the form and the user if valid
+  # Run validations and yields the operation and the user if valid
   def submit
     user = user_from_email
     validate_credentials(user)
