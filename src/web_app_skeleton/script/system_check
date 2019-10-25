@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+BOLD_RED_COLOR="\e[1m\e[31m"
+
+# Prints error and exit.
+# e.g.  `print_error "Redis is not running. Run it with some_command"`
+print_error() {
+    printf "${BOLD_RED_COLOR}There is a problem with your system setup:\n\n   ${BOLD_RED_COLOR}$1 \n\n"
+    exit 1
+}
+
+# Use this script to add any processes required to boot your application.
+# A `print_error` function is provided as a helpful way to display a custom
+# error message, and exit the script when a process fails, or is missing.
+#
+# A few examples might be:
+#   * `lucky db.verify_connection` to test postgres can be connected
+#   * Checking for elasticsearch, redis, or any other process is booted first
+#   * Booting additional processes for things like mail, background jobs, etc...
+
+
+
+
+
+
+
+# Return $SHELL if no error is raised to allow the process running to continue.
+$SHELL
