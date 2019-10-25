@@ -38,7 +38,7 @@ Lucky::LogHandler.configure do |settings|
   if Lucky::Env.development?
     settings.skip_if = ->(context : HTTP::Server::Context) {
       context.request.method.downcase == "get" &&
-      context.request.resource.starts_with?(/\/css\/|\/js\/|\/assets\//)
+      context.request.resource.starts_with?(/\/css\/|\/js\/|\/assets\/|\/favicon\.ico/)
     }
   end
 end
