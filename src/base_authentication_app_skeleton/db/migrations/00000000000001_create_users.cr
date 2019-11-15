@@ -9,6 +9,6 @@ class CreateUsers::V00000000000001 < Avram::Migrator::Migration::V1
   end
 
   def rollback
-    drop :users
+    drop table_for(User)
   end
 end
