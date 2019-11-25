@@ -13,9 +13,9 @@ class Me::ShowPage < MainLayout
       li "Change where you go after sign in: src/actions/home/index.cr"
     end
   end
-  
+
   private def link_to_authentication_guides
-    link "Check out the authentication guides", 
+    link "Check out the authentication guides",
       to: "https://luckyframework.org/guides/authentication"
   end
 end
