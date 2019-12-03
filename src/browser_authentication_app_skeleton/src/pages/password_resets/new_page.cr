@@ -1,6 +1,6 @@
 class PasswordResets::NewPage < AuthLayout
   needs operation : ResetPassword
-  needs user_id : Int32
+  needs user_id : Int64
 
   def content
     h1 "Reset your password"
