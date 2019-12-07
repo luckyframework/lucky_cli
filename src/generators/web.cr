@@ -152,7 +152,7 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: bdtomlin/lucky
-        branch: dynamic-gzip
+        branch: dynamic-compress
         # version: ~> 0.18.1
       authentic:
         github: luckyframework/authentic
