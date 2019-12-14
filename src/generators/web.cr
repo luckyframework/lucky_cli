@@ -151,9 +151,9 @@ class LuckyCli::Generators::Web
     append_text to: "shard.yml", text: <<-DEPS_LIST
     dependencies:
       lucky:
-        github: bdtomlin/lucky
-        branch: dynamic-compress
-        # version: ~> 0.18.1
+        github: luckyframework/lucky
+        branch: master
+        # version: ~> 0.18.2
       authentic:
         github: luckyframework/authentic
         version: ~> 0.5.0
@@ -177,7 +177,7 @@ class LuckyCli::Generators::Web
       append_text to: "shard.yml", text: <<-DEPS_LIST
         jwt:
           github: crystal-community/jwt
-          version: ~> 1.1.1
+          version: ~> 1.2.0
       DEPS_LIST
     end
   end
