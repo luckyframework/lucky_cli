@@ -26,7 +26,7 @@ if (mix.inProduction()) {
   })
   plugins.push(gzipCompression)
   // Add additional compression plugins here. For example
-  // if you want to add brotli compression...
+  // if you want to add Brotli compression...
   // let brotliCompression = new CompressionWepackPlugin({
   //   compressionOptions: { level: 11 },
   //   filename: '[path].br[query]',
