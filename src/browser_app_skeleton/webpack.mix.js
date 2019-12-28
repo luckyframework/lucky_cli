@@ -25,8 +25,10 @@ if (mix.inProduction()) {
     test: /\.js$|\.css$|\.html$|\.svg$/
   })
   plugins.push(gzipCompression)
+
   // Add additional compression plugins here. For example
   // if you want to add Brotli compression...
+
   // let brotliCompression = new CompressionWepackPlugin({
   //   compressionOptions: { level: 11 },
   //   filename: '[path].br[query]',
