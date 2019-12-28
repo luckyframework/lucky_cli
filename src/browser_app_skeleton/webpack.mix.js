@@ -6,8 +6,8 @@
  |
  | Docs: https://github.com/JeffreyWay/laravel-mix/tree/master/docs#readme
  */
-
 let mix = require("laravel-mix");
+let plugins = [];
 
 // Customize the notifier to be less noisy
 let WebpackNotifierPlugin = require('webpack-notifier');
@@ -15,6 +15,28 @@ let webpackNotifier = new WebpackNotifierPlugin({
   alwaysNotify: false,
   skipFirstNotification: true
 })
+plugins.push(webpackNotifier)
+
+// Compress static assets in production
+if (mix.inProduction()) {
+  let CompressionWepackPlugin = require('compression-webpack-plugin');
+  let gzipCompression = new CompressionWepackPlugin({
+    compressionOptions: { level: 9 },
+    test: /\.js$|\.css$|\.html$|\.svg$/
+  })
+  plugins.push(gzipCompression)
+
+  // Add additional compression plugins here. For example
+  // if you want to add Brotli compression...
+
+  // let brotliCompression = new CompressionWepackPlugin({
+  //   compressionOptions: { level: 11 },
+  //   filename: '[path].br[query]',
+  //   algorithm: 'brotliCompress',
+  //   test: /\.js$|\.css$|\.html$|\.svg$/
+  // })
+  // plugins.push(brotliCompression)
+}
 
 mix
   // JS entry file. Supports Vue, and uses Babel
@@ -40,7 +62,7 @@ mix
   // Reduce noise in Webpack output
   .webpackConfig({
     stats: "errors-only",
-    plugins: [webpackNotifier],
+    plugins: plugins,
     watchOptions: {
       ignored: /node_modules/
     }
