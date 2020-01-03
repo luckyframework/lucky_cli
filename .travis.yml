@@ -20,7 +20,7 @@ script:
   # Run specs
   - crystal spec -D run-deploy-specs
   # Build docs
-  - crystal docs
+  - crystal docs src/lucky_cli.cr
 notifications:
   email: false
 deploy:
