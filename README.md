@@ -68,6 +68,9 @@ The name is inferred from the name of the class unless explicitly set with `name
 
 You can see all available tasks by running `lucky --help`
 
+## Documentation
+[API (master)](https://luckyframework.github.io/lucky_cli/)
+
 ## Contributing
 
 1.  Fork it ( https://github.com/luckyframework/lucky_cli/fork )
