@@ -43,7 +43,7 @@ elsif task_precompiled?
     input: STDIN,
     output: STDOUT,
     error: STDERR
-  ).exit_status
+  ).exit_code
 elsif File.file?(tasks_file)
   exit Process.run(
     "crystal run #{tasks_file} -- #{args}",
@@ -51,7 +51,7 @@ elsif File.file?(tasks_file)
     input: STDIN,
     output: STDOUT,
     error: STDERR
-  ).exit_status
+  ).exit_code
 else
   puts <<-MISSING_TASKS_FILE
 
