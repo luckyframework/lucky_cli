@@ -19,5 +19,15 @@ script:
   - sudo cp lucky /usr/local/bin
   # Run specs
   - crystal spec -D run-deploy-specs
+  # Build docs
+  - script/docs
 notifications:
   email: false
+deploy:
+  provider: pages
+  skip_cleanup: true
+  token: $GITHUB_TOKEN
+  project_name: lucky_cli
+  on:
+    branch: master
+  local_dir: docs
