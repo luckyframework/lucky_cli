@@ -1,4 +1,4 @@
-# LuckyCli
+# Lucky CLI
 
 A Crystal library for creating and running tasks
 
