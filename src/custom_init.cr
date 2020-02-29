@@ -14,7 +14,11 @@ class LuckyCli::CustomInit < LuckyCli::Init
     api_only = false
     authentication = true
     OptionParser.parse do |parser|
-      parser.banner = "Usage: lucky init [arguments]"
+      parser.banner = <<-TEXT
+      Usage: lucky custom.init NAME [arguments]
+
+      Example: lucky custom.init my_api --api --no-auth
+      TEXT
       parser.on("--api", "Generates an api-only web app") { api_only = true }
       parser.on("--no-auth", "Does not generate authentication") { authentication = false }
       parser.on("-h", "--help", "This help message") {
