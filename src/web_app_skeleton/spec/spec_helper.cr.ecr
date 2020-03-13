@@ -1,5 +1,6 @@
 ENV["LUCKY_ENV"] = "test"
 ENV["PORT"] = "5001"
+
 require "spec"
 <%- if browser? -%>
 require "lucky_flow"
@@ -17,6 +18,9 @@ require "../db/migrations/**"
 # configuring LuckyFlow, starting the app server, etc.
 require "./setup/**"
 
+<%- if generate_auth? -%>
+Auth::TestBackdoor.enable!
+<%- end -%>
 include Carbon::Expectations
 include Lucky::RequestExpectations
 <%- if browser? -%>

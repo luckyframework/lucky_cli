@@ -5,17 +5,23 @@
 #
 # The module only works in the 'test' environment.
 module Auth::TestBackdoor
-  {% if env("LUCKY_ENV") == "test" %}
-    macro included
-      before test_backdoor
-    end
+  SETTINGS = {enabled: false}
 
-    private def test_backdoor
-      if user_id = params.get?(:backdoor_user_id)
-        user = UserQuery.find(user_id)
-        sign_in user
-      end
-      continue
+  macro enable!
+    {% SETTINGS[:enabled] = true %}
+  end
+
+  macro included
+    {% if SETTINGS[:enabled] %}
+      before test_backdoor
+    {% end %}
+  end
+
+  private def test_backdoor
+    if user_id = params.get?(:backdoor_user_id)
+      user = UserQuery.find(user_id)
+      sign_in user
     end
-  {% end %}
+    continue
+  end
 end
