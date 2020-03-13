@@ -17,8 +17,8 @@ class Errors::ShowPage
 
       body do
         div class: "container" do
-          h2 @status, class: "status-code"
-          h1 @message, class: "message"
+          h2 status, class: "status-code"
+          h1 message, class: "message"
 
           ul class: "helpful-links" do
             li do
