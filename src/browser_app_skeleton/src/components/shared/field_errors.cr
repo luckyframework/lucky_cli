@@ -1,13 +1,16 @@
 class Shared::FieldErrors(T) < BaseComponent
-  needs field : Avram::PermittedAttribute(T)
+  needs attribute : Avram::PermittedAttribute(T)
 
   # Customize the markup and styles to match your application
   def render
-    unless @field.valid?
+    unless attribute.valid?
       div class: "error" do
-        label_text = Wordsmith::Inflector.humanize(@field.name.to_s)
-        text "#{label_text} #{@field.errors.first}"
+        text "#{label_text} #{attribute.errors.first}"
       end
     end
+  end
+
+  def label_text : String
+    Wordsmith::Inflector.humanize(attribute.name.to_s)
   end
 end
