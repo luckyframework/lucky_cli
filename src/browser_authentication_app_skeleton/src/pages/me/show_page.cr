@@ -15,7 +15,7 @@ class Me::ShowPage < MainLayout
   end
 
   private def link_to_authentication_guides
-    link "Check out the authentication guides",
-      to: "https://luckyframework.org/guides/authentication"
+    a "Check out the authentication guides",
+      href: "https://luckyframework.org/guides/authentication"
   end
 end
