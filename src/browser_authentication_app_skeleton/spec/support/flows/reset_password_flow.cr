@@ -1,6 +1,6 @@
 class ResetPasswordFlow < BaseFlow
   private getter user, authentication_flow
-  delegate sign_in, sign_out, should_have_password_error, should_be_signed_in,
+  delegate log_in, sign_out, should_have_password_error, should_be_logged_in,
     to: authentication_flow
   delegate email, to: user
 

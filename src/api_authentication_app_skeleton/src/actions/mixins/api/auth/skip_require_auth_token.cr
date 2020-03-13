@@ -3,7 +3,7 @@ module Api::Auth::SkipRequireAuthToken
     skip require_auth_token
   end
 
-  # Since sign in is not required, current_user might be nil
+  # Since log in is not required, current_user might be nil
   def current_user : User?
     current_user?
   end

@@ -1,4 +1,4 @@
-class SignInUser < Avram::Operation
+class LogInUser < Avram::Operation
   param_key :user
   # You can modify this in src/operations/mixins/user_from_email.cr
   include UserFromEmail
@@ -18,7 +18,7 @@ class SignInUser < Avram::Operation
     end
   end
 
-  # `validate_credentials` determines if a user can sign in.
+  # `validate_credentials` determines if a user can log in.
   #
   # If desired, you can add additional checks in this method, e.g.
   #

@@ -8,11 +8,11 @@ describe "Reset password flow" do
     flow.request_password_reset
     flow.should_have_sent_reset_email
     flow.reset_password "new-password"
-    flow.should_be_signed_in
+    flow.should_be_logged_in
     flow.sign_out
-    flow.sign_in "wrong-password"
+    flow.log_in "wrong-password"
     flow.should_have_password_error
-    flow.sign_in "new-password"
-    flow.should_be_signed_in
+    flow.log_in "new-password"
+    flow.should_be_logged_in
   end
 end

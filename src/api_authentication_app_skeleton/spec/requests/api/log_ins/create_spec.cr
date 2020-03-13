@@ -1,11 +1,11 @@
 require "../../../spec_helper"
 
-describe Api::SignIns::Create do
+describe Api::LogIns::Create do
   it "returns a token" do
     UserToken.stub_token("fake-token") do
       user = UserBox.create
 
-      response = AppClient.exec(Api::SignIns::Create, user: valid_params(user))
+      response = AppClient.exec(Api::LogIns::Create, user: valid_params(user))
 
       response.should send_json(200, token: "fake-token")
     end
@@ -15,7 +15,7 @@ describe Api::SignIns::Create do
     user = UserBox.create
     invalid_params = valid_params(user).merge(password: "incorrect")
 
-    response = AppClient.exec(Api::SignIns::Create, user: invalid_params)
+    response = AppClient.exec(Api::LogIns::Create, user: invalid_params)
 
     response.should send_json(
       400,

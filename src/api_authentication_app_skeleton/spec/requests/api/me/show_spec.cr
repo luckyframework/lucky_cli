@@ -1,7 +1,7 @@
 require "../../../spec_helper"
 
 describe Api::Me::Show do
-  it "returns the signed in user" do
+  it "returns the logged in user" do
     user = UserBox.create
 
     response = AppClient.auth(user).exec(Api::Me::Show)

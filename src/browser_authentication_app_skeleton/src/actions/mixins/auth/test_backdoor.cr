@@ -6,7 +6,7 @@ module Auth::TestBackdoor
   private def test_backdoor
     if Lucky::Env.test? && (user_id = params.get?(:backdoor_user_id))
       user = UserQuery.find(user_id)
-      sign_in user
+      log_in user
     end
     continue
   end

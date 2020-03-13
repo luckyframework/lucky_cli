@@ -11,7 +11,7 @@ class SignUps::NewPage < AuthLayout
       sign_up_fields(op)
       submit "Sign Up", flow_id: "sign-up-button"
     end
-    link "Sign in instead", to: SignIns::New
+    link "Sign in instead", to: LogIns::New
   end
 
   private def sign_up_fields(op)

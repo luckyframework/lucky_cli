@@ -15,26 +15,26 @@ class AuthenticationFlow < BaseFlow
 
   def sign_out
     visit Me::Show
-    sign_out_button.click
+    log_out_button.click
   end
 
-  def sign_in(password)
-    visit SignIns::New
-    fill_form SignInUser,
+  def log_in(password)
+    visit LogIns::New
+    fill_form LogInUser,
       email: email,
       password: password
-    click "@sign-in-button"
+    click "@log-out-button"
   end
 
-  def should_be_signed_in
-    sign_out_button.should be_on_page
+  def should_be_logged_in
+    log_out_button.should be_on_page
   end
 
   def should_have_password_error
     el("body", text: "Password is wrong").should be_on_page
   end
 
-  private def sign_out_button
-    el("@sign-out-button")
+  private def log_out_button
+    el("@log-out-button")
   end
 end
