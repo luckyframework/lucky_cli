@@ -20,10 +20,10 @@ abstract class MainLayout
     html_doctype
 
     html lang: "en" do
-      mount Shared::LayoutHead.new(page_title: page_title, context: @context)
+      mount Shared::LayoutHead.new(page_title: page_title, context: context)
 
       body do
-        mount Shared::FlashMessages.new(@context.flash)
+        mount Shared::FlashMessages.new(context.flash)
         render_signed_in_user
         content
       end
@@ -31,7 +31,7 @@ abstract class MainLayout
   end
 
   private def render_signed_in_user
-    text @current_user.email
+    text current_user.email
     text " - "
     link "Sign out", to: SignIns::Delete, flow_id: "sign-out-button"
   end
