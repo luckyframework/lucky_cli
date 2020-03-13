@@ -5,9 +5,12 @@
 #
 # ## Basic usage:
 #
-#    mount Shared::Field.new(op.name, "Name") # Renders text input by default
-#    mount Shared::Field.new(op.email, "Email"), &.email_input
-#    mount Shared::Field.new(op.username, "Username")
+#    # Renders a text input by default and will guess the label name "Name"
+#    mount Shared::Field.new(op.name)
+#    # Call any of the input methods on the block
+#    mount Shared::Field.new(op.email), &.email_input
+#    # Pass an explicit label name
+#    mount Shared::Field.new(op.username, "Your username")
 #
 # ## Customization
 #
@@ -25,7 +28,7 @@
 # `InlineTextField`
 class Shared::Field(T) < BaseComponent
   needs attribute : Avram::PermittedAttribute(T)
-  needs label_text : String
+  needs label_text : String?
 
   def render
     label_for attribute, label_text
@@ -45,5 +48,10 @@ class Shared::Field(T) < BaseComponent
   # Use a text_input by default
   def render
     render &.text_input
+  end
+
+  # Use the passed in label text, or generate one
+  def label_text
+    super || Wordsmith::Inflector.humanize(attribute.name.to_s)
   end
 end
