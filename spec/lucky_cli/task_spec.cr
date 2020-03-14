@@ -39,4 +39,22 @@ describe LuckyCli::Task do
       io.to_s.chomp.should eq "Custom help message"
     end
   end
+
+  describe "with params" do
+    it "creates a model_name method" do
+      TaskWithParam.new.print_help_or_call(args: ["model_name:User"]).should eq "User"
+    end
+
+    it "takes multiple params" do
+      TaskWithMultipleParams.new.print_help_or_call(
+        args: ["looks_like_a_number:12", "taco_or_whatever:🌮"]
+      ).should eq "I have 12 of 🌮"
+    end
+
+    it "throws an error if it doesn't match the format" do
+      expect_raises(Exception, "Invalid param value passed to model_name") do
+        TaskWithFormattedParam.new.print_help_or_call(args: ["model_name:user"])
+      end
+    end
+  end
 end

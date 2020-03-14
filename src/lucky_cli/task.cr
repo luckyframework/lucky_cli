@@ -4,6 +4,11 @@ abstract class LuckyCli::Task
       LuckyCli::Runner.tasks << self.new
     {% end %}
 
+    private getter params : Array(String) = [] of String
+
+    annotation ParamFormat
+    end
+
     def name
       "{{@type.name.gsub(/::/, ".").underscore}}"
     end
@@ -20,12 +25,17 @@ abstract class LuckyCli::Task
       if wants_help_message?(args)
         io.puts help_message
       else
+        parse_and_store_args(args)
         call
       end
     end
 
     private def wants_help_message?(args)
-      args.any? { |arg| ["--help", "-h", "help"].includes?(arg) }
+      args.any? { |arg| {"--help", "-h", "help"}.includes?(arg) }
+    end
+
+    private def parse_and_store_args(args : Array(String))
+      @params = args.select { |arg| arg.includes?(':') }
     end
   end
 
@@ -57,6 +67,44 @@ abstract class LuckyCli::Task
   macro name(name_text)
     def name
       {{name_text}}
+    end
+  end
+
+  # Sets a custom param option from args passed in to the task
+  #
+  # ```
+  # # => lucky my_task model_name:User
+  # class MyTask < LuckyCli::Task
+  #   summary "Custom task with param"
+  #   param model_name
+  #
+  #   def call
+  #     model_name == "User"
+  #   end
+  # end
+  # ```
+  #
+  # You can also use the `ParamFormat` annotation to specify a regex format for your input
+  #
+  # class MyTask < LuckyCli::Task
+  #   @[ParamFormat(/^[A-Z]/)]
+  #   param value_that_must_start_with_capital_letter
+  # end
+  macro param(param_name)
+    def {{param_name.id}} : String?
+      found = params.find {|param| param.includes?("{{param_name.id}}") }
+      if found
+        value = found.split(':').last
+        \{% if @def.annotation(ParamFormat) %}
+          if value =~ \{{ @def.annotation(ParamFormat)[0] }}
+            value
+          else
+            raise "Invalid param value passed to {{param_name.id}}"
+          end
+        \{% else %}
+          value
+        \{% end %}
+      end
     end
   end
 

@@ -14,7 +14,7 @@ class LuckyCli::Runner
   def self.run(args = ARGV, io : IO = STDERR)
     task_name = args.shift?
 
-    if !task_name.nil? && ["--help", "-h"].includes?(task_name)
+    if !task_name.nil? && {"--help", "-h"}.includes?(task_name)
       puts help_text
     elsif task_name.nil?
       io.puts <<-HELP_TEXT

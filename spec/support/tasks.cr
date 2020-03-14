@@ -24,3 +24,35 @@ class AnotherTask < LuckyCli::Task
   def call
   end
 end
+
+class TaskWithParam < LuckyCli::Task
+  summary "This task has a param"
+  param model_name
+
+  def call
+    model_name
+  end
+end
+
+class TaskWithFormattedParam < LuckyCli::Task
+  summary "This task has a param with a format"
+  @[ParamFormat(/^[A-Z]/)]
+  param model_name
+
+  def call
+    model_name
+  end
+end
+
+class TaskWithMultipleParams < LuckyCli::Task
+  summary "This is a task with multiple params. Some formatted"
+
+  @[ParamFormat(/\d+/)]
+  param looks_like_a_number
+
+  param taco_or_whatever
+
+  def call
+    "I have #{looks_like_a_number} of #{taco_or_whatever}"
+  end
+end
