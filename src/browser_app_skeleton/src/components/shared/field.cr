@@ -5,9 +5,14 @@
 #
 # ## Basic usage:
 #
-#    mount Shared::Field.new(op.name, "Name") # Renders text input by default
-#    mount Shared::Field.new(op.email, "Email"), &.email_input
-#    mount Shared::Field.new(op.username, "Username")
+#    # Renders a text input by default and will guess the label name "Name"
+#    mount Shared::Field.new(op.name)
+#    # Call any of the input methods on the block
+#    mount Shared::Field.new(op.email), &.email_input
+#    # Add other HTML attributes
+#    mount Shared::Field.new(op.email), &.email_input(autofocus: "true")
+#    # Pass an explicit label name
+#    mount Shared::Field.new(op.username, "Your username")
 #
 # ## Customization
 #
@@ -25,7 +30,7 @@
 # `InlineTextField`
 class Shared::Field(T) < BaseComponent
   needs attribute : Avram::PermittedAttribute(T)
-  needs label_text : String
+  needs label_text : String?
 
   def render
     label_for attribute, label_text
