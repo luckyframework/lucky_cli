@@ -62,7 +62,7 @@ describe "Initializing a new web project" do
   end
 
   it "creates a full app in a different directory" do
-    puts "Web app with custom directory: Running integration spec. This might take awhile...".colorize(:yellow)
+    puts "Web app with custom directory: Running integration spec.".colorize(:yellow)
     FileUtils.mkdir_p "/tmp/home/bob"
     should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --dir /tmp/home/bob"
     FileUtils.cd "/tmp/home/bob/test-project" do
@@ -74,7 +74,7 @@ describe "Initializing a new web project" do
     FileUtils.mkdir "test-project"
     output = IO::Memory.new
     Process.run(
-      "crystal run src/lucky.cr -- init.custom test-project test-project",
+      "crystal run src/lucky.cr -- init.custom test-project",
       output: output,
       shell: true
     )
@@ -97,7 +97,7 @@ describe "Initializing a new web project" do
   it "translates dashes to underscores in the project name" do
     output = IO::Memory.new
     Process.run(
-      "crystal run src/lucky.cr -- init.custom test-project 'test-project'",
+      "crystal run src/lucky.cr -- init.custom test-project",
       env: ENV.to_h,
       output: output,
       shell: true

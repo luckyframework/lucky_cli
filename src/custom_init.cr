@@ -18,10 +18,13 @@ class LuckyCli::CustomInit < LuckyCli::Init
       parser.banner = <<-TEXT
       Usage: lucky custom.init NAME [arguments]
 
-      Example: lucky custom.init my_api --api --no-auth --dir ~/Projects/
+      Examples:
+
+        lucky custom.init my_project
+        lucky custom.init my_api --api --no-auth --dir ~/Projects/
       TEXT
       parser.on("--api", "Generates an api-only web app") { api_only = true }
-      parser.on("--no-auth", "Does not generate authentication") { authentication = false }
+      parser.on("--no-auth", "Skips generating authentication") { authentication = false }
       parser.on("--dir DIRECTORY", "Specify the directory to generate your app in. Default is current directory") { |dir|
         project_directory = dir
       }
