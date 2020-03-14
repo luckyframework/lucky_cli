@@ -9,8 +9,11 @@ class LuckyCli::Generators::Web
   def initialize(
     project_name : String,
     @api_only : Bool,
-    @generate_auth : Bool
+    @generate_auth : Bool,
+    project_directory : String = "."
   )
+    Dir.cd(File.expand_path(project_directory))
+
     @project_dir = project_name
     @project_name = @project_dir.gsub('-', '_')
 
