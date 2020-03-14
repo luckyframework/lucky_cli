@@ -9,7 +9,7 @@ end
 describe "Initializing a new web project" do
   it "creates a full web app successfully" do
     puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
-    should_run_successfully "crystal run src/lucky.cr -- init.custom test-project test-project"
+    should_run_successfully "crystal run src/lucky.cr -- init.custom test-project"
     FileUtils.cp("spec/support/cat.gif", "test-project/public/assets/images/")
 
     File.delete("test-project/.env")
@@ -22,7 +22,7 @@ describe "Initializing a new web project" do
 
   it "creates a full web app with generator" do
     puts "Web app generators: Running integration spec. This might take awhile...".colorize(:yellow)
-    should_run_successfully "crystal run src/lucky.cr -- init.custom test-project test-project"
+    should_run_successfully "crystal run src/lucky.cr -- init.custom test-project"
 
     FileUtils.cd "test-project" do
       should_run_successfully "shards install"
@@ -45,20 +45,29 @@ describe "Initializing a new web project" do
 
   it "creates an api only web app successfully" do
     puts "Api only: Running integration spec. This might take awhile...".colorize(:yellow)
-    should_run_successfully "crystal run src/lucky.cr -- init.custom test-project test-project --api"
+    should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --api"
     compile_and_run_specs_on_test_project
   end
 
   it "creates an api only app without auth" do
     puts "Api only without auth: Running integration spec. This might take awhile...".colorize(:yellow)
-    should_run_successfully "crystal run src/lucky.cr -- init.custom test-project test-project --api --no-auth"
+    should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --api --no-auth"
     compile_and_run_specs_on_test_project
   end
 
   it "creates a full app without auth" do
     puts "Web app without auth: Running integration spec. This might take awhile...".colorize(:yellow)
-    should_run_successfully "crystal run src/lucky.cr -- init.custom test-project test-project --no-auth"
+    should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --no-auth"
     compile_and_run_specs_on_test_project
+  end
+
+  it "creates a full app in a different directory" do
+    puts "Web app with custom directory: Running integration spec. This might take awhile...".colorize(:yellow)
+    FileUtils.mkdir_p "/tmp/home/bob"
+    should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --dir /tmp/home/bob"
+    FileUtils.cd "/tmp/home/bob/test-project" do
+      File.read("src/shards.cr").should contain "lucky"
+    end
   end
 
   it "does not create project if directory with same name already exist" do
