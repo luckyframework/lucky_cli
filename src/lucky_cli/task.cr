@@ -1,13 +1,12 @@
 abstract class LuckyCli::Task
   macro inherited
+    PARSER_OPTS = [] of Symbol
+    @positional_arg_count : Int32 = 0
+    property option_parser : OptionParser = OptionParser.new
+
     {% if !@type.abstract? %}
       LuckyCli::Runner.tasks << self.new
     {% end %}
-
-    private getter params : Array(String) = [] of String
-
-    annotation ParamFormat
-    end
 
     def name
       "{{@type.name.gsub(/::/, ".").underscore}}"
@@ -25,17 +24,16 @@ abstract class LuckyCli::Task
       if wants_help_message?(args)
         io.puts help_message
       else
-        parse_and_store_args(args)
+        \{% for opt in @type.constant(:PARSER_OPTS) %}
+        set_opt_for_\{{ opt.id }}(args)
+        \{% end %}
+        option_parser.parse(args)
         call
       end
     end
 
     private def wants_help_message?(args)
       args.any? { |arg| {"--help", "-h", "help"}.includes?(arg) }
-    end
-
-    private def parse_and_store_args(args : Array(String))
-      @params = args.select { |arg| arg.includes?(':') }
     end
   end
 
@@ -70,42 +68,129 @@ abstract class LuckyCli::Task
     end
   end
 
-  # Sets a custom param option from args passed in to the task
-  #
-  # ```
-  # # => lucky my_task model_name:User
-  # class MyTask < LuckyCli::Task
-  #   summary "Custom task with param"
-  #   param model_name
-  #
-  #   def call
-  #     model_name == "User"
-  #   end
-  # end
-  # ```
-  #
-  # You can also use the `ParamFormat` annotation to specify a regex format for your input
-  #
-  # class MyTask < LuckyCli::Task
-  #   @[ParamFormat(/^[A-Z]/)]
-  #   param value_that_must_start_with_capital_letter
-  # end
-  macro param(param_name)
-    def {{param_name.id}} : String?
-      found = params.find {|param| param.includes?("{{param_name.id}}") }
-      if found
-        value = found.split(':').last
-        \{% if @def.annotation(ParamFormat) %}
-          if value =~ \{{ @def.annotation(ParamFormat)[0] }}
-            value
-          else
-            raise "Invalid param value passed to {{param_name.id}}"
-          end
-        \{% else %}
-          value
-        \{% end %}
+  macro positional_arg(arg_name, description, required = nil, format = nil, to = nil)
+    {% PARSER_OPTS << arg_name %}
+    @{{ arg_name.id }} : {% if to %}Array(String){% else %}String{% end %} | Nil
+
+    def set_opt_for_{{ arg_name.id }}(args : Array(String))
+      {% if to %}
+        value = args[@positional_arg_count..-1]
+      {% else %}
+        value = args[@positional_arg_count]?
+      {% end %}
+      {% if format %}
+      matches = value.is_a?(Array) ? value.all?(&.=~({{ format }})) : value =~ {{ format }}
+      if matches
+        @{{ arg_name.id }} = value
+      else
+        raise "Invalid format for {{ arg_name.id }}. It should match {{ format }}"
       end
+      {% else %}
+        @{{ arg_name.id }} = value
+      {% end %}
+      @positional_arg_count += 1
     end
+
+    def {{ arg_name.id }}
+      {% if required %}
+        if @{{ arg_name.id }}.nil?
+          raise <<-ERROR
+          {{ arg_name.id }} is required, but no value was passed.
+          ERROR
+        end
+        @{{ arg_name.id }}.not_nil!
+      {% else %}
+        @{{ arg_name.id }}
+      {% end %}
+    end
+  end
+
+  macro arg(arg_name, description, shortcut = nil, required = nil, format = nil)
+    {% PARSER_OPTS << arg_name %}
+    @{{ arg_name.id }} : String?
+
+    def set_opt_for_{{ arg_name.id }}(unused_args : Array(String))
+      {% if shortcut %}
+      option_parser.on(
+        "{{ shortcut.id }} {{ arg_name.stringify.upcase.id }}",
+        "--{{ arg_name.id.stringify.underscore.gsub(/_/, "-").id }}={{ arg_name.id.stringify.upcase.id }}",
+        {{ description }}
+      ) do |value|
+        value = value.strip
+        {% if format %}
+        if value =~ {{ format }}
+          @{{ arg_name.id }} = value
+        else
+          raise "Invalid format for {{ arg_name.id }}. It should match {{ format }}"
+        end
+        {% else %}
+          @{{ arg_name.id }} = value
+        {% end %}
+      end
+      {% else %}
+      option_parser.on(
+        "--{{ arg_name.id.stringify.underscore.gsub(/_/, "-").id }}={{ arg_name.id.stringify.upcase.id }}",
+        {{ description }}
+      ) do |value|
+        value = value.strip
+        {% if format %}
+        if value =~ {{ format }}
+          @{{ arg_name.id }} = value
+        else
+          raise "Invalid format for {{ arg_name.id }}. It should match {{ format }}"
+        end
+        {% else %}
+          @{{ arg_name.id }} = value
+        {% end %}
+      end
+      {% end %}
+    end
+
+    def {{ arg_name.id }} : String{% if !required %}?{% end %}
+      {% if required %}
+        if @{{ arg_name.id }}.nil?
+          raise <<-ERROR
+          {{ arg_name.id }} is required, but no value was passed.
+
+          Try this...
+
+            --{{ arg_name.id.stringify.underscore.gsub(/_/, "-").id }}=PUT_SOME_VALUE_HERE
+          ERROR
+        end
+        @{{ arg_name.id }}.not_nil!
+      {% else %}
+        @{{ arg_name.id }}
+      {% end %}
+    end
+  end
+
+  macro switch(arg_name, description, shortcut = nil)
+    {% PARSER_OPTS << arg_name %}
+    @{{ arg_name.id }} : Bool = false
+
+    def set_opt_for_{{ arg_name.id }}(unused_args : Array(String))
+      {% if shortcut %}
+      option_parser.on(
+        "{{ shortcut.id }}",
+        "--{{ arg_name.id.stringify.underscore.gsub(/_/, "-").id }}",
+        {{ description }}
+      ) do
+        @{{ arg_name.id }} = true
+      end
+      {% else %}
+      option_parser.on(
+        "--{{ arg_name.id.stringify.underscore.gsub(/_/, "-").id }}",
+        {{ description }}
+      ) do
+        @{{ arg_name.id }} = true
+      end
+      {% end %}
+    end
+
+    def {{ arg_name.id }}? : Bool
+      @{{ arg_name.id }}
+    end
+
   end
 
   abstract def call

@@ -25,34 +25,43 @@ class AnotherTask < LuckyCli::Task
   end
 end
 
-class TaskWithParam < LuckyCli::Task
-  summary "This task has a param"
-  param model_name
+class TaskWithArgs < LuckyCli::Task
+  summary "This task has CLI args"
+  arg :model_name, "This is the name of the model", shortcut: "-m"
+  arg :model_type, description: "Define the model type"
 
   def call
-    model_name
+    self
   end
 end
 
-class TaskWithFormattedParam < LuckyCli::Task
-  summary "This task has a param with a format"
-  @[ParamFormat(/^[A-Z]/)]
-  param model_name
+class TaskWithRequiredFormatArgs < LuckyCli::Task
+  summary "This task has a required arg with a format"
+  arg :theme, description: "Specifies which theme to use. Must be dark or light", required: true, format: /^(dark|light)$/
 
   def call
-    model_name
+    self
   end
 end
 
-class TaskWithMultipleParams < LuckyCli::Task
-  summary "This is a task with multiple params. Some formatted"
+class TaskWithSwitchFlags < LuckyCli::Task
+  summary "This is a task with switch flags"
 
-  @[ParamFormat(/\d+/)]
-  param looks_like_a_number
-
-  param taco_or_whatever
+  switch :force, "Use the force."
+  switch :admin, description: "Set an admin?", shortcut: "-a"
 
   def call
-    "I have #{looks_like_a_number} of #{taco_or_whatever}"
+    self
+  end
+end
+
+class TaskWithPositionalArgs < LuckyCli::Task
+  summary "This is a task with positional args"
+
+  positional_arg :model, "Define the model", required: true, format: /^[A-Z]/
+  positional_arg :columns, "Define the columns like name:String", to: :end, format: /\w+:[A-Z]\w+(::\w+)?/
+
+  def call
+    self
   end
 end

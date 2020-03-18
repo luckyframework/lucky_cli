@@ -40,20 +40,47 @@ describe LuckyCli::Task do
     end
   end
 
-  describe "with params" do
-    it "creates a model_name method" do
-      TaskWithParam.new.print_help_or_call(args: ["model_name:User"]).should eq "User"
+  describe "with command line args" do
+    it "creates methods for the args and returns their values" do
+      task = TaskWithArgs.new.print_help_or_call(args: ["--model-name=User", "--model-type=Polymorphic"]).not_nil!
+      task.model_name.should eq "User"
+      task.model_type.should eq "Polymorphic"
     end
 
-    it "takes multiple params" do
-      TaskWithMultipleParams.new.print_help_or_call(
-        args: ["looks_like_a_number:12", "taco_or_whatever:🌮"]
-      ).should eq "I have 12 of 🌮"
+    it "allows the args to be optional and use shortcuts" do
+      task = TaskWithArgs.new.print_help_or_call(args: ["-m User"]).not_nil!
+      task.model_name.should eq "User"
+      task.model_type.should eq nil
     end
 
-    it "throws an error if it doesn't match the format" do
-      expect_raises(Exception, "Invalid param value passed to model_name") do
-        TaskWithFormattedParam.new.print_help_or_call(args: ["model_name:user"])
+    it "raises an error when an arg is required and not passed" do
+      task = TaskWithRequiredFormatArgs.new.print_help_or_call(args: [""]).not_nil!
+      expect_raises(Exception, /--theme=PUT_SOME_VALUE_HERE/) do
+        task.theme
+      end
+    end
+
+    it "raises an error if the value doesn't match the format" do
+      expect_raises(Exception, /Invalid format for theme/) do
+        TaskWithRequiredFormatArgs.new.print_help_or_call(args: ["--theme=Spooky"])
+      end
+    end
+
+    it "creates methods for switch flags that default to false" do
+      task = TaskWithSwitchFlags.new.print_help_or_call(args: ["-a"]).not_nil!
+      task.force?.should eq false
+      task.admin?.should eq true
+    end
+
+    it "allows the args to be positional with no flags" do
+      task = TaskWithPositionalArgs.new.print_help_or_call(args: ["User", "name:String", "email:String"]).not_nil!
+      task.model.should eq "User"
+      task.columns.should eq ["name:String", "email:String"]
+    end
+
+    it "raises an error if the positional arg doesn't match the format" do
+      expect_raises(Exception, /Invalid format for columns/) do
+        TaskWithPositionalArgs.new.print_help_or_call(args: ["User", "name"])
       end
     end
   end
