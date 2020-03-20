@@ -1,4 +1,5 @@
 require "colorize"
+require "./lucky_cli/spinner"
 require "./lucky_cli"
 require "./generators/*"
 require "./dev"
@@ -44,14 +45,39 @@ elsif task_precompiled?
     output: STDOUT,
     error: STDERR
   ).exit_code
+  # Run task from tasks.cr file since this task is not precompiled
 elsif File.file?(tasks_file)
-  exit Process.run(
-    "crystal run #{tasks_file} -- #{args}",
-    shell: true,
-    input: STDIN,
-    output: STDOUT,
-    error: STDERR
-  ).exit_code
+  # Delay stdout/err by creating a memory IO and then printing after `crystal
+  # build` is done. Needs to be delayed so the spinner doesn't overwrite the
+  # output.
+  stdout = IO::Memory.new
+  stderr = IO::Memory.new
+  FileUtils.mkdir_p("tmp")
+  tasks_binary_path = "tmp/tasks_binary"
+  build_status = LuckyCli::Spinner.start("Compiling...") do
+    Process.run(
+      "crystal build #{tasks_file} -o #{tasks_binary_path} ",
+      shell: true,
+      input: STDIN,
+      output: stdout,
+      error: stderr
+    )
+  end
+
+  STDOUT.print(stdout.to_s)
+  STDERR.print(stderr.to_s)
+
+  if build_status.success?
+    exit Process.run(
+      "#{tasks_binary_path} #{args}",
+      shell: true,
+      input: STDIN,
+      output: STDOUT,
+      error: STDERR
+    ).exit_code
+  else
+    exit build_status.exit_code
+  end
 else
   puts <<-MISSING_TASKS_FILE
 
