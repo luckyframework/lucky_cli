@@ -9,8 +9,11 @@ class LuckyCli::Generators::Web
   def initialize(
     project_name : String,
     @api_only : Bool,
-    @generate_auth : Bool
+    @generate_auth : Bool,
+    project_directory : String = "."
   )
+    Dir.cd(File.expand_path(project_directory))
+
     @project_dir = project_name
     @project_name = @project_dir.gsub('-', '_')
 
@@ -152,23 +155,23 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        version: ~> 0.18.0
+        branch: master
       authentic:
         github: luckyframework/authentic
-        version: ~> 0.5.0
+        version: ~> 0.5.1
       carbon:
         github: luckyframework/carbon
         version: ~> 0.1.1
       dotenv:
         github: gdotdesign/cr-dotenv
-        version: 0.3.0
+        version: 0.6.0
     DEPS_LIST
 
     if browser?
       append_text to: "shard.yml", text: <<-DEPS_LIST
         lucky_flow:
           github: luckyframework/lucky_flow
-          version: ~> 0.6.0
+          version: ~> 0.6.2
       DEPS_LIST
     end
 
@@ -176,7 +179,7 @@ class LuckyCli::Generators::Web
       append_text to: "shard.yml", text: <<-DEPS_LIST
         jwt:
           github: crystal-community/jwt
-          version: ~> 1.1.1
+          version: ~> 1.4.0
       DEPS_LIST
     end
   end

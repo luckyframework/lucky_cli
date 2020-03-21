@@ -1,4 +1,4 @@
-# LuckyCli
+# Lucky CLI
 
 A Crystal library for creating and running tasks
 
@@ -67,6 +67,9 @@ This will create a task that can be run with `lucky app.send_daily_notifications
 The name is inferred from the name of the class unless explicitly set with `name`.
 
 You can see all available tasks by running `lucky --help`
+
+## Documentation
+[API (master)](https://luckyframework.github.io/lucky_cli/)
 
 ## Contributing
 
