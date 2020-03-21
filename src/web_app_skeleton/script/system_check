@@ -3,7 +3,8 @@
 BOLD_RED_COLOR="\e[1m\e[31m"
 
 # Prints error and exit.
-# e.g.  `print_error "Redis is not running. Run it with some_command"`
+# example:
+#   print_error "Redis is not running. Run it with some_command"
 print_error() {
     printf "${BOLD_RED_COLOR}There is a problem with your system setup:\n\n   ${BOLD_RED_COLOR}$1 \n\n"
     exit 1
@@ -18,11 +19,13 @@ print_error() {
 #   * Checking for elasticsearch, redis, or any other process is booted first
 #   * Booting additional processes for things like mail, background jobs, etc...
 
+# run command here
+# if [ $? -ne 0 ]
+# then
+#   print_error "Command must be running"
+# fi
 
 
 
-
-
-
-# Return $SHELL if no error is raised to allow the process running to continue.
+# Return $SHELL if no error is raised to allow the process runner to continue.
 $SHELL
