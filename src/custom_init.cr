@@ -22,6 +22,7 @@ class LuckyCli::CustomInit < LuckyCli::Init
 
         lucky custom.init my_project
         lucky custom.init my_api --api --no-auth --dir ~/Projects/
+
       TEXT
       parser.on("--api", "Generates an api-only web app") { api_only = true }
       parser.on("--no-auth", "Skips generating authentication") { authentication = false }

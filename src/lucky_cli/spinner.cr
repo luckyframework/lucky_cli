@@ -11,6 +11,17 @@ class LuckyCli::Spinner
   @start_text : String | ColoredString
   getter colorize_frame : Proc(String, ColoredString)
   getter io : IO
+  delegate frames, to: self.class
+  class_getter frames = [
+    "⣾",
+    "⣽",
+    "⣻",
+    "⢿",
+    "⡿",
+    "⣟",
+    "⣯",
+    "⣷",
+  ]
 
   alias ColoredString = Colorize::Object(String)
 
@@ -113,18 +124,5 @@ class LuckyCli::Spinner
     else
       DELETE_LINE
     end
-  end
-
-  private def frames : Array(String)
-    [
-      "⣾",
-      "⣽",
-      "⣻",
-      "⢿",
-      "⡿",
-      "⣟",
-      "⣯",
-      "⣷",
-    ]
   end
 end
