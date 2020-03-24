@@ -1,4 +1,6 @@
 class AppServer < Lucky::BaseAppServer
+  # Learn about middleware with HTTP::Handlers:
+  # https://luckyframework.org/guides/http-and-routing/http-handlers
   def middleware : Array(HTTP::Handler)
     [
       Lucky::ForceSSLHandler.new,
