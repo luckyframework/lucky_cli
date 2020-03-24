@@ -1,3 +1,6 @@
+# This class handles error responses and reporting.
+#
+# https://luckyframework.org/guides/http-and-routing/error-handling
 class Errors::Show < Lucky::ErrorAction
   DEFAULT_MESSAGE = "Something went wrong."
   <%- if api_only? -%>
