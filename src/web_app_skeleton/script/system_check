@@ -18,12 +18,13 @@ print_error() {
 #   * `lucky db.verify_connection` to test postgres can be connected
 #   * Checking for elasticsearch, redis, or any other process is booted first
 #   * Booting additional processes for things like mail, background jobs, etc...
+#     should go in your Procfile.dev.
 
-# run command here
-# if [ $? -ne 0 ]
-# then
-#   print_error "Command must be running"
-# fi
+lucky db.verify_connection
+if [ $? -ne 0 ]  # Check the exit_code of the previous task. If not equal to 0, then print_error
+then
+  print_error "Postgres does not seem to be running. Be sure you can connect."
+fi
 
 
 
