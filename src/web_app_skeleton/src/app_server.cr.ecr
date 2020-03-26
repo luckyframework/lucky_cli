@@ -15,6 +15,7 @@ class AppServer < Lucky::BaseAppServer
       # Lucky::FlashHandler.new,
       <%- end -%>
       Lucky::ErrorHandler.new(action: Errors::Show),
+      Lucky::RemoteIpHandler.new,
       Lucky::RouteHandler.new,
       <%- if browser? -%>
       Lucky::StaticCompressionHandler.new("./public", file_ext: "gz", content_encoding: "gzip"),
