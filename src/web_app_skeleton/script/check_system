@@ -10,7 +10,7 @@ print_error() {
     exit 1
 }
 
-# Use this script to add any processes required to boot your application.
+# Use this script to check the system for required tools and process that your app needs.
 # A `print_error` function is provided as a helpful way to display a custom
 # error message, and exit the script when a process fails, or is missing.
 #
