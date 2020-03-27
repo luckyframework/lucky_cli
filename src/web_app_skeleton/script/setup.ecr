@@ -10,63 +10,50 @@ indent() {
   done
 }
 
-# Ensure postgres client tools are installed
-check_postgres() {
-  if ! command -v createdb > /dev/null; then
-    printf 'Please install the postgres CLI tools, then try again.\n'
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-      printf "If you're using Postgres.app, see https://postgresapp.com/documentation/cli-tools.html.\n"
-    fi
-    printf 'See https://www.postgresql.org/docs/current/tutorial-install.html for install instructions.\n'
-    exit 1
-  fi
+notice() {
+  printf "\n▸ $1\n"
 }
 
-<%- if browser? -%>
-if ! command -v yarn > /dev/null; then
-  printf 'Yarn is not installed.\n'
-  printf 'See https://yarnpkg.com/lang/en/docs/install/ for install instructions.\n'
-  exit 1
-fi
+print_done() {
+  printf "✔ Done\n" | indent
+}
 
-printf "\n▸ Installing node dependencies\n"
+
+notice "Running System Check"
+source script/system_check
+print_done
+
+<%- if browser? -%>
+notice "Installing node dependencies"
 yarn install --no-progress | indent
 
-printf "\n▸ Compiling assets\n"
+notice "Compiling assets"
 yarn dev | indent
 
+print_done
 <%- end -%>
-printf "\n▸ Installing shards\n"
+
+notice "Installing shards"
 shards install | indent
 
-printf "\n▸ Checking that a process runner is installed\n"
-# Only if this isn't CI
-if [ -z "$CI" ]; then
-  lucky ensure_process_runner_installed
-fi
-printf "✔ Done\n" | indent
-
 if [ ! -f ".env" ]; then
-  printf "\n▸ No .env found. Creating one.\n"
+  notice "No .env found. Creating one."
   touch .env
-  printf "✔ Done\n" | indent
+  print_done
 fi
 
-printf "\n▸ Checking that postgres is installed\n"
-check_postgres | indent
-printf "✔ Done\n" | indent
-
-printf "\n▸ Creating the database\n"
+notice "Creating the database"
 lucky db.create | indent
 
-printf "\n▸ Verifying postgres connection\n"
+notice "Verifying postgres connection"
 lucky db.verify_connection | indent
 
-printf "\n▸ Migrating the database\n"
+notice "Migrating the database"
 lucky db.migrate | indent
 
-printf "\n▸ Seeding the database with required and sample records\n"
+notice "Seeding the database with required and sample records"
 lucky db.create_required_seeds | indent
 lucky db.create_sample_seeds | indent
 
-printf "\n✔ All done. Run 'lucky dev' to start the app\n"
+print_done
+notice "Run 'lucky dev' to start the app"
