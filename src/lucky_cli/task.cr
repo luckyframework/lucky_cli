@@ -132,14 +132,11 @@ abstract class LuckyCli::Task
       ) do |value|
         value = value.strip
         {% if format %}
-        if value =~ {{ format }}
-          @{{ arg_name.id }} = value
-        else
+        if value !~ {{ format }}
           raise "Invalid format for {{ arg_name.id }}. It should match {{ format }}"
         end
-        {% else %}
-          @{{ arg_name.id }} = value
         {% end %}
+        @{{ arg_name.id }} = value
       end
     end
 
