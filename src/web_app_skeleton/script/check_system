@@ -16,7 +16,7 @@ print_error() {
 #
 # A few examples might be:
 #   * `lucky db.verify_connection` to test postgres can be connected
-#   * Checking for elasticsearch, redis, or any other process is booted first
+#   * Checking that elasticsearch, redis, or postgres is booted
 #   * Booting additional processes for things like mail, background jobs, etc...
 #     should go in your Procfile.dev.
 
