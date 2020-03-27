@@ -23,7 +23,7 @@ print_error() {
 lucky db.verify_connection
 if [ $? -ne 0 ]  # Check the exit_code of the previous task. If not equal to 0, then print_error
 then
-  print_error "Postgres does not seem to be running. Be sure you can connect."
+  print_error "Postgres does not seem to be running or the credentials are wrong. Check config/database.cr and be sure you can connect."
 fi
 
 
