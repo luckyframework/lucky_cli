@@ -55,7 +55,7 @@ describe LuckyCli::Task do
 
     it "raises an error when an arg is required and not passed" do
       task = TaskWithRequiredFormatArgs.new.print_help_or_call(args: [""]).not_nil!
-      expect_raises(Exception, /--theme=PUT_SOME_VALUE_HERE/) do
+      expect_raises(Exception, /--theme=SOME_VALUE/) do
         task.theme
       end
     end

@@ -68,12 +68,24 @@ abstract class LuckyCli::Task
     end
   end
 
-  macro positional_arg(arg_name, description, required = nil, format = nil, to = nil)
+  # Creates a method of `arg_name` that returns the value passed in from the CLI.
+  # The CLI arg position is based on the order in which `positional_arg` is specified
+  # with the first call being position 0, and so on.
+  #
+  # If your arg takes more than one value, you can set `to_end` to true to capture all
+  # args from this position to the end. This will make your `arg_name` method return `Array(String)`.
+  #
+  # * `arg_name` : String - The name of the argument
+  # * `description` : String - The help text description for this option
+  # * `required` : Bool - raise exception if this arg is not passed
+  # * `to_end` : Bool - Capture all args from this position to the end.
+  # * `format` : Regex - The format you expect the args to match
+  macro positional_arg(arg_name, description, required = false, to_end = false, format = nil)
     {% PARSER_OPTS << arg_name %}
-    @{{ arg_name.id }} : {% if to %}Array(String){% else %}String{% end %} | Nil
+    @{{ arg_name.id }} : {% if to_end %}Array(String){% else %}String{% end %} | Nil
 
     def set_opt_for_{{ arg_name.id }}(args : Array(String))
-      {% if to %}
+      {% if to_end %}
         value = args[@positional_arg_count..-1]
       {% else %}
         value = args[@positional_arg_count]?
@@ -94,9 +106,7 @@ abstract class LuckyCli::Task
     def {{ arg_name.id }}
       {% if required %}
         if @{{ arg_name.id }}.nil?
-          raise <<-ERROR
-          {{ arg_name.id }} is required, but no value was passed.
-          ERROR
+          raise "{{ arg_name.id }} is required, but no value was passed."
         end
         @{{ arg_name.id }}.not_nil!
       {% else %}
@@ -105,14 +115,21 @@ abstract class LuckyCli::Task
     end
   end
 
-  macro arg(arg_name, description, shortcut = nil, required = nil, format = nil)
+  # Creates a method of `arg_name` that returns the value passed in from the CLI.
+  # The CLI arg is specified by the `--arg_name=VALUE` flag.
+  #
+  # * `arg_name` : String - The name of the argument
+  # * `description` : String - The help text description for this option
+  # * `shorcut` : String - An optional short flag (e.g. -a VALUE)
+  # * `required` : Bool - raise exception if this arg is not passed
+  # * `format` : Regex - The format you expect the args to match
+  macro arg(arg_name, description, shortcut = nil, required = false, format = nil)
     {% PARSER_OPTS << arg_name %}
     @{{ arg_name.id }} : String?
 
     def set_opt_for_{{ arg_name.id }}(unused_args : Array(String))
-      {% if shortcut %}
       option_parser.on(
-        "{{ shortcut.id }} {{ arg_name.stringify.upcase.id }}",
+        {% if shortcut %}"{{ shortcut.id }} {{ arg_name.stringify.upcase.id }}",{% end %}
         "--{{ arg_name.id.stringify.underscore.gsub(/_/, "-").id }}={{ arg_name.id.stringify.upcase.id }}",
         {{ description }}
       ) do |value|
@@ -127,23 +144,6 @@ abstract class LuckyCli::Task
           @{{ arg_name.id }} = value
         {% end %}
       end
-      {% else %}
-      option_parser.on(
-        "--{{ arg_name.id.stringify.underscore.gsub(/_/, "-").id }}={{ arg_name.id.stringify.upcase.id }}",
-        {{ description }}
-      ) do |value|
-        value = value.strip
-        {% if format %}
-        if value =~ {{ format }}
-          @{{ arg_name.id }} = value
-        else
-          raise "Invalid format for {{ arg_name.id }}. It should match {{ format }}"
-        end
-        {% else %}
-          @{{ arg_name.id }} = value
-        {% end %}
-      end
-      {% end %}
     end
 
     def {{ arg_name.id }} : String{% if !required %}?{% end %}
@@ -154,7 +154,8 @@ abstract class LuckyCli::Task
 
           Try this...
 
-            --{{ arg_name.id.stringify.underscore.gsub(/_/, "-").id }}=PUT_SOME_VALUE_HERE
+            {% if shortcut %}{{ shortcut.id }} SOME_VALUE{% end %}
+            --{{ arg_name.id.stringify.underscore.gsub(/_/, "-").id }}=SOME_VALUE
           ERROR
         end
         @{{ arg_name.id }}.not_nil!
@@ -164,27 +165,24 @@ abstract class LuckyCli::Task
     end
   end
 
+  # Creates a method of `arg_name` where the return value is boolean.
+  # If the flag `--arg_name` is passed, the value is `true`.
+  #
+  # * `arg_name` : String - The name of the argument
+  # * `description` : String - The help text description for this option
+  # * `shorcut` : String - An optional short flag (e.g. `-a`)
   macro switch(arg_name, description, shortcut = nil)
     {% PARSER_OPTS << arg_name %}
     @{{ arg_name.id }} : Bool = false
 
     def set_opt_for_{{ arg_name.id }}(unused_args : Array(String))
-      {% if shortcut %}
       option_parser.on(
-        "{{ shortcut.id }}",
+        {% if shortcut %}"{{ shortcut.id }}",{% end %}
         "--{{ arg_name.id.stringify.underscore.gsub(/_/, "-").id }}",
         {{ description }}
       ) do
         @{{ arg_name.id }} = true
       end
-      {% else %}
-      option_parser.on(
-        "--{{ arg_name.id.stringify.underscore.gsub(/_/, "-").id }}",
-        {{ description }}
-      ) do
-        @{{ arg_name.id }} = true
-      end
-      {% end %}
     end
 
     def {{ arg_name.id }}? : Bool

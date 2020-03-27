@@ -59,7 +59,7 @@ class TaskWithPositionalArgs < LuckyCli::Task
   summary "This is a task with positional args"
 
   positional_arg :model, "Define the model", required: true, format: /^[A-Z]/
-  positional_arg :columns, "Define the columns like name:String", to: :end, format: /\w+:[A-Z]\w+(::\w+)?/
+  positional_arg :columns, "Define the columns like name:String", to_end: true, format: /\w+:[A-Z]\w+(::\w+)?/
 
   def call
     self
