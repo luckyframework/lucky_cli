@@ -42,12 +42,3 @@ fi
 # fi
 
 
-## END ##
-
-
-
-# Skip this during initial setup
-if [ -z "$INIT_SETUP" ]; then
-  # Return $SHELL if no error is raised to allow the process runner to continue.
-  $SHELL
-fi

@@ -1,4 +1,4 @@
-system_check: script/system_check
+system_check: script/system_check && $SHELL
 <%- if api_only? -%>
 web: lucky watch
 <%- else -%>
