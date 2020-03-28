@@ -4,23 +4,11 @@
 set -e
 set -o pipefail
 
-indent() {
-  while read LINE; do
-    echo "  $LINE" || true
-  done
-}
-
-notice() {
-  printf "\n▸ $1\n"
-}
-
-print_done() {
-  printf "✔ Done\n" | indent
-}
+source script/helpers/text_helpers
 
 
 notice "Running System Check"
-source script/system_check
+INIT_SETUP=0 ./script/system_check
 print_done
 
 <%- if browser? -%>
