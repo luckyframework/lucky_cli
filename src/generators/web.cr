@@ -120,9 +120,7 @@ class LuckyCli::Generators::Web
 
   private def remove_default_license
     remove_license_from_shard
-    FileUtils.rm_r("#{project_dir}/LICENSE")
-  rescue e : Errno
-    puts "License file not deleted because it does not exist"
+    FileUtils.rm_rf("#{project_dir}/LICENSE")
   end
 
   private def remove_license_from_shard
