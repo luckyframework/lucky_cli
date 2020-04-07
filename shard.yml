@@ -11,4 +11,4 @@ license: MIT
 dependencies:
   teeplate:
     github: luckyframework/teeplate
-    version: 0.8.0
+    version: 0.8.1
