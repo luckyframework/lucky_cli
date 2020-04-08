@@ -162,7 +162,7 @@ class LuckyCli::Generators::Web
         version: ~> 0.1.1
       dotenv:
         github: gdotdesign/cr-dotenv
-        version: 0.6.0
+        version: ~> 0.7.0
     DEPS_LIST
 
     if browser?
