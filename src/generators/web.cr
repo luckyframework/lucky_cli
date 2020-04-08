@@ -153,7 +153,7 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        branch: master
+        version: ~> 0.20.0
       authentic:
         github: luckyframework/authentic
         version: ~> 0.5.1
