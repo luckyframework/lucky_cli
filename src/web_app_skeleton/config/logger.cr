@@ -9,15 +9,14 @@ if Lucky::Env.test?
   backend.formatter = Lucky::PrettyLogFormatter.proc
   Log.dexter.configure(:debug, backend)
 elsif Lucky::Env.production?
-  # This sets the log formatter to JSON so you can parse the logs with
-  # services like Logentries or Logstash.
+  # Lucky uses JSON in production so logs can be searched more easily
   #
-  # If you want logs like in develpoment use `Lucky::PrettyLogFormatter.proc`.
+  # If you want logs like in develpoment use 'Lucky::PrettyLogFormatter.proc'.
   backend = Log::IOBackend.new
-  backend.formatter = Dexter::JsonLogFormatter.proc
+  backend.formatter = Dexter::JSONLogFormatter.proc
   Log.dexter.configure(:info, backend)
 else
-  # For development, log everything to STDOUT with the pretty formatter.
+  # Use a pretty formatter printing to STDOUT in development
   backend = Log::IOBackend.new
   backend.formatter = Lucky::PrettyLogFormatter.proc
   Log.dexter.configure(:debug, backend)
