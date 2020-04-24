@@ -91,14 +91,11 @@ abstract class LuckyCli::Task
       {% end %}
       {% if format %}
       matches = value.is_a?(Array) ? value.all?(&.=~({{ format }})) : value =~ {{ format }}
-      if matches
-        @{{ arg_name.id }} = value
-      else
+      if !matches
         raise "Invalid format for {{ arg_name.id }}. It should match {{ format }}"
       end
-      {% else %}
-        @{{ arg_name.id }} = value
       {% end %}
+      @{{ arg_name.id }} = value
       @positional_arg_count += 1
     end
 
@@ -130,14 +127,11 @@ abstract class LuckyCli::Task
       ) do |value|
         value = value.strip
         {% if format %}
-        if value =~ {{ format }}
-          @{{ arg_name.id }} = value
-        else
+        if value !~ {{ format }}
           raise "Invalid format for {{ arg_name.id }}. It should match {{ format }}"
         end
-        {% else %}
-          @{{ arg_name.id }} = value
         {% end %}
+        @{{ arg_name.id }} = value
       end
     end
 

@@ -4,7 +4,7 @@ include HaveDefaultHelperMessageMatcher
 
 describe LuckyCli::Runner do
   it "adds tasks to the runner when task classes are created" do
-    expected_task_names = ["another_task", "my.cool.task", "my.custom_name"]
+    expected_task_names = ["another_task", "my.cool_task", "my.custom_name"]
 
     task_names = LuckyCli::Runner.tasks.map(&.name)
 
