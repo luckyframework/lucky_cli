@@ -27,8 +27,8 @@ end
 
 class TaskWithArgs < LuckyCli::Task
   summary "This task has CLI args"
-  arg :model_name, "This is the name of the model", shortcut: "-m"
-  arg :model_type, description: "Define the model type"
+  arg :model_name, "This is the name of the model", shortcut: "-m", optional: true
+  arg :model_type, description: "Define the model type", optional: true
 
   def call
     self
@@ -37,7 +37,7 @@ end
 
 class TaskWithRequiredFormatArgs < LuckyCli::Task
   summary "This task has a required arg with a format"
-  arg :theme, description: "Specifies which theme to use. Must be dark or light", required: true, format: /^(dark|light)$/
+  arg :theme, description: "Specifies which theme to use. Must be dark or light", format: /^(dark|light)$/
 
   def call
     self
@@ -58,7 +58,7 @@ end
 class TaskWithPositionalArgs < LuckyCli::Task
   summary "This is a task with positional args"
 
-  positional_arg :model, "Define the model", required: true, format: /^[A-Z]/
+  positional_arg :model, "Define the model", format: /^[A-Z]/
   positional_arg :columns, "Define the columns like name:String", to_end: true, format: /\w+:[A-Z]\w+(::\w+)?/
 
   def call

@@ -77,10 +77,9 @@ abstract class LuckyCli::Task
   #
   # * `arg_name` : String - The name of the argument
   # * `description` : String - The help text description for this option
-  # * `required` : Bool - raise exception if this arg is not passed
   # * `to_end` : Bool - Capture all args from this position to the end.
   # * `format` : Regex - The format you expect the args to match
-  macro positional_arg(arg_name, description, required = false, to_end = false, format = nil)
+  macro positional_arg(arg_name, description, to_end = false, format = nil)
     {% PARSER_OPTS << arg_name %}
     @{{ arg_name.id }} : {% if to_end %}Array(String){% else %}String{% end %} | Nil
 
@@ -103,15 +102,11 @@ abstract class LuckyCli::Task
       @positional_arg_count += 1
     end
 
-    def {{ arg_name.id }}
-      {% if required %}
-        if @{{ arg_name.id }}.nil?
-          raise "{{ arg_name.id }} is required, but no value was passed."
-        end
-        @{{ arg_name.id }}.not_nil!
-      {% else %}
-        @{{ arg_name.id }}
-      {% end %}
+    def {{ arg_name.id }} : {% if to_end %}Array(String){% else %}String{% end %}
+      if @{{ arg_name.id }}.nil?
+        raise "{{ arg_name.id }} is required, but no value was passed."
+      end
+      @{{ arg_name.id }}.not_nil!
     end
   end
 
@@ -121,9 +116,9 @@ abstract class LuckyCli::Task
   # * `arg_name` : String - The name of the argument
   # * `description` : String - The help text description for this option
   # * `shorcut` : String - An optional short flag (e.g. -a VALUE)
-  # * `required` : Bool - raise exception if this arg is not passed
+  # * `optional` : Bool - When false, raise exception if this arg is not passed
   # * `format` : Regex - The format you expect the args to match
-  macro arg(arg_name, description, shortcut = nil, required = false, format = nil)
+  macro arg(arg_name, description, shortcut = nil, optional = false, format = nil)
     {% PARSER_OPTS << arg_name %}
     @{{ arg_name.id }} : String?
 
@@ -146,8 +141,8 @@ abstract class LuckyCli::Task
       end
     end
 
-    def {{ arg_name.id }} : String{% if !required %}?{% end %}
-      {% if required %}
+    def {{ arg_name.id }} : String{% if optional %}?{% end %}
+      {% if !optional %}
         if @{{ arg_name.id }}.nil?
           raise <<-ERROR
           {{ arg_name.id }} is required, but no value was passed.
@@ -188,7 +183,6 @@ abstract class LuckyCli::Task
     def {{ arg_name.id }}? : Bool
       @{{ arg_name.id }}
     end
-
   end
 
   abstract def call

@@ -47,10 +47,15 @@ describe LuckyCli::Task do
       task.model_type.should eq "Polymorphic"
     end
 
-    it "allows the args to be optional and use shortcuts" do
-      task = TaskWithArgs.new.print_help_or_call(args: ["-m User"]).not_nil!
+    it "allows the args to be optional" do
+      task = TaskWithArgs.new.print_help_or_call(args: ["--model-name=User"]).not_nil!
       task.model_name.should eq "User"
       task.model_type.should eq nil
+    end
+
+    it "allows using an arg shortcut" do
+      task = TaskWithArgs.new.print_help_or_call(args: ["-m User"]).not_nil!
+      task.model_name.should eq "User"
     end
 
     it "raises an error when an arg is required and not passed" do
@@ -66,13 +71,17 @@ describe LuckyCli::Task do
       end
     end
 
-    it "creates methods for switch flags that default to false" do
+    it "sets switch flags that default to false" do
+      task = TaskWithSwitchFlags.new.print_help_or_call(args: [] of String).not_nil!
+      task.admin?.should eq false
+    end
+
+    it "sets switch flags from args" do
       task = TaskWithSwitchFlags.new.print_help_or_call(args: ["-a"]).not_nil!
-      task.force?.should eq false
       task.admin?.should eq true
     end
 
-    it "allows the args to be positional with no flags" do
+    it "allows positional args that do not require a flag name" do
       task = TaskWithPositionalArgs.new.print_help_or_call(args: ["User", "name:String", "email:String"]).not_nil!
       task.model.should eq "User"
       task.columns.should eq ["name:String", "email:String"]
