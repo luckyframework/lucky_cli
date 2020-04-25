@@ -1,7 +1,9 @@
 require "colorize"
+require "./lucky_cli/spinner"
 require "./lucky_cli"
 require "./generators/*"
 require "./dev"
+require "./build_and_run_task"
 require "./ensure_process_runner_installed"
 
 include LuckyCli::TextHelpers
@@ -45,13 +47,8 @@ elsif task_precompiled?
     error: STDERR
   ).exit_code
 elsif File.file?(tasks_file)
-  exit Process.run(
-    "crystal run #{tasks_file} -- #{args}",
-    shell: true,
-    input: STDIN,
-    output: STDOUT,
-    error: STDERR
-  ).exit_code
+  # Run task from tasks.cr file since this task is not precompiled
+  LuckyCli::BuildAndRunTask.call(tasks_file, args)
 else
   puts <<-MISSING_TASKS_FILE
 

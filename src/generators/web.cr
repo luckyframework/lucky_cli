@@ -123,9 +123,7 @@ class LuckyCli::Generators::Web
 
   private def remove_default_license
     remove_license_from_shard
-    FileUtils.rm_r("#{project_dir}/LICENSE")
-  rescue e : Errno
-    puts "License file not deleted because it does not exist"
+    FileUtils.rm_rf("#{project_dir}/LICENSE")
   end
 
   private def remove_license_from_shard
@@ -155,7 +153,7 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        branch: master
+        version: ~> 0.21
       authentic:
         github: luckyframework/authentic
         version: ~> 0.5.1
@@ -164,7 +162,7 @@ class LuckyCli::Generators::Web
         version: ~> 0.1.1
       dotenv:
         github: gdotdesign/cr-dotenv
-        version: 0.6.0
+        version: ~> 0.7.0
     DEPS_LIST
 
     if browser?

@@ -1,3 +1,5 @@
+# Learn about sending emails
+# https://luckyframework.org/guides/emails/sending-emails-with-carbon
 abstract class BaseEmail < Carbon::Email
   # You can add defaults using the 'inherited' hook
   #
