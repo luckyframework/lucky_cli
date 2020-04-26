@@ -39,4 +39,58 @@ describe LuckyCli::Task do
       io.to_s.chomp.should eq "Custom help message"
     end
   end
+
+  describe "with command line args" do
+    it "creates methods for the args and returns their values" do
+      task = TaskWithArgs.new.print_help_or_call(args: ["--model-name=User", "--model-type=Polymorphic"]).not_nil!
+      task.model_name.should eq "User"
+      task.model_type.should eq "Polymorphic"
+    end
+
+    it "allows the args to be optional" do
+      task = TaskWithArgs.new.print_help_or_call(args: ["--model-name=User"]).not_nil!
+      task.model_name.should eq "User"
+      task.model_type.should eq nil
+    end
+
+    it "allows using an arg shortcut" do
+      task = TaskWithArgs.new.print_help_or_call(args: ["-m User"]).not_nil!
+      task.model_name.should eq "User"
+    end
+
+    it "raises an error when an arg is required and not passed" do
+      task = TaskWithRequiredFormatArgs.new.print_help_or_call(args: [""]).not_nil!
+      expect_raises(Exception, /--theme=SOME_VALUE/) do
+        task.theme
+      end
+    end
+
+    it "raises an error if the value doesn't match the format" do
+      expect_raises(Exception, /Invalid format for theme/) do
+        TaskWithRequiredFormatArgs.new.print_help_or_call(args: ["--theme=Spooky"])
+      end
+    end
+
+    it "sets switch flags that default to false" do
+      task = TaskWithSwitchFlags.new.print_help_or_call(args: [] of String).not_nil!
+      task.admin?.should eq false
+    end
+
+    it "sets switch flags from args" do
+      task = TaskWithSwitchFlags.new.print_help_or_call(args: ["-a"]).not_nil!
+      task.admin?.should eq true
+    end
+
+    it "allows positional args that do not require a flag name" do
+      task = TaskWithPositionalArgs.new.print_help_or_call(args: ["User", "name:String", "email:String"]).not_nil!
+      task.model.should eq "User"
+      task.columns.should eq ["name:String", "email:String"]
+    end
+
+    it "raises an error if the positional arg doesn't match the format" do
+      expect_raises(Exception, /Invalid format for columns/) do
+        TaskWithPositionalArgs.new.print_help_or_call(args: ["User", "name"])
+      end
+    end
+  end
 end
