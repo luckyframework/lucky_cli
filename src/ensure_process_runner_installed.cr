@@ -6,7 +6,7 @@ class LuckyCli::EnsureProcessRunnerInstalled < LuckyCli::Task
   def call
     if LuckyCli::ProcessRunner.installed_process_runners.empty?
       puts <<-ERROR
-      #{"Missing proccess runner for 'lucky dev'".colorize(:red)}
+      #{"Missing process runner for 'lucky dev'".colorize(:red)}
 
       Install one of these...
 
