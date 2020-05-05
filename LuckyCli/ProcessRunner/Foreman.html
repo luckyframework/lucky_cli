@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.33.0">
+
+<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="github.com/luckyframework/lucky_cli">
+  <title>LuckyCli::ProcessRunner::Foreman - github.com/luckyframework/lucky_cli</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "../../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/ApiAuthenticationTemplate" data-name="apiauthenticationtemplate">
+      <a href="../../ApiAuthenticationTemplate.html">ApiAuthenticationTemplate</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/BaseAuthenticationSrcTemplate" data-name="baseauthenticationsrctemplate">
+      <a href="../../BaseAuthenticationSrcTemplate.html">BaseAuthenticationSrcTemplate</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/BrowserAuthenticationSrcTemplate" data-name="browserauthenticationsrctemplate">
+      <a href="../../BrowserAuthenticationSrcTemplate.html">BrowserAuthenticationSrcTemplate</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/BrowserSrcTemplate" data-name="browsersrctemplate">
+      <a href="../../BrowserSrcTemplate.html">BrowserSrcTemplate</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/luckyframework/lucky_cli/LuckyCli" data-name="luckycli">
+      <a href="../../LuckyCli.html">LuckyCli</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/CustomInit" data-name="luckycli::custominit">
+      <a href="../../LuckyCli/CustomInit.html">CustomInit</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/GeneratorHelpers" data-name="luckycli::generatorhelpers">
+      <a href="../../LuckyCli/GeneratorHelpers.html">GeneratorHelpers</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Generators" data-name="luckycli::generators">
+      <a href="../../LuckyCli/Generators.html">Generators</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Generators/TasksFile" data-name="luckycli::generators::tasksfile">
+      <a href="../../LuckyCli/Generators/TasksFile.html">TasksFile</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Generators/Web" data-name="luckycli::generators::web">
+      <a href="../../LuckyCli/Generators/Web.html">Web</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Init" data-name="luckycli::init">
+      <a href="../../LuckyCli/Init.html">Init</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/luckyframework/lucky_cli/LuckyCli/ProcessRunner" data-name="luckycli::processrunner">
+      <a href="../../LuckyCli/ProcessRunner.html">ProcessRunner</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/ProcessRunner/Forego" data-name="luckycli::processrunner::forego">
+      <a href="../../LuckyCli/ProcessRunner/Forego.html">Forego</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/luckyframework/lucky_cli/LuckyCli/ProcessRunner/Foreman" data-name="luckycli::processrunner::foreman">
+      <a href="../../LuckyCli/ProcessRunner/Foreman.html">Foreman</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/ProcessRunner/Heroku" data-name="luckycli::processrunner::heroku">
+      <a href="../../LuckyCli/ProcessRunner/Heroku.html">Heroku</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/ProcessRunner/Overmind" data-name="luckycli::processrunner::overmind">
+      <a href="../../LuckyCli/ProcessRunner/Overmind.html">Overmind</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/ProjectName" data-name="luckycli::projectname">
+      <a href="../../LuckyCli/ProjectName.html">ProjectName</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/ProjectNameQuestion" data-name="luckycli::projectnamequestion">
+      <a href="../../LuckyCli/ProjectNameQuestion.html">ProjectNameQuestion</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Runner" data-name="luckycli::runner">
+      <a href="../../LuckyCli/Runner.html">Runner</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Spinner" data-name="luckycli::spinner">
+      <a href="../../LuckyCli/Spinner.html">Spinner</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Spinner/ColoredString" data-name="luckycli::spinner::coloredstring">
+      <a href="../../LuckyCli/Spinner/ColoredString.html">ColoredString</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Task" data-name="luckycli::task">
+      <a href="../../LuckyCli/Task.html">Task</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/TaskNotFoundErrorMessage" data-name="luckycli::tasknotfounderrormessage">
+      <a href="../../LuckyCli/TaskNotFoundErrorMessage.html">TaskNotFoundErrorMessage</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/TextHelpers" data-name="luckycli::texthelpers">
+      <a href="../../LuckyCli/TextHelpers.html">TextHelpers</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Wizard" data-name="luckycli::wizard">
+      <a href="../../LuckyCli/Wizard.html">Wizard</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Wizard/LabeledYesNoQuestion" data-name="luckycli::wizard::labeledyesnoquestion">
+      <a href="../../LuckyCli/Wizard/LabeledYesNoQuestion.html">LabeledYesNoQuestion</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Wizard/Web" data-name="luckycli::wizard::web">
+      <a href="../../LuckyCli/Wizard/Web.html">Web</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/LuckyCli/Wizard/YesNoQuestion" data-name="luckycli::wizard::yesnoquestion">
+      <a href="../../LuckyCli/Wizard/YesNoQuestion.html">YesNoQuestion</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/luckyframework/lucky_cli/SrcTemplate" data-name="srctemplate">
+      <a href="../../SrcTemplate.html">SrcTemplate</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> LuckyCli::ProcessRunner::Foreman
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../LuckyCli/ProcessRunner/Foreman.html">LuckyCli::ProcessRunner::Foreman</a></li><li class="superclass"><a href="../../LuckyCli/ProcessRunner.html">LuckyCli::ProcessRunner</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/luckyframework/lucky_cli/blob/4ec6de7cfc00be018f328ca8b7fd509cf9118c3d/src/lucky_cli/process_runner.cr#L71" target="_blank">
+        lucky_cli/process_runner.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#command-instance-method" class="signature"><strong>#command</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#start_args-instance-method" class="signature"><strong>#start_args</strong></a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from class <code><a href="../../LuckyCli/ProcessRunner.html">LuckyCli::ProcessRunner</a></code></h3>
+  
+  
+    <a href="../../LuckyCli/ProcessRunner.html#command-instance-method" class="tooltip">
+      <span>command</span>
+    command</a>, 
+    
+  
+    <a href="../../LuckyCli/ProcessRunner.html#installed?:Bool-instance-method" class="tooltip">
+      <span>installed? : Bool</span>
+    installed?</a>, 
+    
+  
+    <a href="../../LuckyCli/ProcessRunner.html#start(process=Process)-instance-method" class="tooltip">
+      <span>start(process = <span class="t">Process</span>)</span>
+    start</a>, 
+    
+  
+    <a href="../../LuckyCli/ProcessRunner.html#start_args-instance-method" class="tooltip">
+      <span>start_args</span>
+    start_args</a>
+    
+  
+
+
+    
+
+
+    
+
+  <h3>Class methods inherited from class <code><a href="../../LuckyCli/ProcessRunner.html">LuckyCli::ProcessRunner</a></code></h3>
+  
+  
+    <a href="../../LuckyCli/ProcessRunner.html#installed_process_runners-class-method" class="tooltip">
+      <span>installed_process_runners</span>
+    installed_process_runners</a>, 
+    
+  
+    <a href="../../LuckyCli/ProcessRunner.html#start(process=Process)-class-method" class="tooltip">
+      <span>start(process = <span class="t">Process</span>)</span>
+    start</a>
+    
+  
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="command-instance-method">
+      <div class="signature">
+        
+        def <strong>command</strong>
+
+        <a class="method-permalink" href="#command-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky_cli/blob/4ec6de7cfc00be018f328ca8b7fd509cf9118c3d/src/lucky_cli/process_runner.cr#L72" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="start_args-instance-method">
+      <div class="signature">
+        
+        def <strong>start_args</strong>
+
+        <a class="method-permalink" href="#start_args-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/luckyframework/lucky_cli/blob/4ec6de7cfc00be018f328ca8b7fd509cf9118c3d/src/lucky_cli/process_runner.cr#L76" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
