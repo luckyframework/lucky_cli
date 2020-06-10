@@ -177,7 +177,7 @@ class LuckyCli::Generators::Web
       append_text to: "shard.yml", text: <<-DEPS_LIST
         jwt:
           github: crystal-community/jwt
-          version: ~> 1.4.0
+          version: 1.4.1
       DEPS_LIST
     end
   end
