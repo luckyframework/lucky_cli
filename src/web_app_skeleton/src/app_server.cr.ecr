@@ -6,14 +6,6 @@ class AppServer < Lucky::BaseAppServer
       Lucky::ForceSSLHandler.new,
       Lucky::HttpMethodOverrideHandler.new,
       Lucky::LogHandler.new,
-      <%- if browser? -%>
-      Lucky::SessionHandler.new,
-      Lucky::FlashHandler.new,
-      <%- else %>
-      # Disabled in API mode, but can be enabled if you need them:
-      # Lucky::SessionHandler.new,
-      # Lucky::FlashHandler.new,
-      <%- end -%>
       Lucky::ErrorHandler.new(action: Errors::Show),
       Lucky::RemoteIpHandler.new,
       Lucky::RouteHandler.new,
