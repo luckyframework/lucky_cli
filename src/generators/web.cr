@@ -156,7 +156,7 @@ class LuckyCli::Generators::Web
         branch: master
       authentic:
         github: luckyframework/authentic
-        version: ~> 0.5.1
+        branch: pcs/use-latest
       carbon:
         github: luckyframework/carbon
         version: ~> 0.1.1
