@@ -153,7 +153,7 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        version: ~> 0.21
+        branch: pcs/crystal-0.35
       authentic:
         github: luckyframework/authentic
         version: ~> 0.5.1
@@ -177,7 +177,7 @@ class LuckyCli::Generators::Web
       append_text to: "shard.yml", text: <<-DEPS_LIST
         jwt:
           github: crystal-community/jwt
-          version: ~> 1.4.0
+          version: ~> 1.4.2
       DEPS_LIST
     end
   end
