@@ -153,7 +153,7 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        branch: pcs/crystal-0.35
+        branch: master
       authentic:
         github: luckyframework/authentic
         version: ~> 0.5.1
