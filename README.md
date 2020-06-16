@@ -1,6 +1,6 @@
 # Lucky CLI
 
-A Crystal library for creating and running tasks
+A Crystal library for creating and running tasks.
 
 ## Installing the CLI by Homebrew
 
