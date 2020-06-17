@@ -8,9 +8,9 @@ class Errors::Show < Lucky::ErrorAction
   <%- else -%>
   default_format :html
   <%- end -%>
-  dont_report [Lucky::RouteNotFoundError]
+  dont_report [Lucky::RouteNotFoundError, Avram::RecordNotFoundError]
 
-  def render(error : Lucky::RouteNotFoundError)
+  def render(error : Lucky::RouteNotFoundError | Avram::RecordNotFoundError)
     <%- if api_only? -%>
     error_json "Not found", status: 404
     <%- else -%>
