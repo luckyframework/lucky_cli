@@ -30,14 +30,8 @@ if [ ! -f ".env" ]; then
   print_done
 fi
 
-notice "Creating the database"
-lucky db.create | indent
-
-notice "Verifying postgres connection"
-lucky db.verify_connection | indent
-
-notice "Migrating the database"
-lucky db.migrate | indent
+notice "Creating and Migrating the database"
+lucky db.setup | indent
 
 notice "Seeding the database with required and sample records"
 lucky db.create_required_seeds | indent
