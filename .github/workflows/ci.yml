@@ -44,12 +44,12 @@ jobs:
           node-version: '12.x'
       - name: Install yarn
         run: npm install -g yarn
+      - name: Run setup script
+        run: ./script/setup
       - name: Install Lucky CLI
         run: |
           crystal build src/lucky.cr --no-debug --release
           cp lucky /usr/local/bin
-      - name: Run setup script
-        run: ./script/setup
       - name: Cache Crystal
         uses: actions/cache@v1
         with:
