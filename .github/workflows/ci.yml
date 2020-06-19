@@ -32,35 +32,39 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-    - name: Install PostgreSQL client
-      run: |
-        apt-get update
-        apt-get -yqq install libpq-dev postgresql-client
-    - uses: actions/checkout@v2
-    - name: Install Chromedriver
-      run: apt-get -yqq install chromium-chromedriver
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - name: Install yarn
-      run: npm install -g yarn
-    - name: Run setup script
-      run: ./script/setup
-    - name: Cache Crystal
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/crystal
-        key: ${{ runner.os }}-crystal
-    - name: Cache node modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
-    - name: Run tests
-      run: crystal spec
+      - name: Install PostgreSQL client
+        run: |
+          apt-get update
+          apt-get -yqq install libpq-dev postgresql-client
+      - uses: actions/checkout@v2
+      - name: Install Chromedriver
+        run: apt-get -yqq install chromium-chromedriver
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install yarn
+        run: npm install -g yarn
+      - name: Install Lucky CLI
+        run: |
+          crystal build src/lucky.cr --no-debug --release
+          cp lucky /usr/local/bin
+      - name: Run setup script
+        run: ./script/setup
+      - name: Cache Crystal
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/crystal
+          key: ${{ runner.os }}-crystal
+      - name: Cache node modules
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Run tests
+        run: crystal spec
