@@ -1,0 +1,64 @@
+name: Lucky CLI CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: "*"
+
+jobs:
+  check_format:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:0.35.0
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install shards
+        run: shards install
+      - name: Format
+        run: crystal tool format --check
+  specs:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:0.35.0
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - name: Install PostgreSQL client
+      run: |
+        apt-get update
+        apt-get -yqq install libpq-dev postgresql-client
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Install yarn
+      run: npm install -g yarn
+    - name: Run setup script
+      run: ./script/setup
+    - name: Cache Crystal
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/crystal
+        key: ${{ runner.os }}-crystal
+    - name: Cache node modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+    - name: Run tests
+      run: crystal spec
