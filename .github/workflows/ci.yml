@@ -37,6 +37,8 @@ jobs:
         apt-get update
         apt-get -yqq install libpq-dev postgresql-client
     - uses: actions/checkout@v2
+    - name: Install Chromedriver
+      run: apt-get -yqq install chromium-chromedriver
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
