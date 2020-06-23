@@ -68,3 +68,6 @@ jobs:
             ${{ runner.os }}-
       - name: Run tests
         run: crystal spec
+        env:
+          DB_HOST: postgres
+          LUCKY_ENV: test
