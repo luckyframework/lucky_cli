@@ -153,7 +153,7 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        version: ~> 0.22.0
+        branch: jaw/v0.23.0
       authentic:
         github: luckyframework/authentic
         version: ~> 0.6.0
@@ -169,7 +169,7 @@ class LuckyCli::Generators::Web
       append_text to: "shard.yml", text: <<-DEPS_LIST
         lucky_flow:
           github: luckyframework/lucky_flow
-          version: ~> 0.6.2
+          branch: jaw/v0.7.0
       DEPS_LIST
     end
 
