@@ -159,7 +159,7 @@ class LuckyCli::Generators::Web
         branch: jaw/v0.6.1
       carbon:
         github: luckyframework/carbon
-        version: ~> 0.1.1
+        branch: jaw/v0.1.2
       dotenv:
         github: gdotdesign/cr-dotenv
         version: ~> 0.7.0
