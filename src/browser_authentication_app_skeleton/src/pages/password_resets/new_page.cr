@@ -9,8 +9,8 @@ class PasswordResets::NewPage < AuthLayout
 
   private def render_password_reset_form(op)
     form_for PasswordResets::Create.with(@user_id) do
-      mount Shared::Field.new(op.password, "Password"), &.password_input(autofocus: "true")
-      mount Shared::Field.new(op.password_confirmation, "Confirm Password"), &.password_input
+      m Shared::Field, attribute: op.password, label_text: "Password", &.password_input(autofocus: "true")
+      m Shared::Field, attribute: op.password_confirmation, label_text: "Confirm Password", &.password_input
 
       submit "Update Password", flow_id: "update-password-button"
     end
