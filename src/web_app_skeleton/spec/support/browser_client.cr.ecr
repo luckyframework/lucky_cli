@@ -1,0 +1,12 @@
+class BrowserClient < Lucky::BaseHTTPClient
+  def initialize
+    super
+    headers("Content-Type": "text/html")
+  end
+  <%- if generate_auth? -%>
+
+  def self.auth(user : User)
+    new.headers("Authorization": UserToken.generate(user))
+  end
+  <%- end -%>
+end
