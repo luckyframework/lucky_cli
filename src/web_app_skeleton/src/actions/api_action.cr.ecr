@@ -1,6 +1,7 @@
 # Include modules and add methods that are for all API requests
 abstract class ApiAction < Lucky::Action
-  # This disable setting cookies and session header. Cookie header will still be sent.
+  # This disable setting cookies and session header.
+  # Remove it to set set-cookie header to use it in api actions
   disable_cookies
   accepted_formats [:json]
   <%- if generate_auth? -%>
