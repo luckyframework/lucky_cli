@@ -13,8 +13,10 @@ class UserToken
     JWT.encode(payload, Lucky::Server.settings.secret_key_base, ALGORITHM)
   end
 
+  # Both the payload and header are provided from the JWT decode method
+  # Should you require the header, modify the `_` variable below to something like `header`
   def self.decode_user_id(token : String) : Int64?
-    payload, _header = JWT.decode(token, Lucky::Server.settings.secret_key_base, ALGORITHM)
+    payload, _ = JWT.decode(token, Lucky::Server.settings.secret_key_base, ALGORITHM)
     payload["user_id"].to_s.to_i64
   rescue e : JWT::Error
     Lucky::Log.dexter.error { {jwt_decode_error: e.message} }

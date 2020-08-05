@@ -103,7 +103,7 @@ describe "Initializing a new web project" do
       shell: true
     )
 
-    shard_yml_name = File.read_lines("test-project/shard.yml").select { |line| line =~ /^name:/ }.first
+    shard_yml_name = File.read_lines("test-project/shard.yml").find { |line| line =~ /^name:/ }
     shard_yml_name.should eq("name: test_project")
     File.exists?("test-project/src/test_project.cr").should be_true
   end
