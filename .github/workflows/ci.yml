@@ -18,7 +18,7 @@ jobs:
       - name: Format
         run: crystal tool format --check
       - name: Crystal Ameba Linter
-        uses: crystal-ameba/github-action@v0.2.5
+        uses: crystal-ameba/github-action@v0.2.6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
