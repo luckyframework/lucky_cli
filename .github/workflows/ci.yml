@@ -7,7 +7,7 @@ on:
     branches: "*"
 
 jobs:
-  lint:
+  check_format:
     runs-on: ubuntu-latest
     container:
       image: crystallang/crystal:0.35.0
