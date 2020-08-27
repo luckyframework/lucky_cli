@@ -69,6 +69,7 @@ The name is inferred from the name of the class unless explicitly set with `name
 You can see all available tasks by running `lucky --help`
 
 ## Documentation
+
 [API (master)](https://luckyframework.github.io/lucky_cli/)
 
 ## Contributing
@@ -77,7 +78,7 @@ You can see all available tasks by running `lucky --help`
 1.  Create your feature branch (git checkout -b my-new-feature)
 1.  Commit your changes (git commit -am 'Add some feature')
 1.  Push to the branch (git push origin my-new-feature)
-1.  Check that specs on Travis CI pass
+1.  Check that specs on GitHub Actions CI pass
 1.  Create a new Pull Request
 
 ## Testing Deployment to Heroku

@@ -2,7 +2,7 @@ name: Lucky CLI CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
     branches: "*"
 
@@ -17,6 +17,9 @@ jobs:
         run: shards install
       - name: Format
         run: crystal tool format --check
+      - name: Crystal Ameba Linter
+        run: ./bin/ameba
+
   specs:
     runs-on: ubuntu-latest
     container:
@@ -41,7 +44,7 @@ jobs:
         run: apt-get -yqq install chromium-chromedriver
       - uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: "12.x"
       - name: Install yarn
         run: npm install -g yarn
       - name: Run setup script

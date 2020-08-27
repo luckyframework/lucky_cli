@@ -12,3 +12,8 @@ dependencies:
   teeplate:
     github: luckyframework/teeplate
     version: ~> 0.8.2
+
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 0.13

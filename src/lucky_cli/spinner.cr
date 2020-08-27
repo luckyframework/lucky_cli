@@ -35,7 +35,7 @@ class LuckyCli::Spinner
 
   def self.start(*args, **named_args)
     spinner = new(*args, **named_args).start
-    yield.tap do |last_value_from_block|
+    yield.tap do |_last_value_from_block|
       spinner.stop
     end
   end
