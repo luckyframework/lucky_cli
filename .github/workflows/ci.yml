@@ -57,8 +57,6 @@ jobs:
           cp bin/shards /usr/local/bin
       - name: Run setup script
         run: ./script/setup
-      - name: DEBUG MODE HERE
-        run: pwd
       - name: Install Lucky CLI
         run: |
           crystal build src/lucky.cr --no-debug --release
