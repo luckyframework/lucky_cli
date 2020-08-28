@@ -80,8 +80,9 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Run tests
-        run: crystal spec
+        run: |
+          export SHARDS_OVERRIDE="$(pwd)/shard.override.yml"
+          crystal spec
         env:
           DB_HOST: postgres
           LUCKY_ENV: test
-          SHARDS_OVERRIDE: "$(pwd)/shard.override.yml"
