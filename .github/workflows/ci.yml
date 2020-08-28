@@ -57,8 +57,8 @@ jobs:
           cp bin/shards /usr/local/bin
       - name: Run setup script
         run: ./script/setup
-      - name: Export SHARDS_OVERRIDE
-        run: source ./script/override_shards
+      - name: DEBUG MODE HERE
+        run: pwd
       - name: Install Lucky CLI
         run: |
           crystal build src/lucky.cr --no-debug --release
@@ -84,3 +84,4 @@ jobs:
         env:
           DB_HOST: postgres
           LUCKY_ENV: test
+          SHARDS_OVERRIDE: "$(pwd)/shard.override.yml"
