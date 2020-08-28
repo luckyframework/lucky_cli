@@ -13,7 +13,7 @@ jobs:
       image: crystallang/crystal:0.35.0
     steps:
       - uses: actions/checkout@v1
-      - name: Install shards
+      - name: Install dependencies
         run: shards install
       - name: Format
         run: crystal tool format --check
@@ -47,8 +47,18 @@ jobs:
           node-version: "12.x"
       - name: Install yarn
         run: npm install -g yarn
+      # This is needed in order to use shards overrides
+      - name: Install shards v0.12.0
+        run: |
+          git clone https://github.com/crystal-lang/shards.git
+          cd shards
+          git checkout v0.12.0
+          make CRFLAGS=--release
+          cp bin/shards /usr/local/bin
       - name: Run setup script
         run: ./script/setup
+      - name: Export SHARDS_OVERRIDE
+        run: source ./script/override_shards
       - name: Install Lucky CLI
         run: |
           crystal build src/lucky.cr --no-debug --release

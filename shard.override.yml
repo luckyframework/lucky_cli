@@ -1,0 +1,7 @@
+# This file is used to override the shards built by
+# generated Lucky apps. Comment these out if you want to
+# use the versions specified by these apps.
+dependencies:
+  lucky:
+    github: luckyframework/lucky
+    branch: master
