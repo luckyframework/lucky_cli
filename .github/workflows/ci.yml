@@ -13,8 +13,8 @@ jobs:
       image: crystallang/crystal:0.35.0
     steps:
       - uses: actions/checkout@v1
-      - name: Install shards
-        run: shards install
+      - name: Run setup script
+        run: ./script/setup
       - name: Format
         run: crystal tool format --check
       - name: Crystal Ameba Linter

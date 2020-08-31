@@ -6,4 +6,4 @@ set -o pipefail
 
 cp -n .env.sample .env || true
 
-shards install
+shards install --ignore-crystal-version
