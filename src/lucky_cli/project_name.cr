@@ -20,20 +20,18 @@ class LuckyCli::ProjectName
       <<-TEXT
       Project name can't be blank
       TEXT
+    elsif RESERVED_PROJECT_NAMES.includes?(sanitized_name)
+      <<-TEXT
+      Projects cannot be named #{RESERVED_PROJECT_NAMES.join(", ")}.
+
+      How about: 'my_lucky_app'?
+      TEXT
     else
-      if RESERVED_PROJECT_NAMES.includes?(sanitized_name)
-        <<-TEXT
-        Projects cannot be named #{RESERVED_PROJECT_NAMES.join(", ")}.
+      <<-TEXT
+      Project name should only contain lowercase letters, numbers, underscores, and dashes.
 
-        How about: 'my_lucky_app'?
-        TEXT
-      else
-        <<-TEXT
-        Project name should only contain lowercase letters, numbers, underscores, and dashes.
-
-        How about: '#{sanitized_name}'?
-        TEXT
-      end
+      How about: '#{sanitized_name}'?
+      TEXT
     end
   end
 
