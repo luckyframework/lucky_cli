@@ -1,4 +1,6 @@
 class LuckyCli::ProjectName
+  RESERVED_PROJECT_NAMES = {"app", "app_database", "app_server", "shards", "start_server"}
+
   getter name
   delegate empty?, to: name
 
@@ -10,13 +12,19 @@ class LuckyCli::ProjectName
   end
 
   def valid? : Bool
-    (sanitized_name == name) && !empty?
+    (sanitized_name == name) && !empty? && (!RESERVED_PROJECT_NAMES.includes?(sanitized_name))
   end
 
   def validation_error_message : String
     if empty?
       <<-TEXT
       Project name can't be blank
+      TEXT
+    elsif RESERVED_PROJECT_NAMES.includes?(sanitized_name)
+      <<-TEXT
+      Projects cannot be named #{RESERVED_PROJECT_NAMES.join(", ")}.
+
+      How about: 'my_lucky_app'?
       TEXT
     else
       <<-TEXT
