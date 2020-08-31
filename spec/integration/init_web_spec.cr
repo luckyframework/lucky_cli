@@ -94,6 +94,18 @@ describe "Initializing a new web project" do
     output.to_s.strip.should contain(message)
   end
 
+  it "does not create project if the project name is reserved" do
+    output = IO::Memory.new
+    Process.run(
+      "crystal run src/lucky.cr -- init.custom 'app'",
+      env: ENV.to_h,
+      output: output,
+      shell: true
+    )
+    message = "Projects cannot be named app, app_database, app_server, shards, start_server."
+    output.to_s.strip.should contain(message)
+  end
+
   it "translates dashes to underscores in the project name" do
     output = IO::Memory.new
     Process.run(
