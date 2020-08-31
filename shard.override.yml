@@ -1,11 +1,11 @@
 # This file is used to override the shards built by
-# generated Lucky apps. Comment these out if you want to
-# use the versions specified by these apps.
+# generated Lucky apps.
 
 # NOTE: https://github.com/crystal-lang/shards/issues/432
-# Until this is resolved, the default needs to be whatever the
-# default Lucky is.
-dependencies:
- lucky:
-   github: luckyframework/lucky
-   version: ~> 0.23.0
+# Until this is resolved, the default needs to be empty here.
+dependencies: {}
+# Uncomment if you need to override
+# dependencies:
+#   lucky:
+#     github: luckyframework/lucky
+#     branch: master
