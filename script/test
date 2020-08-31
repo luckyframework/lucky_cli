@@ -4,6 +4,8 @@
 set -e
 set -o pipefail
 
+source ./script/override_shards
+
 printf "\nChecking code formatting...\n\n"
 
 if ! crystal tool format --check src spec > /dev/null; then
