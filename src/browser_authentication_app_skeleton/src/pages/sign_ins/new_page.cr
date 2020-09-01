@@ -17,7 +17,7 @@ class SignIns::NewPage < AuthLayout
   end
 
   private def sign_in_fields(op)
-    m Shared::Field, attribute: op.email, label_text: "Email", &.email_input(autofocus: "true")
-    m Shared::Field, attribute: op.password, label_text: "Password", &.password_input
+    mount Shared::Field, attribute: op.email, label_text: "Email", &.email_input(autofocus: "true")
+    mount Shared::Field, attribute: op.password, label_text: "Password", &.password_input
   end
 end
