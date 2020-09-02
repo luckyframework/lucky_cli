@@ -12,7 +12,7 @@ jobs:
     container:
       image: crystallang/crystal:0.35.0
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Install shards
         run: shards install
       - name: Format
@@ -62,12 +62,12 @@ jobs:
           crystal build src/lucky.cr --no-debug --release
           cp lucky /usr/local/bin
       - name: Cache Crystal
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.cache/crystal
           key: ${{ runner.os }}-crystal
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
         with:
