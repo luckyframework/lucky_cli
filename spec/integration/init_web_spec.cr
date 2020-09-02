@@ -25,7 +25,7 @@ describe "Initializing a new web project" do
     should_run_successfully "crystal run src/lucky.cr -- init.custom test-project"
 
     FileUtils.cd "test-project" do
-      should_run_successfully "shards install"
+      should_run_successfully "shards install --ignore-crystal-version"
       should_run_successfully "lucky gen.action.api Api::Users::Show"
       should_run_successfully "lucky gen.action.browser Users::Show"
       should_run_successfully "lucky gen.migration CreateThings"
