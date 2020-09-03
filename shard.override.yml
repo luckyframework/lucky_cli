@@ -9,6 +9,3 @@ dependencies:
   lucky:
     github: luckyframework/lucky
     branch: master
-  wordsmith:
-    github: luckyframework/wordsmith
-    version: ~> 0.2.1
