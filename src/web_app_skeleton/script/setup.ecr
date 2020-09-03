@@ -22,7 +22,7 @@ print_done
 <%- end -%>
 
 notice "Installing shards"
-shards install | indent
+shards install --ignore-crystal-version | indent
 
 if [ ! -f ".env" ]; then
   notice "No .env found. Creating one."

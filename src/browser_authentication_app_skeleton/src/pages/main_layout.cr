@@ -27,10 +27,10 @@ abstract class MainLayout
     html_doctype
 
     html lang: "en" do
-      m Shared::LayoutHead, page_title: page_title, context: context
+      mount Shared::LayoutHead, page_title: page_title, context: context
 
       body do
-        m Shared::FlashMessages, context.flash
+        mount Shared::FlashMessages, context.flash
         render_signed_in_user
         content
       end
