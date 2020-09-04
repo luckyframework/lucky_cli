@@ -19,7 +19,7 @@ A Crystal library for creating and running tasks
 
 Run `which lucky` from the command line to make sure it is installed.
 
-**If you're generating a Lucky web project, [install the required dependencies](https://luckyframework.org/guides/getting-started/installing#install-required-dependencies). Then run `lucky init {project_name}`**
+**If you're generating a Lucky web project, [install the required dependencies](https://luckyframework.org/guides/getting-started/installing#install-required-dependencies). Then run `lucky init`**
 
 ## Using LuckyCli in a non-Lucky web app
 
