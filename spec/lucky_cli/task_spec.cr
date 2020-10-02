@@ -73,6 +73,12 @@ describe LuckyCli::Task do
       end
     end
 
+    it "provides an example for the error message on args" do
+      expect_raises(Exception, /Example: dark/) do
+        TaskWithRequiredFormatArgs.new.print_help_or_call(args: ["--theme=Spooky"])
+      end
+    end
+
     it "sets switch flags that default to false" do
       task = TaskWithSwitchFlags.new.print_help_or_call(args: [] of String).not_nil!
       task.admin?.should eq false
@@ -90,7 +96,13 @@ describe LuckyCli::Task do
     end
 
     it "raises an error if the positional arg doesn't match the format" do
-      expect_raises(Exception, /Invalid format for columns/) do
+      expect_raises(Exception, /Invalid format for model/) do
+        TaskWithPositionalArgs.new.print_help_or_call(args: ["user", "name"])
+      end
+    end
+
+    it "provides an example for the error message on positional_arg" do
+      expect_raises(Exception, /Example: name:String/) do
         TaskWithPositionalArgs.new.print_help_or_call(args: ["User", "name"])
       end
     end

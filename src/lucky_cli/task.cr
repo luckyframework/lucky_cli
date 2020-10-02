@@ -81,7 +81,8 @@ abstract class LuckyCli::Task
   # * `description` : String - The help text description for this option
   # * `to_end` : Bool - Capture all args from this position to the end.
   # * `format` : Regex - The format you expect the args to match
-  macro positional_arg(arg_name, description, to_end = false, format = nil)
+  # * `example` : String - An example string that matches the given `format`
+  macro positional_arg(arg_name, description, to_end = false, format = nil, example = nil)
     {% PARSER_OPTS << arg_name %}
     @{{ arg_name.id }} : {% if to_end %}Array(String){% else %}String{% end %} | Nil
 
@@ -94,7 +95,12 @@ abstract class LuckyCli::Task
       {% if format %}
       matches = value.is_a?(Array) ? value.all?(&.=~({{ format }})) : value =~ {{ format }}
       if !matches
-        raise "Invalid format for {{ arg_name.id }}. It should match {{ format }}"
+        raise <<-ERROR
+        Invalid format for {{ arg_name.id }}. It should match {{ format }}
+        {% if example %}
+          Example: {{ example.id }}
+        {% end %}
+        ERROR
       end
       {% end %}
       @{{ arg_name.id }} = value
@@ -117,7 +123,8 @@ abstract class LuckyCli::Task
   # * `shorcut` : String - An optional short flag (e.g. -a VALUE)
   # * `optional` : Bool - When false, raise exception if this arg is not passed
   # * `format` : Regex - The format you expect the args to match
-  macro arg(arg_name, description, shortcut = nil, optional = false, format = nil)
+  # * `example` : String - An example string that matches the given `format`
+  macro arg(arg_name, description, shortcut = nil, optional = false, format = nil, example = nil)
     {% PARSER_OPTS << arg_name %}
     @{{ arg_name.id }} : String?
 
@@ -130,7 +137,12 @@ abstract class LuckyCli::Task
         value = value.strip
         {% if format %}
         if value !~ {{ format }}
-          raise "Invalid format for {{ arg_name.id }}. It should match {{ format }}"
+          raise <<-ERROR
+          Invalid format for {{ arg_name.id }}. It should match {{ format }}
+          {% if example %}
+            Example: {{ example.id }}
+          {% end %}
+          ERROR
         end
         {% end %}
         @{{ arg_name.id }} = value
