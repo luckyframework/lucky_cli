@@ -3,6 +3,7 @@ abstract class LuckyCli::Task
     PARSER_OPTS = [] of Symbol
     @positional_arg_count : Int32 = 0
     property option_parser : OptionParser = OptionParser.new
+    property output : IO = STDOUT
 
     {% if !@type.abstract? %}
       LuckyCli::Runner.tasks << self.new

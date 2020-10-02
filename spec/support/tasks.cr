@@ -65,3 +65,12 @@ class TaskWithPositionalArgs < LuckyCli::Task
     self
   end
 end
+
+class TaskWithFancyOutput < LuckyCli::Task
+  summary "This is a task with some fancy output"
+
+  def call
+    output.puts "Fancy output".colorize.green
+    self
+  end
+end

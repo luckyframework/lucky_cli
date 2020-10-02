@@ -93,4 +93,14 @@ describe LuckyCli::Task do
       end
     end
   end
+
+  describe "output" do
+    it "allows you to specify where the output is written to" do
+      task = TaskWithFancyOutput.new
+      task.output = IO::Memory.new
+
+      task.call
+      task.output.to_s.should contain "Fancy output"
+    end
+  end
 end
