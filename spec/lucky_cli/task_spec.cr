@@ -27,16 +27,18 @@ describe LuckyCli::Task do
   describe "print_help_or_call" do
     it "prints the help_message for a found task when a help flag is passed" do
       %w(--help -h help).each do |help_arg|
-        io = IO::Memory.new
-        My::CoolTask.new.print_help_or_call(args: [help_arg], io: io)
-        io.to_s.should have_default_help_message
+        task = My::CoolTask.new
+        task.output = IO::Memory.new
+        task.print_help_or_call(args: [help_arg])
+        task.output.to_s.should have_default_help_message
       end
     end
 
     it "prints a custom help_message when set" do
-      io = IO::Memory.new
-      Some::Other::Task.new.print_help_or_call(args: ["-h"], io: io)
-      io.to_s.chomp.should eq "Custom help message"
+      task = Some::Other::Task.new
+      task.output = IO::Memory.new
+      task.print_help_or_call(args: ["-h"])
+      task.output.to_s.chomp.should eq "Custom help message"
     end
   end
 

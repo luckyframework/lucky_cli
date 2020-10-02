@@ -21,9 +21,9 @@ abstract class LuckyCli::Task
       TEXT
     end
 
-    def print_help_or_call(args : Array(String), io : IO = STDERR)
+    def print_help_or_call(args : Array(String))
       if wants_help_message?(args)
-        io.puts help_message
+        output.puts help_message
       else
         \{% for opt in @type.constant(:PARSER_OPTS) %}
         set_opt_for_\{{ opt.id }}(args)
