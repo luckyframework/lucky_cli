@@ -38,11 +38,6 @@ abstract class LuckyCli::Task
     end
   end
 
-  macro banner(banner_text)
-    {% puts "DEPRECATION WARNING: LuckyCli 'banner' has been renamed to 'summary'. Please use 'summary' in #{@type.name}" %}
-    summary({{banner_text}})
-  end
-
   macro summary(summary_text)
     def summary
       {{summary_text}}
