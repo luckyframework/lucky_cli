@@ -22,7 +22,7 @@ abstract class LuckyCli::Task
     end
 
     @[Deprecated("Set #output instead of passing in `io`")]
-    def print_help_or_call(args : Array(String), io : IO = STDERR)
+    def print_help_or_call(args : Array(String), io : IO)
       @output = io
       print_help_or_call(args)
     end
