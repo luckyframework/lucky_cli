@@ -3,6 +3,7 @@ abstract class LuckyCli::Task
     PARSER_OPTS = [] of Symbol
     @positional_arg_count : Int32 = 0
     property option_parser : OptionParser = OptionParser.new
+    property output : IO = STDOUT
 
     {% if !@type.abstract? %}
       LuckyCli::Runner.tasks << self.new
@@ -20,9 +21,15 @@ abstract class LuckyCli::Task
       TEXT
     end
 
-    def print_help_or_call(args : Array(String), io : IO = STDERR)
+    @[Deprecated("Set #output instead of passing in `io`")]
+    def print_help_or_call(args : Array(String), io : IO)
+      @output = io
+      print_help_or_call(args)
+    end
+
+    def print_help_or_call(args : Array(String))
       if wants_help_message?(args)
-        io.puts help_message
+        output.puts help_message
       else
         \{% for opt in @type.constant(:PARSER_OPTS) %}
         set_opt_for_\{{ opt.id }}(args)
@@ -35,11 +42,6 @@ abstract class LuckyCli::Task
     private def wants_help_message?(args)
       args.any? { |arg| {"--help", "-h", "help"}.includes?(arg) }
     end
-  end
-
-  macro banner(banner_text)
-    {% puts "DEPRECATION WARNING: LuckyCli 'banner' has been renamed to 'summary'. Please use 'summary' in #{@type.name}" %}
-    summary({{banner_text}})
   end
 
   macro summary(summary_text)
@@ -79,7 +81,8 @@ abstract class LuckyCli::Task
   # * `description` : String - The help text description for this option
   # * `to_end` : Bool - Capture all args from this position to the end.
   # * `format` : Regex - The format you expect the args to match
-  macro positional_arg(arg_name, description, to_end = false, format = nil)
+  # * `example` : String - An example string that matches the given `format`
+  macro positional_arg(arg_name, description, to_end = false, format = nil, example = nil)
     {% PARSER_OPTS << arg_name %}
     @{{ arg_name.id }} : {% if to_end %}Array(String){% else %}String{% end %} | Nil
 
@@ -92,7 +95,12 @@ abstract class LuckyCli::Task
       {% if format %}
       matches = value.is_a?(Array) ? value.all?(&.=~({{ format }})) : value =~ {{ format }}
       if !matches
-        raise "Invalid format for {{ arg_name.id }}. It should match {{ format }}"
+        raise <<-ERROR
+        Invalid format for {{ arg_name.id }}. It should match {{ format }}
+        {% if example %}
+          Example: {{ example.id }}
+        {% end %}
+        ERROR
       end
       {% end %}
       @{{ arg_name.id }} = value
@@ -115,7 +123,8 @@ abstract class LuckyCli::Task
   # * `shorcut` : String - An optional short flag (e.g. -a VALUE)
   # * `optional` : Bool - When false, raise exception if this arg is not passed
   # * `format` : Regex - The format you expect the args to match
-  macro arg(arg_name, description, shortcut = nil, optional = false, format = nil)
+  # * `example` : String - An example string that matches the given `format`
+  macro arg(arg_name, description, shortcut = nil, optional = false, format = nil, example = nil)
     {% PARSER_OPTS << arg_name %}
     @{{ arg_name.id }} : String?
 
@@ -128,7 +137,12 @@ abstract class LuckyCli::Task
         value = value.strip
         {% if format %}
         if value !~ {{ format }}
-          raise "Invalid format for {{ arg_name.id }}. It should match {{ format }}"
+          raise <<-ERROR
+          Invalid format for {{ arg_name.id }}. It should match {{ format }}
+          {% if example %}
+            Example: {{ example.id }}
+          {% end %}
+          ERROR
         end
         {% end %}
         @{{ arg_name.id }} = value
