@@ -6,7 +6,7 @@
 lucky
 .env
 /test-project/
-/node_modules
+node_modules
 /tmp/
 
 # Libraries don't need dependency lock
