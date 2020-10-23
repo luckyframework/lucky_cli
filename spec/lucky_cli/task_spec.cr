@@ -27,16 +27,18 @@ describe LuckyCli::Task do
   describe "print_help_or_call" do
     it "prints the help_message for a found task when a help flag is passed" do
       %w(--help -h help).each do |help_arg|
-        io = IO::Memory.new
-        My::CoolTask.new.print_help_or_call(args: [help_arg], io: io)
-        io.to_s.should have_default_help_message
+        task = My::CoolTask.new
+        task.output = IO::Memory.new
+        task.print_help_or_call(args: [help_arg])
+        task.output.to_s.should have_default_help_message
       end
     end
 
     it "prints a custom help_message when set" do
-      io = IO::Memory.new
-      Some::Other::Task.new.print_help_or_call(args: ["-h"], io: io)
-      io.to_s.chomp.should eq "Custom help message"
+      task = Some::Other::Task.new
+      task.output = IO::Memory.new
+      task.print_help_or_call(args: ["-h"])
+      task.output.to_s.chomp.should eq "Custom help message"
     end
   end
 
@@ -71,6 +73,12 @@ describe LuckyCli::Task do
       end
     end
 
+    it "provides an example for the error message on args" do
+      expect_raises(Exception, /Example: dark/) do
+        TaskWithRequiredFormatArgs.new.print_help_or_call(args: ["--theme=Spooky"])
+      end
+    end
+
     it "sets switch flags that default to false" do
       task = TaskWithSwitchFlags.new.print_help_or_call(args: [] of String).not_nil!
       task.admin?.should eq false
@@ -88,9 +96,25 @@ describe LuckyCli::Task do
     end
 
     it "raises an error if the positional arg doesn't match the format" do
-      expect_raises(Exception, /Invalid format for columns/) do
+      expect_raises(Exception, /Invalid format for model/) do
+        TaskWithPositionalArgs.new.print_help_or_call(args: ["user", "name"])
+      end
+    end
+
+    it "provides an example for the error message on positional_arg" do
+      expect_raises(Exception, /Example: name:String/) do
         TaskWithPositionalArgs.new.print_help_or_call(args: ["User", "name"])
       end
+    end
+  end
+
+  describe "output" do
+    it "allows you to specify where the output is written to" do
+      task = TaskWithFancyOutput.new
+      task.output = IO::Memory.new
+
+      task.call
+      task.output.to_s.should contain "Fancy output"
     end
   end
 end
