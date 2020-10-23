@@ -1,0 +1,19 @@
+version: 2
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: master
+    reviewers:
+      - stephendolan
+
+  - package-ecosystem: npm
+    directory: "/src/browser-app-skeleton"
+    schedule:
+      interval: daily
+    target-branch: master
+    versioning-strategy: increase
+    reviewers:
+      - stephendolan
