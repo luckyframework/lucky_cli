@@ -40,11 +40,11 @@ class Shared::Field(T) < BaseComponent
 
     # You can add more default options here. For example:
     #
-    #    with_defaults field: attribute, class: "input"
+    #    tag_defaults field: attribute, class: "input"
     #
     # Will add the class "input" to the generated HTML.
-    with_defaults field: attribute do |input_builder|
-      yield input_builder
+    tag_defaults field: attribute do |tag_builder|
+      yield tag_builder
     end
 
     mount Shared::FieldErrors, attribute
