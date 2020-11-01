@@ -26,7 +26,7 @@ class LuckyCli::BuildAndRunTask
   end
 
   private def build_tasks_binary
-    LuckyCli::Spinner.start("Compiling...") do
+    with_spinner("Compiling...") do
       Process.run(
         "crystal build #{tasks_file} -o #{tasks_binary_path} ",
         shell: true,
@@ -56,5 +56,14 @@ class LuckyCli::BuildAndRunTask
       output: STDOUT,
       error: STDERR
     ).exit_code
+  end
+
+  private def with_spinner(start_text)
+    if ENV.has_key?("CI")
+      STDERR.puts start_text.colorize.bold
+      yield
+    else
+      LuckyCli::Spinner.start(start_text) { yield }
+    end
   end
 end
