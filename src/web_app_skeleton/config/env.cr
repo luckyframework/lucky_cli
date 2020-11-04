@@ -10,7 +10,7 @@ module Lucky::Env
   def name
     ENV["LUCKY_ENV"]? || "development"
   end
-  
+
   def task?
     ENV["LUCKY_TASK"]? == "true"
   end
