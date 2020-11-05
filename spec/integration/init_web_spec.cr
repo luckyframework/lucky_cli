@@ -135,15 +135,19 @@ end
 
 private def with_project_cleanup(project_directory = "test-project")
   root_directory = FileUtils.pwd
-  yield
-  output = IO::Memory.new
-  Process.run(
-    "lucky db.drop",
-    env: ENV.to_h,
-    output: output,
-    shell: true
-  )
-  output.to_s.should contain("Done dropping")
-  FileUtils.cd root_directory
-  FileUtils.rm_rf project_directory
+
+  begin
+    yield
+    output = IO::Memory.new
+    Process.run(
+      "lucky db.drop",
+      env: ENV.to_h,
+      output: output,
+      shell: true
+    )
+    output.to_s.should contain("Done dropping")
+  ensure
+    FileUtils.cd root_directory
+    FileUtils.rm_rf project_directory
+  end
 end
