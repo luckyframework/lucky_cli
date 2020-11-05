@@ -1,4 +1,4 @@
-class LuckyCli::CustomInit < LuckyCli::Init
+class LuckyCli::InitCustom < LuckyCli::Init
   def run
     project_name = ProjectName.new(ARGV[1]? || "")
 
