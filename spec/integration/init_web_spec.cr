@@ -94,6 +94,7 @@ describe "Initializing a new web project" do
     )
     message = "Folder named test-project already exists, please use a different name"
     output.to_s.strip.should contain(message)
+    FileUtils.rm_rf "test-project"
   end
 
   it "does not create project if project name is not a valid project name" do
@@ -134,20 +135,18 @@ private def compile_and_run_specs_on_test_project
 end
 
 private def with_project_cleanup(project_directory = "test-project")
-  root_directory = FileUtils.pwd
+  yield
 
-  begin
-    yield
+  FileUtils.cd project_directory do
     output = IO::Memory.new
     Process.run(
       "lucky db.drop",
-      env: ENV.to_h,
       output: output,
       shell: true
     )
+
     output.to_s.should contain("Done dropping")
-  ensure
-    FileUtils.cd root_directory
-    FileUtils.rm_rf project_directory
   end
+ensure
+  FileUtils.rm_rf project_directory
 end
