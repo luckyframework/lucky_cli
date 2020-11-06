@@ -31,7 +31,8 @@ module LuckyCli
     end
 
     private def run(process, args)
-      # When Ctrl+C is pressed, wait for the child process to handle the signal and finish - rather than us immediately exiting and leaving it to log shutting down messages from the background
+      # When Ctrl+C is pressed, wait for the child process to handle the signal and finish - 
+      # rather than us immediately exiting and leaving it to log "shutting down" messages from the background
       Signal::INT.trap { }
 
       process.run command, args,
