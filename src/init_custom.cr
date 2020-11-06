@@ -1,4 +1,4 @@
-class LuckyCli::CustomInit < LuckyCli::Init
+class LuckyCli::InitCustom < LuckyCli::Init
   def run
     project_name = ProjectName.new(ARGV[1]? || "")
 
@@ -16,12 +16,12 @@ class LuckyCli::CustomInit < LuckyCli::Init
     project_directory = "."
     OptionParser.parse do |parser|
       parser.banner = <<-TEXT
-      Usage: lucky custom.init NAME [arguments]
+      Usage: lucky init.custom NAME [arguments]
 
       Examples:
 
-        lucky custom.init my_project
-        lucky custom.init my_api --api --no-auth --dir ~/Projects/
+        lucky init.custom my_project
+        lucky init.custom my_api --api --no-auth --dir ~/Projects/
 
       TEXT
       parser.on("--api", "Generates an api-only web app") { api_only = true }
