@@ -151,11 +151,10 @@ jobs:
             ${{ runner.os }}-
       - name: Run tests
         run: |
-          export SHARDS_OVERRIDE="$(pwd)/shard.override.yml"
           lucky init.custom test-project ${{ matrix.flags }}
           cd test-project
           crystal tool format --check
-          script/setup
+          SHARDS_OVERRIDE="../shard.override.yml" script/setup
           crystal spec
         env:
           DB_HOST: postgres
