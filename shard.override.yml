@@ -9,3 +9,6 @@ dependencies:
   lucky:
     github: luckyframework/lucky
     branch: master
+  avram:
+    github: luckyframework/avram
+    branch: master

@@ -35,7 +35,7 @@ elsif task_name == "gen.tasks_file"
 elsif task_name == "init"
   LuckyCli::Init.run
 elsif task_name == "init.custom"
-  LuckyCli::CustomInit.run
+  LuckyCli::InitCustom.run
 elsif ["-v", "--version"].includes?(task_name)
   puts LuckyCli::VERSION
 elsif task_precompiled?
