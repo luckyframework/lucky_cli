@@ -75,7 +75,7 @@ describe "Initializing a new web project" do
 
   it "creates a full app in a different directory" do
     puts "Web app with custom directory: Running integration spec.".colorize(:yellow)
-    with_project_cleanup(project_directory: "/tmp/home/bob/test-project") do
+    with_project_cleanup(project_directory: "/tmp/home/bob/test-project", skip_db_drop: true) do
       FileUtils.mkdir_p "/tmp/home/bob"
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --dir /tmp/home/bob"
       FileUtils.cd "/tmp/home/bob/test-project" do
@@ -94,6 +94,7 @@ describe "Initializing a new web project" do
     )
     message = "Folder named test-project already exists, please use a different name"
     output.to_s.strip.should contain(message)
+    FileUtils.rm_rf "test-project"
   end
 
   it "does not create project if project name is not a valid project name" do
@@ -133,21 +134,19 @@ private def compile_and_run_specs_on_test_project
   end
 end
 
-private def with_project_cleanup(project_directory = "test-project")
-  root_directory = FileUtils.pwd
+private def with_project_cleanup(project_directory = "test-project", skip_db_drop = false)
+  yield
 
-  begin
-    yield
+  FileUtils.cd(project_directory) {
     output = IO::Memory.new
     Process.run(
       "lucky db.drop",
-      env: ENV.to_h,
       output: output,
       shell: true
     )
+
     output.to_s.should contain("Done dropping")
-  ensure
-    FileUtils.cd root_directory
-    FileUtils.rm_rf project_directory
-  end
+  } unless skip_db_drop
+ensure
+  FileUtils.rm_rf project_directory
 end
