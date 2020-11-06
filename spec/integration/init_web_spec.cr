@@ -75,7 +75,7 @@ describe "Initializing a new web project" do
 
   it "creates a full app in a different directory" do
     puts "Web app with custom directory: Running integration spec.".colorize(:yellow)
-    with_project_cleanup(project_directory: "/tmp/home/bob/test-project") do
+    with_project_cleanup(project_directory: "/tmp/home/bob/test-project", skip_db_drop: true) do
       FileUtils.mkdir_p "/tmp/home/bob"
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --dir /tmp/home/bob"
       FileUtils.cd "/tmp/home/bob/test-project" do
@@ -134,7 +134,7 @@ private def compile_and_run_specs_on_test_project
   end
 end
 
-private def with_project_cleanup(project_directory = "test-project")
+private def with_project_cleanup(project_directory = "test-project", skip_db_drop = false)
   yield
 
   FileUtils.cd project_directory do
@@ -143,7 +143,7 @@ private def with_project_cleanup(project_directory = "test-project")
       "lucky db.drop",
       output: output,
       shell: true
-    )
+    ) unless skip_db_drop
 
     output.to_s.should contain("Done dropping")
   end
