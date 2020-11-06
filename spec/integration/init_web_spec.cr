@@ -137,16 +137,16 @@ end
 private def with_project_cleanup(project_directory = "test-project", skip_db_drop = false)
   yield
 
-  FileUtils.cd project_directory do
+  FileUtils.cd(project_directory) {
     output = IO::Memory.new
     Process.run(
       "lucky db.drop",
       output: output,
       shell: true
-    ) unless skip_db_drop
+    )
 
     output.to_s.should contain("Done dropping")
-  end
+   } unless skip_db_drop
 ensure
   FileUtils.rm_rf project_directory
 end
