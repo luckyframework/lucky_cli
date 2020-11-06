@@ -146,7 +146,7 @@ private def with_project_cleanup(project_directory = "test-project", skip_db_dro
     )
 
     output.to_s.should contain("Done dropping")
-   } unless skip_db_drop
+  } unless skip_db_drop
 ensure
   FileUtils.rm_rf project_directory
 end
