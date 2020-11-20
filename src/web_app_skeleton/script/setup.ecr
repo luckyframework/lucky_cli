@@ -40,8 +40,8 @@ notice "Migrating the database"
 lucky db.migrate | indent
 
 notice "Seeding the database with required and sample records"
-lucky db.create_required_seeds | indent
-lucky db.create_sample_seeds | indent
+lucky db.seed.required_data | indent
+lucky db.seed.sample_data | indent
 
 print_done
 notice "Run 'lucky dev' to start the app"
