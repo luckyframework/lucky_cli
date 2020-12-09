@@ -66,8 +66,6 @@ class LuckyCli::Generators::Web
 
   private def setup_gitignore
     append_text to: ".gitignore", text: <<-TEXT
-    start_server
-    *.dwarf
     *.local.cr
     .env
     /tmp
@@ -152,8 +150,7 @@ class LuckyCli::Generators::Web
     append_text to: "shard.yml", text: <<-DEPS_LIST
     dependencies:
       lucky:
-        github: luckyframework/lucky
-        version: ~> 0.24.0
+        path: /Users/robert/Documents/repositories/luckyframework/lucky
       authentic:
         github: luckyframework/authentic
         version: ~> 0.7.0
