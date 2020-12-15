@@ -156,7 +156,7 @@ class LuckyCli::Generators::Web
         version: ~> 0.25.0
       authentic:
         github: luckyframework/authentic
-        version: ~> 0.7.0
+        version: ~> 0.7.1
       carbon:
         github: luckyframework/carbon
         version: ~> 0.1.2
