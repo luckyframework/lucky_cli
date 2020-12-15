@@ -12,3 +12,6 @@ dependencies:
   avram:
     github: luckyframework/avram
     branch: master
+  lucky_flow:
+    github: luckyframework/lucky_flow
+    branch: master
