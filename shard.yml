@@ -1,5 +1,5 @@
 name: lucky_cli
-version: 0.24.0
+version: 0.25.0
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -16,5 +16,4 @@ dependencies:
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    branch: master
-    #version: ~> 0.13
+    version: ~> 0.13
