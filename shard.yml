@@ -5,7 +5,6 @@ authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
 crystal: 0.35.1
-
 license: MIT
 
 dependencies:
