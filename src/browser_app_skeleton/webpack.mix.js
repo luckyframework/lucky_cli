@@ -27,7 +27,7 @@ if (mix.inProduction()) {
   })
   plugins.push(gzipCompression)
 
-  // Add additional compression plugins here. 
+  // Add additional compression plugins here.
   // For example if you want to add Brotli compression:
   //
   // let brotliCompression = new CompressionWepackPlugin({
@@ -40,11 +40,13 @@ if (mix.inProduction()) {
 }
 
 mix
+  // Set public path so manifest gets output here
+  .setPublicPath("public")
   // JS entry file. Supports Vue, and uses Babel
   //
   // More info and options (like React support) here:
   // https://github.com/JeffreyWay/laravel-mix/blob/master/docs/mixjs.md
-  .js("src/js/app.js", "public/js")
+  .js("src/js/app.js", "js")
   // SASS entry file. Uses autoprefixer automatically.
   .sass("src/css/app.scss", "css")
   // Customize postCSS:
@@ -56,8 +58,6 @@ mix
     // Stops Mix from clearing the console when compilation succeeds
     clearConsole: false
   })
-  // Set public path so manifest gets output here
-  .setPublicPath("public")
   // Add assets to the manifest
   .version(["public/assets"])
   // Reduce noise in Webpack output
