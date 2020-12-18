@@ -46,7 +46,7 @@ mix
   // https://github.com/JeffreyWay/laravel-mix/blob/master/docs/mixjs.md
   .js("src/js/app.js", "public/js")
   // SASS entry file. Uses autoprefixer automatically.
-  .sass("src/css/app.scss", "public/css")
+  .sass("src/css/app.scss", "css")
   // Customize postCSS:
   // https://github.com/JeffreyWay/laravel-mix/blob/master/docs/css-preprocessors.md#postcss-plugins
   .options({
@@ -73,7 +73,6 @@ mix
 
 // Full API
 // Docs: https://github.com/JeffreyWay/laravel-mix/tree/master/docs#readme
-// Source: node_modules/laravel-mix/setup/webpack.mix.js
 //
 // mix.js(src, output);
 // mix.react(src, output); <-- Identical to mix.js(), but registers React Babel compilation.
