@@ -26,9 +26,12 @@ class LuckyCli::BuildAndRunTask
   end
 
   private def build_tasks_binary
+    command = "crystal build #{tasks_file} -o #{tasks_binary_path}"
+    command += " --error-trace" if args.includes?("--error-trace")
+
     with_spinner("Compiling...") do
       Process.run(
-        "crystal build #{tasks_file} -o #{tasks_binary_path} ",
+        command,
         shell: true,
         input: STDIN,
         output: temp_stdout,
