@@ -108,7 +108,7 @@ jobs:
       run: |
         ./lucky_tasks db.create
         ./lucky_tasks db.migrate
-        ./lucky_tasks db.create_required_seeds
+        ./lucky_tasks db.seed.required_data
 
     - name: Run tests
       run: crystal spec
