@@ -4,6 +4,10 @@ version: 0.25.0
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
+targets:
+  lucky:
+    main: src/lucky.cr
+
 crystal: 0.35.1
 
 license: MIT
