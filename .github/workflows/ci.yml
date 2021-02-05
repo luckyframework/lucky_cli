@@ -10,7 +10,7 @@ jobs:
   check_format:
     runs-on: ubuntu-latest
     container:
-      image: crystallang/crystal:0.35.1
+      image: crystallang/crystal:0.36.1
     steps:
       - uses: actions/checkout@v2
       - name: Install shards
@@ -23,7 +23,7 @@ jobs:
   specs:
     runs-on: ubuntu-latest
     container:
-      image: crystallang/crystal:0.35.1
+      image: crystallang/crystal:0.36.1
     services:
       postgres:
         image: postgres
@@ -47,14 +47,6 @@ jobs:
           node-version: "12.x"
       - name: Install yarn
         run: npm install -g yarn
-      # This is needed in order to use shards overrides
-      - name: Install shards v0.12.0
-        run: |
-          git clone https://github.com/crystal-lang/shards.git
-          cd shards
-          git checkout v0.12.0
-          make CRFLAGS=--release
-          cp bin/shards /usr/local/bin
       - name: Run setup script
         run: ./script/setup
       - name: Install Lucky CLI
