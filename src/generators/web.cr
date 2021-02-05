@@ -156,7 +156,7 @@ class LuckyCli::Generators::Web
         version: ~> 0.26.0
       authentic:
         github: luckyframework/authentic
-        version: ~> 0.7.1
+        version: ~> 0.7.2
       carbon:
         github: luckyframework/carbon
         version: ~> 0.1.2
@@ -169,7 +169,7 @@ class LuckyCli::Generators::Web
       append_text to: "shard.yml", text: <<-DEPS_LIST
         lucky_flow:
           github: luckyframework/lucky_flow
-          version: ~> 0.7.1
+          version: ~> 0.7.2
       DEPS_LIST
     end
 
@@ -177,7 +177,7 @@ class LuckyCli::Generators::Web
       append_text to: "shard.yml", text: <<-DEPS_LIST
         jwt:
           github: crystal-community/jwt
-          version: ~> 1.4.2
+          version: ~> 1.5.0
       DEPS_LIST
     end
   end
