@@ -165,19 +165,20 @@ class LuckyCli::Generators::Web
         version: ~> 0.7.0
     DEPS_LIST
 
-    if browser?
-      append_text to: "shard.yml", text: <<-DEPS_LIST
-        lucky_flow:
-          github: luckyframework/lucky_flow
-          version: ~> 0.7.2
-      DEPS_LIST
-    end
-
     if generate_auth?
       append_text to: "shard.yml", text: <<-DEPS_LIST
         jwt:
           github: crystal-community/jwt
           version: ~> 1.5.0
+      DEPS_LIST
+    end
+
+    if browser?
+      append_text to: "shard.yml", text: <<-DEPS_LIST
+      development_dependencies:
+        lucky_flow:
+          github: luckyframework/lucky_flow
+          version: ~> 0.7.2
       DEPS_LIST
     end
   end
