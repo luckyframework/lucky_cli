@@ -54,12 +54,12 @@ jobs:
           crystal build src/lucky.cr --no-debug --release
           cp lucky /usr/local/bin
       - name: Cache Crystal
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         with:
           path: ~/.cache/crystal
           key: ${{ runner.os }}-crystal
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         env:
           cache-name: cache-node-modules
         with:
