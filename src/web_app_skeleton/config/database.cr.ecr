@@ -3,7 +3,7 @@ def database_url_credentials
 end
 
 def database
-  "<%= crystal_project_name %>_#{Lucky::Env.name}"
+  database_url_credentials.try(&.database) || ENV["DB_NAME"]? || <%= crystal_project_name %>
 end
 
 def hostname
@@ -25,17 +25,13 @@ def password
 end
 
 AppDatabase.configure do |settings|
-  if Lucky::Env.production?
-    settings.credentials = Avram::Credentials.parse(ENV["DATABASE_URL"])
-  else
-    settings.credentials = Avram::Credentials.new(
-      database: database,
-      hostname: hostname,
-      port: port,
-      username: username,
-      password: password
-    )
-  end
+  settings.credentials = Avram::Credentials.new(
+    database: database,
+    hostname: hostname,
+    port: port,
+    username: username,
+    password: password
+  )
 end
 
 Avram.configure do |settings|
