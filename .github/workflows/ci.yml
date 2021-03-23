@@ -8,22 +8,38 @@ on:
 
 jobs:
   check_format:
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal_version:
+          - 0.36.1
+          - 1.0.0
+        experimental:
+          - false
     runs-on: ubuntu-latest
-    container:
-      image: crystallang/crystal:0.36.1
+    continue-on-error: ${{ matrix.experimental }}
+    container: crystallang/crystal:${{ matrix.crystal_version }}-alpine
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v1
       - name: Install shards
         run: shards install
       - name: Format
         run: crystal tool format --check
-      - name: Crystal Ameba Linter
+      - name: Lint
         run: ./bin/ameba
 
   specs:
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal_version:
+          - 0.36.1
+          - 1.0.0
+        experimental:
+          - false
     runs-on: ubuntu-latest
-    container:
-      image: crystallang/crystal:0.36.1
+    continue-on-error: ${{ matrix.experimental }}
+    container: crystallang/crystal:${{ matrix.crystal_version }}-alpine
     services:
       postgres:
         image: postgres
@@ -47,17 +63,6 @@ jobs:
           node-version: "12.x"
       - name: Install yarn
         run: npm install -g yarn
-      - name: Run setup script
-        run: ./script/setup
-      - name: Install Lucky CLI
-        run: |
-          crystal build src/lucky.cr --no-debug --release
-          cp lucky /usr/local/bin
-      - name: Cache Crystal
-        uses: actions/cache@v2.1.4
-        with:
-          path: ~/.cache/crystal
-          key: ${{ runner.os }}-crystal
       - name: Cache node modules
         uses: actions/cache@v2.1.4
         env:
@@ -69,6 +74,17 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - name: Cache Crystal
+        uses: actions/cache@v2.1.4
+        with:
+          path: ~/.cache/crystal
+          key: ${{ runner.os }}-crystal
+      - name: Run setup script
+        run: ./script/setup
+      - name: Install Lucky CLI
+        run: |
+          crystal build src/lucky.cr --no-debug --release
+          cp lucky /usr/local/bin
       - name: Run tests
         run: |
           export SHARDS_OVERRIDE="$(pwd)/shard.override.yml"
