@@ -18,7 +18,7 @@ jobs:
           - false
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
-    container: crystallang/crystal:${{ matrix.crystal_version }}-alpine
+    container: crystallang/crystal:${{ matrix.crystal_version }}
     steps:
       - uses: actions/checkout@v1
       - name: Install shards
@@ -39,10 +39,10 @@ jobs:
           - false
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
-    container: crystallang/crystal:${{ matrix.crystal_version }}-alpine
+    container: crystallang/crystal:${{ matrix.crystal_version }}
     services:
       postgres:
-        image: postgres
+        image: postgres:10-alpine
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
