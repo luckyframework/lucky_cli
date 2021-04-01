@@ -15,7 +15,7 @@ license: MIT
 dependencies:
   teeplate:
     github: luckyframework/teeplate
-    branch: master
+    version: ~> 0.8.3
 
 development_dependencies:
   ameba:

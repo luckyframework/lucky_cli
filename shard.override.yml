@@ -12,11 +12,3 @@ dependencies:
   authentic:
     github: luckyframework/authentic
     branch: master
-  carbon:
-    github: luckyframework/carbon
-    branch: master
-
-development_dependencies:
-  lucky_flow:
-    github: luckyframework/lucky_flow
-    branch: master

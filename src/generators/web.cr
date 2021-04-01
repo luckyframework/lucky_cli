@@ -159,7 +159,7 @@ class LuckyCli::Generators::Web
         version: ~> 0.7.2
       carbon:
         github: luckyframework/carbon
-        version: ~> 0.1.2
+        version: ~> 0.1.4
       dotenv:
         github: gdotdesign/cr-dotenv
         version: ~> 1.0.0
@@ -178,7 +178,7 @@ class LuckyCli::Generators::Web
       development_dependencies:
         lucky_flow:
           github: luckyframework/lucky_flow
-          version: ~> 0.7.2
+          version: ~> 0.7.3
       DEPS_LIST
     end
   end
