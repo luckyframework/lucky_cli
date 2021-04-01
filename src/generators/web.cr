@@ -162,7 +162,7 @@ class LuckyCli::Generators::Web
         version: ~> 0.1.2
       dotenv:
         github: gdotdesign/cr-dotenv
-        version: ~> 0.7.0
+        version: ~> 1.0.0
     DEPS_LIST
 
     if generate_auth?
