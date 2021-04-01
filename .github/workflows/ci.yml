@@ -20,7 +20,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     container: crystallang/crystal:${{ matrix.crystal_version }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2.3.4
       - name: Install shards
         run: shards install
       - name: Format
@@ -55,7 +55,7 @@ jobs:
         run: |
           apt-get update
           apt-get -yqq install libpq-dev postgresql-client
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
       - name: Install browser
         run: apt-get -yqq install chromium-browser
       - uses: actions/setup-node@v2.1.5
