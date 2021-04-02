@@ -15,6 +15,9 @@ Lucky::CookieJar.configure do |settings|
     # Restrict cookies to a first-party or same-site context
     cookie.samesite(:lax)
 
+    # Set all cookies to the root path by default
+    cookie.path("/")
+
     # You can set other defaults for cookies here. For example:
     #
     #    cookie.expires(1.year.from_now).domain("mydomain.com")
