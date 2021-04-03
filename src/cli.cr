@@ -1,10 +1,5 @@
-require "colorize"
-require "./lucky_cli/spinner"
 require "./lucky_cli"
-require "./generators/*"
-require "./dev"
-require "./build_and_run_task"
-require "./ensure_process_runner_installed"
+require "./cli/base"
 
 include LuckyCli::TextHelpers
 

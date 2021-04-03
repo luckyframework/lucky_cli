@@ -1,3 +1,5 @@
+require "../wizard/*"
+
 class LuckyCli::Init
   def self.run
     new.run

@@ -1,4 +1,3 @@
-require "colorize"
 require "./text_helpers"
 
 class LuckyCli::Runner

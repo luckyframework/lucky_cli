@@ -6,7 +6,7 @@ describe "Initializing a new web project" do
   it "creates a full web app successfully" do
     puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
-      should_run_successfully "crystal run src/lucky.cr -- init.custom test-project"
+      should_run_successfully "crystal run src/cli.cr -- init.custom test-project"
       FileUtils.cp("spec/support/cat.gif", "test-project/public/assets/images/")
 
       # Testing that dashes are translated to underscores
@@ -28,7 +28,7 @@ describe "Initializing a new web project" do
   it "creates a full web app with generator" do
     puts "Web app generators: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
-      should_run_successfully "crystal run src/lucky.cr -- init.custom test-project"
+      should_run_successfully "crystal run src/cli.cr -- init.custom test-project"
 
       FileUtils.cd "test-project" do
         should_run_successfully "shards install --ignore-crystal-version"
@@ -53,7 +53,7 @@ describe "Initializing a new web project" do
   it "creates an api only web app successfully" do
     puts "Api only: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
-      should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --api"
+      should_run_successfully "crystal run src/cli.cr -- init.custom test-project --api"
       compile_and_run_specs_on_test_project
     end
   end
@@ -61,7 +61,7 @@ describe "Initializing a new web project" do
   it "creates an api only app without auth" do
     puts "Api only without auth: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
-      should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --api --no-auth"
+      should_run_successfully "crystal run src/cli.cr -- init.custom test-project --api --no-auth"
       compile_and_run_specs_on_test_project
     end
   end
@@ -69,7 +69,7 @@ describe "Initializing a new web project" do
   it "creates a full app without auth" do
     puts "Web app without auth: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
-      should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --no-auth"
+      should_run_successfully "crystal run src/cli.cr -- init.custom test-project --no-auth"
       compile_and_run_specs_on_test_project
     end
   end
@@ -78,7 +78,7 @@ describe "Initializing a new web project" do
     puts "Web app with custom directory: Running integration spec.".colorize(:yellow)
     with_project_cleanup(project_directory: "/tmp/home/bob/test-project", skip_db_drop: true) do
       FileUtils.mkdir_p "/tmp/home/bob"
-      should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --dir /tmp/home/bob"
+      should_run_successfully "crystal run src/cli.cr -- init.custom test-project --dir /tmp/home/bob"
       FileUtils.cd "/tmp/home/bob/test-project" do
         File.read("src/shards.cr").should contain "lucky"
       end
@@ -89,7 +89,7 @@ describe "Initializing a new web project" do
     FileUtils.mkdir "test-project"
     output = IO::Memory.new
     Process.run(
-      "crystal run src/lucky.cr -- init.custom test-project",
+      "crystal run src/cli.cr -- init.custom test-project",
       output: output,
       shell: true
     )
@@ -101,7 +101,7 @@ describe "Initializing a new web project" do
   it "does not create project if project name is not a valid project name" do
     output = IO::Memory.new
     Process.run(
-      "crystal run src/lucky.cr -- init.custom 'test project'",
+      "crystal run src/cli.cr -- init.custom 'test project'",
       env: ENV.to_h,
       output: output,
       shell: true
@@ -113,7 +113,7 @@ describe "Initializing a new web project" do
   it "does not create project if the project name is reserved" do
     output = IO::Memory.new
     Process.run(
-      "crystal run src/lucky.cr -- init.custom 'app'",
+      "crystal run src/cli.cr -- init.custom 'app'",
       env: ENV.to_h,
       output: output,
       shell: true

@@ -1,5 +1,3 @@
-require "teeplate"
-require "./lucky_cli/**"
-require "./generators/*"
-require "./init"
-require "./init_custom"
+require "colorize"
+require "option_parser"
+require "./lucky_cli/*"

@@ -1,7 +1,7 @@
 require "random/secure"
 
 class SrcTemplate < Teeplate::FileTree
-  directory "#{__DIR__}/../web_app_skeleton"
+  directory "#{__DIR__}/../skeletons/web_app_skeleton"
   getter project_name
   getter? api_only, generate_auth
   getter crystal_project_name : String

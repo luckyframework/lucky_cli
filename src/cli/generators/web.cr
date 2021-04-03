@@ -1,4 +1,4 @@
-require "option_parser"
+require "../templates/*"
 
 class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers

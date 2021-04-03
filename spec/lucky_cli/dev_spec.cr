@@ -1,5 +1,4 @@
 require "../spec_helper"
-require "../../src/dev"
 
 private class FakeProcessRunner
   property? started : Bool = false

@@ -14,7 +14,8 @@ A Crystal library for creating and running tasks
 2.  Clone the repo `git clone https://github.com/luckyframework/lucky_cli`
 3.  Go to the repo directory `cd lucky_cli`
 4.  Run `shards install`
-5.  Run `crystal build src/lucky.cr -o /usr/local/bin/lucky`
+5.  Run `shards build`
+6.  Run `mv lucky /usr/local/bin`
     (instead of `/usr/local/bin/` destination you can choose any other directory that in `$PATH`)
 
 Run `which lucky` from the command line to make sure it is installed.

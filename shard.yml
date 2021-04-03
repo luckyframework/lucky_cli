@@ -6,7 +6,7 @@ authors:
 
 targets:
   lucky:
-    main: src/lucky.cr
+    main: src/cli.cr
 
 crystal: ">= 0.36.1, < 2.0.0"
 

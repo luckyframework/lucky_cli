@@ -8,7 +8,7 @@ describe "Running a task" do
   it "runs precompiled tasks" do
     io = IO::Memory.new
 
-    run("crystal src/lucky.cr precompiled_task", output: io)
+    run("crystal src/cli.cr precompiled_task", output: io)
 
     io.to_s.should eq "Ran precompiled task\n"
   end
@@ -16,7 +16,7 @@ describe "Running a task" do
   it "allows tasks to accept input from STDIN" do
     io = IO::Memory.new
 
-    run("echo 'hello world' | LUCKY_TASKS_FILE=./spec/tasks.cr crystal src/lucky.cr task_with_input", output: io)
+    run("echo 'hello world' | LUCKY_TASKS_FILE=./spec/tasks.cr crystal src/cli.cr task_with_input", output: io)
 
     io.to_s.should eq "input: hello world\n"
   end

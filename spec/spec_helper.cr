@@ -3,6 +3,7 @@ require "file_utils"
 require "json"
 require "http"
 require "../src/lucky_cli"
+require "../src/cli/base"
 require "./support/**"
 
 FileUtils.mkdir_p("bin/lucky")
