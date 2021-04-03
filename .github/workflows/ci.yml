@@ -83,7 +83,7 @@ jobs:
         run: ./script/setup
       - name: Install Lucky CLI
         run: |
-          crystal build src/lucky.cr --no-debug --release
+          shards build
           cp lucky /usr/local/bin
       - name: Run tests
         run: |
