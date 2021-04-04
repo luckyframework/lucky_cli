@@ -163,6 +163,9 @@ class LuckyCli::Generators::Web
       dotenv:
         github: gdotdesign/cr-dotenv
         version: ~> 1.0.0
+      lucky_task:
+        github: luckyframework/lucky_task
+        branch: master
     DEPS_LIST
 
     if generate_auth?
