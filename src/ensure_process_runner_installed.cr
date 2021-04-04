@@ -1,5 +1,5 @@
-class LuckyCli::EnsureProcessRunnerInstalled < LuckyCli::Task
-  include LuckyCli::TextHelpers
+class LuckyCli::EnsureProcessRunnerInstalled < LuckyTask::Task
+  include LuckyTask::TextHelpers
 
   summary "Ensures that a process runner is installed"
 

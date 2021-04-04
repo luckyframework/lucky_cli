@@ -1,4 +1,5 @@
 require "teeplate"
+require "lucky_task"
 require "./lucky_cli/**"
 require "./generators/*"
 require "./init"

@@ -37,7 +37,7 @@ Create a file `tasks.cr` at the root of your project
 require "lucky_cli"
 
 # Using `lucky` from the command line will do nothing if you forget this
-LuckyCli::Runner.run
+LuckyTask::Runner.run
 ```
 
 ## Creating tasks
@@ -45,7 +45,7 @@ LuckyCli::Runner.run
 In `tasks.cr`
 
 ```crystal
-class App::SendDailyNotifications < LuckyCli::Task
+class App::SendDailyNotifications < LuckyTask::Task
   # What this task does
   summary "Send notifications to users"
 
@@ -60,7 +60,7 @@ class App::SendDailyNotifications < LuckyCli::Task
   end
 end
 
-# LuckyCli::Runner.run is below this
+# LuckyTask::Runner.run is below this
 ```
 
 This will create a task that can be run with `lucky app.send_daily_notifications`.

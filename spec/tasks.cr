@@ -1,12 +1,12 @@
 require "../src/lucky_cli"
 
-class PlaceholderTask < LuckyCli::Task
+class PlaceholderTask < LuckyTask::Task
   def call; end
 
   def summary; end
 end
 
-class TaskWithInput < LuckyCli::Task
+class TaskWithInput < LuckyTask::Task
   summary "this should be first"
 
   def call
@@ -15,4 +15,4 @@ class TaskWithInput < LuckyCli::Task
   end
 end
 
-LuckyCli::Runner.run
+LuckyTask::Runner.run
