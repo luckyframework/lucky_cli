@@ -21,7 +21,7 @@ class LuckyCli::Generators::TasksFile
     # require "./tasks/**"
 
     # Write tasks here (or uncomment the line above). Here's an example task
-    # class App::SendDailyNotifications < LuckyCli::Task
+    # class App::SendDailyNotifications < LuckyTask::Task
     #   # What this task does
     #   summary "Send notifications to users"
     #
@@ -32,7 +32,7 @@ class LuckyCli::Generators::TasksFile
     # end
 
     # Make sure this goes last
-    LuckyCli::Runner.run
+    LuckyTask::Runner.run
     TASKS_FILE
   end
 end

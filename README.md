@@ -21,56 +21,14 @@ Run `which lucky` from the command line to make sure it is installed.
 
 **If you're generating a Lucky web project, [install the required dependencies](https://luckyframework.org/guides/getting-started/installing#install-required-dependencies). Then run `lucky init`**
 
-## Using LuckyCli in a non-Lucky web app
-
-Add this to your application's `shard.yml`:
-
-```yaml
-dependencies:
-  lucky_cli:
-    github: luckyframework/lucky_cli
-```
-
-Create a file `tasks.cr` at the root of your project
-
-```crystal
-require "lucky_cli"
-
-# Using `lucky` from the command line will do nothing if you forget this
-LuckyCli::Runner.run
-```
-
-## Creating tasks
-
-In `tasks.cr`
-
-```crystal
-class App::SendDailyNotifications < LuckyCli::Task
-  # What this task does
-  summary "Send notifications to users"
-
-  # Name is inferred from class name ("app.send_daily_notifications")
-  # It can be overriden if desired:
-  #
-  #    name "app.send_daily_notifications"
-
-  def call
-    # Code that sends notifications to all your users
-    puts "Sent daily notifications!"
-  end
-end
-
-# LuckyCli::Runner.run is below this
-```
-
-This will create a task that can be run with `lucky app.send_daily_notifications`.
-The name is inferred from the name of the class unless explicitly set with `name`.
-
-You can see all available tasks by running `lucky --help`
-
 ## Documentation
 
 [API (master)](https://luckyframework.github.io/lucky_cli/)
+
+## Adding Custom Tasks
+
+Want to add custom tasks?
+Check out [LuckyTask](https://github.com/luckyframework/lucky_task) for getting started.
 
 ## Contributing
 

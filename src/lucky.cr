@@ -6,7 +6,7 @@ require "./dev"
 require "./build_and_run_task"
 require "./ensure_process_runner_installed"
 
-include LuckyCli::TextHelpers
+include LuckyTask::TextHelpers
 
 args = ARGV.join(" ")
 tasks_file = ENV.fetch("LUCKY_TASKS_FILE", "./tasks.cr")
