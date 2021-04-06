@@ -18,7 +18,7 @@ dependencies:
     version: ~> 0.8.3
   lucky_task:
     github: luckyframework/lucky_task
-    branch: master
+    version: ~> 0.1.0
 
 development_dependencies:
   ameba:
