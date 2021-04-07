@@ -42,6 +42,20 @@ jobs:
           - false
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v2.3.4
       - name: Install Crystal
@@ -66,7 +80,7 @@ jobs:
         run: ./script/setup
       - name: Install Lucky CLI
         run: |
-          crystal build src/lucky.cr --no-debug --release
+          crystal build src/lucky.cr
           pwd >> $GITHUB_PATH
       - name: Run tests
         run: |
