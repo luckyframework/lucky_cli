@@ -18,9 +18,12 @@ jobs:
           - false
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
-    container: crystallang/crystal:${{ matrix.crystal_version }}
     steps:
       - uses: actions/checkout@v2.3.4
+      - name: Install Crystal
+        uses: oprypin/install-crystal@v1
+        with:
+          crystal: ${{ matrix.crystal_version }}
       - name: Install shards
         run: shards install
       - name: Format
@@ -39,30 +42,29 @@ jobs:
           - false
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
-    container: crystallang/crystal:${{ matrix.crystal_version }}
     services:
       postgres:
-        image: postgres:10-alpine
+        image: postgres:12
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - name: Install PostgreSQL client
-        run: |
-          apt-get update
-          apt-get -yqq install libpq-dev postgresql-client
       - uses: actions/checkout@v2.3.4
-      - name: Install browser
-        run: apt-get -yqq install chromium-browser
+      - name: Install Crystal
+        uses: oprypin/install-crystal@v1
+        with:
+          crystal: ${{ matrix.crystal_version }}
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: "12.x"
-      - name: Install yarn
-        run: npm install -g yarn
       - name: Cache node modules
         uses: actions/cache@v2.1.4
         env:
@@ -74,21 +76,15 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - name: Cache Crystal
-        uses: actions/cache@v2.1.4
-        with:
-          path: ~/.cache/crystal
-          key: ${{ runner.os }}-crystal
       - name: Run setup script
         run: ./script/setup
       - name: Install Lucky CLI
         run: |
-          crystal build src/lucky.cr --no-debug --release
-          cp lucky /usr/local/bin
+          crystal build src/lucky.cr
+          pwd >> $GITHUB_PATH
       - name: Run tests
         run: |
           export SHARDS_OVERRIDE="$(pwd)/shard.override.yml"
           crystal spec
         env:
-          DB_HOST: postgres
           LUCKY_ENV: test
