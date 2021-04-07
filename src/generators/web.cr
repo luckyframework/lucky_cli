@@ -165,7 +165,7 @@ class LuckyCli::Generators::Web
         version: ~> 1.0.0
       lucky_task:
         github: luckyframework/lucky_task
-        branch: master
+        version: ~> 0.1.0
     DEPS_LIST
 
     if generate_auth?
