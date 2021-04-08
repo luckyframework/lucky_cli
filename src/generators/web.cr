@@ -160,6 +160,9 @@ class LuckyCli::Generators::Web
       carbon:
         github: luckyframework/carbon
         version: ~> 0.1.4
+      carbon_sendgrid_adapter:
+        github: luckyframework/carbon_sendgrid_adapter
+        version: ~> 0.1.0
       dotenv:
         github: gdotdesign/cr-dotenv
         version: ~> 1.0.0

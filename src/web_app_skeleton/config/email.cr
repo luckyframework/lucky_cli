@@ -1,3 +1,5 @@
+require "carbon_sendgrid_adapter"
+
 BaseEmail.configure do |settings|
   if Lucky::Env.production?
     # If you don't need to send emails, set the adapter to DevAdapter instead:
