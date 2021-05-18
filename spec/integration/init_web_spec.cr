@@ -4,7 +4,7 @@ include ShouldRunSuccessfully
 
 describe "Initializing a new web project" do
   it "creates a full web app successfully" do
-    puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
+    test_io.puts "Web app: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project"
       FileUtils.cp("spec/support/cat.gif", "test-project/public/assets/images/")
@@ -26,7 +26,7 @@ describe "Initializing a new web project" do
   end
 
   it "creates a full web app with generator" do
-    puts "Web app generators: Running integration spec. This might take awhile...".colorize(:yellow)
+    test_io.puts "Web app generators: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --no-auth"
 
@@ -59,7 +59,7 @@ describe "Initializing a new web project" do
   end
 
   it "creates an api only web app successfully" do
-    puts "Api only: Running integration spec. This might take awhile...".colorize(:yellow)
+    test_io.puts "Api only: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --api"
       compile_and_run_specs_on_test_project
@@ -67,7 +67,7 @@ describe "Initializing a new web project" do
   end
 
   it "creates an api only app without auth" do
-    puts "Api only without auth: Running integration spec. This might take awhile...".colorize(:yellow)
+    test_io.puts "Api only without auth: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --api --no-auth"
       compile_and_run_specs_on_test_project
@@ -75,7 +75,7 @@ describe "Initializing a new web project" do
   end
 
   it "creates a full app without auth" do
-    puts "Web app without auth: Running integration spec. This might take awhile...".colorize(:yellow)
+    test_io.puts "Web app without auth: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --no-auth"
       compile_and_run_specs_on_test_project
@@ -83,7 +83,7 @@ describe "Initializing a new web project" do
   end
 
   it "creates a full app in a different directory" do
-    puts "Web app with custom directory: Running integration spec.".colorize(:yellow)
+    test_io.puts "Web app with custom directory: Running integration spec.".colorize(:yellow)
     with_project_cleanup(project_directory: "/tmp/home/bob/test-project", skip_db_drop: true) do
       FileUtils.mkdir_p "/tmp/home/bob"
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --dir /tmp/home/bob"
