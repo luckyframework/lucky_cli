@@ -130,7 +130,6 @@ private def compile_and_run_specs_on_test_project
     should_run_successfully "crystal build src/start_server.cr"
     should_run_successfully "crystal build src/test_project.cr"
     should_run_successfully "crystal src/app.cr"
-    should_run_successfully "crystal build src/start_server.cr"
     should_run_successfully "crystal spec"
   end
 end
