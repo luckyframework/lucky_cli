@@ -1,5 +1,5 @@
 module ShouldRunSuccessfully
-  private def should_run_successfully(command) : Void
+  private def should_run_successfully(command) : Nil
     result = Process.run(
       command,
       shell: true,
