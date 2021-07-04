@@ -1,5 +1,6 @@
 abstract class BrowserAction < Lucky::Action
   include Lucky::ProtectFromForgery
+  include Lucky::EnforceUnderscoredRoute
   accepted_formats [:html, :json], default: :html
   <%- if generate_auth? -%>
 
