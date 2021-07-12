@@ -106,24 +106,31 @@ class LuckyCli::Generators::Web
   end
 
   private def remove_generated_src_files
-    FileUtils.rm_r("#{project_dir}/src")
+    remove_default_generated_if_exists("src")
   end
 
   private def remove_generated_travis_file
-    FileUtils.rm_r("#{project_dir}/.travis.yml")
+    remove_default_generated_if_exists(".travis.yml")
   end
 
   private def remove_generated_spec_files
-    FileUtils.rm_r("#{project_dir}/spec")
+    remove_default_generated_if_exists("spec")
   end
 
   private def remove_default_readme
-    FileUtils.rm_r("#{project_dir}/README.md")
+    remove_default_generated_if_exists("README.md")
   end
 
   private def remove_default_license
     remove_license_from_shard
-    FileUtils.rm_rf("#{project_dir}/LICENSE")
+    remove_default_generated_if_exists("LICENSE")
+  end
+
+  private def remove_default_generated_if_exists(file_or_directory : String)
+    to_delete = "#{project_dir}/#{file_or_directory}"
+    if File.exists?(to_delete)
+      FileUtils.rm_rf(to_delete)
+    end
   end
 
   private def remove_license_from_shard
