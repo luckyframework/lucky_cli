@@ -4,6 +4,7 @@
 /bin
 /.shards/
 lucky
+*.dwarf
 .env
 /test-project/
 node_modules
