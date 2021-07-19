@@ -21,8 +21,9 @@ class Db::Seed::SampleData < LuckyTask::Task
     # You likely want to be able to run this file more than once. To do that,
     # only create the record if it doesn't exist yet:
     # ```
-    # # be sure to set `upsert_lookup_columns :email` in the operation
-    # SignUpUser.upsert!(email: "me@example.com", password: "test123", password_confirmation: "test123")
+    # if UserQuery.new.email("me@example.com").none?
+    #   SignUpUser.create!(email: "me@example.com", password: "test123", password_confirmation: "test123")
+    # end
     # ```
     puts "Done adding sample data"
   end
