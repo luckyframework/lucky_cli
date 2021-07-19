@@ -22,4 +22,8 @@ Avram.configure do |settings|
   # In production, allow lazy loading (N+1).
   # In development and test, raise an error if you forget to preload associations
   settings.lazy_load_enabled = LuckyEnv.production?
+
+  # Always parse `Time` values with these specific formats.
+  # Used for both database values, and datetime input fields.
+  # settings.time_formats << "%F"
 end
