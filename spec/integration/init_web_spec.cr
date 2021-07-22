@@ -28,7 +28,7 @@ describe "Initializing a new web project" do
   it "creates a full web app with generator" do
     puts "Web app generators: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
-      should_run_successfully "crystal run src/lucky.cr -- init.custom test-project"
+      should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --no-auth"
 
       FileUtils.cd "test-project" do
         should_run_successfully "shards install --ignore-crystal-version"
@@ -39,14 +39,22 @@ describe "Initializing a new web project" do
         should_run_successfully "lucky gen.page Users::IndexPage"
         should_run_successfully "lucky gen.component Users::Header"
         should_run_successfully "lucky gen.resource.browser Comment title:String"
+        should_run_successfully "lucky gen.task email.monthly_update"
+        should_run_successfully "lucky gen.secret_key"
 
         File.read("src/actions/comments/index.cr").should contain "Comments::Index"
+        File.read("src/pages/comments/index_page.cr").should contain "Comments::IndexPage"
+        File.read("src/models/comment.cr").should contain "Comment < BaseModel"
+        File.read("src/queries/comment_query.cr").should contain "CommentQuery"
+        File.read("src/operations/save_comment.cr").should contain "SaveComment"
         File.read("src/actions/api/users/show.cr").should_not be_nil
         File.read("src/actions/users/show.cr").should_not be_nil
         File.read("src/pages/users/index_page.cr").should_not be_nil
         File.read("src/components/users/header.cr").should contain "Users::Header < BaseComponent"
-        should_run_successfully "crystal build src/start_server.cr"
+        File.read("tasks/email/monthly_update.cr").should contain "Email::MonthlyUpdate"
       end
+
+      compile_and_run_specs_on_test_project
     end
   end
 
