@@ -62,7 +62,7 @@ jobs:
         uses: oprypin/install-crystal@v1
         with:
           crystal: ${{ matrix.crystal_version }}
-      - uses: actions/setup-node@v2.2.0
+      - uses: actions/setup-node@v2.3.0
         with:
           node-version: "12.x"
       - name: Cache node modules
