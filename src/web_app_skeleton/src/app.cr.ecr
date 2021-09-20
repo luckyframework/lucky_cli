@@ -1,8 +1,8 @@
 require "./shards"
 
 <%- if browser? -%>
-# Load the asset manifest in public/mix-manifest.json
-Lucky::AssetHelpers.load_manifest
+# Load the asset manifest
+Lucky::AssetHelpers.load_manifest "public/mix-manifest.json"
 
 <%- end -%>
 require "../config/server"
