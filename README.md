@@ -4,9 +4,7 @@ A Crystal library for creating and running tasks
 
 ## Installing the CLI by Homebrew
 
-1.  Install [homebrew](http://brew.sh)
-2.  Run `brew tap luckyframework/lucky`
-3.  Run `brew install lucky`
+To install the Lucky CLI, read the guides for your Operating System https://luckyframework.org/guides/getting-started/installing
 
 ## Building CLI from source
 
