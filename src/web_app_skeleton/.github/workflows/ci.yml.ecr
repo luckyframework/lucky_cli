@@ -38,7 +38,7 @@ jobs:
     env:
       LUCKY_ENV: test
       DB_HOST: postgres
-
+    continue-on-error: ${{ matrix.experimental }}
     services:
       postgres:
         image: postgres:12-alpine
