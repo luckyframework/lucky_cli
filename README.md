@@ -1,19 +1,23 @@
 # Lucky CLI
 
-A Crystal library for creating and running tasks
+This is the CLI utility used for generating new [Lucky Framework](https://luckyframework.org) Web applications.
 
-## Installing the CLI by Homebrew
+If you're looking for the Lucky core shard, you'll find that at https://github.com/luckyframework/lucky
 
-To install the Lucky CLI, read the guides for your Operating System [here](https://luckyframework.org/guides/getting-started/installing)
+## Installing the CLI
+
+To install the Lucky CLI, read [Installing Lucky](https://luckyframework.org/guides/getting-started/installing) guides for your Operating System.
 
 ## Development
 
-**Building the CLI**
+### Building the CLI
 
-1.  Install [crystal](https://github.com/crystal-lang/crystal)
+*NOTE:* this should be used for working on the CLI and submitting PRs.
+
+1.  Install [Crystal](https://crystal-lang.org/install/) first.
 2.  Clone the repo `git clone https://github.com/luckyframework/lucky_cli`
 3.  Go to the repo directory `cd lucky_cli`
-4.  Run `shards install`
+4.  Run the setup `./script/setup`
 5.  Run `crystal build src/lucky.cr -o /usr/local/bin/lucky`
     (instead of `/usr/local/bin/` destination you can choose any other directory that in `$PATH`)
 
@@ -21,14 +25,9 @@ Run `which lucky` from the command line to make sure it is installed.
 
 **If you're generating a Lucky web project, [install the required dependencies](https://luckyframework.org/guides/getting-started/installing#install-required-dependencies). Then run `lucky init`**
 
-## Documentation
+## API Documentation
 
 [API (master)](https://luckyframework.github.io/lucky_cli/)
-
-## Adding Custom Tasks
-
-Want to add custom tasks?
-Check out [LuckyTask](https://github.com/luckyframework/lucky_task) for getting started.
 
 ## Contributing
 
