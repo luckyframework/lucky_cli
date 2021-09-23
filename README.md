@@ -2,13 +2,13 @@
 
 A Crystal library for creating and running tasks
 
-##Installing the CLI by Homebrew
+## Installing the CLI by Homebrew
 
 To install the Lucky CLI, read the guides for your Operating System [here](https://luckyframework.org/guides/getting-started/installing)
 
-##Development
+## Development
 
-**Building the CLI
+** Building the CLI
 1.  Install [crystal](https://github.com/crystal-lang/crystal)
 2.  Clone the repo `git clone https://github.com/luckyframework/lucky_cli`
 3.  Go to the repo directory `cd lucky_cli`
