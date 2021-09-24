@@ -8,22 +8,37 @@ on:
 
 jobs:
   check-format:
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal_version:
+          - <%= Crystal::VERSION %>
+        experimental:
+          - false
     runs-on: ubuntu-latest
-    container:
-      image: crystallang/crystal:<%= Crystal::VERSION %>
+    continue-on-error: ${{ matrix.experimental }}
     steps:
       - uses: actions/checkout@v2
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: ${{ matrix.crystal_version }}
       - name: Format
         run: crystal tool format --check
 
   specs:
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal_version:
+          - <%= Crystal::VERSION %>
+        experimental:
+          - false
     runs-on: ubuntu-latest
-    container:
-      image: crystallang/crystal:<%= Crystal::VERSION %>
     env:
       LUCKY_ENV: test
       DB_HOST: postgres
-
+    continue-on-error: ${{ matrix.experimental }}
     services:
       postgres:
         image: postgres:12-alpine
@@ -40,21 +55,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: ${{ matrix.crystal_version }}
 
-    - name: Install PostgreSQL client
-      run: |
-        apt-get update
-        apt-get -yqq install libpq-dev postgresql-client
 <%- if browser? -%>
-    - name: Install browser
-      run: apt-get -yqq install chromium-browser
-
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - name: "Install yarn"
-      run: npm install -g yarn
-
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
