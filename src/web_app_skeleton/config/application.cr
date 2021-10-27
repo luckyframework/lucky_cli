@@ -1,11 +1,10 @@
-# This file may be used for custom Application
-# configurations. This file will be loaded before
-# other config files.
+# This file may be used for custom Application configurations.
+# It will be loaded before other config files.
 #
-# Read more:
+# Read more on configuration:
 #   https://luckyframework.org/guides/getting-started/configuration#configuring-your-own-code
 
-# Use this template as an example for configuration:
+# Use this code as an example:
 #
 # ```
 # module Application
@@ -19,4 +18,7 @@
 #   settings.support_email = "support@myapp.io"
 #   settings.lock_with_basic_auth = LuckEnv.staging?
 # end
+#
+# # In your application, call
+# # `Application.settings.support_email` anywhere you need it.
 # ```
