@@ -7,5 +7,8 @@
 # Uncomment if you need to override
 dependencies:
   lucky:
-    github: luckyframework/lucky
-    branch: master
+    github: matthewmcgarvey/lucky
+    branch: extract-lucky_avram
+  lucky_avram:
+    github: matthewmcgarvey/lucky_avram
+    branch: main
