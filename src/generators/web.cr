@@ -160,10 +160,13 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        version: ~> 0.28.0
+        branch: extract-lucky_avram
+      lucky_avram:
+        github: matthewmcgarvey/lucky_avram
+        branch: main
       authentic:
         github: luckyframework/authentic
-        version: ~> 0.8.0
+        branch: master
       carbon:
         github: luckyframework/carbon
         version: ~> 0.2.0
