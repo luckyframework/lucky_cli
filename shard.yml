@@ -1,5 +1,5 @@
 name: lucky_cli
-version: 0.28.0
+version: 0.29.0
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -15,12 +15,12 @@ license: MIT
 dependencies:
   teeplate:
     github: luckyframework/teeplate
-    version: ~> 0.8.3
+    version: ~> 0.8.5
   lucky_task:
     github: luckyframework/lucky_task
-    version: ~> 0.1.0
+    version: ~> 0.1.1
 
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.14.2
+    version: ~> 0.14.3

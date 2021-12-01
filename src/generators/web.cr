@@ -160,29 +160,29 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        version: ~> 0.28.0
+        version: ~> 0.29.0
       authentic:
         github: luckyframework/authentic
-        version: ~> 0.8.0
+        version: ~> 0.8.1
       carbon:
         github: luckyframework/carbon
         version: ~> 0.2.0
       carbon_sendgrid_adapter:
         github: luckyframework/carbon_sendgrid_adapter
-        version: ~> 0.1.0
+        version: ~> 0.2.0
       lucky_env:
         github: luckyframework/lucky_env
-        version: ~> 0.1.3
+        version: ~> 0.1.4
       lucky_task:
         github: luckyframework/lucky_task
-        version: ~> 0.1.0
+        version: ~> 0.1.1
     DEPS_LIST
 
     if generate_auth?
       append_text to: "shard.yml", text: <<-DEPS_LIST
         jwt:
           github: crystal-community/jwt
-          version: ~> 1.5.0
+          version: ~> 1.6.0
       DEPS_LIST
     end
 
