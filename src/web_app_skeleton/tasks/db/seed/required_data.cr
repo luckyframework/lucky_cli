@@ -25,6 +25,6 @@ class Db::Seed::RequiredData < LuckyTask::Task
     # unless UserQuery.new.email("me@example.com").first?
     #  SaveUser.create!(email: "me@example.com", name: "Jane")
     # end
-    puts "Done adding required data"
+    Log.info { "Done adding required data" }
   end
 end

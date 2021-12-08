@@ -25,6 +25,6 @@ class Db::Seed::SampleData < LuckyTask::Task
     #   SignUpUser.create!(email: "me@example.com", password: "test123", password_confirmation: "test123")
     # end
     # ```
-    puts "Done adding sample data"
+    Log.info { "Done adding sample data" }
   end
 end
