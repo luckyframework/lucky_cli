@@ -10,21 +10,14 @@ jobs:
   check_format:
     strategy:
       fail-fast: false
-      matrix:
-        crystal_version:
-          - 1.0.0
-          - 1.1.0
-          - 1.2.0
-        experimental:
-          - false
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: false
     steps:
       - uses: actions/checkout@v2.4.0
       - name: Install Crystal
         uses: oprypin/install-crystal@v1
         with:
-          crystal: ${{ matrix.crystal_version }}
+          crystal: latest
       - name: Install shards
         run: shards install
       - name: Format
@@ -36,12 +29,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        shard_override_file:
+          - shard.override.yml
         crystal_version:
           - 1.0.0
           - 1.1.0
           - 1.2.0
         experimental:
           - false
+        include:
+          - shard_override_file: shard.edge.yml
+            crystal_version: latest
+            experimental: true
+          - shard_override_file: shard.override.yml
+            crystal_version: nightly
+            experimental: true
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     services:
@@ -86,7 +88,7 @@ jobs:
           pwd >> $GITHUB_PATH
       - name: Run tests
         run: |
-          export SHARDS_OVERRIDE="$(pwd)/shard.override.yml"
+          export SHARDS_OVERRIDE="$(pwd)/${{ matrix.shard_override_file }}"
           crystal spec
         env:
           LUCKY_ENV: test

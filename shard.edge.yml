@@ -1,0 +1,27 @@
+dependencies:
+  lucky:
+    github: luckyframework/lucky
+    branch: master
+  authentic:
+    github: luckyframework/authentic
+    branch: master
+  carbon:
+    github: luckyframework/carbon
+    branch: master
+  carbon_sendgrid_adapter:
+    github: luckyframework/carbon_sendgrid_adapter
+    branch: master
+  lucky_env:
+    github: luckyframework/lucky_env
+    branch: master
+  lucky_task:
+    github: luckyframework/lucky_task
+    branch: master
+  jwt:
+    github: crystal-community/jwt
+    branch: master
+
+development_dependencies:
+  lucky_flow:
+    github: luckyframework/lucky_flow
+    branch: master
