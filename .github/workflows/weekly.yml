@@ -1,49 +1,24 @@
-name: Lucky CLI CI
+name: Lucky CLI Weekly CI
 
 on:
   push:
     branches: [master]
   pull_request:
-    branches: "*"
+  schedule:
+    - cron: "0 1 * * MON"
+  workflow_dispatch:
 
 jobs:
-  check_format:
-    strategy:
-      fail-fast: false
-    runs-on: ubuntu-latest
-    continue-on-error: false
-    steps:
-      - uses: actions/checkout@v2.4.0
-      - name: Install Crystal
-        uses: crystal-lang/install-crystal@v1
-        with:
-          crystal: latest
-      - name: Install shards
-        run: shards install
-      - name: Format
-        run: crystal tool format --check
-      - name: Lint
-        run: ./bin/ameba
-
   specs:
     strategy:
       fail-fast: false
       matrix:
         shard_override_file:
-          - shard.override.yml
+          - shard.edge.yml
         crystal_version:
-          - 1.0.0
-          - 1.1.0
-          - 1.2.0
+          - latest
         experimental:
-          - false
-        include:
-          - shard_override_file: shard.edge.yml
-            crystal_version: latest
-            experimental: true
-          - shard_override_file: shard.override.yml
-            crystal_version: nightly
-            experimental: true
+          - true
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     services:
@@ -69,17 +44,6 @@ jobs:
       - uses: actions/setup-node@v2.5.0
         with:
           node-version: "12.x"
-      - name: Cache node modules
-        uses: actions/cache@v2.1.7
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
       - name: Run setup script
         run: ./script/setup
       - name: Install Lucky CLI
