@@ -42,6 +42,24 @@ module LuckyCli
     end
   end
 
+  class ProcessRunner::Nox < ProcessRunner
+    def installed? : Bool
+      true
+    end
+
+    def start(process = Process)
+      ::Nox.run("Procfile.dev")
+    end
+
+    def command
+      "DOES NOTHING"
+    end
+
+    def start_args
+      # does nothing
+    end
+  end
+
   class ProcessRunner::Overmind < ProcessRunner
     def command
       "overmind"

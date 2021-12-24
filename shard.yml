@@ -19,6 +19,9 @@ dependencies:
   lucky_task:
     github: luckyframework/lucky_task
     version: ~> 0.1.1
+  nox:
+    github: matthewmcgarvey/nox
+    branch: main
 
 development_dependencies:
   ameba:
