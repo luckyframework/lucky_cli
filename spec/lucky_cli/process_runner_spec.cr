@@ -54,12 +54,4 @@ describe LuckyCli::ProcessRunner do
     InstalledRunner.new.installed?.should be_true
     MissingRunner.new.installed?.should be_false
   end
-
-  it "can find an installed process runner and start it" do
-    process = FakeProcess.new
-
-    LuckyCli::ProcessRunner.start(process)
-
-    process.command.not_nil!.empty?.should be_false
-  end
 end
