@@ -159,8 +159,11 @@ class LuckyCli::Generators::Web
     append_text to: "shard.yml", text: <<-DEPS_LIST
     dependencies:
       lucky:
-        github: luckyframework/lucky
-        version: ~> 0.29.0
+        github: matthewmcgarvey/lucky
+        branch: extract-lucky_avram
+      avram:
+        github: matthewmcgarvey/avram
+        branch: add-lucky
       authentic:
         github: luckyframework/authentic
         version: ~> 0.8.1

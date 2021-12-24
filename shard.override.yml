@@ -2,9 +2,12 @@
 # generated Lucky apps.
 
 # TODO: Remove this once we only support Crystal >= 1.1.0
-dependencies: {}
+# dependencies: {}
 # Uncomment if you need to override
-# dependencies:
-#   lucky:
-#     github: luckyframework/lucky
-#     branch: master
+dependencies:
+  lucky:
+    github: matthewmcgarvey/lucky
+    branch: extract-lucky_avram
+  avram:
+    github: matthewmcgarvey/avram
+    branch: add-lucky

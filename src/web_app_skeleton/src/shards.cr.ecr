@@ -3,8 +3,9 @@ require "lucky_env"
 LuckyEnv.load?(".env")
 
 # Require your shards here
-require "avram"
 require "lucky"
+require "avram"
+require "avram/lucky"
 require "carbon"
 require "authentic"
 <%- if generate_auth? -%>
