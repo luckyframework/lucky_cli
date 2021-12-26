@@ -16,7 +16,7 @@
 #
 # Application.configure do |settings|
 #   settings.support_email = "support@myapp.io"
-#   settings.lock_with_basic_auth = LuckEnv.staging?
+#   settings.lock_with_basic_auth = LuckyEnv.staging?
 # end
 #
 # # In your application, call
