@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       LUCKY_ENV: test
-      DB_HOST: postgres
+      DB_HOST: localhost
     continue-on-error: ${{ matrix.experimental }}
     services:
       postgres:
