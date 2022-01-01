@@ -28,8 +28,6 @@ end
 
 if task_name == "dev"
   LuckyCli::Dev.new.call
-elsif task_name == "ensure_process_runner_installed"
-  LuckyCli::EnsureProcessRunnerInstalled.new.call
 elsif task_name == "gen.tasks_file"
   LuckyCli::Generators::TasksFile.run
 elsif task_name == "init"
