@@ -19,11 +19,6 @@ if command_not_found "yarn"; then
 fi
 <%- end -%>
 
-# Only if this isn't CI
-if [ -z "$CI" ]; then
-  lucky ensure_process_runner_installed
-fi
-
 if command_not_found "createdb"; then
   MSG="Please install the postgres CLI tools, then try again."
   if is_mac; then

@@ -4,7 +4,6 @@ require "./lucky_cli"
 require "./generators/*"
 require "./dev"
 require "./build_and_run_task"
-require "./ensure_process_runner_installed"
 
 include LuckyTask::TextHelpers
 
@@ -28,8 +27,6 @@ end
 
 if task_name == "dev"
   LuckyCli::Dev.new.call
-elsif task_name == "ensure_process_runner_installed"
-  LuckyCli::EnsureProcessRunnerInstalled.new.call
 elsif task_name == "gen.tasks_file"
   LuckyCli::Generators::TasksFile.run
 elsif task_name == "init"
