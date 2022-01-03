@@ -17,7 +17,6 @@ describe "Initializing a new web project" do
       File.delete("test-project/.env")
       compile_and_run_specs_on_test_project
       File.read("test-project/Procfile").should contain "test_project"
-      File.read("test-project/.travis.yml").should contain "postgresql"
       File.read(".github/workflows/ci.yml").should contain "postgres"
       File.read("test-project/public/mix-manifest.json").should contain "images/cat.gif"
       File.exists?("test-project/public/favicon.ico").should eq true
