@@ -32,7 +32,6 @@ class LuckyCli::Generators::Web
     ensure_directory_does_not_exist
     generate_default_crystal_project
     add_deps_to_shard_file
-    remove_generated_travis_file
     remove_generated_src_files
     remove_generated_spec_files
     remove_default_readme
@@ -107,10 +106,6 @@ class LuckyCli::Generators::Web
 
   private def remove_generated_src_files
     remove_default_generated_if_exists("src")
-  end
-
-  private def remove_generated_travis_file
-    remove_default_generated_if_exists(".travis.yml")
   end
 
   private def remove_generated_spec_files
