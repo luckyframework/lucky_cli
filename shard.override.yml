@@ -7,4 +7,4 @@
 dependencies:
   lucky:
     github: luckyframework/lucky
-    branch: master
+    branch: main

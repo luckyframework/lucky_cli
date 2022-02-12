@@ -5,7 +5,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    target-branch: master
+    target-branch: main
     reviewers:
       - stephendolan
 
@@ -13,7 +13,7 @@ updates:
     directory: "/src/browser-app-skeleton"
     schedule:
       interval: daily
-    target-branch: master
+    target-branch: main
     versioning-strategy: increase
     reviewers:
       - stephendolan
