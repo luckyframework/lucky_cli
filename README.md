@@ -27,7 +27,7 @@ Run `which lucky` from the command line to make sure it is installed.
 
 ## API Documentation
 
-[API (master)](https://luckyframework.github.io/lucky_cli/)
+[API (main)](https://luckyframework.github.io/lucky_cli/)
 
 ## Contributing
 

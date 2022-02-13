@@ -63,7 +63,7 @@ require "../spec_helper"
       should_run_successfully "heroku addons:create heroku-postgresql:hobby-dev"
       should_run_successfully "git add -A"
       should_run_successfully "git commit -m 'Init'"
-      should_run_successfully "git push heroku master"
+      should_run_successfully "git push heroku main"
       wait_to_boot
     end
   end
