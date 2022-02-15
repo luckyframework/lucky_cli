@@ -9,7 +9,7 @@ require "../spec_helper"
 
   describe "Initializing a new web project" do
     it "deploys a full web app successfully" do
-      puts "Web app: Running Heroku deployment. This will take awhile...".colorize(:yellow)
+      test_puts "Web app: Running Heroku deployment. This will take awhile...".colorize(:yellow)
       should_run_successfully "crystal src/lucky.cr init.custom test-project"
       app = generate_heroku_app_name
 
@@ -24,7 +24,7 @@ require "../spec_helper"
     end
 
     it "deploys an API app successfully" do
-      puts "API app: Running Heroku deployment. This will take awhile...".colorize(:yellow)
+      test_puts "API app: Running Heroku deployment. This will take awhile...".colorize(:yellow)
       should_run_successfully "crystal src/lucky.cr init.custom test-project -- --api"
       app = generate_heroku_app_name
 
@@ -45,7 +45,7 @@ require "../spec_helper"
 
   private def deploy_to_heroku(app_name, block = nil)
     Dir.cd("./test-project") do
-      puts "Deploying #{app_name}"
+      test_puts "Deploying #{app_name}"
       should_run_successfully "yarn install"
       io = IO::Memory.new
       should_run_successfully("heroku apps", output: io)
