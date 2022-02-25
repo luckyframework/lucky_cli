@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  lucky:
+    build:
+      context: .
+      dockerfile: docker/development.dockerfile
+    environment:
+      DATABASE_URL: postgres://postgres@postgres:5432/postgres
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+      - type: volume
+        source: node_modules
+        target: /app/node_modules
+      - type: volume
+        source: shards_lib
+        target: /app/lib
+    depends_on:
+      - postgres
+
+    entrypoint: ["docker/dev_entrypoint.sh"]
+
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: lucky
+      POSTGRES_PASSWORD: developer
+    volumes:
+      - type: volume
+        source: postgres_data
+        target: /var/lib/postgresql
+    ports:
+      - 6543:5432
+
+volumes:
+  postgres_data:
+  node_modules:
+  shards_lib:
