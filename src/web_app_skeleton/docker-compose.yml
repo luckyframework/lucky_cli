@@ -31,6 +31,10 @@ services:
         source: postgres_data
         target: /var/lib/postgresql
     ports:
+      # The postgres database container is exposed on the host at port 6543 to
+      # allow connecting directly to it with postgres clients. The port differs
+      # from the postgres default to avoid conflict with existing postgres
+      # servers.
       - 6543:5432
 
 volumes:
