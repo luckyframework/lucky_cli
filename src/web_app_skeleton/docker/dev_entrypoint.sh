@@ -35,4 +35,4 @@ echo "Waiting for postgres to be available..."
 ./docker/wait-for-it.sh postgres:5432
 
 echo "Starting lucky dev server..."
-exec lucky dev || warnfail "Lucky dev server failed."
+exec lucky dev
