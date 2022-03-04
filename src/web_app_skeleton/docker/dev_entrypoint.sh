@@ -37,9 +37,9 @@ if ! shards check ; then
 fi
 
 echo "Waiting for postgres to be available..."
-./docker/wait-for-it.sh postgres:5432
+./docker/wait-for-it.sh -q postgres:5432
 
-if ! psql -d "$DATABASE_URL" -c '\d migrations' ; then
+if ! psql -d "$DATABASE_URL" -c '\d migrations' > /dev/null ; then
   echo "Finishing database setup..."
   lucky db.migrate
 fi
