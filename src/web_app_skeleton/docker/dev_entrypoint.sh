@@ -44,5 +44,10 @@ if ! psql -d "$DATABASE_URL" -c '\d migrations' > /dev/null ; then
   lucky db.migrate
 fi
 
+if [ -S .overmind.sock ] ; then
+  echo "Removing old overmind socket file..."
+  rm .overmind.sock
+fi
+
 echo "Starting lucky dev server..."
 exec lucky dev
