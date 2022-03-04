@@ -29,7 +29,7 @@ if ! [ -d bin ] ; then
 fi
 
 echo "Installing npm packages..."
-npm install
+yarn install
 
 if ! shards check ; then
   echo "Installing shards..."
