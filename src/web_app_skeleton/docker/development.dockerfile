@@ -1,19 +1,24 @@
 FROM crystallang/crystal:1.1.1
 
-# Add the nodesource ppa to apt.
+# Add the nodesource ppa to apt. Update this to change the nodejs version.
 RUN wget https://deb.nodesource.com/setup_16.x -O- | bash
 
-# Install nodejs, npm, yarn
-RUN apt-get update
-RUN apt-get install -y nodejs
+# Apt installs:
+# - nodejs (from above ppa) is required for front-end apps.
+# - Postgres cli tools are required for lucky-cli.
+# - tmux is required for the Overmind process manager.
+RUN apt-get update && \
+    apt-get install -y nodejs postgresql-client tmux && \
+    rm -rf /var/lib/apt/lists/*
+
+# NPM global installs:
+#  - Yarn is the default package manager for the node component of a lucky
+#    browser app.
+#  - Mix is the default asset compiler.
 RUN npm install -g yarn mix
 
-# Install postgres cli tools
-RUN apt-get install -y postgresql-client
-
 # Installs overmind, not needed if nox is the process manager.
-RUN apt-get install -y tmux && \
-    wget https://github.com/DarthSim/overmind/releases/download/v2.2.2/overmind-v2.2.2-linux-amd64.gz && \
+RUN wget https://github.com/DarthSim/overmind/releases/download/v2.2.2/overmind-v2.2.2-linux-amd64.gz && \
     gunzip overmind-v2.2.2-linux-amd64.gz && \
     mv overmind-v2.2.2-linux-amd64 /usr/bin/overmind && \
     chmod +x /usr/bin/overmind

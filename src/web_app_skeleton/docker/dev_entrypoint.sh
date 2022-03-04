@@ -23,6 +23,11 @@ case ${1:-} in
     exec "$@"
 esac
 
+if ! [ -d bin ] ; then
+  echo "Creating bin directory"
+  mkdir bin
+fi
+
 echo "Installing npm packages..."
 npm install
 
@@ -33,6 +38,11 @@ fi
 
 echo "Waiting for postgres to be available..."
 ./docker/wait-for-it.sh postgres:5432
+
+if ! psql -d "$DATABASE_URL" -c '\d migrations' ; then
+  echo "Finishing database setup..."
+  lucky db.migrate
+fi
 
 echo "Starting lucky dev server..."
 exec lucky dev

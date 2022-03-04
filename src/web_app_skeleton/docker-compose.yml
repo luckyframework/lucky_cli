@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: docker/development.dockerfile
     environment:
-      DATABASE_URL: postgres://postgres@postgres:5432/postgres
+      DATABASE_URL: postgres://lucky:password@postgres:5432/lucky
     volumes:
       - type: bind
         source: .
@@ -18,6 +18,8 @@ services:
         target: /app/lib
     depends_on:
       - postgres
+    ports:
+      - 5001:5001
 
     entrypoint: ["docker/dev_entrypoint.sh"]
 
@@ -25,7 +27,7 @@ services:
     image: postgres:14-alpine
     environment:
       POSTGRES_USER: lucky
-      POSTGRES_PASSWORD: developer
+      POSTGRES_PASSWORD: password
     volumes:
       - type: volume
         source: postgres_data
@@ -34,7 +36,8 @@ services:
       # The postgres database container is exposed on the host at port 6543 to
       # allow connecting directly to it with postgres clients. The port differs
       # from the postgres default to avoid conflict with existing postgres
-      # servers.
+      # servers. Connect to a running postgres container with:
+      # postgres://lucky:password@localhost:6543/lucky
       - 6543:5432
 
 volumes:
