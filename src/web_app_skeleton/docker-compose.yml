@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  lucky:
+    build:
+      context: .
+      dockerfile: docker/development.dockerfile
+    environment:
+      DATABASE_URL: postgres://lucky:password@postgres:5432/lucky
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+      - type: volume
+        source: node_modules
+        target: /app/node_modules
+      - type: volume
+        source: shards_lib
+        target: /app/lib
+    depends_on:
+      - postgres
+    ports:
+      - 5001:5001
+
+    entrypoint: ["docker/dev_entrypoint.sh"]
+
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: lucky
+      POSTGRES_PASSWORD: password
+    volumes:
+      - type: volume
+        source: postgres_data
+        target: /var/lib/postgresql
+    ports:
+      # The postgres database container is exposed on the host at port 6543 to
+      # allow connecting directly to it with postgres clients. The port differs
+      # from the postgres default to avoid conflict with existing postgres
+      # servers. Connect to a running postgres container with:
+      # postgres://lucky:password@localhost:6543/lucky
+      - 6543:5432
+
+volumes:
+  postgres_data:
+  node_modules:
+  shards_lib:
