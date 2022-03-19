@@ -1,0 +1,121 @@
+{% skip_file unless flag?(:with_sec_tests) %}
+# Run these specs with `crystal spec -Dwith_sec_tests`
+
+require "../spec_helper"
+
+describe "SecTester" do
+  <%- if browser? -%>
+  <%- if generate_auth? -%>
+  it "tests the sign_in for dom based XSS" do
+    with_cleanup(scanner) do
+      target = scanner.build_target(SignIns::New)
+      scanner.run_check(
+        scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
+        tests: "dom_xss",
+        target: target
+      )
+    end
+  end
+
+  it "tests the sign_in page for SQLi, OSI, XSS attacks" do
+    with_cleanup(scanner) do
+      target = scanner.build_target(SignIns::Create) do |t|
+        t.body = "user%3Aemail=test%40test.com&user%3Apassword=1234"
+      end
+      scanner.run_check(
+        scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
+        tests: [
+          "sqli",
+          "osi",
+          "xss",
+        ],
+        target: target
+      )
+    end
+  end
+
+  it "tests the sign_up page for dom based XSS" do
+    with_cleanup(scanner) do
+      target = scanner.build_target(SignUps::New)
+      scanner.run_check(
+        scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
+        tests: "dom_xss",
+        target: target
+      )
+    end
+  end
+
+  it "tests the sign_up page for ALL attacks" do
+    with_cleanup(scanner) do
+      target = scanner.build_target(SignUps::Create) do |t|
+        t.body = "user%3Aemail=aa%40aa.com&user%3Apassword=123456789&user%3Apassword_confirmation=123456789"
+      end
+      scanner.run_check(
+        scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
+        tests: nil,
+        target: target
+      )
+    end
+  end
+  <%- end -%>
+  it "tests root for header security issues" do
+    with_cleanup(scanner) do
+      target = scanner.build_target
+      scanner.run_check(
+        scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
+        tests: "header_security",
+        target: target
+      )
+    end
+  end
+
+  it "tests root for cookie security issues" do
+    with_cleanup(scanner) do
+      target = scanner.build_target
+      scanner.run_check(
+        scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
+        tests: "cookie_security",
+        target: target
+      )
+    end
+  end
+
+  it "tests app.js for 3rd party issues" do
+    with_cleanup(scanner) do
+      target = SecTester::Target.new(Lucky::AssetHelpers.asset("js/app.js"))
+      scanner.run_check(
+        scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
+        tests: "retire_js",
+        target: target
+      )
+    end
+  end
+  <%- else -%>
+  it "tests the sign_in API for SQLi, OSI, XSS attacks" do
+    with_cleanup(scanner) do
+      target = scanner.build_target(Api::SignIns::Create) do |t|
+        t.body = "user%3Aemail=test%40test.com&user%3Apassword=1234"
+      end
+      scanner.run_check(
+        scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
+        tests: [
+          "sqli",
+          "osi",
+          "xss",
+        ],
+        target: target
+      )
+    end
+  end
+  <%- end -%>
+end
+
+private def scanner
+  LuckySecTester.new
+end
+
+private def with_cleanup(tester : LuckySecTester)
+  yield
+ensure
+  tester.try &.cleanup
+end

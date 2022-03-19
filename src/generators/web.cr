@@ -4,12 +4,13 @@ class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers
 
   getter project_name : String
-  getter? api_only, generate_auth
+  getter? api_only, generate_auth, with_sec_tester
 
   def initialize(
     project_name : String,
     @api_only : Bool,
     @generate_auth : Bool,
+    @with_sec_tester : Bool = false,
     project_directory : String = "."
   )
     Dir.cd(File.expand_path(project_directory))
@@ -48,6 +49,10 @@ class LuckyCli::Generators::Web
 
     if browser? && generate_auth?
       add_browser_authentication_to_src
+    end
+
+    if with_sec_tester?
+      add_sec_tester_to_src
     end
 
     setup_gitignore
@@ -102,6 +107,11 @@ class LuckyCli::Generators::Web
 
   private def add_browser_authentication_to_src
     BrowserAuthenticationSrcTemplate.new.render("./#{project_dir}", force: true)
+  end
+
+  private def add_sec_tester_to_src
+    AppWithSecTesterTemplate.new(generate_auth: generate_auth?, browser: browser?)
+      .render("./#{project_dir}", force: true)
   end
 
   private def remove_generated_src_files
@@ -187,6 +197,14 @@ class LuckyCli::Generators::Web
         lucky_flow:
           github: luckyframework/lucky_flow
           version: ~> 0.7.3
+      DEPS_LIST
+    end
+
+    if with_sec_tester?
+      append_text to: "shard.yml", text: <<-DEPS_LIST
+        lucky_sec_tester:
+          github: luckyframework/lucky_sec_tester
+          branch: main
       DEPS_LIST
     end
   end
