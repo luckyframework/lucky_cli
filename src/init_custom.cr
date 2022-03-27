@@ -22,7 +22,7 @@ class LuckyCli::InitCustom < LuckyCli::Init
       Examples:
 
         lucky init.custom my_project
-        lucky init.custom my_api --api --no-auth --dir ~/Projects/
+        lucky init.custom my_api --api --no-auth --no-sec-test --dir ~/Projects/
 
       TEXT
       parser.on("--api", "Generates an api-only web app") { api_only = true }
@@ -41,7 +41,7 @@ class LuckyCli::InitCustom < LuckyCli::Init
       project_name: project_name.to_s,
       api_only: api_only,
       generate_auth: authentication,
-      with_sec_test: with_sec_test,
+      with_sec_tester: with_sec_test,
       project_directory: project_directory
     )
   end
