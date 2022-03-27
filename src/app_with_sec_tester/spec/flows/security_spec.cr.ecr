@@ -58,23 +58,15 @@ describe "SecTester" do
     end
   end
   <%- end -%>
-  it "tests root for header security issues" do
+  it "tests the home page for header, and cookie security issues" do
     with_cleanup(scanner) do
-      target = scanner.build_target
+      target = scanner.build_target(Home::Index)
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
-        tests: "header_security",
-        target: target
-      )
-    end
-  end
-
-  it "tests root for cookie security issues" do
-    with_cleanup(scanner) do
-      target = scanner.build_target
-      scanner.run_check(
-        scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
-        tests: "cookie_security",
+        tests: [
+          "header_security",
+          "cookie_security"
+        ],
         target: target
       )
     end
@@ -91,22 +83,24 @@ describe "SecTester" do
     end
   end
   <%- else -%>
-  it "tests the sign_in API for SQLi, OSI, XSS attacks" do
+  <%- if generate_auth? -%>
+  it "tests the sign_in API for SQLi, and JWT attacks" do
     with_cleanup(scanner) do
-      target = scanner.build_target(Api::SignIns::Create) do |t|
-        t.body = "user%3Aemail=test%40test.com&user%3Apassword=1234"
+      api_headers = HTTP::Headers{"Content-Type" => "application/json", "Accept" => "application/json"}
+      target = scanner.build_target(Api::SignIns::Create, headers: api_headers) do |t|
+        t.body = {"user" => {"email" => "test%40test.com", "password" => "1234"}}.to_json
       end
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
         tests: [
           "sqli",
-          "osi",
-          "xss",
+          "jwt"
         ],
         target: target
       )
     end
   end
+  <%- end -%>
   <%- end -%>
 end
 
