@@ -33,6 +33,7 @@ class LuckyCli::Generators::Web
     ensure_directory_does_not_exist
     generate_default_crystal_project
     add_deps_to_shard_file
+    add_dev_deps_to_shard_file
     remove_generated_src_files
     remove_generated_spec_files
     remove_default_readme
@@ -88,7 +89,7 @@ class LuckyCli::Generators::Web
   end
 
   private def add_default_lucky_structure_to_src
-    SrcTemplate.new(project_name, generate_auth: generate_auth?, api_only: api_only?)
+    SrcTemplate.new(project_name, generate_auth: generate_auth?, api_only: api_only?, with_sec_tester: with_sec_tester?)
       .render("./#{project_dir}", force: true)
   end
 
@@ -190,22 +191,33 @@ class LuckyCli::Generators::Web
           version: ~> 1.6.0
       DEPS_LIST
     end
+  end
 
-    if browser?
+  private def needs_development_dependencies?
+    browser? || with_sec_tester?
+  end
+
+  private def add_dev_deps_to_shard_file
+    if needs_development_dependencies?
       append_text to: "shard.yml", text: <<-DEPS_LIST
       development_dependencies:
-        lucky_flow:
-          github: luckyframework/lucky_flow
-          version: ~> 0.7.3
       DEPS_LIST
-    end
 
-    if with_sec_tester?
-      append_text to: "shard.yml", text: <<-DEPS_LIST
-        lucky_sec_tester:
-          github: luckyframework/lucky_sec_tester
-          branch: main
-      DEPS_LIST
+      if browser?
+        append_text to: "shard.yml", text: <<-DEPS_LIST
+          lucky_flow:
+            github: luckyframework/lucky_flow
+            version: ~> 0.7.3
+        DEPS_LIST
+      end
+
+      if with_sec_tester?
+        append_text to: "shard.yml", text: <<-DEPS_LIST
+          lucky_sec_tester:
+            github: luckyframework/lucky_sec_tester
+            branch: main
+        DEPS_LIST
+      end
     end
   end
 

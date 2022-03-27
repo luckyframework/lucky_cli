@@ -117,4 +117,4 @@ jobs:
           ./lucky_tasks db.seed.required_data
 
       - name: Run tests
-        run: crystal spec
+        run: crystal spec <%- if with_sec_tester? %>-Dwith_sec_tests<%- end -%>
