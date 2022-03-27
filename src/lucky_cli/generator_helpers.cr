@@ -39,6 +39,15 @@ module LuckyCli::GeneratorHelpers
     end
   end
 
+  def replace_text(filename, from, to)
+    within_project do
+      File.write(
+        filename,
+        File.read(filename).gsub(from, to)
+      )
+    end
+  end
+
   def run_command(command)
     within_project do
       Process.run command,

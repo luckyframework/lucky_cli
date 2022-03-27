@@ -31,6 +31,7 @@ class LuckyCli::Generators::Web
   def run
     ensure_directory_does_not_exist
     generate_default_crystal_project
+    rename_shard_target_to_app
     add_deps_to_shard_file
     remove_generated_src_files
     remove_generated_spec_files
@@ -148,6 +149,10 @@ class LuckyCli::Generators::Web
       shell: true,
       output: io,
       error: STDERR
+  end
+
+  private def rename_shard_target_to_app
+    replace_text "shard.yml", from: "#{project_name}:", to: "app:"
   end
 
   private def add_deps_to_shard_file
