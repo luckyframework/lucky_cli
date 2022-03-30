@@ -96,10 +96,10 @@ describe "Initializing a new web project" do
     puts "Web app with SecTester: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --with-sec-test"
-      compile_and_run_specs_on_test_project
       File.read("test-project/spec/setup/sec_tester.cr").should contain "LuckySecTester"
       File.read(".github/workflows/ci.yml").should contain "-Dwith_sec_tests"
       File.read("test-project/spec/flows/security_specs.cr").should contain "dom_xss"
+      should_run_successfully "crystal spec -Dwith_sec_tests"
     end
   end
 
