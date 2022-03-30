@@ -91,3 +91,4 @@ jobs:
           crystal spec
         env:
           LUCKY_ENV: test
+          NEXPLOIT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
