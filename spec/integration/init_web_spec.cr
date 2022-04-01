@@ -97,7 +97,7 @@ describe "Initializing a new web project" do
     with_project_cleanup do
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --with-sec-test"
       File.read("test-project/spec/setup/sec_tester.cr").should contain "LuckySecTester"
-      File.read(".github/workflows/ci.yml").should contain "-Dwith_sec_tests"
+      File.read("test-project/.github/workflows/ci.yml").should contain "-Dwith_sec_tests"
       File.read("test-project/spec/flows/security_specs.cr").should contain "dom_xss"
       should_run_successfully "crystal spec -Dwith_sec_tests"
     end
