@@ -1,6 +1,7 @@
 require "../spec_helper"
 
 include ShouldRunSuccessfully
+include WithProjectCleanup
 
 describe "Initializing a new web project" do
   it "creates a full web app successfully" do
@@ -67,7 +68,23 @@ describe "Initializing a new web project" do
 
   it "creates an api only app without auth" do
     puts "Api only without auth: Running integration spec. This might take awhile...".colorize(:yellow)
-    with_project_cleanup do
+    with_project_cleanup doprivate def with_project_cleanup(project_directory = "test-project", skip_db_drop = false)
+    yield
+
+    FileUtils.cd(project_directory) {
+      output = IO::Memory.new
+      Process.run(
+        "lucky db.drop",
+        output: output,
+        shell: true
+      )
+
+      output.to_s.should contain("Done dropping")
+    } unless skip_db_drop
+  ensure
+    FileUtils.rm_rf project_directory
+  end
+
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --api --no-auth"
       compile_and_run_specs_on_test_project
     end
@@ -92,21 +109,6 @@ describe "Initializing a new web project" do
     end
   end
 
-  it "creates a full app with sec_tester enabled" do
-    puts "Web app with SecTester: Running integration spec. This might take awhile...".colorize(:yellow)
-    with_project_cleanup do
-      should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --with-sec-test"
-
-      FileUtils.cd "test-project" do
-        File.read("spec/setup/sec_tester.cr").should contain "LuckySecTester"
-        File.read(".github/workflows/ci.yml").should contain "-Dwith_sec_tests"
-        File.read("spec/flows/security_spec.cr").should contain "dom_xss"
-        should_run_successfully "./script/setup"
-        should_run_successfully "crystal spec -Dwith_sec_tests"
-      end
-    end
-  end
-
   it "does not create project if directory with same name already exist" do
     FileUtils.mkdir "test-project"
     output = IO::Memory.new
@@ -124,7 +126,23 @@ describe "Initializing a new web project" do
     output = IO::Memory.new
     Process.run(
       "crystal run src/lucky.cr -- init.custom 'test project'",
-      env: ENV.to_h,
+      env: ENV.to_h,private def with_project_cleanup(project_directory = "test-project", skip_db_drop = false)
+      yield
+
+      FileUtils.cd(project_directory) {
+        output = IO::Memory.new
+        Process.run(
+          "lucky db.drop",
+          output: output,
+          shell: true
+        )
+
+        output.to_s.should contain("Done dropping")
+      } unless skip_db_drop
+    ensure
+      FileUtils.rm_rf project_directory
+    end
+
       output: output,
       shell: true
     )
@@ -154,21 +172,4 @@ private def compile_and_run_specs_on_test_project
     should_run_successfully "crystal src/app.cr"
     should_run_successfully "crystal spec"
   end
-end
-
-private def with_project_cleanup(project_directory = "test-project", skip_db_drop = false)
-  yield
-
-  FileUtils.cd(project_directory) {
-    output = IO::Memory.new
-    Process.run(
-      "lucky db.drop",
-      output: output,
-      shell: true
-    )
-
-    output.to_s.should contain("Done dropping")
-  } unless skip_db_drop
-ensure
-  FileUtils.rm_rf project_directory
 end
