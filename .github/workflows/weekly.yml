@@ -44,6 +44,9 @@ jobs:
       - uses: actions/setup-node@v3.0.0
         with:
           node-version: "12.x"
+      - name: Install npm and Nexploit Repeater
+        run: |
+          sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
       - name: Run setup script
         run: ./script/setup
       - name: Install Lucky CLI
