@@ -100,7 +100,8 @@ describe "Initializing a new web project" do
       FileUtils.cd "test-project" do
         File.read("spec/setup/sec_tester.cr").should contain "LuckySecTester"
         File.read(".github/workflows/ci.yml").should contain "-Dwith_sec_tests"
-        File.read("spec/flows/security_specs.cr").should contain "dom_xss"
+        File.read("spec/flows/security_spec.cr").should contain "dom_xss"
+        should_run_successfully "./script/setup"
         should_run_successfully "crystal spec -Dwith_sec_tests"
       end
     end
