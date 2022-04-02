@@ -7,7 +7,7 @@ describe "SecTester" do
   <%- if browser? -%>
   <%- if generate_auth? -%>
   it "tests the sign_in for dom based XSS" do
-    with_cleanup(scanner) do
+    scan_with_cleanup do |scanner|
       target = scanner.build_target(SignIns::New)
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
@@ -18,7 +18,7 @@ describe "SecTester" do
   end
 
   it "tests the sign_in page for SQLi, OSI, XSS attacks" do
-    with_cleanup(scanner) do
+    scan_with_cleanup do |scanner|
       target = scanner.build_target(SignIns::Create) do |t|
         t.body = "user%3Aemail=test%40test.com&user%3Apassword=1234"
       end
@@ -35,7 +35,7 @@ describe "SecTester" do
   end
 
   it "tests the sign_up page for dom based XSS" do
-    with_cleanup(scanner) do
+    scan_with_cleanup do |scanner|
       target = scanner.build_target(SignUps::New)
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
@@ -46,7 +46,7 @@ describe "SecTester" do
   end
 
   it "tests the sign_up page for ALL attacks" do
-    with_cleanup(scanner) do
+    scan_with_cleanup do |scanner|
       target = scanner.build_target(SignUps::Create) do |t|
         t.body = "user%3Aemail=aa%40aa.com&user%3Apassword=123456789&user%3Apassword_confirmation=123456789"
       end
@@ -59,7 +59,7 @@ describe "SecTester" do
   end
   <%- end -%>
   it "tests the home page for header, and cookie security issues" do
-    with_cleanup(scanner) do
+    scan_with_cleanup do |scanner|
       target = scanner.build_target(Home::Index)
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
@@ -73,7 +73,7 @@ describe "SecTester" do
   end
 
   it "tests app.js for 3rd party issues" do
-    with_cleanup(scanner) do
+    scan_with_cleanup do |scanner|
       target = SecTester::Target.new(Lucky::AssetHelpers.asset("js/app.js"))
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
@@ -85,7 +85,7 @@ describe "SecTester" do
   <%- else -%>
   <%- if generate_auth? -%>
   it "tests the sign_in API for SQLi, and JWT attacks" do
-    with_cleanup(scanner) do
+    scan_with_cleanup do |scanner|
       api_headers = HTTP::Headers{"Content-Type" => "application/json", "Accept" => "application/json"}
       target = scanner.build_target(Api::SignIns::Create, headers: api_headers) do |t|
         t.body = {"user" => {"email" => "aa%40aa.com", "password" => "123456789"}}.to_json
@@ -108,12 +108,9 @@ describe "SecTester" do
   <%- end -%>
 end
 
-private def scanner
-  LuckySecTester.new
-end
-
-private def with_cleanup(tester : LuckySecTester)
-  yield
+private def scan_with_cleanup : Nil
+  scanner = LuckySecTester.new
+  yield scanner
 ensure
-  tester.try &.cleanup
+  scanner.try &.cleanup
 end
