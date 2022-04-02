@@ -79,6 +79,9 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - name: Install npm and Nexploit Repeater
+        run: |
+          sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
       - name: Run setup script
         run: ./script/setup
       - name: Install Lucky CLI
