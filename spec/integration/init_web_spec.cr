@@ -68,23 +68,7 @@ describe "Initializing a new web project" do
 
   it "creates an api only app without auth" do
     puts "Api only without auth: Running integration spec. This might take awhile...".colorize(:yellow)
-    with_project_cleanup doprivate def with_project_cleanup(project_directory = "test-project", skip_db_drop = false)
-    yield
-
-    FileUtils.cd(project_directory) {
-      output = IO::Memory.new
-      Process.run(
-        "lucky db.drop",
-        output: output,
-        shell: true
-      )
-
-      output.to_s.should contain("Done dropping")
-    } unless skip_db_drop
-  ensure
-    FileUtils.rm_rf project_directory
-  end
-
+    with_project_cleanup do
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --api --no-auth"
       compile_and_run_specs_on_test_project
     end
@@ -126,23 +110,7 @@ describe "Initializing a new web project" do
     output = IO::Memory.new
     Process.run(
       "crystal run src/lucky.cr -- init.custom 'test project'",
-      env: ENV.to_h,private def with_project_cleanup(project_directory = "test-project", skip_db_drop = false)
-      yield
-
-      FileUtils.cd(project_directory) {
-        output = IO::Memory.new
-        Process.run(
-          "lucky db.drop",
-          output: output,
-          shell: true
-        )
-
-        output.to_s.should contain("Done dropping")
-      } unless skip_db_drop
-    ensure
-      FileUtils.rm_rf project_directory
-    end
-
+      env: ENV.to_h,
       output: output,
       shell: true
     )
