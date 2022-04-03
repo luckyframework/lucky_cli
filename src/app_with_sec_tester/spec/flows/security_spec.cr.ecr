@@ -63,7 +63,7 @@ describe "SecTester" do
       target = scanner.build_target(Home::Index)
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
-        severity_threshold: :medium,
+        severity_threshold: SecTester::Severity::Medium,
         tests: [
           "header_security",
           "cookie_security"
