@@ -63,6 +63,7 @@ describe "SecTester" do
       target = scanner.build_target(Home::Index)
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
+        severity_threshold: :medium,
         tests: [
           "header_security",
           "cookie_security"
@@ -74,7 +75,7 @@ describe "SecTester" do
 
   it "tests app.js for 3rd party issues" do
     scan_with_cleanup do |scanner|
-      target = SecTester::Target.new(Lucky::AssetHelpers.asset("js/app.js"))
+      target = SecTester::Target.new(Lucky::RouteHelper.settings.base_uri + Lucky::AssetHelpers.asset("js/app.js"))
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
         tests: "retire_js",
