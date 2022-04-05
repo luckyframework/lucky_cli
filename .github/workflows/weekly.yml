@@ -38,10 +38,7 @@ jobs:
         uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{ matrix.crystal_version }}
-      - uses: actions/setup-node@v3.0.0
-        with:
-          node-version: "12.x"
-      - name: Install npm and Nexploit Repeater
+      - name: Install Nexploit Repeater
         run: |
           sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
       - name: Run setup script
@@ -56,3 +53,5 @@ jobs:
           crystal spec
         env:
           LUCKY_ENV: test
+          NEXPLOIT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
+          RUN_SEC_TESTER_SPECS: 1
