@@ -4,12 +4,13 @@ class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers
 
   getter project_name : String
-  getter? api_only, generate_auth
+  getter? api_only, generate_auth, with_sec_tester
 
   def initialize(
     project_name : String,
     @api_only : Bool,
     @generate_auth : Bool,
+    @with_sec_tester : Bool = false,
     project_directory : String = "."
   )
     Dir.cd(File.expand_path(project_directory))
@@ -33,6 +34,7 @@ class LuckyCli::Generators::Web
     generate_default_crystal_project
     rename_shard_target_to_app
     add_deps_to_shard_file
+    add_dev_deps_to_shard_file
     remove_generated_src_files
     remove_generated_spec_files
     remove_default_readme
@@ -49,6 +51,10 @@ class LuckyCli::Generators::Web
 
     if browser? && generate_auth?
       add_browser_authentication_to_src
+    end
+
+    if with_sec_tester?
+      add_sec_tester_to_src
     end
 
     setup_gitignore
@@ -84,7 +90,7 @@ class LuckyCli::Generators::Web
   end
 
   private def add_default_lucky_structure_to_src
-    SrcTemplate.new(project_name, generate_auth: generate_auth?, api_only: api_only?)
+    SrcTemplate.new(project_name, generate_auth: generate_auth?, api_only: api_only?, with_sec_tester: with_sec_tester?)
       .render("./#{project_dir}", force: true)
   end
 
@@ -103,6 +109,11 @@ class LuckyCli::Generators::Web
 
   private def add_browser_authentication_to_src
     BrowserAuthenticationSrcTemplate.new.render("./#{project_dir}", force: true)
+  end
+
+  private def add_sec_tester_to_src
+    AppWithSecTesterTemplate.new(generate_auth: generate_auth?, browser: browser?)
+      .render("./#{project_dir}", force: true)
   end
 
   private def remove_generated_src_files
@@ -185,14 +196,33 @@ class LuckyCli::Generators::Web
           version: ~> 1.6.0
       DEPS_LIST
     end
+  end
 
-    if browser?
+  private def needs_development_dependencies?
+    browser? || with_sec_tester?
+  end
+
+  private def add_dev_deps_to_shard_file
+    if needs_development_dependencies?
       append_text to: "shard.yml", text: <<-DEPS_LIST
       development_dependencies:
-        lucky_flow:
-          github: luckyframework/lucky_flow
-          version: ~> 0.7.3
       DEPS_LIST
+
+      if browser?
+        append_text to: "shard.yml", text: <<-DEPS_LIST
+          lucky_flow:
+            github: luckyframework/lucky_flow
+            version: ~> 0.7.3
+        DEPS_LIST
+      end
+
+      if with_sec_tester?
+        append_text to: "shard.yml", text: <<-DEPS_LIST
+          lucky_sec_tester:
+            github: luckyframework/lucky_sec_tester
+            branch: main
+        DEPS_LIST
+      end
     end
   end
 

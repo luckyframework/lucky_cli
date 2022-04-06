@@ -105,7 +105,11 @@ jobs:
       - name: Compiling assets
         run: yarn prod
 <%- end -%>
-
+<%- if with_sec_tester? -%>
+      - name: Install npm and Nexploit Repeater
+        run: |
+          sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
+<%- end -%>
       - name: Build lucky_tasks
         if: steps.crystal-cache.outputs.cache-hit != 'true'
         run: crystal build tasks.cr -o ./lucky_tasks
@@ -117,4 +121,4 @@ jobs:
           ./lucky_tasks db.seed.required_data
 
       - name: Run tests
-        run: crystal spec
+        run: crystal spec <%- if with_sec_tester? %>-Dwith_sec_tests<%- end -%>

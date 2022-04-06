@@ -1,6 +1,7 @@
 require "../spec_helper"
 
 include ShouldRunSuccessfully
+include WithProjectCleanup
 
 describe "Initializing a new web project" do
   it "creates a full web app successfully" do
@@ -16,7 +17,8 @@ describe "Initializing a new web project" do
 
       File.delete("test-project/.env")
       compile_and_run_specs_on_test_project
-      File.read(".github/workflows/ci.yml").should contain "postgres"
+      File.read("test-project/Procfile").should contain "bin/app"
+      File.read("test-project/.github/workflows/ci.yml").should contain "postgres"
       File.read("test-project/public/mix-manifest.json").should contain "images/cat.gif"
       File.exists?("test-project/public/favicon.ico").should eq true
       File.exists?("test-project/.env").should eq true
@@ -138,21 +140,4 @@ private def compile_and_run_specs_on_test_project
     should_run_successfully "crystal src/app.cr"
     should_run_successfully "crystal spec"
   end
-end
-
-private def with_project_cleanup(project_directory = "test-project", skip_db_drop = false)
-  yield
-
-  FileUtils.cd(project_directory) {
-    output = IO::Memory.new
-    Process.run(
-      "lucky db.drop",
-      output: output,
-      shell: true
-    )
-
-    output.to_s.should contain("Done dropping")
-  } unless skip_db_drop
-ensure
-  FileUtils.rm_rf project_directory
 end

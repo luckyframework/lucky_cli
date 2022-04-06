@@ -3,10 +3,10 @@ require "random/secure"
 class SrcTemplate < Teeplate::FileTree
   directory "#{__DIR__}/../web_app_skeleton"
   getter project_name
-  getter? api_only, generate_auth
+  getter? api_only, generate_auth, with_sec_tester
   getter crystal_project_name : String
 
-  def initialize(@project_name : String, @generate_auth : Bool, @api_only : Bool)
+  def initialize(@project_name : String, @generate_auth : Bool, @api_only : Bool, @with_sec_tester : Bool)
     @crystal_project_name = @project_name.gsub("-", "_")
   end
 

@@ -13,6 +13,7 @@ class LuckyCli::InitCustom < LuckyCli::Init
   private def generate_project(project_name)
     api_only = false
     authentication = true
+    with_sec_test = false
     project_directory = "."
     OptionParser.parse do |parser|
       parser.banner = <<-TEXT
@@ -21,11 +22,12 @@ class LuckyCli::InitCustom < LuckyCli::Init
       Examples:
 
         lucky init.custom my_project
-        lucky init.custom my_api --api --no-auth --dir ~/Projects/
+        lucky init.custom my_api --api --no-auth --with-sec-test --dir ~/Projects/
 
       TEXT
       parser.on("--api", "Generates an api-only web app") { api_only = true }
       parser.on("--no-auth", "Skips generating authentication") { authentication = false }
+      parser.on("--with-sec-test", "Adds in SecTest integration") { with_sec_test = true }
       parser.on("--dir DIRECTORY", "Specify the directory to generate your app in. Default is current directory") { |dir|
         project_directory = dir
       }
@@ -39,6 +41,7 @@ class LuckyCli::InitCustom < LuckyCli::Init
       project_name: project_name.to_s,
       api_only: api_only,
       generate_auth: authentication,
+      with_sec_tester: with_sec_test,
       project_directory: project_directory
     )
   end
