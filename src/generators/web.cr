@@ -212,7 +212,7 @@ class LuckyCli::Generators::Web
         append_text to: "shard.yml", text: <<-DEPS_LIST
           lucky_flow:
             github: luckyframework/lucky_flow
-            version: ~> 0.8.0
+            version: ~> 0.7.3
         DEPS_LIST
       end
 
