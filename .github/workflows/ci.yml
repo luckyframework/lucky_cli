@@ -17,7 +17,7 @@ jobs:
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
-          crystal: latest
+          crystal: 1.3.2
       - name: Install shards
         run: shards install
       - name: Format
@@ -47,7 +47,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     services:
       postgres:
-        image: postgres:12
+        image: postgres:13
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
