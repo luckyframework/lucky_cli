@@ -3,28 +3,14 @@ name: Lucky CLI CI
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: "*"
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
 
 jobs:
-  check_format:
-    strategy:
-      fail-fast: false
-    runs-on: ubuntu-latest
-    continue-on-error: false
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install Crystal
-        uses: crystal-lang/install-crystal@v1
-        with:
-          crystal: 1.3.2
-      - name: Install shards
-        run: shards install
-      - name: Format
-        run: crystal tool format --check
-      - name: Lint
-        run: ./bin/ameba
-
   specs:
     strategy:
       fail-fast: false
@@ -76,6 +62,9 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - name: Install Nexploit Repeater
+        run: |
+          sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
       - name: Run setup script
         run: ./script/setup
       - name: Install Lucky CLI
@@ -88,4 +77,5 @@ jobs:
           crystal spec
         env:
           LUCKY_ENV: test
-          RUN_SEC_TESTER_SPECS: 0
+          NEXPLOIT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
+          RUN_SEC_TESTER_SPECS: 1

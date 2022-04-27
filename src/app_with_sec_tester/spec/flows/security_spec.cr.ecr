@@ -11,7 +11,7 @@ describe "SecTester" do
       target = scanner.build_target(SignIns::New)
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
-        tests: "dom_xss",
+        tests: "dom_xss", # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
         target: target
       )
     end
@@ -25,9 +25,9 @@ describe "SecTester" do
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
         tests: [
-          "sqli", # Testing for SQL Injection issues (https://docs.neuralegion.com/docs/sql-injection)
-          "osi",
-          "xss",
+          "sqli", # Testing for SQL Injection issues (https://docs.brightsec.com/docs/sql-injection)
+          "osi",  # Testing for OSI Injection issues (https://docs.brightsec.com/docs/os-command-injection)
+          "xss",  # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
         ],
         target: target
       )
@@ -39,7 +39,7 @@ describe "SecTester" do
       target = scanner.build_target(SignUps::New)
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
-        tests: "dom_xss",
+        tests: "dom_xss", # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
         target: target
       )
     end
@@ -52,7 +52,12 @@ describe "SecTester" do
       end
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
-        tests: nil,
+        tests: [
+          "sqli",                 # Testing for SQL Injection issues (https://docs.brightsec.com/docs/sql-injection)
+          "xss",                  # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
+          "mass_assignment",      # Testing for Mass Assignment issues (https://docs.brightsec.com/docs/mass-assignment)
+          "full_path_disclosure", # Testing for full path disclourse on api error (https://docs.brightsec.com/docs/full-path-disclosure)
+        ],
         target: target
       )
     end
@@ -65,8 +70,10 @@ describe "SecTester" do
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
         severity_threshold: SecTester::Severity::Medium,
         tests: [
-          "header_security",
-          "cookie_security",
+          "header_security", # Testing for header security issues (https://docs.brightsec.com/docs/misconfigured-security-headers)
+          "cookie_security", # Testing for Cookie Security issues (https://docs.brightsec.com/docs/sensitive-cookie-in-https-session-without-secure-attribute)
+          "proto_pollution", # Testing for proto pollution based vulnerabilities (https://docs.brightsec.com/docs/prototype-pollution)
+          "open_buckets",    # Testing for open buckets (https://docs.brightsec.com/docs/open-bucket)
         ],
         target: target
       )
@@ -78,7 +85,7 @@ describe "SecTester" do
       target = SecTester::Target.new(Lucky::RouteHelper.settings.base_uri + Lucky::AssetHelpers.asset("js/app.js"))
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
-        tests: "retire_js",
+        tests: "retire_js", # Testing for 3rd party issues (https://docs.brightsec.com/docs/javascript-component-with-known-vulnerabilities)
         target: target
       )
     end
@@ -94,12 +101,12 @@ describe "SecTester" do
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
         tests: [
-          "sqli",                 # Testing for SQL Injection issues (https://docs.neuralegion.com/docs/sql-injection)
-          "jwt",                  # Testing JWT usage (https://docs.neuralegion.com/docs/broken-jwt-authentication)
-          "xss",                  # Checking for Cross Site Scripting attacks (https://docs.neuralegion.com/docs/reflective-cross-site-scripting-rxss)
-          "ssrf",                 # Checking for SSRF (https://docs.neuralegion.com/docs/server-side-request-forgery-ssrf)
-          "proto_pollution",      # Checking for proto pollution based vulnerabilities (https://docs.neuralegion.com/docs/prototype-pollution)
-          "full_path_disclosure", # Checking for full path disclourse on api error (https://docs.neuralegion.com/docs/full-path-disclosure)
+          "sqli",                 # Testing for SQL Injection issues (https://docs.brightsec.com/docs/sql-injection)
+          "jwt",                  # Testing JWT usage (https://docs.brightsec.com/docs/broken-jwt-authentication)
+          "xss",                  # Testing for Cross Site Scripting attacks (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
+          "ssrf",                 # Testing for SSRF (https://docs.brightsec.com/docs/server-side-request-forgery-ssrf)
+          "mass_assignment",      # Testing for Mass Assignment issues (https://docs.brightsec.com/docs/mass-assignment)
+          "full_path_disclosure", # Testing for full path disclourse on api error (https://docs.brightsec.com/docs/full-path-disclosure)
         ],
         target: target
       )
