@@ -25,7 +25,7 @@ describe "Initializing a new web project" do
     end
   end
 
-  it "creates a full web app with generator" do
+  it "creates a full web app without auth" do
     puts "Web app generators: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --no-auth"
@@ -42,6 +42,8 @@ describe "Initializing a new web project" do
         should_run_successfully "lucky gen.task email.monthly_update"
         should_run_successfully "lucky gen.secret_key"
 
+        File.read("shard.yml").should_not contain "authentic"
+        File.read("src/shards.cr").should_not contain "authentic"
         File.read("src/actions/comments/index.cr").should contain "Comments::Index"
         File.read("src/pages/comments/index_page.cr").should contain "Comments::IndexPage"
         File.read("src/models/comment.cr").should contain "Comment < BaseModel"
@@ -70,14 +72,6 @@ describe "Initializing a new web project" do
     puts "Api only without auth: Running integration spec. This might take awhile...".colorize(:yellow)
     with_project_cleanup do
       should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --api --no-auth"
-      compile_and_run_specs_on_test_project
-    end
-  end
-
-  it "creates a full app without auth" do
-    puts "Web app without auth: Running integration spec. This might take awhile...".colorize(:yellow)
-    with_project_cleanup do
-      should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --no-auth"
       compile_and_run_specs_on_test_project
     end
   end
