@@ -4,5 +4,5 @@ require "lucky_sec_tester"
 # [NeuraLegion](https://app.neuralegion.com/signup)
 # Read more about the SecTester on https://github.com/luckyframework/lucky_sec_tester
 LuckySecTester.configure do |setting|
-  setting.nexploit_token = ENV["NEXPLOIT_TOKEN"]
+  setting.bright_token = ENV["BRIGHT_TOKEN"]
 end
