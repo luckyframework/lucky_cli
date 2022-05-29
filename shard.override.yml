@@ -1,8 +1,6 @@
 # This file is used to override the shards built by
 # generated Lucky apps.
 
-# TODO: Remove this once we only support Crystal >= 1.1.0
-dependencies: {}
 # Uncomment if you need to override
 # dependencies:
 #   lucky:

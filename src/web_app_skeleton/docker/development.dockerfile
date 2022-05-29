@@ -1,4 +1,4 @@
-FROM crystallang/crystal:1.1.1
+FROM crystallang/crystal:1.4.1
 
 # Add the nodesource ppa to apt. Update this to change the nodejs version.
 RUN wget https://deb.nodesource.com/setup_16.x -O- | bash
@@ -26,7 +26,7 @@ RUN wget https://github.com/DarthSim/overmind/releases/download/v2.2.2/overmind-
 # Install lucky cli, TODO: fetch current lucky version from source code.
 WORKDIR /lucky/cli
 RUN git clone https://github.com/luckyframework/lucky_cli . && \
-    git checkout v0.29.0 && \
+    git checkout v0.30.0 && \
     shards build --without-development && \
     cp bin/lucky /usr/bin
 
