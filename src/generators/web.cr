@@ -172,9 +172,6 @@ class LuckyCli::Generators::Web
       lucky:
         github: luckyframework/lucky
         version: ~> 0.30.0
-      authentic:
-        github: luckyframework/authentic
-        version: ~> 0.8.2
       carbon:
         github: luckyframework/carbon
         version: ~> 0.2.1
@@ -191,6 +188,9 @@ class LuckyCli::Generators::Web
 
     if generate_auth?
       append_text to: "shard.yml", text: <<-DEPS_LIST
+        authentic:
+          github: luckyframework/authentic
+          version: ~> 0.8.2
         jwt:
           github: crystal-community/jwt
           version: ~> 1.6.0
