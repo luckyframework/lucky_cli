@@ -172,6 +172,9 @@ class LuckyCli::Generators::Web
       lucky:
         github: luckyframework/lucky
         version: ~> 0.30.0
+      avram:
+        github: luckyframework/avram
+        version: ~> 0.23.0
       carbon:
         github: luckyframework/carbon
         version: ~> 0.2.1
