@@ -27,8 +27,6 @@ end
 
 if task_name == "dev"
   LuckyCli::Dev.new.call
-elsif task_name == "gen.tasks_file"
-  LuckyCli::Generators::TasksFile.run
 elsif task_name == "init"
   LuckyCli::Init.run
 elsif task_name == "init.custom"
