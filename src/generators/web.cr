@@ -5,6 +5,8 @@ class LuckyCli::Generators::Web
 
   getter project_name : String
   getter? api_only, generate_auth, with_sec_tester
+  private getter? default_directory : Bool
+  private getter full_project_directory : String
 
   def initialize(
     project_name : String,
@@ -13,7 +15,9 @@ class LuckyCli::Generators::Web
     @with_sec_tester : Bool = false,
     project_directory : String = "."
   )
-    Dir.cd(File.expand_path(project_directory))
+    @full_project_directory = File.expand_path(project_directory)
+    Dir.cd(@full_project_directory)
+    @default_directory = project_directory == "."
 
     @project_dir = project_name
     @project_name = @project_dir.gsub('-', '_')
@@ -59,15 +63,24 @@ class LuckyCli::Generators::Web
 
     setup_gitignore
     remove_default_license
+
     puts <<-TEXT
     #{"Done generating your Lucky project".colorize.bold}
 
-      #{green_arrow} cd into #{project_dir.colorize(:green)}
+      #{green_arrow} cd into #{project_location.colorize(:green)}
       #{green_arrow} check database settings in #{"config/database.cr".colorize(:green)}
       #{green_arrow} run #{"script/setup".colorize(:green)}
       #{green_arrow} run #{"lucky dev".colorize(:green)} to start the server
 
     TEXT
+  end
+
+  private def project_location : String
+    if default_directory?
+      project_dir
+    else
+      [full_project_directory.chomp('/'), project_dir].join('/')
+    end
   end
 
   private def setup_gitignore
