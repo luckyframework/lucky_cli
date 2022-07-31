@@ -35,6 +35,11 @@ class LuckyCli::InitCustom < LuckyCli::Init
         puts parser
         exit(0)
       }
+      parser.invalid_option do |flag|
+        STDERR.puts "ERROR: #{flag} is not a valid option."
+        STDERR.puts parser
+        exit(1)
+      end
     end
 
     LuckyCli::Generators::Web.run(
