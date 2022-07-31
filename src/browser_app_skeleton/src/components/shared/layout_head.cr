@@ -10,6 +10,11 @@ class Shared::LayoutHead < BaseComponent
       meta name: "turbolinks-cache-control", content: "no-cache"
       csrf_meta_tags
       responsive_meta_tag
+
+      # Used only in development when running `lucky watch`.
+      # Will reload browser whenever files change.
+      # See [docs]()
+      live_reload_connect_tag
     end
   end
 end
