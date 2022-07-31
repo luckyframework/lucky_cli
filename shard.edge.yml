@@ -2,6 +2,9 @@ dependencies:
   lucky:
     github: luckyframework/lucky
     branch: main
+  avram:
+    github: luckyframework/avram
+    branch: main
   authentic:
     github: luckyframework/authentic
     branch: main
