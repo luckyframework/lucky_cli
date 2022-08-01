@@ -85,8 +85,11 @@ options = OptionParser.new do |parser|
   }
 
   parser.on("-h", "--help", "Show this help") do
-    puts parser
-    exit
+    # Inside of a Lucky app, -h will display the available tasks
+    if !File.file?(tasks_file)
+      puts parser
+      exit
+    end
   end
 
   parser.invalid_option do |flag|
