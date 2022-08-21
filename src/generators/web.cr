@@ -16,7 +16,17 @@ class LuckyCli::Generators::Web
     project_directory : String = "."
   )
     @full_project_directory = File.expand_path(project_directory)
-    Dir.cd(@full_project_directory)
+
+    if Dir.exists?(@full_project_directory)
+      Dir.cd(@full_project_directory)
+    else
+      puts <<-ERROR.colorize.red
+      The directory #{@full_project_directory} does not exist.
+      Make sure to create the directory first before generating a new application.
+      ERROR
+
+      exit(1)
+    end
     @default_directory = project_directory == "."
 
     @project_dir = project_name
