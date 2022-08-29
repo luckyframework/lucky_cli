@@ -3,6 +3,11 @@ ENV["DEV_PORT"] = "5001"
 require "spec"
 <%- if browser? -%>
 require "lucky_flow"
+require "lucky_flow/ext/lucky"
+require "lucky_flow/ext/avram"
+<%- if generate_auth? %>
+require "lucky_flow/ext/authentic"
+<%- end -%>
 <%- end -%>
 require "../src/app"
 <%- if browser? -%>
