@@ -1,4 +1,4 @@
-name: Lucky CLI CI
+name: Lucky CLI Main CI
 
 on:
   push:

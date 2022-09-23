@@ -194,29 +194,29 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        version: ~> 0.30.0
+        branch: main
       avram:
         github: luckyframework/avram
-        version: ~> 0.23.0
+        branch: main
       carbon:
         github: luckyframework/carbon
-        version: ~> 0.2.1
+        branch: main
       carbon_sendgrid_adapter:
         github: luckyframework/carbon_sendgrid_adapter
-        version: ~> 0.2.1
+        branch: main
       lucky_env:
         github: luckyframework/lucky_env
-        version: ~> 0.1.4
+        branch: main
       lucky_task:
         github: luckyframework/lucky_task
-        version: ~> 0.1.1
+        branch: main
     DEPS_LIST
 
     if generate_auth?
       append_text to: "shard.yml", text: <<-DEPS_LIST
         authentic:
           github: luckyframework/authentic
-          version: ~> 0.8.2
+          branch: main
         jwt:
           github: crystal-community/jwt
           version: ~> 1.6.0

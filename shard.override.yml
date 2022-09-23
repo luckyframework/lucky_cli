@@ -9,3 +9,9 @@ dependencies:
   avram:
     github: luckyframework/avram
     branch: main
+  carbon:
+    github: luckyframework/carbon
+    branch: main
+  lucky_task:
+    github: luckyframework/lucky_task
+    branch: main
