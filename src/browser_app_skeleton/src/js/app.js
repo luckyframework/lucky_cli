@@ -4,11 +4,11 @@
 // Though it says "Rails" it actually works with any framework.
 require("@rails/ujs").start();
 
-// Turbolinks is optional. Learn more: https://github.com/turbolinks/turbolinks/
-require("turbolinks").start();
+// Turbo is optional. Learn more: https://github.com/hotwired/turbo
+require("@hotwired/turbo");
 
-// If using Turbolinks, you can attach events to page load like this:
+// If using Turbo, you can attach events to page load like this:
 //
-// document.addEventListener("turbolinks:load", function() {
+// document.addEventListener("turbo:load", function() {
 //   ...
 // })
