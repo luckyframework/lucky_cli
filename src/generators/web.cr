@@ -200,16 +200,16 @@ class LuckyCli::Generators::Web
         branch: main
       carbon:
         github: luckyframework/carbon
-        branch: main
+        version: ~> 0.3.0
       carbon_sendgrid_adapter:
         github: luckyframework/carbon_sendgrid_adapter
-        branch: main
+        version: ~> 0.3.0
       lucky_env:
         github: luckyframework/lucky_env
-        branch: main
+        version: ~> 0.1.4
       lucky_task:
         github: luckyframework/lucky_task
-        branch: main
+        version: ~> 0.1.1
     DEPS_LIST
 
     if generate_auth?
@@ -238,7 +238,7 @@ class LuckyCli::Generators::Web
         append_text to: "shard.yml", text: <<-DEPS_LIST
           lucky_flow:
             github: luckyframework/lucky_flow
-            version: ~> 0.8.0
+            version: ~> 0.9.0
         DEPS_LIST
       end
 
@@ -246,7 +246,7 @@ class LuckyCli::Generators::Web
         append_text to: "shard.yml", text: <<-DEPS_LIST
           lucky_sec_tester:
             github: luckyframework/lucky_sec_tester
-            branch: main
+            version: ~> 0.1.0
         DEPS_LIST
       end
     end
