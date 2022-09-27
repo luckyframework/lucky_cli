@@ -5,10 +5,10 @@
 dependencies:
   lucky:
     github: luckyframework/lucky
-    branch: main
+    branch: releases/1.0.0.rc1
   avram:
     github: luckyframework/avram
-    branch: main
+    branch: releases/1.0.0.rc1
   authentic:
     github: luckyframework/authentic
-    branch: main
+    branch: releases/0.9.0
