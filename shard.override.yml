@@ -9,3 +9,6 @@ dependencies:
   avram:
     github: luckyframework/avram
     branch: main
+  authentic:
+    github: luckyframework/authentic
+    branch: main
