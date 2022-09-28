@@ -194,16 +194,16 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        version: ~> 0.30.0
+        version: ~> 1.0.0.rc1
       avram:
         github: luckyframework/avram
-        version: ~> 0.23.0
+        version: ~> 1.0.0.rc1
       carbon:
         github: luckyframework/carbon
-        version: ~> 0.2.1
+        version: ~> 0.3.0
       carbon_sendgrid_adapter:
         github: luckyframework/carbon_sendgrid_adapter
-        version: ~> 0.2.1
+        version: ~> 0.3.0
       lucky_env:
         github: luckyframework/lucky_env
         version: ~> 0.1.4
@@ -216,7 +216,7 @@ class LuckyCli::Generators::Web
       append_text to: "shard.yml", text: <<-DEPS_LIST
         authentic:
           github: luckyframework/authentic
-          version: ~> 0.8.2
+          version: ~> 0.9.0
         jwt:
           github: crystal-community/jwt
           version: ~> 1.6.0
@@ -238,7 +238,7 @@ class LuckyCli::Generators::Web
         append_text to: "shard.yml", text: <<-DEPS_LIST
           lucky_flow:
             github: luckyframework/lucky_flow
-            version: ~> 0.8.0
+            version: ~> 0.9.0
         DEPS_LIST
       end
 
@@ -246,7 +246,7 @@ class LuckyCli::Generators::Web
         append_text to: "shard.yml", text: <<-DEPS_LIST
           lucky_sec_tester:
             github: luckyframework/lucky_sec_tester
-            branch: main
+            version: ~> 0.1.0
         DEPS_LIST
       end
     end
