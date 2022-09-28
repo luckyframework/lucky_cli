@@ -1,14 +1,8 @@
 name: Lucky CLI Security CI
 
 on:
-  push:
-    branches: [main]
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - reopened
-      - synchronize
+  pull_request:
+    branches: "*"
 
 jobs:
   specs:
