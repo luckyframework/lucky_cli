@@ -2,7 +2,7 @@ FROM crystallang/crystal:1.4.1
 
 # Install utilities required to make this Dockerfile run
 RUN apt-get update && \
-    apt-get install -y wget gunzip
+    apt-get install -y wget
 
 # Add the nodesource ppa to apt. Update this to change the nodejs version.
 RUN wget https://deb.nodesource.com/setup_16.x -O- | bash
