@@ -35,7 +35,7 @@ elsif ["-v", "--version"].includes?(task_name)
   puts LuckyCli::VERSION
 elsif task_precompiled?
   exit Process.run(
-    precompiled_task_path.not_nil!,
+    precompiled_task_path.to_s,
     ARGV.skip(1),
     shell: true,
     input: STDIN,
