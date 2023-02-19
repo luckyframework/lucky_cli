@@ -32,11 +32,11 @@ Run `which lucky` from the command line to make sure it is installed.
 ## Contributing
 
 1.  Fork it ( https://github.com/luckyframework/lucky_cli/fork )
-1.  Create your feature branch (git checkout -b my-new-feature)
-1.  Commit your changes (git commit -am 'Add some feature')
-1.  Push to the branch (git push origin my-new-feature)
-1.  Check that specs on GitHub Actions CI pass
-1.  Create a new Pull Request
+2.  Create your feature branch (git checkout -b my-new-feature)
+3.  Commit your changes (git commit -am 'Add some feature')
+4.  Push to the branch (git push origin my-new-feature)
+5.  Check that specs on GitHub Actions CI pass
+6.  Create a new Pull Request
 
 ## Testing Deployment to Heroku
 
@@ -47,11 +47,11 @@ run tests against Heroku to make sure deployment is working as expected.
 If you want though, you can also test deployment locally:
 
 1. Sign up for a Heroku account and install the CLI.
-1. Run `heroku authorizations:create --description="Lucky CLI Integration Tests"`.
-1. Grab the token from that command and put it in the generated `.env` file.
-1. Change `RUN_HEROKU_SPECS` from `0` to `1` in the `.env` file.
-1. Run `script/setup` to make sure all dependencies are installed.
-1. Run `script/test` to test everything, or run `script/test specs/integration/deploy_to_heroku_spec.cr`
+2. Run `heroku authorizations:create --description="Lucky CLI Integration Tests"`.
+3. Grab the token from that command and put it in the generated `.env` file.
+4. Change `RUN_HEROKU_SPECS` from `0` to `1` in the `.env` file.
+5. Run `script/setup` to make sure all dependencies are installed.
+6. Run `script/test` to test everything, or run `script/test specs/integration/deploy_to_heroku_spec.cr`
 
 ## Contributors
 
