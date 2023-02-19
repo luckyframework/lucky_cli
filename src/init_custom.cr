@@ -1,5 +1,5 @@
 class LuckyCli::InitCustom < LuckyCli::Init
-  def run
+  def run : Nil
     project_name = ProjectName.new(ARGV[1]? || "")
 
     if project_name.valid?

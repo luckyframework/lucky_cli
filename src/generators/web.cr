@@ -39,11 +39,11 @@ class LuckyCli::Generators::Web
     new(*args, **named_args).run
   end
 
-  private def browser?
+  private def browser? : Bool
     !api_only?
   end
 
-  def run
+  def run : Nil
     ensure_directory_does_not_exist
     generate_default_crystal_project
     rename_shard_target_to_app
