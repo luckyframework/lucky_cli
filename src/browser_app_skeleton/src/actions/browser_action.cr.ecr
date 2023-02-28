@@ -40,7 +40,7 @@ abstract class BrowserAction < Lucky::Action
 
   # This method tells Authentic how to find the current user
   # The 'memoize' macro makes sure only one query is issued to find the user
-  private memoize def find_current_user(id) : User?
+  private memoize def find_current_user(id : User::PrimaryKeyType) : User?
     UserQuery.new.id(id).first?
   end
   <%- end -%>
