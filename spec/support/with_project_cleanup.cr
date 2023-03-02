@@ -1,5 +1,5 @@
 module WithProjectCleanup
-  private def with_project_cleanup(project_directory = "test-project", skip_db_drop = false) : Nil
+  private def with_project_cleanup(project_directory = "test-project", skip_db_drop = false, &) : Nil
     yield
 
     FileUtils.cd(project_directory) {
