@@ -61,7 +61,7 @@ class LuckyCli::BuildAndRunTask
     ).exit_code
   end
 
-  private def with_spinner(start_text)
+  private def with_spinner(start_text, &)
     if ENV.has_key?("CI")
       STDERR.puts start_text.colorize.bold
       yield

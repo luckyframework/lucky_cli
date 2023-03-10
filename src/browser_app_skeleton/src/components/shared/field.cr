@@ -35,7 +35,7 @@ class Shared::Field(T) < BaseComponent
   needs attribute : Avram::PermittedAttribute(T)
   needs label_text : String?
 
-  def render
+  def render(&)
     label_for attribute, label_text
 
     # You can add more default options here. For example:

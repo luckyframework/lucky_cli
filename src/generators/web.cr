@@ -246,7 +246,7 @@ class LuckyCli::Generators::Web
         append_text to: "shard.yml", text: <<-DEPS_LIST
           lucky_sec_tester:
             github: luckyframework/lucky_sec_tester
-            version: ~> 0.1.0
+            version: ~> 0.2.0
         DEPS_LIST
       end
     end
