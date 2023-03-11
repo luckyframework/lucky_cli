@@ -216,7 +216,7 @@ class LuckyCli::Generators::Web
       append_text to: "shard.yml", text: <<-DEPS_LIST
         authentic:
           github: luckyframework/authentic
-          version: ~> 0.9.0
+          version: ~> 1.0.0
         jwt:
           github: crystal-community/jwt
           version: ~> 1.6.0
