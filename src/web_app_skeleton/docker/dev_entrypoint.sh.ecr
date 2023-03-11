@@ -2,9 +2,9 @@
 
 set -euo pipefail
 
-# This is the entrypoint script used for development docker workflows. By
-# default it will:
-#  - Install shards.
+# This is the entrypoint script used for development docker workflows.
+# By default it will:
+#  - Install dependencies.
 #  - Run migrations.
 #  - Start the dev server.
 # It also accepts any commands to be run instead.
@@ -27,10 +27,10 @@ if ! [ -d bin ] ; then
   echo "Creating bin directory"
   mkdir bin
 fi
-
+<%- if browser? -%>
 echo "Installing npm packages..."
 yarn install
-
+<%- end -%>
 if ! shards check ; then
   echo "Installing shards..."
   shards install
@@ -42,11 +42,6 @@ echo "Waiting for postgres to be available..."
 if ! psql -d "$DATABASE_URL" -c '\d migrations' > /dev/null ; then
   echo "Finishing database setup..."
   lucky db.migrate
-fi
-
-if [ -S .overmind.sock ] ; then
-  echo "Removing old overmind socket file..."
-  rm .overmind.sock
 fi
 
 echo "Starting lucky dev server..."
