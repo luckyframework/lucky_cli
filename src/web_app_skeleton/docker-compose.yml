@@ -6,6 +6,7 @@ services:
       dockerfile: docker/development.dockerfile
     environment:
       DATABASE_URL: postgres://lucky:password@postgres:5432/lucky
+      DEV_HOST: "0.0.0.0"
     volumes:
       - type: bind
         source: .
@@ -19,7 +20,8 @@ services:
     depends_on:
       - postgres
     ports:
-      - 5001:5001
+      - 3000:3000 # This is the Lucky Server port
+      - 3001:3001 # This is the Lucky watcher reload port
 
     entrypoint: ["docker/dev_entrypoint.sh"]
 
