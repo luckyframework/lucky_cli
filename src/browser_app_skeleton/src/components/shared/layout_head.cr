@@ -10,10 +10,9 @@ class Shared::LayoutHead < BaseComponent
       csrf_meta_tags
       responsive_meta_tag
 
-      # Used only in development when running `lucky watch`.
-      # Will reload browser whenever files change.
-      # See [docs]()
-      live_reload_connect_tag
+      # Development helper used with the `lucky watch` command.
+      # Reloads the browser when files are updated.
+      live_reload_connect_tag if LuckyEnv.development?
     end
   end
 end
