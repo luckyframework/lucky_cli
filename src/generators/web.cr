@@ -194,10 +194,10 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        version: ~> 1.0.0-rc1
+        version: ~> 1.0.0
       avram:
         github: luckyframework/avram
-        version: ~> 1.0.0-rc1
+        version: ~> 1.0.0
       carbon:
         github: luckyframework/carbon
         version: ~> 0.3.0
@@ -216,7 +216,7 @@ class LuckyCli::Generators::Web
       append_text to: "shard.yml", text: <<-DEPS_LIST
         authentic:
           github: luckyframework/authentic
-          version: ~> 0.9.0
+          version: ~> 1.0.0
         jwt:
           github: crystal-community/jwt
           version: ~> 1.6.0
