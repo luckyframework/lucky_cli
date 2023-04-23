@@ -24,25 +24,25 @@ case ${1:-} in
 esac
 
 if ! [ -d bin ] ; then
-  echo "Creating bin directory"
+  echo 'Creating bin directory'
   mkdir bin
 fi
 <%- if browser? -%>
-echo "Installing npm packages..."
+echo 'Installing npm packages...'
 yarn install
 <%- end -%>
 if ! shards check ; then
-  echo "Installing shards..."
+  echo 'Installing shards...'
   shards install
 fi
 
-echo "Waiting for postgres to be available..."
+echo 'Waiting for postgres to be available...'
 ./docker/wait-for-it.sh -q postgres:5432
 
 if ! psql -d "$DATABASE_URL" -c '\d migrations' > /dev/null ; then
-  echo "Finishing database setup..."
+  echo 'Finishing database setup...'
   lucky db.migrate
 fi
 
-echo "Starting lucky dev server..."
+echo 'Starting lucky dev server...'
 exec lucky dev
