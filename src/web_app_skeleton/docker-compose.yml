@@ -11,6 +11,7 @@ services:
       - .:/app
       - node_modules:/app/node_modules
       - shards_lib:/app/lib
+      - app_bin:/app/bin
       - build_cache:/root/.cache
     depends_on:
       - postgres
@@ -40,4 +41,5 @@ volumes:
   postgres_data:
   node_modules:
   shards_lib:
+  app_bin:
   build_cache:
