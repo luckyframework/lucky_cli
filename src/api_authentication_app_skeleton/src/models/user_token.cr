@@ -22,7 +22,7 @@ class UserToken
   end
 
   # Used in tests to return a fake token to test against.
-  def self.stub_token(token : String)
+  def self.stub_token(token : String, &)
     temp_config(stubbed_token: token) do
       yield
     end

@@ -57,7 +57,7 @@ module LuckyCli::GeneratorHelpers
     end
   end
 
-  private def within_project
+  private def within_project(&)
     FileUtils.cd project_dir do
       yield
     end

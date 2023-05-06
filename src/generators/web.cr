@@ -16,7 +16,17 @@ class LuckyCli::Generators::Web
     project_directory : String = "."
   )
     @full_project_directory = File.expand_path(project_directory)
-    Dir.cd(@full_project_directory)
+
+    if Dir.exists?(@full_project_directory)
+      Dir.cd(@full_project_directory)
+    else
+      puts <<-ERROR.colorize.red
+      The directory #{@full_project_directory} does not exist.
+      Make sure to create the directory first before generating a new application.
+      ERROR
+
+      exit(1)
+    end
     @default_directory = project_directory == "."
 
     @project_dir = project_name
@@ -29,11 +39,11 @@ class LuckyCli::Generators::Web
     new(*args, **named_args).run
   end
 
-  private def browser?
+  private def browser? : Bool
     !api_only?
   end
 
-  def run
+  def run : Nil
     ensure_directory_does_not_exist
     generate_default_crystal_project
     rename_shard_target_to_app
@@ -184,16 +194,16 @@ class LuckyCli::Generators::Web
     dependencies:
       lucky:
         github: luckyframework/lucky
-        version: ~> 0.30.0
+        version: ~> 1.0.0
       avram:
         github: luckyframework/avram
-        version: ~> 0.23.0
+        version: ~> 1.0.0
       carbon:
         github: luckyframework/carbon
-        version: ~> 0.2.1
+        version: ~> 0.3.0
       carbon_sendgrid_adapter:
         github: luckyframework/carbon_sendgrid_adapter
-        version: ~> 0.2.1
+        version: ~> 0.3.0
       lucky_env:
         github: luckyframework/lucky_env
         version: ~> 0.1.4
@@ -206,7 +216,7 @@ class LuckyCli::Generators::Web
       append_text to: "shard.yml", text: <<-DEPS_LIST
         authentic:
           github: luckyframework/authentic
-          version: ~> 0.8.2
+          version: ~> 1.0.0
         jwt:
           github: crystal-community/jwt
           version: ~> 1.6.0
@@ -228,7 +238,7 @@ class LuckyCli::Generators::Web
         append_text to: "shard.yml", text: <<-DEPS_LIST
           lucky_flow:
             github: luckyframework/lucky_flow
-            version: ~> 0.8.0
+            version: ~> 0.9.0
         DEPS_LIST
       end
 
@@ -236,7 +246,7 @@ class LuckyCli::Generators::Web
         append_text to: "shard.yml", text: <<-DEPS_LIST
           lucky_sec_tester:
             github: luckyframework/lucky_sec_tester
-            branch: main
+            version: ~> 0.2.0
         DEPS_LIST
       end
     end

@@ -116,7 +116,7 @@ describe "SecTester" do
   <%- end -%>
 end
 
-private def scan_with_cleanup : Nil
+private def scan_with_cleanup(&) : Nil
   scanner = LuckySecTester.new
   yield scanner
 ensure

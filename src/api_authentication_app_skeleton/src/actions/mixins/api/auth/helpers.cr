@@ -1,5 +1,6 @@
 module Api::Auth::Helpers
-  def current_user? : User?
+  # The 'memoize' macro makes sure only one query is issued to find the user
+  memoize def current_user? : User?
     auth_token.try do |value|
       user_from_auth_token(value)
     end

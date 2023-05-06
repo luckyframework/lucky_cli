@@ -113,7 +113,7 @@ elsif generate_custom_app
   # already running
 elsif task_precompiled?
   exit Process.run(
-    precompiled_task_path.not_nil!,
+    precompiled_task_path.to_s,
     ARGV.skip(1),
     shell: true,
     input: STDIN,

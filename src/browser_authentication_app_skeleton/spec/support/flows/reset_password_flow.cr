@@ -34,7 +34,7 @@ class ResetPasswordFlow < BaseFlow
     click "@update-password-button"
   end
 
-  private def with_fake_token
+  private def with_fake_token(&)
     PasswordResetRequestEmail.temp_config(stubbed_token: "fake") do
       yield
     end
