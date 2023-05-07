@@ -10,6 +10,7 @@ include LuckyTask::TextHelpers
 
 args = ARGV.join(" ")
 tasks_file = ENV.fetch("LUCKY_TASKS_FILE", "./tasks.cr")
+inside_app_directory = File.file?(tasks_file)
 
 private def task_name : String?
   ARGV.first?
@@ -46,37 +47,62 @@ generate_custom_app = false
 options = OptionParser.new do |parser|
   parser.banner = "Usage: lucky [command]"
 
-  parser.on("dev", "Boot the lucky development server") do
-    run_dev_server = true
-    parser.banner = "Usage: lucky dev"
-    parser.on("-h", "--help", "Display lucky dev help menu") {
-      puts <<-MESSAGE
-      Usage: lucky dev
+  if inside_app_directory
+    parser.on("dev", "Boot the lucky development server") do
+      run_dev_server = true
+      parser.banner = "Usage: lucky dev"
+      parser.on("-h", "--help", "Display lucky dev help menu") {
+        puts <<-MESSAGE
+        Usage: lucky dev
 
-      Run this from within your Lucky application directory.
-      A Procfile.dev file must exist.
-      MESSAGE
-      exit
+        Boot your Lucky application. Uses the Procfile.dev to
+        run each service. Edit this file to change which services
+        are booted.
+        MESSAGE
+        exit
+      }
+    end
+
+    parser.on("tasks", "Display a list of the tasks available in your app") {
+      # This passes the help flag to LuckyTask within your app to
+      # generate a list of available tasks, and bypasses the help
+      # flag for this parser
+      args = "-h"
+      parser.banner = "Usage: lucky tasks"
+      parser.on("-h", "--help", "Display the lucky tasks help menu") {
+        puts <<-MESSAGE
+        Usage: lucky tasks
+
+        Run this from within your Lucky application directory.
+        This will compile a list of all the available tasks in your
+        application.
+
+        To compile your tasks, build the tasks.cr file
+        > crystal build tasks.cr -o bin/tasks
+
+        MESSAGE
+        exit
+      }
     }
-  end
+  else
+    parser.on("init", "Start the Lucky wizard") do
+      start_wizard = true
+      parser.banner = "Usage: lucky init"
+      parser.on("-h", "--help", "Display lucky init help menu") {
+        puts <<-MESSAGE
+        Usage: lucky init
 
-  parser.on("init", "Start the Lucky wizard") do
-    start_wizard = true
-    parser.banner = "Usage: lucky init"
-    parser.on("-h", "--help", "Display lucky init help menu") {
-      puts <<-MESSAGE
-      Usage: lucky init
+        Run this to start the new application wizard.
+        MESSAGE
+        exit
+      }
+    end
 
-      Run this to start the new application wizard.
-      MESSAGE
-      exit
-    }
-  end
-
-  parser.on("init.custom", "Generate a new Lucky application") do
-    generate_custom_app = true
-    # This command handles its own CLI arg parsing
-    LuckyCli::InitCustom.run
+    parser.on("init.custom", "Generate a new Lucky application") do
+      generate_custom_app = true
+      # This command handles its own CLI arg parsing
+      LuckyCli::InitCustom.run
+    end
   end
 
   parser.on("-v", "--version", "Show the version of the LuckyCLI") {
@@ -85,11 +111,8 @@ options = OptionParser.new do |parser|
   }
 
   parser.on("-h", "--help", "Show this help") do
-    # Inside of a Lucky app, -h will display the available tasks
-    if !File.file?(tasks_file)
-      puts parser
-      exit
-    end
+    puts parser
+    exit
   end
 
   parser.invalid_option do |flag|
@@ -120,7 +143,7 @@ elsif task_precompiled?
     output: STDOUT,
     error: STDERR
   ).exit_code
-elsif File.file?(tasks_file)
+elsif inside_app_directory
   # Run task from tasks.cr file since this task is not precompiled
   LuckyCli::BuildAndRunTask.call(tasks_file, args)
 else
