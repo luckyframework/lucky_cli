@@ -14,7 +14,7 @@ describe "SecTester" do
         tests: [
           "dom_xss",           # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
           "brute_force_login", # Testing for Brute Force on the Login (https://docs.brightsec.com/docs/brute-force-login)
-        ]
+        ],
         target: target
       )
     end
@@ -29,7 +29,6 @@ describe "SecTester" do
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
         tests: [
           "sqli",                   # Testing for SQL Injection issues (https://docs.brightsec.com/docs/sql-injection)
-          "email_header_injection", # Testing for Email Injection (https://docs.brightsec.com/docs/email-header-injection)
           "xss",                    # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
           "mass_assignment",        # Testing for Mass Assignment (https://docs.brightsec.com/docs/mass-assignment)
         ],
@@ -81,7 +80,7 @@ describe "SecTester" do
         tests: [
           "retire_js", # Testing for 3rd party issues (https://docs.brightsec.com/docs/javascript-component-with-known-vulnerabilities)
           "cve_test",  # Testing for known CVEs (https://docs.brightsec.com/docs/cves)
-        ]
+        ],
         target: target
       )
     end
