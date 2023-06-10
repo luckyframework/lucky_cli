@@ -127,7 +127,7 @@ class LuckyCli::Generators::Web
   end
 
   private def add_api_authentication_to_src
-    ApiAuthenticationTemplate.new.render("./#{project_dir}", force: true)
+    ApiAuthenticationTemplate.new.render(Path[project_dir])
   end
 
   private def add_browser_authentication_to_src
