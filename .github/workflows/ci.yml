@@ -29,23 +29,29 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        crystal_version: [latest]
-        experimental: [false]
-        shard_override_file: [shard.override.yml]
-        # TODO: Add Windows
-        # NOTE: caching node-modules & running setup script need to be changed for Windows
-        exclude:
-          - os: windows-latest
         include:
           - os: ubuntu-latest
-            crystal_version: 1.6.2
+            crystal_version: latest
+            experimental: false
+            shard_override_file: shard.override.yml
           - os: ubuntu-latest
-            shard_override_file: shard.edge.yml
+            crystal_version: 1.6.2
+            experimental: false
+            shard_override_file: shard.override.yml
+          - os: ubuntu-latest
+            crystal_version: latest
             experimental: true
+            shard_override_file: shard.edge.yml
           - os: ubuntu-latest
             crystal_version: nightly
             experimental: true
+            shard_override_file: shard.override.yml
+          # TODO: Add Windows
+          # NOTE: caching node-modules & running setup script need to be changed for Windows
+          #- os: windows-latest
+          #  crystal_version: latest
+          #  experimental: false
+          #  shard_override_file: shard.override.yml
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     services:
