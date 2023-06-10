@@ -38,10 +38,13 @@ jobs:
         exclude:
           - os: windows-latest
         include:
-          - crystal_version: 1.6.2
-          - shard_override_file: shard.edge.yml
+          - os: ubuntu-latest
+            crystal_version: 1.6.2
+          - os: ubuntu-latest
+            shard_override_file: shard.edge.yml
             experimental: true
-          - crystal_version: nightly
+          - os: ubuntu-latest
+            crystal_version: nightly
             experimental: true
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
