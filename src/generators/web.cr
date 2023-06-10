@@ -128,7 +128,7 @@ class LuckyCli::Generators::Web
   end
 
   private def add_api_authentication_to_src
-    ApiAuthenticationTemplate.new.render(project_dir, force: true)
+    ApiAuthenticationTemplate.new.render(Path[project_dir])
   end
 
   private def add_browser_authentication_to_src
@@ -137,7 +137,7 @@ class LuckyCli::Generators::Web
 
   private def add_sec_tester_to_src
     AppWithSecTesterTemplate.new(generate_auth: generate_auth?, browser: browser?)
-      .render(project_dir, force: true)
+      .render(Path[project_dir])
   end
 
   private def install_shards
