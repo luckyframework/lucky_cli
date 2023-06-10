@@ -12,10 +12,10 @@ class AppWithSecTesterTemplate
     LuckyTemplate.create_folder do |root_dir|
       root_dir.add_folder("spec") do |spec_dir|
         spec_dir.add_file(Path["flows/security_spec.cr"]) do |io|
-          ECR.embed("#{__DIR__}/../app_with_sec_tester/spec/setup/security_spec.cr.ecr", io)
+          ECR.embed("#{__DIR__}/../app_with_sec_tester/spec/flows/security_spec.cr.ecr", io)
         end
         spec_dir.add_file(Path["setup/sec_tester.cr"]) do |io|
-          ECR.embed("#{__DIR__}/../app_with_sec_tester/spec/flows/sec_tester.cr.ecr", io)
+          ECR.embed("#{__DIR__}/../app_with_sec_tester/spec/setup/sec_tester.cr.ecr", io)
         end
       end
     end
