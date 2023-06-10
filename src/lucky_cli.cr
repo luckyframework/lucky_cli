@@ -1,3 +1,4 @@
+require "teeplate"
 require "lucky_template"
 require "lucky_task"
 require "nox"
