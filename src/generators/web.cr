@@ -136,7 +136,7 @@ class LuckyCli::Generators::Web
 
   private def add_sec_tester_to_src
     AppWithSecTesterTemplate.new(generate_auth: generate_auth?, browser: browser?)
-      .render("./#{project_dir}", force: true)
+      .render(Path[project_dir])
   end
 
   private def remove_generated_src_files
