@@ -16,6 +16,9 @@ dependencies:
   teeplate:
     github: luckyframework/teeplate
     version: ~> 0.8.5
+  lucky_template:
+    github: luckyframework/lucky_template
+    version: ~> 0.1.0
   lucky_task:
     github: luckyframework/lucky_task
     version: ~> 0.1.1

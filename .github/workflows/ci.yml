@@ -29,21 +29,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard_override_file:
-          - shard.override.yml
-        crystal_version:
-          - 1.6.2
-          - latest
-        experimental:
-          - false
-        include:
-          - shard_override_file: shard.edge.yml
-            crystal_version: latest
-            experimental: true
-          - shard_override_file: shard.override.yml
-            crystal_version: nightly
-            experimental: true
-    runs-on: ubuntu-latest
+        os: [ubuntu-latest, windows-latest]
+        crystal_version: [latest, 1.6.2]
+        experimental: [false]
+        shard_override_file: [shard.override.yml]
+        exclude:
+          # TODO: Add Windows
+          # NOTE: caching node-modules & running setup script need to be changed for Windows
+          - os: windows-latest
+    runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     services:
       postgres:
@@ -60,7 +54,8 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout source
+        uses: actions/checkout@v3
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
@@ -81,6 +76,8 @@ jobs:
       - name: Install Lucky CLI
         run: |
           crystal build src/lucky.cr
+          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-system-path
+          # TL;DR => $GITHUB_PATH == PATH
           pwd >> $GITHUB_PATH
       - name: Run tests
         run: |
