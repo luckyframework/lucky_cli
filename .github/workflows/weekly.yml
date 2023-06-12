@@ -65,4 +65,3 @@ jobs:
           #BRIGHT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
           #BRIGHT_PROJECT_ID: ${{ secrets.BRIGHT_PROJECT_ID }}
           #RUN_SEC_TESTER_SPECS: 1
-          RUN_SEC_TESTER_SPECS: 1
