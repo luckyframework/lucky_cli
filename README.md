@@ -1,5 +1,8 @@
 # Lucky CLI
 
+[![Lucky CLI Main CI](https://github.com/luckyframework/lucky_cli/actions/workflows/ci.yml/badge.svg)](https://github.com/luckyframework/lucky_cli/actions/workflows/ci.yml)
+[![Lucky CLI Weekly CI](https://github.com/luckyframework/lucky_cli/actions/workflows/weekly.yml/badge.svg)](https://github.com/luckyframework/lucky_cli/actions/workflows/weekly.yml)
+
 This is the CLI utility used for generating new [Lucky Framework](https://luckyframework.org) Web applications.
 
 If you're looking for the Lucky core shard, you'll find that at https://github.com/luckyframework/lucky

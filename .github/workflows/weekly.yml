@@ -14,15 +14,12 @@ jobs:
           # NOTE: To catch potential issues on newer versions of packages
           - os: ubuntu-latest
             crystal_version: latest
-            experimental: true
             shard_override_file: shard.edge.yml
           # NOTE: To have more insight into upcoming Crystal versions
           - os: ubuntu-latest
             crystal_version: nightly
-            experimental: true
             shard_override_file: shard.override.yml
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
     services:
       postgres:
         image: postgres:13
@@ -44,9 +41,6 @@ jobs:
         uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{ matrix.crystal_version }}
-      #- name: Install Nexploit Repeater
-      #  run: |
-      #    sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
       - name: Run setup script
         run: ./script/setup
       - name: Install Lucky CLI
@@ -62,6 +56,3 @@ jobs:
         env:
           LUCKY_ENV: test
           RUN_SEC_TESTER_SPECS: 0
-          #BRIGHT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
-          #BRIGHT_PROJECT_ID: ${{ secrets.BRIGHT_PROJECT_ID }}
-          #RUN_SEC_TESTER_SPECS: 1
