@@ -150,8 +150,13 @@ class LuckyCli::Generators::Web
   end
 
   private def generate_shard_yml : Nil
-    ShardFileGenerator.new(project_name, generate_auth: generate_auth?, browser: browser?, with_sec_tester: with_sec_tester?)
-      .render(project_dir)
+    ShardFileGenerator.new(
+      project_name,
+      generate_auth: generate_auth?,
+      browser: browser?,
+      with_sec_tester: with_sec_tester?
+    )
+      .render(Path[project_dir])
   end
 
   private def ensure_directory_does_not_exist
