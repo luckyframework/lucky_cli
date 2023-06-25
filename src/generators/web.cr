@@ -1,3 +1,5 @@
+require "../lucky_cli/generator_helpers"
+
 class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers
 
@@ -113,40 +115,44 @@ class LuckyCli::Generators::Web
     end
   end
 
+  # TODO: migrate to lucky_template
   private def add_default_lucky_structure_to_src
-    SrcTemplate.new(project_name, generate_auth: generate_auth?, api_only: api_only?, with_sec_tester: with_sec_tester?)
+    SrcTemplate.new(
+      project_name,
+      generate_auth: generate_auth?,
+      api_only: api_only?,
+      with_sec_tester: with_sec_tester?
+    )
       .render(project_dir, force: true)
   end
 
+  # TODO: migrate to lucky_template
   private def add_browser_app_structure_to_src
     BrowserSrcTemplate.new(generate_auth: generate_auth?)
       .render(project_dir, force: true)
   end
 
   private def add_base_auth_to_src
-    BaseAuthenticationSrcTemplate.new.render(Path[project_dir])
-  end
-
-  private def add_api_authentication_to_src
-    ApiAuthenticationTemplate.new.render(Path[project_dir])
-  end
-
-  private def add_browser_authentication_to_src
-    BrowserAuthenticationSrcTemplate.new.render(project_dir, force: true)
-  end
-
-  private def add_sec_tester_to_src
-    AppWithSecTesterTemplate.new(generate_auth: generate_auth?, browser: browser?)
+    BaseAuthenticationSrcTemplate.new
       .render(Path[project_dir])
   end
 
-  private def install_shards
-    puts "Installing shards"
-    run_command "shards install"
+  private def add_api_authentication_to_src
+    ApiAuthenticationTemplate.new
+      .render(Path[project_dir])
   end
 
-  private def generate_default_project : Nil
-    Dir.mkdir_p(project_dir)
+  private def add_browser_authentication_to_src
+    BrowserAuthenticationSrcTemplate.new
+      .render(Path[project_dir])
+  end
+
+  private def add_sec_tester_to_src
+    AppWithSecTesterTemplate.new(
+      generate_auth: generate_auth?,
+      browser: browser?
+    )
+      .render(Path[project_dir])
   end
 
   private def generate_shard_yml : Nil
@@ -157,6 +163,15 @@ class LuckyCli::Generators::Web
       with_sec_tester: with_sec_tester?
     )
       .render(Path[project_dir])
+  end
+
+  private def install_shards
+    puts "Installing shards"
+    run_command "shards install"
+  end
+
+  private def generate_default_project : Nil
+    Dir.mkdir_p(project_dir)
   end
 
   private def ensure_directory_does_not_exist
