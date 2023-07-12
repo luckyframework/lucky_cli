@@ -12,7 +12,7 @@ class Shared::LayoutHead < BaseComponent
 
       # Development helper used with the `lucky watch` command.
       # Reloads the browser when files are updated.
-      live_reload_connect_tag if LuckyEnv.development?
+      live_reload_connect_tag
     end
   end
 end
