@@ -94,21 +94,21 @@ class SrcTemplate
         db_dir.add_file("migrations/.keep")
       end
       root_dir.add_folder("docker") do |docker_dir|
-        docker_dir.add_file("dev_entrypoint.sh") do |io|
+        docker_dir.add_file("dev_entrypoint.sh", 0o755) do |io|
           ECR.embed("#{__DIR__}/../web_app_skeleton/docker/dev_entrypoint.sh.ecr", io)
         end
         docker_dir.add_file("development.dockerfile") do |io|
           ECR.embed("#{__DIR__}/../web_app_skeleton/docker/development.dockerfile.ecr", io)
         end
-        docker_dir.add_file("wait-for-it.sh") do |io|
+        docker_dir.add_file("wait-for-it.sh", 0o755) do |io|
           ECR.embed("#{__DIR__}/../web_app_skeleton/docker/wait-for-it.sh.ecr", io)
         end
       end
       root_dir.add_folder("script") do |script_dir|
-        script_dir.add_file("setup") do |io|
+        script_dir.add_file("setup", 0o755) do |io|
           ECR.embed("#{__DIR__}/../web_app_skeleton/script/setup.ecr", io)
         end
-        script_dir.add_file("system_check") do |io|
+        script_dir.add_file("system_check", 0o755) do |io|
           ECR.embed("#{__DIR__}/../web_app_skeleton/script/system_check.ecr", io)
         end
         script_dir.add_folder("helpers") do |helpers_dir|
