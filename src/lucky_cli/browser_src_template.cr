@@ -114,7 +114,7 @@ class BrowserSrcTemplate
           ECR.embed("#{__DIR__}/../browser_app_skeleton/src/pages/main_layout.cr.ecr", io)
         end
         pages_dir.add_file("errors/show_page.cr") do |io|
-          ECR.embed("#{__DIR__}/../browser_app_skeleton/src/pages/show_page.cr.ecr", io)
+          ECR.embed("#{__DIR__}/../browser_app_skeleton/src/pages/errors/show_page.cr.ecr", io)
         end
       end
     end
