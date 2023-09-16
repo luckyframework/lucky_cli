@@ -2,13 +2,13 @@
 # generated Lucky apps.
 
 # Uncomment if you need to override
-# dependencies:
-#   lucky:
-#     github: luckyframework/lucky
-#     branch: main
-#   avram:
-#     github: luckyframework/avram
-#     branch: main
-#   authentic:
-#     github: luckyframework/authentic
-#     branch: main
+dependencies:
+  lucky:
+    github: luckyframework/lucky
+    branch: main
+  avram:
+    github: luckyframework/avram
+    branch: main
+  authentic:
+    github: luckyframework/authentic
+    branch: main
