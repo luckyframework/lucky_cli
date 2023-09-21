@@ -1,9 +1,8 @@
 require "../src/lucky_cli"
 
 class PlaceholderTask < LuckyTask::Task
+  summary "placeholder"
   def call; end
-
-  def summary; end
 end
 
 class TaskWithInput < LuckyTask::Task
