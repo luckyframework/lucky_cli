@@ -1,0 +1,93 @@
+name: test-project CI
+
+on:
+  push:
+    branches: "*"
+  pull_request:
+    branches: "*"
+
+jobs:
+  check-format:
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal_version:
+          - 1.6.2
+        experimental:
+          - false
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: ${{ matrix.crystal_version }}
+      - name: Format
+        run: crystal tool format --check
+
+  specs:
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal_version:
+          - 1.6.2
+        experimental:
+          - false
+    runs-on: ubuntu-latest
+    env:
+      LUCKY_ENV: test
+      DB_HOST: localhost
+    continue-on-error: ${{ matrix.experimental }}
+    services:
+      postgres:
+        image: postgres:12-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+       # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: ${{ matrix.crystal_version }}
+
+      - name: Set up Crystal cache
+        uses: actions/cache@v2
+        id: crystal-cache
+        with:
+          path: |
+            ~/.cache/crystal
+            lib
+            lucky_tasks
+          key: ${{ runner.os }}-crystal-${{ hashFiles('**/shard.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-crystal-
+
+      - name: Install shards
+        if: steps.crystal-cache.outputs.cache-hit != 'true'
+        run: shards check || shards install
+
+      - name: Install npm and Nexploit Repeater
+        run: |
+          sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
+      - name: Build lucky_tasks
+        if: steps.crystal-cache.outputs.cache-hit != 'true'
+        run: crystal build tasks.cr -o ./lucky_tasks
+
+      - name: Prepare database
+        run: |
+          ./lucky_tasks db.create
+          ./lucky_tasks db.migrate
+          ./lucky_tasks db.seed.required_data
+
+      - name: Run tests
+        run: crystal spec -Dwith_sec_tests
