@@ -6,18 +6,21 @@ require "../spec_helper"
 describe "SecTester" do
   <%- if browser? -%>
   <%- if generate_auth? -%>
-  it "tests the sign_in for dom based XSS" do
+  it "tests the sign_in" do
     scan_with_cleanup do |scanner|
       target = scanner.build_target(SignIns::New)
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
-        tests: "dom_xss", # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
+        tests: [
+          "dom_xss",           # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
+          "brute_force_login", # Testing for Brute Force on the Login (https://docs.brightsec.com/docs/brute-force-login)
+        ],
         target: target
       )
     end
   end
 
-  it "tests the sign_in page for SQLi, OSI, XSS attacks" do
+  it "tests the sign_in action with params" do
     scan_with_cleanup do |scanner|
       target = scanner.build_target(SignIns::Create) do |t|
         t.body = "user%3Aemail=test%40test.com&user%3Apassword=1234"
@@ -25,27 +28,16 @@ describe "SecTester" do
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
         tests: [
-          "sqli", # Testing for SQL Injection issues (https://docs.brightsec.com/docs/sql-injection)
-          "osi",  # Testing for OSI Injection issues (https://docs.brightsec.com/docs/os-command-injection)
-          "xss",  # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
+          "sqli",                   # Testing for SQL Injection issues (https://docs.brightsec.com/docs/sql-injection)
+          "xss",                    # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
+          "mass_assignment",        # Testing for Mass Assignment (https://docs.brightsec.com/docs/mass-assignment)
         ],
         target: target
       )
     end
   end
 
-  it "tests the sign_up page for dom based XSS" do
-    scan_with_cleanup do |scanner|
-      target = scanner.build_target(SignUps::New)
-      scanner.run_check(
-        scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
-        tests: "dom_xss", # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
-        target: target
-      )
-    end
-  end
-
-  it "tests the sign_up page for ALL attacks" do
+  it "tests the sign_up action" do
     scan_with_cleanup do |scanner|
       target = scanner.build_target(SignUps::Create) do |t|
         t.body = "user%3Aemail=aa%40aa.com&user%3Apassword=123456789&user%3Apassword_confirmation=123456789"
@@ -63,7 +55,7 @@ describe "SecTester" do
     end
   end
   <%- end -%>
-  it "tests the home page for header, and cookie security issues" do
+  it "tests the home page general infra issues" do
     scan_with_cleanup do |scanner|
       target = scanner.build_target(Home::Index)
       scanner.run_check(
@@ -85,7 +77,10 @@ describe "SecTester" do
       target = SecTester::Target.new(Lucky::RouteHelper.settings.base_uri + Lucky::AssetHelpers.asset("js/app.js"))
       scanner.run_check(
         scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
-        tests: "retire_js", # Testing for 3rd party issues (https://docs.brightsec.com/docs/javascript-component-with-known-vulnerabilities)
+        tests: [
+          "retire_js", # Testing for 3rd party issues (https://docs.brightsec.com/docs/javascript-component-with-known-vulnerabilities)
+          "cve_test",  # Testing for known CVEs (https://docs.brightsec.com/docs/cves)
+        ],
         target: target
       )
     end
