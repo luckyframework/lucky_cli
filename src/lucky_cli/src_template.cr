@@ -1,4 +1,5 @@
 require "random/secure"
+require "ecr"
 
 class SrcTemplate
   getter project_name
