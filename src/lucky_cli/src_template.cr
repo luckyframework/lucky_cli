@@ -1,12 +1,19 @@
 require "random/secure"
-require "ecr"
 
 class SrcTemplate
   getter project_name
   getter? api_only, generate_auth, with_sec_tester
   getter crystal_project_name : String
+  property(secret_key_base) { Random::Secure.base64(32) }
+  property(crystal_version) { Crystal::VERSION }
+  property(lucky_cli_version) { LuckyCli::VERSION }
 
-  def initialize(@project_name : String, @generate_auth : Bool, @api_only : Bool, @with_sec_tester : Bool)
+  def initialize(
+    @project_name : String,
+    @generate_auth : Bool,
+    @api_only : Bool,
+    @with_sec_tester : Bool
+  )
     @crystal_project_name = @project_name.gsub("-", "_")
   end
 
@@ -16,10 +23,6 @@ class SrcTemplate
 
   private def browser?
     !api_only?
-  end
-
-  def secret_key_base
-    Random::Secure.base64(32)
   end
 
   def render(path : Path)

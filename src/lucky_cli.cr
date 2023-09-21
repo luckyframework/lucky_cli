@@ -1,6 +1,7 @@
 require "lucky_template"
 require "lucky_task"
 require "nox"
+require "ecr"
 require "./lucky_cli/**"
 require "./generators/*"
 require "./init"

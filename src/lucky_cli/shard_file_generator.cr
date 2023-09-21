@@ -6,6 +6,7 @@ class ShardFileGenerator
   getter? generate_auth : Bool
   getter? browser : Bool
   getter? with_sec_tester : Bool
+  property(crystal_version) { Crystal::VERSION }
 
   def initialize(
     @project_name : String,
@@ -34,7 +35,7 @@ class ShardFileGenerator
           "main" => Path.new("src", "#{project_name}.cr").to_s,
         },
       },
-      "crystal"                  => ">= #{Crystal::VERSION}",
+      "crystal"                  => ">= #{crystal_version}",
       "dependencies"             => shard_deps,
       "development_dependencies" => shard_dev_deps,
     }

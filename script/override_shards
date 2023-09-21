@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# source this file to export the variable
-
-export SHARDS_OVERRIDE="$(pwd)/shard.override.yml"
