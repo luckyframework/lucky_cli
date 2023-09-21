@@ -13,12 +13,9 @@ crystal: ">= 1.6.0"
 license: MIT
 
 dependencies:
-  teeplate:
-    github: luckyframework/teeplate
-    version: ~> 0.8.5
   lucky_template:
     github: luckyframework/lucky_template
-    version: ~> 0.1.0
+    version: ~> 0.2.0
   lucky_task:
     github: luckyframework/lucky_task
     version: ~> 0.1.1

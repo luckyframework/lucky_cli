@@ -21,16 +21,12 @@ class ShardFileGenerator
 
   def template_folder
     LuckyTemplate.create_folder do |top_dir|
-      top_dir.add_file("shard.yml", <<-YAML)
-      #{shard_info}
-      #{shard_deps}
-      #{shard_dev_deps}
-      YAML
+      top_dir.add_file("shard.yml", shard_yml.to_yaml)
     end
   end
 
-  def shard_info : String
-    normalize_yaml({
+  def shard_yml
+    {
       "name"    => project_name,
       "version" => "0.1.0",
       "targets" => {
@@ -38,19 +34,21 @@ class ShardFileGenerator
           "main" => Path.new("src", "#{project_name}.cr").to_s,
         },
       },
-      "crystal" => ">= #{Crystal::VERSION}",
-    })
+      "crystal"                  => ">= #{Crystal::VERSION}",
+      "dependencies"             => shard_deps,
+      "development_dependencies" => shard_dev_deps,
+    }
   end
 
-  def shard_deps
+  private def shard_deps
     deps = project_base_deps
     if generate_auth?
       deps = deps.merge(project_auth_deps)
     end
-    normalize_yaml({"dependencies" => deps})
+    deps
   end
 
-  def shard_dev_deps
+  private def shard_dev_deps
     deps = {} of String => String
     if browser?
       deps = deps.merge(project_browser_dev_deps)
@@ -58,11 +56,7 @@ class ShardFileGenerator
     if with_sec_tester?
       deps = deps.merge(project_additional_dev_deps)
     end
-    normalize_yaml({"development_dependencies" => deps})
-  end
-
-  private def normalize_yaml(hash) : String
-    hash.to_yaml.lines[1..].join('\n')
+    deps
   end
 
   private def project_base_deps

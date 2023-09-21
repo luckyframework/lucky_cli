@@ -115,7 +115,6 @@ class LuckyCli::Generators::Web
     end
   end
 
-  # TODO: migrate to lucky_template
   private def add_default_lucky_structure_to_src
     SrcTemplate.new(
       project_name,
@@ -123,13 +122,12 @@ class LuckyCli::Generators::Web
       api_only: api_only?,
       with_sec_tester: with_sec_tester?
     )
-      .render(project_dir, force: true)
+      .render(Path[project_dir])
   end
 
-  # TODO: migrate to lucky_template
   private def add_browser_app_structure_to_src
     BrowserSrcTemplate.new(generate_auth: generate_auth?)
-      .render(project_dir, force: true)
+      .render(Path[project_dir])
   end
 
   private def add_base_auth_to_src
