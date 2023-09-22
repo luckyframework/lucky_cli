@@ -83,7 +83,7 @@ class ShardFileGenerator
       },
       "lucky_task" => {
         "github"  => "luckyframework/lucky_task",
-        "version" => "~> 0.2.0",
+        "version" => "~> 0.3.0",
       },
     }
   end
