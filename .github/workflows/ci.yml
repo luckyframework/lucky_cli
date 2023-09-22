@@ -17,7 +17,7 @@ jobs:
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
-          crystal: 1.6.2
+          crystal: latest
       - name: Install shards
         run: shards install
       - name: Format
@@ -30,15 +30,11 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        crystal_version: [latest, 1.6.2]
-        experimental: [false]
-        shard_override_file: [shard.override.yml]
-        exclude:
-          # TODO: Add Windows
-          # NOTE: caching node-modules & running setup script need to be changed for Windows
-          - os: windows-latest
+        crystal_version: [latest]
+        include:
+          - os: ubuntu-latest
+            crystal_version: 1.6.2
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
     services:
       postgres:
         image: postgres:13
@@ -71,8 +67,8 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - name: Run setup script
-        run: ./script/setup
+      - name: Install CLI Dependencies
+        run: shards install --skip-postinstall --skip-executables
       - name: Install Lucky CLI
         run: |
           crystal build src/lucky.cr
@@ -86,3 +82,4 @@ jobs:
         env:
           LUCKY_ENV: test
           RUN_SEC_TESTER_SPECS: 0
+          RUN_HEROKU_SPECS: 0
