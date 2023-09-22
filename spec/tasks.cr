@@ -2,6 +2,7 @@ require "../src/lucky_cli"
 
 class PlaceholderTask < LuckyTask::Task
   summary "placeholder"
+
   def call; end
 end
 
