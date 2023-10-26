@@ -105,7 +105,7 @@ class ShardFileGenerator
     {
       "lucky_flow" => {
         "github"  => "luckyframework/lucky_flow",
-        "version" => "~> 0.9.1",
+        "version" => "~> 0.9.2",
       },
     }
   end
