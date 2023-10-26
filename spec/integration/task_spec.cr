@@ -32,7 +32,7 @@ private def run(process, output = STDOUT)
 end
 
 private def task(task_name)
-  run("crystal spec/tasks.cr --no-debug -- #{task_name}")
+  run("crystal run --no-debug spec/tasks.cr -- #{task_name}")
 end
 
 private def be_successful
