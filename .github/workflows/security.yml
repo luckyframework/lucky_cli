@@ -48,19 +48,16 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - name: Install Nexploit Repeater
-        run: |
-          sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
       - name: Run setup script
         run: ./script/setup
       - name: Install Lucky CLI
         run: |
           crystal build src/lucky.cr
           pwd >> $GITHUB_PATH
-      - name: Run tests
+      - name: Run SecTester specs
         run: |
           export SHARDS_OVERRIDE="$(pwd)/${{ matrix.shard_override_file }}"
-          crystal spec
+          crystal spec spec/integration/sec_tester_spec.cr
         env:
           LUCKY_ENV: test
           BRIGHT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
