@@ -27,6 +27,10 @@ private def precompiled_task_path : String?
   end
 end
 
+private def built_in_commands : Array(String)
+  ["dev", "tasks", "init", "init.custom"]
+end
+
 private def print_lucky_app_not_detected_error
   puts <<-ERROR
 
@@ -51,7 +55,7 @@ options = OptionParser.new do |parser|
     parser.on("dev", "Boot the lucky development server") do
       run_dev_server = true
       parser.banner = "Usage: lucky dev"
-      parser.on("-h", "--help", "Display lucky dev help menu") {
+      parser.on("-h", "--help", "Display lucky dev help menu") do
         puts <<-MESSAGE
         Usage: lucky dev
 
@@ -60,16 +64,16 @@ options = OptionParser.new do |parser|
         are booted.
         MESSAGE
         exit
-      }
+      end
     end
 
-    parser.on("tasks", "Display a list of the tasks available in your app") {
+    parser.on("tasks", "Display a list of the tasks available in your app") do
       # This passes the help flag to LuckyTask within your app to
       # generate a list of available tasks, and bypasses the help
       # flag for this parser
       args = "-h"
       parser.banner = "Usage: lucky tasks"
-      parser.on("-h", "--help", "Display the lucky tasks help menu") {
+      parser.on("-h", "--help", "Display the lucky tasks help menu") do
         puts <<-MESSAGE
         Usage: lucky tasks
 
@@ -80,22 +84,31 @@ options = OptionParser.new do |parser|
         To compile your tasks, build the tasks.cr file
         > crystal build tasks.cr -o bin/tasks
 
+        Then run your tasks file with your task
+        > ./bin/tasks my.task -m --task=1
+
         MESSAGE
         exit
-      }
-    }
+      end
+    end
+
+    if ARGV.size > 1 && !built_in_commands.includes?(task_name)
+      # This stops the CLI parsing options beyond this point.
+      # It allows args to be passed to custom CLI tasks
+      parser.stop
+    end
   else
     parser.on("init", "Start the Lucky wizard") do
       start_wizard = true
       parser.banner = "Usage: lucky init"
-      parser.on("-h", "--help", "Display lucky init help menu") {
+      parser.on("-h", "--help", "Display lucky init help menu") do
         puts <<-MESSAGE
         Usage: lucky init
 
         Run this to start the new application wizard.
         MESSAGE
         exit
-      }
+      end
     end
 
     parser.on("init.custom", "Generate a new Lucky application") do
@@ -105,10 +118,10 @@ options = OptionParser.new do |parser|
     end
   end
 
-  parser.on("-v", "--version", "Show the version of the LuckyCLI") {
+  parser.on("-v", "--version", "Show the version of the LuckyCLI") do
     puts LuckyCli::VERSION
     exit
-  }
+  end
 
   parser.on("-h", "--help", "Show this help") do
     puts parser
