@@ -34,6 +34,14 @@ Lucky::ContinuedPipeLog.dexter.configure(:none)
 # Set the log to ':info' to log all queries
 Avram::QueryLog.dexter.configure(:none)
 
+{% if compare_versions(Avram::VERSION, "1.0.0") > 0 %}
+# This will subscribe to Pulsar events to log when queries
+# are made, queries fail, or save operations fail. Comment
+# this out to disable these log events without turning off
+# all logging.
+Avram.initialize_logging
+{% end %}
+
 # Skip logging static assets requests in development
 Lucky::LogHandler.configure do |settings|
   if LuckyEnv.development?
