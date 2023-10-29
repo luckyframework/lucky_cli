@@ -13,15 +13,54 @@ jobs:
       image: crystallang/crystal:latest-alpine
     steps:
       - uses: actions/checkout@v2
-      - name: build
+      - name: build 👷‍♂️
         run: |
+          apk add nodejs npm
           shards install --without-development
-          shards build --release --static
-      - name: version
-        run: echo "::set-output name=version::$(./bin/lucky --version)"
-        id: version
-      - name: Upload Lucky CLI
+          shards build --without-development --release --static
+      - name: upload ⬆️
         uses: actions/upload-artifact@v2
         with:
-          name: lucky-cli
+          name: lucky-cli-linux
           path: bin/lucky
+
+  package:
+    name: package artifacts
+    runs-on: ubuntu-latest
+    needs: x86_64-linux
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: lucky-cli-linux
+      - name: package 📦
+        run: |
+          ls -R
+          mkdir -p dist
+          tar -czvf lucky-cli-x86_64-linux.tar.gz lucky
+      - name: upload ⬆️
+        uses: actions/upload-artifact@v2
+        with:
+          name: lucky-cli-x86_64-linux.tar.gz
+          path: lucky-cli-x86_64-linux.tar.gz
+
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    needs: package
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: lucky-cli-x86_64-linux.tar.gz
+      - name: version 📝
+        run: |
+          echo "::set-output name=version::$(sed -n 's/.*version: \([0-9.]*\).*/\1/p' shard.yml | tr -d '\n')"
+        id: version
+      - name: release 🚀
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            lucky-cli-x86_64-linux.tar.gz
+          name: ${{ steps.version.outputs.version }}
+          tag_name: v${{ steps.version.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
