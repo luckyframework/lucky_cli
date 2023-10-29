@@ -63,11 +63,11 @@ class ShardFileGenerator
     {
       "lucky" => {
         "github"  => "luckyframework/lucky",
-        "version" => "~> 1.0.0",
+        "version" => "~> 1.1.0",
       },
       "avram" => {
         "github"  => "luckyframework/avram",
-        "version" => "~> 1.0.0",
+        "version" => "~> 1.1.0",
       },
       "carbon" => {
         "github"  => "luckyframework/carbon",
@@ -92,7 +92,7 @@ class ShardFileGenerator
     {
       "authentic" => {
         "github"  => "luckyframework/authentic",
-        "version" => "~> 1.0.0",
+        "version" => "~> 1.1.0",
       },
       "jwt" => {
         "github"  => "crystal-community/jwt",
