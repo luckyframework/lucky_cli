@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+OUTPUT_DIR=${OUTPUT_DIR:-bin}
+TARGET=${TARGET:-x86_64-unknown-linux-gnu}
+
+shards install --without-development
+crystal build --release --static --no-color -o $OUTPUT_DIR --target $TARGET src/lucky.cr

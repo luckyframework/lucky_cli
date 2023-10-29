@@ -1,0 +1,27 @@
+name: Lucky CLI Release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  x86_64-linux:
+    name: x86_64-linux
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:latest-alpine
+    steps:
+      - uses: actions/checkout@v2
+      - name: build
+        run: |
+          shards install --without-development
+          shards build --release --static
+      - name: version
+        run: echo "::set-output name=version::$(./bin/lucky --version)"
+        id: version
+      - name: Upload Lucky CLI
+        uses: actions/upload-artifact@v2
+        with:
+          name: lucky-cli
+          path: bin/lucky
