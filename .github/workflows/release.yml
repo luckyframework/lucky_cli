@@ -18,7 +18,7 @@ jobs:
         run: |
           apk add nodejs npm
           shards install --without-development
-          shards build --without-development --release --static
+          shards build --production --without-development --release --static
       - name: upload ⬆️
         uses: actions/upload-artifact@v2
         with:
