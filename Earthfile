@@ -16,6 +16,28 @@ all:
     BUILD +integration-full-web-app-api-noauth
     BUILD +integration-full-web-app-dir
 
+# gh-action-initial runs only the necessary initial recipes
+gh-action-initial:
+    BUILD +format-check
+    BUILD +lint
+    BUILD +specs
+    BUILD +task-spec
+    BUILD +lucky-spec
+
+# gh-action-integration runs all integration specs
+gh-action-integration:
+    BUILD +integration-full-web-app
+    BUILD +integration-full-web-app-noauth
+    BUILD +integration-full-web-app-api
+    BUILD +integration-full-web-app-api-noauth
+    BUILD +integration-full-web-app-dir
+
+# format-check checks the format of source files
+format-check:
+    COPY --dir src ./
+    COPY --dir spec ./
+    RUN crystal tool format --check src spec
+
 # lint runs ameba code linter
 lint:
     FROM ghcr.io/crystal-ameba/ameba:1.5.0
