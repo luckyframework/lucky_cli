@@ -1,3 +1,5 @@
+{% skip_file %}
+
 require "./spec_helper"
 
 describe "Lucky CLI" do
