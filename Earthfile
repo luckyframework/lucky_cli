@@ -9,6 +9,7 @@ all:
         BUILD +specs
     END
     BUILD +task-spec
+    BUILD +lucky-spec
     BUILD +integration-full-web-app
     BUILD +integration-full-web-app-noauth
     BUILD +integration-full-web-app-api
@@ -36,6 +37,16 @@ task-spec:
     ENV RUN_SEC_TESTER_SPECS=0
     ENV RUN_HEROKU_SPECS=0
     RUN crystal spec --tag task
+
+# lucky-spec runs lucky command tests
+lucky-spec:
+    COPY +integration-base-image/lucky /usr/bin/lucky
+    COPY . ./
+    RUN shards build lucky.hello_world --without-development
+    ENV LUCKY_ENV=test
+    ENV RUN_SEC_TESTER_SPECS=0
+    ENV RUN_HEROKU_SPECS=0
+    RUN crystal spec --tag lucky
 
 # integration-full-web-app tests lucky full web app
 integration-full-web-app:
