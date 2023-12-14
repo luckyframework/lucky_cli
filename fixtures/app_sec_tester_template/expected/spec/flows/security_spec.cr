@@ -5,10 +5,3 @@ require "../spec_helper"
 
 describe "SecTester" do
 end
-
-private def scan_with_cleanup(&) : Nil
-  scanner = LuckySecTester.new
-  yield scanner
-ensure
-  scanner.try &.cleanup
-end
