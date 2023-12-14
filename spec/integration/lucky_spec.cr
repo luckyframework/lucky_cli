@@ -43,7 +43,6 @@ describe "Lucky CLI", tags: ["integration", "lucky"] do
     # TODO: Figure out if that's correct, or needs to change
     it "returns custom help messages from custom tasks" do
       io = IO::Memory.new
-      err = IO::Memory.new
       status = run_lucky(
         "placeholder_task -h",
         shell: true,
