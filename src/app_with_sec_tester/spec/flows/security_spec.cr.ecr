@@ -27,9 +27,9 @@ describe "SecTester" do
     scanner.run_check(
       scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
       tests: [
-        "sqli",                   # Testing for SQL Injection issues (https://docs.brightsec.com/docs/sql-injection)
-        "xss",                    # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
-        "mass_assignment",        # Testing for Mass Assignment (https://docs.brightsec.com/docs/mass-assignment)
+        "sqli",            # Testing for SQL Injection issues (https://docs.brightsec.com/docs/sql-injection)
+        "xss",             # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
+        "mass_assignment", # Testing for Mass Assignment (https://docs.brightsec.com/docs/mass-assignment)
       ],
       target: target
     )
