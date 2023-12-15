@@ -32,7 +32,7 @@ class ShardFileGenerator
       "version" => "0.1.0",
       "targets" => {
         project_name => {
-          "main" => Path.new("src", "#{project_name}.cr").to_s,
+          "main" => Path.new("src", "#{project_name}.cr").to_posix.to_s,
         },
       },
       "crystal"                  => ">= #{crystal_version}",
