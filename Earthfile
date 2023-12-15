@@ -215,27 +215,8 @@ integration-image-dir:
     ENTRYPOINT ["crystal", "spec"]
     SAVE IMAGE lucky-image:dir
 
-security-base-image:
-    RUN apt-get update \
-     && apt-get install -y postgresql-client ca-certificates curl gnupg \
-     && mkdir -p /etc/apt/keyrings \
-     && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
-     && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_14.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
-     && apt-get update \
-     && apt-get install -y nodejs \
-     && npm install --global yarn
-    WORKDIR /lucky_cli
-    COPY --dir src ./
-    COPY --dir fixtures ./
-    COPY shard.yml ./
-    RUN shards build lucky --without-development
-    RUN cp bin/lucky /usr/bin/
-    SAVE ARTIFACT ./bin/lucky
-    WORKDIR /workdir
-
 integration-image-security:
-    FROM +security-base-image
-    RUN npm install --global @brightsec/cli || true
+    FROM +integration-base-image
     RUN lucky init.custom test-project --with-sec-test
     WORKDIR /workdir/test-project
     RUN crystal tool format --check src spec config
