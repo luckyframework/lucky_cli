@@ -35,8 +35,7 @@ jobs:
         run: earthly --version
       - name: Run build
         run: |
-          earthly ${{ inputs.earthly-cmd }}
+          earthly --ci --allow-privileged ${{ inputs.earthly-cmd }}
         env:
-          EARTHLY_ALLOW_PRIVILEGED: 'true'
           BRIGHT_TOKEN: ${{ secrets.BRIGHT_TOKEN }}
           BRIGHT_PROJECT_ID: ${{ secrets.BRIGHT_PROJECT_ID }}
