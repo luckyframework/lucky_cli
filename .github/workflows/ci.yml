@@ -21,14 +21,12 @@ jobs:
     uses: ./.github/workflows/reusable-earthly.yml
     with:
       earthly-cmd: +gh-action-initial
-      job-name-suffix: Specs
 
   integration-specs:
     needs: specs
     uses: ./.github/workflows/reusable-earthly.yml
     with:
       earthly-cmd: +gh-action-integration
-      job-name-suffix: Integration Specs
 
   # TODO: create security recipe in Earthfile
   security-specs:
@@ -37,4 +35,6 @@ jobs:
     uses: ./.github/workflows/reusable-earthly.yml
     with:
       earthly-cmd: +lint
-      job-name-suffix: Security Specs
+    secrets:
+      BRIGHT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
+      BRIGHT_PROJECT_ID: ${{ secrets.BRIGHT_PROJECT_ID }}

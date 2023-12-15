@@ -6,9 +6,6 @@ on:
       earthly-cmd:
         required: true
         type: string
-      job-name-suffix:
-        required: false
-        type: string
     secrets:
       BRIGHT_TOKEN:
         required: false
@@ -17,7 +14,6 @@ on:
 
 jobs:
   earthly:
-    name: ${{ inputs.job-name-suffix && format('Earthly / {0}', inputs.job-name-suffix) || 'Earthly' }}
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: 1
