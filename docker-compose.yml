@@ -7,6 +7,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      TZ: "UTC"
     ports:
       - 5432:5432
     hostname: postgres

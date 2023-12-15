@@ -133,12 +133,12 @@ integration-sec-tester:
                 -e BRIGHT_TOKEN \
                 -e BRIGHT_PROJECT_ID \
                 lucky-image:latest \
-                spec -Dwith_sec_tests
+                spec -Dwith_sec_tests -DDEBUG
     END
 
 integration-base-image:
     RUN apt-get update \
-     && apt-get install -y postgresql-client ca-certificates curl gnupg \
+     && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev \
      && mkdir -p /etc/apt/keyrings \
      && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
      && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
