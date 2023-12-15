@@ -21,11 +21,11 @@ gh-action-initial:
     BUILD +format-check
     BUILD +lint
     BUILD +specs
-    BUILD +task-spec
-    BUILD +lucky-spec
 
 # gh-action-integration runs all integration specs
 gh-action-integration:
+    BUILD +task-spec
+    BUILD +lucky-spec
     BUILD +integration-full-web-app
     BUILD +integration-full-web-app-noauth
     BUILD +integration-full-web-app-api

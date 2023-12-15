@@ -6,16 +6,6 @@ on:
   pull_request:
     branches: "*"
 
-# jobs strategy (ideal?)
-# - job group 1
-#   - format check (earthly)
-#   - lint (earthly)
-#   - unit specs (earthly)
-# - job group 2
-#   - integration specs (matrix) (earthly)
-#   - macOS unit specs (gh action)
-#   - windows unit specs (gh action)
-
 jobs:
   specs:
     uses: ./.github/workflows/reusable-earthly.yml
@@ -38,3 +28,24 @@ jobs:
     secrets:
       BRIGHT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
       BRIGHT_PROJECT_ID: ${{ secrets.BRIGHT_PROJECT_ID }}
+
+  macos-specs:
+    needs: specs
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Crystal from Homebrew
+        run: brew install crystal
+      - name: Run specs
+        run: crystal spec --tag "~integration"
+
+  windows-specs:
+    needs: specs
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+      - name: Run specs
+        run: crystal spec --tag "~integration"
