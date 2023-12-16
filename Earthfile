@@ -138,13 +138,16 @@ integration-sec-tester:
 
 integration-base-image:
     RUN apt-get update \
-     && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev \
+     && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev wget \
      && mkdir -p /etc/apt/keyrings \
      && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
      && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
      && apt-get update \
      && apt-get install -y nodejs \
-     && npm install --global yarn
+     && npm install --global yarn \
+     && wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+     && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb \
+     && export CHROME_BIN=/usr/bin/google-chrome
     WORKDIR /lucky_cli
     COPY --dir src ./
     COPY --dir fixtures ./
