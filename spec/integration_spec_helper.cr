@@ -12,11 +12,3 @@ end
 def fixtures_tasks_path
   Path["#{__DIR__}/../fixtures/tasks.cr"]
 end
-
-def fixtures_cat_gif_path
-  Path["#{__DIR__}/../fixtures/cat.gif"]
-end
-
-def shards_override_path
-  Path["#{__DIR__}/../shard.override.yml"]
-end

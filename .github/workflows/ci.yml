@@ -18,13 +18,12 @@ jobs:
     with:
       earthly-cmd: +gh-action-integration
 
-  # TODO: create security recipe in Earthfile
   security-specs:
     needs: specs
     if: github.event_name == 'pull_request'
     uses: ./.github/workflows/reusable-earthly.yml
     with:
-      earthly-cmd: "--secret BRIGHT_TOKEN --secret BRIGHT_PROJECT_ID +integration-sec-tester"
+      earthly-cmd: "--secret BRIGHT_TOKEN --secret BRIGHT_PROJECT_ID +gh-action-security"
     secrets:
       BRIGHT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
       BRIGHT_PROJECT_ID: ${{ secrets.BRIGHT_PROJECT_ID }}

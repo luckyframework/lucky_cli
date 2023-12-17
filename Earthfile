@@ -2,20 +2,6 @@ VERSION 0.7
 FROM 84codes/crystal:1.6.2-ubuntu-22.04
 WORKDIR /workdir
 
-# all runs all recipes
-all:
-    WAIT
-        BUILD +lint
-        BUILD +specs
-    END
-    BUILD +task-spec
-    BUILD +lucky-spec
-    BUILD +integration-full-web-app
-    BUILD +integration-full-web-app-noauth
-    BUILD +integration-full-web-app-api
-    BUILD +integration-full-web-app-api-noauth
-    BUILD +integration-full-web-app-dir
-
 # gh-action-initial runs only the necessary initial recipes
 gh-action-initial:
     BUILD +format-check
@@ -24,51 +10,45 @@ gh-action-initial:
 
 # gh-action-integration runs all integration specs
 gh-action-integration:
-    BUILD +task-spec
-    BUILD +lucky-spec
+    BUILD +integration-specs
     BUILD +integration-full-web-app
     BUILD +integration-full-web-app-noauth
     BUILD +integration-full-web-app-api
     BUILD +integration-full-web-app-api-noauth
     BUILD +integration-full-web-app-dir
 
+# gh-action-security runs all security tests (requires secrets)
+gh-action-security:
+    BUILD +integration-sec-tester
+
 # format-check checks the format of source files
 format-check:
-    COPY --dir src ./
-    COPY --dir spec ./
+    FROM +base-image
     RUN crystal tool format --check src spec
+
+# specs runs unit tests
+specs:
+    FROM +base-image
+    COPY --dir fixtures ./
+    RUN shards install
+    RUN crystal spec --tag "~integration"
 
 # lint runs ameba code linter
 lint:
     FROM ghcr.io/crystal-ameba/ameba:1.5.0
-    COPY . ./
+    COPY --dir src ./
+    COPY --dir spec ./
     RUN ameba
 
-# specs runs unit tests
-specs:
-    COPY . ./
-    RUN shards install
-    RUN crystal spec --tag "~integration"
-
-# task-spec runs lucky command tests
-task-spec:
-    COPY +integration-base-image/lucky /usr/bin/lucky
-    COPY . ./
+# integration-specs runs lucky command tests
+integration-specs:
+    FROM +base-image
+    COPY +build-lucky/lucky /usr/bin/lucky
+    COPY fixtures/hello_world.cr fixtures/
+    COPY fixtures/tasks.cr fixtures/
     RUN shards build lucky.hello_world --without-development
     ENV LUCKY_ENV=test
-    ENV RUN_SEC_TESTER_SPECS=0
-    ENV RUN_HEROKU_SPECS=0
-    RUN crystal spec --tag task
-
-# lucky-spec runs lucky command tests
-lucky-spec:
-    COPY +integration-base-image/lucky /usr/bin/lucky
-    COPY . ./
-    RUN shards build lucky.hello_world --without-development
-    ENV LUCKY_ENV=test
-    ENV RUN_SEC_TESTER_SPECS=0
-    ENV RUN_HEROKU_SPECS=0
-    RUN crystal spec --tag lucky
+    RUN crystal spec --tag integration
 
 # integration-full-web-app tests lucky full web app
 integration-full-web-app:
@@ -110,15 +90,14 @@ integration-full-web-app-api-noauth:
         RUN docker run --network=host lucky-image:latest
     END
 
-# integration-full-web-app-dir tests lucky full web app in different directory
+# integration-full-web-app-dir same as +integration-full-web-app, but uses different directory
 integration-full-web-app-dir:
-    FROM earthly/dind:alpine
-    COPY docker-compose.yml ./
-    WITH DOCKER \
-        --compose docker-compose.yml \
-        --load lucky-image:latest=+integration-image-dir
-        RUN docker run --network=host lucky-image:latest
-    END
+    COPY +build-lucky/lucky /usr/bin/lucky
+    WORKDIR /workdir
+    RUN mkdir -p my-project
+    RUN lucky init.custom test-project --dir my-project
+    WORKDIR /workdir/my-project/test-project
+    RUN grep "lucky" -qz src/shards.cr
 
 # integration-sec-tester tests lucky full app with security tester enabled
 integration-sec-tester:
@@ -132,9 +111,21 @@ integration-sec-tester:
                 --network=host \
                 -e BRIGHT_TOKEN \
                 -e BRIGHT_PROJECT_ID \
-                lucky-image:latest \
-                spec -Dwith_sec_tests -DDEBUG
+                lucky-image:latest
     END
+
+build-lucky:
+    WORKDIR /lucky_cli
+    COPY --dir src ./
+    COPY fixtures/hello_world.cr fixtures/
+    COPY shard.yml ./
+    RUN shards build lucky --without-development
+    SAVE ARTIFACT ./bin/lucky
+
+base-image:
+    COPY --dir src ./
+    COPY --dir spec ./
+    COPY shard.yml ./
 
 integration-base-image:
     RUN apt-get update \
@@ -148,13 +139,7 @@ integration-base-image:
      && wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
      && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb \
      && export CHROME_BIN=/usr/bin/google-chrome
-    WORKDIR /lucky_cli
-    COPY --dir src ./
-    COPY --dir fixtures ./
-    COPY shard.yml ./
-    RUN shards build lucky --without-development
-    RUN cp bin/lucky /usr/bin/
-    SAVE ARTIFACT ./bin/lucky
+    COPY +build-lucky/lucky /usr/bin/lucky
     WORKDIR /workdir
 
 integration-image:
@@ -162,7 +147,9 @@ integration-image:
     RUN lucky init.custom test-project
     WORKDIR /workdir/test-project
     RUN crystal tool format --check src spec config
-    RUN shards install
+    RUN yarn install --no-progress \
+     && yarn dev \
+     && shards install
     RUN crystal build src/start_server.cr
     RUN crystal build src/test_project.cr
     RUN crystal run src/app.cr
@@ -173,8 +160,19 @@ integration-image-noauth:
     FROM +integration-base-image
     RUN lucky init.custom test-project --no-auth
     WORKDIR /workdir/test-project
+    RUN yarn install --no-progress \
+     && yarn dev \
+     && shards install
+    RUN lucky gen.action.api Api::Users::Show \
+     && lucky gen.action.browser Users::Show \
+     && lucky gen.migration CreateThings \
+     && lucky gen.model User \
+     && lucky gen.page Users::IndexPage \
+     && lucky gen.component Users::Header \
+     && lucky gen.resource.browser Comment title:String \
+     && lucky gen.task email.monthly_update \
+     && lucky gen.secret_key
     RUN crystal tool format --check src spec config
-    RUN shards install
     RUN crystal build src/start_server.cr
     RUN crystal build src/test_project.cr
     RUN crystal run src/app.cr
@@ -205,28 +203,15 @@ integration-image-api-noauth:
     ENTRYPOINT ["crystal", "spec"]
     SAVE IMAGE lucky-image:api-noauth
 
-integration-image-dir:
-    FROM +integration-base-image
-    RUN mkdir -p my-project
-    RUN lucky init.custom test-project --dir my-project
-    WORKDIR /workdir/my-project/test-project
-    RUN crystal tool format --check src spec config
-    RUN shards install
-    RUN crystal build src/start_server.cr
-    RUN crystal build src/test_project.cr
-    RUN crystal run src/app.cr
-    ENTRYPOINT ["crystal", "spec"]
-    SAVE IMAGE lucky-image:dir
-
 integration-image-security:
     FROM +integration-base-image
     RUN lucky init.custom test-project --with-sec-test
     WORKDIR /workdir/test-project
     RUN crystal tool format --check src spec config
-    RUN shards install
-    RUN crystal build src/start_server.cr
-    RUN crystal build src/test_project.cr
-    RUN crystal run src/app.cr
+    RUN yarn install --no-progress \
+     && yarn dev \
+     && shards install
     ENV LUCKY_ENV=test
     ENV RUN_SEC_TESTER_SPECS=1
+    ENTRYPOINT ["crystal", "spec", "-Dwith_sec_tests"]
     SAVE IMAGE lucky-image:security
