@@ -28,26 +28,18 @@ jobs:
       BRIGHT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
       BRIGHT_PROJECT_ID: ${{ secrets.BRIGHT_PROJECT_ID }}
 
-  macos-specs:
-    needs: specs
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install Crystal from Homebrew
-        run: brew install crystal
-      - name: Install shards
-        run: shards install
-      - name: Run specs
-        run: crystal spec --tag "~integration"
-
-  windows-specs:
-    needs: specs
-    runs-on: windows-latest
+  other-specs:
+    name: macOS & windows specs
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: macos-latest}
+          - {os: windows-latest}
+    runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v3
       - uses: crystal-lang/install-crystal@v1
-        with:
-          crystal: latest
       - name: Install shards
         run: shards install
       - name: Run specs
