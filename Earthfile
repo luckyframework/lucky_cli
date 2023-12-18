@@ -21,6 +21,11 @@ gh-action-integration:
 gh-action-security:
     BUILD +integration-sec-tester
 
+# gh-action-weekly runs all weekly tests
+gh-action-weekly:
+    BUILD +weekly-latest-full-web-app
+    BUILD +weekly-nightly-full-web-app
+
 # format-check checks the format of source files
 format-check:
     FROM +base-image
@@ -93,7 +98,6 @@ integration-full-web-app-api-noauth:
 # integration-full-web-app-dir same as +integration-full-web-app, but uses different directory
 integration-full-web-app-dir:
     COPY +build-lucky/lucky /usr/bin/lucky
-    WORKDIR /workdir
     RUN mkdir -p my-project
     RUN lucky init.custom test-project --dir my-project
     WORKDIR /workdir/my-project/test-project
@@ -112,6 +116,26 @@ integration-sec-tester:
                 -e BRIGHT_TOKEN \
                 -e BRIGHT_PROJECT_ID \
                 lucky-image:latest
+    END
+
+# weekly-latest-full-web-app tests lucky full web app (crystal: latest) for catching potential issues on newer versions of packages
+weekly-latest-full-web-app:
+    FROM earthly/dind:alpine
+    COPY docker-compose.yml ./
+    WITH DOCKER \
+        --compose docker-compose.yml \
+        --load lucky-image:latest=+weekly-latest-image
+        RUN docker run --network=host lucky-image:latest
+    END
+
+# weekly-latest-full-web-app tests lucky full web app (crystal: nightly) for more insight into upcoming crystal versions
+weekly-nightly-full-web-app:
+    FROM earthly/dind:alpine
+    COPY docker-compose.yml ./
+    WITH DOCKER \
+        --compose docker-compose.yml \
+        --load lucky-image:latest=+weekly-nightly-image
+        RUN docker run --network=host lucky-image:latest
     END
 
 build-lucky:
@@ -140,7 +164,6 @@ integration-base-image:
      && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb \
      && export CHROME_BIN=/usr/bin/google-chrome
     COPY +build-lucky/lucky /usr/bin/lucky
-    WORKDIR /workdir
 
 integration-image:
     FROM +integration-base-image
@@ -217,3 +240,61 @@ integration-image-security:
     RUN sed -i '131s/as_f/as_i/' lib/sec_tester/src/sec_tester/scan.cr
     ENTRYPOINT ["crystal", "spec", "-Dwith_sec_tests"]
     SAVE IMAGE lucky-image:security
+
+weekly-latest-image:
+    FROM 84codes/crystal:latest-ubuntu-22.04
+    WORKDIR /workdir
+    RUN apt-get update \
+     && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev wget \
+     && mkdir -p /etc/apt/keyrings \
+     && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+     && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
+     && apt-get update \
+     && apt-get install -y nodejs \
+     && npm install --global yarn \
+     && wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+     && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb \
+     && export CHROME_BIN=/usr/bin/google-chrome
+    COPY +build-lucky/lucky /usr/bin/lucky
+    RUN lucky init.custom test-project
+    WORKDIR /workdir/test-project
+    COPY shard.edge.yml ./
+    RUN export SHARDS_OVERRIDE=$(realpath shard.edge.yml)
+    RUN crystal tool format --check src spec config
+    RUN yarn install --no-progress \
+     && yarn dev \
+     && shards install
+    RUN crystal build src/start_server.cr
+    RUN crystal build src/test_project.cr
+    RUN crystal run src/app.cr
+    ENTRYPOINT ["crystal", "spec"]
+    SAVE IMAGE lucky-image:weekly-latest
+
+weekly-nightly-image:
+    FROM 84codes/crystal:master-ubuntu-22.04
+    WORKDIR /workdir
+    RUN apt-get update \
+     && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev wget \
+     && mkdir -p /etc/apt/keyrings \
+     && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+     && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
+     && apt-get update \
+     && apt-get install -y nodejs \
+     && npm install --global yarn \
+     && wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+     && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb \
+     && export CHROME_BIN=/usr/bin/google-chrome
+    COPY +build-lucky/lucky /usr/bin/lucky
+    RUN lucky init.custom test-project
+    WORKDIR /workdir/test-project
+    COPY shard.override.yml ./
+    RUN export SHARDS_OVERRIDE=$(realpath shard.override.yml)
+    RUN crystal tool format --check src spec config
+    RUN yarn install --no-progress \
+     && yarn dev \
+     && shards install
+    RUN crystal build src/start_server.cr
+    RUN crystal build src/test_project.cr
+    RUN crystal run src/app.cr
+    ENTRYPOINT ["crystal", "spec"]
+    SAVE IMAGE lucky-image:weekly-nightly

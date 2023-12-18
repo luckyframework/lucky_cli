@@ -6,53 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  specs:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          # NOTE: To catch potential issues on newer versions of packages
-          - os: ubuntu-latest
-            crystal_version: latest
-            shard_override_file: shard.edge.yml
-          # NOTE: To have more insight into upcoming Crystal versions
-          - os: ubuntu-latest
-            crystal_version: nightly
-            shard_override_file: shard.override.yml
-    runs-on: ${{ matrix.os }}
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-      - name: Install Crystal
-        uses: crystal-lang/install-crystal@v1
-        with:
-          crystal: ${{ matrix.crystal_version }}
-      - name: Run setup script
-        run: ./script/setup
-      - name: Install Lucky CLI
-        run: |
-          crystal build src/lucky.cr
-          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-system-path
-          # TL;DR => $GITHUB_PATH == PATH
-          pwd >> $GITHUB_PATH
-      - name: Run tests
-        run: |
-          export SHARDS_OVERRIDE="$(pwd)/${{ matrix.shard_override_file }}"
-          crystal spec
-        env:
-          LUCKY_ENV: test
-          RUN_SEC_TESTER_SPECS: 0
+  integration-specs:
+    uses: ./.github/workflows/reusable-earthly.yml
+    with:
+      earthly-cmd: +gh-action-weekly
