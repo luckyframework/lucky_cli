@@ -236,8 +236,6 @@ integration-image-security:
      && shards install
     ENV LUCKY_ENV=test
     ENV RUN_SEC_TESTER_SPECS=1
-    # Patch for sec_tester
-    RUN sed -i '131s/as_f/as_i/' lib/sec_tester/src/sec_tester/scan.cr
     ENTRYPOINT ["crystal", "spec", "-Dwith_sec_tests"]
     SAVE IMAGE lucky-image:security
 
