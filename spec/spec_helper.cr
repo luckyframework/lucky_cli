@@ -46,9 +46,10 @@ def generate_snapshot(fixture_name, file = __FILE__, line = __LINE__, &)
 end
 
 def run_lucky(**kwargs)
-  lucky_cmd = Process.find_executable("lucky")
-  pending!("lucky command not found") unless lucky_cmd
-  Process.run(lucky_cmd.not_nil!, **kwargs)
+  unless Process.find_executable("lucky")
+    pending!("lucky command not found")
+  end
+  Process.run("lucky", **kwargs)
 end
 
 def fixtures_tasks_path
