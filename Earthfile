@@ -2,8 +2,8 @@ VERSION 0.7
 FROM 84codes/crystal:1.6.2-ubuntu-22.04
 WORKDIR /workdir
 
-# gh-action-initial runs only the necessary initial recipes
-gh-action-initial:
+# gh-action-essential runs only the necessary recipes
+gh-action-essential:
     BUILD +format-check
     BUILD +lint
     BUILD +specs
@@ -11,15 +11,17 @@ gh-action-initial:
 # gh-action-integration runs all integration specs
 gh-action-integration:
     BUILD +integration-specs
-    BUILD +integration-full-web-app
-    BUILD +integration-full-web-app-noauth
-    BUILD +integration-full-web-app-api
-    BUILD +integration-full-web-app-api-noauth
-    BUILD +integration-full-web-app-dir
 
-# gh-action-security runs all security tests (requires secrets)
-gh-action-security:
-    BUILD +integration-sec-tester
+# gh-action-e2e runs all end-to-end specs
+gh-action-e2e:
+    BUILD +e2e-full-web-app
+    BUILD +e2e-full-web-app-noauth
+    BUILD +e2e-full-web-app-api
+    BUILD +e2e-full-web-app-api-noauth
+
+# gh-action-e2e-security runs all security tests (requires secrets)
+gh-action-e2e-security:
+    BUILD +e2e-sec-tester
 
 # gh-action-weekly runs all weekly tests
 gh-action-weekly:
@@ -54,61 +56,53 @@ integration-specs:
     RUN shards build lucky.hello_world --without-development
     RUN crystal spec --tag integration
 
-# integration-full-web-app tests lucky full web app
-integration-full-web-app:
+# e2e-full-web-app tests lucky full web app
+e2e-full-web-app:
     FROM earthly/dind:alpine
     COPY docker-compose.yml ./
     WITH DOCKER \
         --compose docker-compose.yml \
-        --load lucky-image:latest=+integration-image
+        --load lucky-image:latest=+e2e-image
         RUN docker run --network=host lucky-image:latest
     END
 
-# integration-full-web-app-noauth tests lucky full web app with no auth
-integration-full-web-app-noauth:
+# e2e-full-web-app-noauth tests lucky full web app with no auth
+e2e-full-web-app-noauth:
     FROM earthly/dind:alpine
     COPY docker-compose.yml ./
     WITH DOCKER \
         --compose docker-compose.yml \
-        --load lucky-image:latest=+integration-image-noauth
+        --load lucky-image:latest=+e2e-image-noauth
         RUN docker run --network=host lucky-image:latest
     END
 
-# integration-full-web-app-api tests lucky full web app with api
-integration-full-web-app-api:
+# e2e-full-web-app-api tests lucky full web app with api
+e2e-full-web-app-api:
     FROM earthly/dind:alpine
     COPY docker-compose.yml ./
     WITH DOCKER \
         --compose docker-compose.yml \
-        --load lucky-image:latest=+integration-image-api
+        --load lucky-image:latest=+e2e-image-api
         RUN docker run --network=host lucky-image:latest
     END
 
-# integration-full-web-app-api-noauth tests lucky full web app with api and no auth
-integration-full-web-app-api-noauth:
+# e2e-full-web-app-api-noauth tests lucky full web app with api and no auth
+e2e-full-web-app-api-noauth:
     FROM earthly/dind:alpine
     COPY docker-compose.yml ./
     WITH DOCKER \
         --compose docker-compose.yml \
-        --load lucky-image:latest=+integration-image-api-noauth
+        --load lucky-image:latest=+e2e-image-api-noauth
         RUN docker run --network=host lucky-image:latest
     END
 
-# integration-full-web-app-dir same as +integration-full-web-app, but uses different directory
-integration-full-web-app-dir:
-    COPY +build-lucky/lucky /usr/bin/lucky
-    RUN mkdir -p my-project
-    RUN lucky init.custom test-project --dir my-project
-    WORKDIR /workdir/my-project/test-project
-    RUN grep "lucky" -qz src/shards.cr
-
-# integration-sec-tester tests lucky full app with security tester enabled
-integration-sec-tester:
+# e2e-sec-tester tests lucky full app with security tester enabled
+e2e-sec-tester:
     FROM earthly/dind:alpine
     COPY docker-compose.yml ./
     WITH DOCKER \
         --compose docker-compose.yml \
-        --load lucky-image:latest=+integration-image-security
+        --load lucky-image:latest=+e2e-image-security
         RUN --secret BRIGHT_TOKEN --secret BRIGHT_PROJECT_ID -- \
             docker run \
                 --network=host \
@@ -150,7 +144,7 @@ base-image:
     COPY --dir spec ./
     COPY shard.yml ./
 
-integration-base-image:
+e2e-base-image:
     RUN apt-get update \
      && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev wget \
      && mkdir -p /etc/apt/keyrings \
@@ -164,8 +158,8 @@ integration-base-image:
     ENV CHROME_BIN=/usr/bin/google-chrome
     COPY +build-lucky/lucky /usr/bin/lucky
 
-integration-image:
-    FROM +integration-base-image
+e2e-image:
+    FROM +e2e-base-image
     RUN lucky init.custom test-project
     WORKDIR /workdir/test-project
     RUN crystal tool format --check src spec config
@@ -178,8 +172,8 @@ integration-image:
     ENTRYPOINT ["crystal", "spec"]
     SAVE IMAGE lucky-image:base
 
-integration-image-noauth:
-    FROM +integration-base-image
+e2e-image-noauth:
+    FROM +e2e-base-image
     RUN lucky init.custom test-project --no-auth
     WORKDIR /workdir/test-project
     RUN yarn install --no-progress \
@@ -201,8 +195,8 @@ integration-image-noauth:
     ENTRYPOINT ["crystal", "spec"]
     SAVE IMAGE lucky-image:noauth
 
-integration-image-api:
-    FROM +integration-base-image
+e2e-image-api:
+    FROM +e2e-base-image
     RUN lucky init.custom test-project --api
     WORKDIR /workdir/test-project
     RUN crystal tool format --check src spec config
@@ -213,8 +207,8 @@ integration-image-api:
     ENTRYPOINT ["crystal", "spec"]
     SAVE IMAGE lucky-image:api
 
-integration-image-api-noauth:
-    FROM +integration-base-image
+e2e-image-api-noauth:
+    FROM +e2e-base-image
     RUN lucky init.custom test-project --api --no-auth
     WORKDIR /workdir/test-project
     RUN crystal tool format --check src spec config
@@ -225,8 +219,8 @@ integration-image-api-noauth:
     ENTRYPOINT ["crystal", "spec"]
     SAVE IMAGE lucky-image:api-noauth
 
-integration-image-security:
-    FROM +integration-base-image
+e2e-image-security:
+    FROM +e2e-base-image
     ARG github_ref
     ARG github_sha
     ARG github_run_id
@@ -246,35 +240,17 @@ integration-image-security:
 
 weekly-latest-image:
     FROM 84codes/crystal:latest-ubuntu-22.04
-    WORKDIR /workdir
-    RUN apt-get update \
-     && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev wget \
-     && mkdir -p /etc/apt/keyrings \
-     && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
-     && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
-     && apt-get update \
-     && apt-get install -y nodejs \
-     && npm install --global yarn \
-     && wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-     && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb
-    ENV CHROME_BIN=/usr/bin/google-chrome
-    COPY +build-lucky/lucky /usr/bin/lucky
-    RUN lucky init.custom test-project
-    WORKDIR /workdir/test-project
-    COPY shard.edge.yml ./
-    ENV SHARDS_OVERRIDE=/workdir/test-project/shard.edge.yml
-    RUN crystal tool format --check src spec config
-    RUN yarn install --no-progress \
-     && yarn dev \
-     && shards install
-    RUN crystal build src/start_server.cr
-    RUN crystal build src/test_project.cr
-    RUN crystal run src/app.cr
-    ENTRYPOINT ["crystal", "spec"]
+    DO +WEEKLY_IMAGE --shard_file=shard.edge.yml
     SAVE IMAGE lucky-image:weekly-latest
 
 weekly-nightly-image:
     FROM 84codes/crystal:master-ubuntu-22.04
+    DO +WEEKLY_IMAGE --shard_file=shard.override.yml
+    SAVE IMAGE lucky-image:weekly-nightly
+
+WEEKLY_IMAGE:
+    COMMAND
+    ARG shard_file
     WORKDIR /workdir
     RUN apt-get update \
      && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev wget \
@@ -290,8 +266,8 @@ weekly-nightly-image:
     COPY +build-lucky/lucky /usr/bin/lucky
     RUN lucky init.custom test-project
     WORKDIR /workdir/test-project
-    COPY shard.override.yml ./
-    ENV SHARDS_OVERRIDE=/workdir/test-project/shard.override.yml
+    COPY $shard_file ./
+    ENV SHARDS_OVERRIDE=/workdir/test-project/$shard_file
     RUN crystal tool format --check src spec config
     RUN yarn install --no-progress \
      && yarn dev \
@@ -300,4 +276,3 @@ weekly-nightly-image:
     RUN crystal build src/test_project.cr
     RUN crystal run src/app.cr
     ENTRYPOINT ["crystal", "spec"]
-    SAVE IMAGE lucky-image:weekly-nightly

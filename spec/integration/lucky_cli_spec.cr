@@ -93,6 +93,18 @@ describe "Lucky CLI", tags: "integration" do
       end
     end
 
+    it "creates a new project in a different directory" do
+      FileUtils.mkdir_p("my-project")
+      status = run_lucky(
+        args: %w[init.custom test-project --dir my-project],
+        shell: true,
+      )
+      status.exit_status.should eq(0)
+      Dir.cd("my-project/test-project") do
+        File.read("src/shards.cr").should contain("lucky")
+      end
+    end
+
     it "does not create project if directory with same name already exist" do
       FileUtils.mkdir("test-project")
       io = IO::Memory.new
