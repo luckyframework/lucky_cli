@@ -45,14 +45,13 @@ lint:
     COPY --dir spec ./
     RUN ameba
 
-# integration-specs runs lucky command tests
+# integration-specs runs integration tests
 integration-specs:
     FROM +base-image
     COPY +build-lucky/lucky /usr/bin/lucky
     COPY fixtures/hello_world.cr fixtures/
     COPY fixtures/tasks.cr fixtures/
     RUN shards build lucky.hello_world --without-development
-    ENV LUCKY_ENV=test
     RUN crystal spec --tag integration
 
 # integration-full-web-app tests lucky full web app
@@ -128,7 +127,7 @@ weekly-latest-full-web-app:
         RUN docker run --network=host lucky-image:latest
     END
 
-# weekly-latest-full-web-app tests lucky full web app (crystal: nightly) for more insight into upcoming crystal versions
+# weekly-nightly-full-web-app tests lucky full web app (crystal: nightly) for more insight into upcoming crystal versions
 weekly-nightly-full-web-app:
     FROM earthly/dind:alpine
     COPY docker-compose.yml ./

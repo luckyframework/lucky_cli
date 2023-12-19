@@ -1,4 +1,7 @@
 require "spec"
+require "file_utils"
+require "json"
+require "http"
 require "lucky_template/spec"
 require "./support/**"
 require "../src/lucky_cli"
@@ -40,4 +43,14 @@ def generate_snapshot(fixture_name, file = __FILE__, line = __LINE__, &)
   end
 
   generator
+end
+
+def run_lucky(**kwargs)
+  lucky_cmd = Process.find_executable("lucky")
+  pending!("lucky command not found") unless lucky_cmd
+  Process.run(lucky_cmd.not_nil!, **kwargs)
+end
+
+def fixtures_tasks_path
+  Path["#{__DIR__}/../fixtures/tasks.cr"]
 end
