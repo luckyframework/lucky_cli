@@ -12,7 +12,7 @@ describe "SecTester" do
     scanner.run_check(
       scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
       tests: [
-        "dom_xss",           # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
+        "xss",               # Testing for XSS Injection issues (https://docs.brightsec.com/docs/reflective-cross-site-scripting-rxss)
         "brute_force_login", # Testing for Brute Force on the Login (https://docs.brightsec.com/docs/brute-force-login)
       ],
       target: target

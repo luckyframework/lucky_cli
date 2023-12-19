@@ -23,7 +23,13 @@ jobs:
     if: github.event_name == 'pull_request'
     uses: ./.github/workflows/reusable-earthly.yml
     with:
-      earthly-cmd: "--secret BRIGHT_TOKEN --secret BRIGHT_PROJECT_ID +gh-action-security"
+      earthly-cmd: >-
+        --secret BRIGHT_TOKEN
+        --secret BRIGHT_PROJECT_ID
+        +gh-action-security
+        --github_ref=${{github.ref}}
+        --github_sha=${{github.sha}}
+        --github_run_id=${{github.run_id}}
     secrets:
       BRIGHT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
       BRIGHT_PROJECT_ID: ${{ secrets.BRIGHT_PROJECT_ID }}

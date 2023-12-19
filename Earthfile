@@ -160,8 +160,8 @@ integration-base-image:
      && apt-get install -y nodejs \
      && npm install --global yarn \
      && wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-     && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb \
-     && export CHROME_BIN=/usr/bin/google-chrome
+     && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb
+    ENV CHROME_BIN=/usr/bin/google-chrome
     COPY +build-lucky/lucky /usr/bin/lucky
 
 integration-image:
@@ -227,6 +227,9 @@ integration-image-api-noauth:
 
 integration-image-security:
     FROM +integration-base-image
+    ARG github_ref
+    ARG github_sha
+    ARG github_run_id
     RUN lucky init.custom test-project --with-sec-test
     WORKDIR /workdir/test-project
     RUN crystal tool format --check src spec config
@@ -235,6 +238,9 @@ integration-image-security:
      && shards install
     ENV LUCKY_ENV=test
     ENV RUN_SEC_TESTER_SPECS=1
+    ENV GITHUB_REF=$github_ref
+    ENV GITHUB_SHA=$github_sha
+    ENV GITHUB_RUN_ID=$github_run_id
     ENTRYPOINT ["crystal", "spec", "-Dwith_sec_tests"]
     SAVE IMAGE lucky-image:security
 
@@ -250,13 +256,13 @@ weekly-latest-image:
      && apt-get install -y nodejs \
      && npm install --global yarn \
      && wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-     && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb \
-     && export CHROME_BIN=/usr/bin/google-chrome
+     && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb
+    ENV CHROME_BIN=/usr/bin/google-chrome
     COPY +build-lucky/lucky /usr/bin/lucky
     RUN lucky init.custom test-project
     WORKDIR /workdir/test-project
     COPY shard.edge.yml ./
-    RUN export SHARDS_OVERRIDE=$(realpath shard.edge.yml)
+    ENV SHARDS_OVERRIDE=/workdir/test-project/shard.edge.yml
     RUN crystal tool format --check src spec config
     RUN yarn install --no-progress \
      && yarn dev \
@@ -279,13 +285,13 @@ weekly-nightly-image:
      && apt-get install -y nodejs \
      && npm install --global yarn \
      && wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-     && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb \
-     && export CHROME_BIN=/usr/bin/google-chrome
+     && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb
+    ENV CHROME_BIN=/usr/bin/google-chrome
     COPY +build-lucky/lucky /usr/bin/lucky
     RUN lucky init.custom test-project
     WORKDIR /workdir/test-project
     COPY shard.override.yml ./
-    RUN export SHARDS_OVERRIDE=$(realpath shard.override.yml)
+    ENV SHARDS_OVERRIDE=/workdir/test-project/shard.override.yml
     RUN crystal tool format --check src spec config
     RUN yarn install --no-progress \
      && yarn dev \
