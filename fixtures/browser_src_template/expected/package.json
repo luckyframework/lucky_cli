@@ -18,7 +18,7 @@
     "laravel-mix": "^6.0.49",
     "postcss": "^8.4.0",
     "resolve-url-loader": "^5.0.0",
-    "sass": "^1.60.10",
+    "sass": "^1.69.5",
     "sass-loader": "^13.2.0"
   }
 }
