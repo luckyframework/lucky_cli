@@ -35,10 +35,16 @@ format-check:
 
 # specs runs unit tests
 specs:
-    FROM +base-image
-    COPY --dir fixtures ./
-    RUN shards install
+    FROM +base-specs-image
     RUN crystal spec --tag "~integration"
+
+# update-snapshot updates spec fixtures
+update-snapshot:
+    FROM +base-specs-image
+    ARG spec
+    ENV SPEC_UPDATE_SNAPSHOT=1
+    RUN crystal spec --tag "~integration" $spec
+    SAVE ARTIFACT ./fixtures AS LOCAL ./fixtures
 
 # lint runs ameba code linter
 lint:
@@ -143,6 +149,11 @@ base-image:
     COPY --dir src ./
     COPY --dir spec ./
     COPY shard.yml ./
+
+base-specs-image:
+    FROM +base-image
+    COPY --dir fixtures ./
+    RUN shards install
 
 e2e-base-image:
     RUN apt-get update \

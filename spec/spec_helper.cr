@@ -10,6 +10,9 @@ include LuckyTemplate::Spec
 
 SPEC_UPDATE_SNAPSHOT = ENV["SPEC_UPDATE_SNAPSHOT"]? == "1"
 
+# Generates a snapshot of a generator with *fixture_name* folder
+#
+# NOTE: Can update a snapshot via `earthly +update-snapshot --spec=<spec>:<line number>`
 def generate_snapshot(fixture_name, file = __FILE__, line = __LINE__, &)
   generator = yield
 
@@ -45,6 +48,9 @@ def generate_snapshot(fixture_name, file = __FILE__, line = __LINE__, &)
   generator
 end
 
+# Executes a new `lucky` process
+#
+# NOTE: will mark the spec as pending if lucky command is not found
 def run_lucky(**kwargs)
   unless Process.find_executable("lucky")
     pending!("lucky command not found")
