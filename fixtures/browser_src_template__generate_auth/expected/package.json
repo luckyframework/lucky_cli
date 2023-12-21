@@ -2,8 +2,8 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@rails/ujs": "^7.0.0",
-    "modern-normalize": "^1.1.0"
+    "@rails/ujs": "^7.1.0",
+    "modern-normalize": "^2.0.0"
   },
   "scripts": {
     "heroku-postbuild": "yarn prod",

@@ -1,4 +1,0 @@
-#!/bin/sh -eu
-
-printf "\ngenerating docs with 'crystal docs'\n\n"
-crystal docs src/lucky_cli.cr

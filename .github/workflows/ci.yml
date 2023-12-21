@@ -7,79 +7,52 @@ on:
     branches: "*"
 
 jobs:
-  check_format:
-    strategy:
-      fail-fast: false
-    runs-on: ubuntu-latest
-    continue-on-error: false
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Crystal
-        uses: crystal-lang/install-crystal@v1
-        with:
-          crystal: latest
-      - name: Install shards
-        run: shards install
-      - name: Format
-        run: crystal tool format --check
-      - name: Lint
-        run: ./bin/ameba
-
   specs:
+    uses: ./.github/workflows/reusable-earthly.yml
+    with:
+      earthly-cmd: +gh-action-essential
+
+  platform-specs:
+    needs: specs
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        crystal_version: [latest]
         include:
-          - os: ubuntu-latest
-            crystal_version: 1.6.2
-    runs-on: ${{ matrix.os }}
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          - {os: macos-latest}
+          - {os: windows-latest}
+    runs-on: ${{matrix.os}}
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-      - name: Install Crystal
-        uses: crystal-lang/install-crystal@v1
-        with:
-          crystal: ${{ matrix.crystal_version }}
-      - name: Cache node modules
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install CLI Dependencies
-        run: shards install --skip-postinstall --skip-executables
-      - name: Install Lucky CLI
-        run: |
-          crystal build src/lucky.cr
-          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-system-path
-          # TL;DR => $GITHUB_PATH == PATH
-          pwd >> $GITHUB_PATH
-      - name: Run tests
-        run: |
-          export SHARDS_OVERRIDE="$(pwd)/${{ matrix.shard_override_file }}"
-          crystal spec
-        env:
-          LUCKY_ENV: test
-          RUN_SEC_TESTER_SPECS: 0
-          RUN_HEROKU_SPECS: 0
+      - uses: actions/checkout@v3
+      - uses: crystal-lang/install-crystal@v1
+      - name: Install shards
+        run: shards install
+      - name: Run specs
+        run: crystal spec --tag "~integration"
+
+  integration-specs:
+    needs: specs
+    uses: ./.github/workflows/reusable-earthly.yml
+    with:
+      earthly-cmd: +gh-action-integration
+
+  e2e-specs:
+    needs: integration-specs
+    uses: ./.github/workflows/reusable-earthly.yml
+    with:
+      earthly-cmd: +gh-action-e2e
+
+  e2e-security-specs:
+    needs: integration-specs
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-earthly.yml
+    with:
+      earthly-cmd: >-
+        --secret BRIGHT_TOKEN
+        --secret BRIGHT_PROJECT_ID
+        +gh-action-e2e-security
+        --github_ref=${{github.ref}}
+        --github_sha=${{github.sha}}
+        --github_run_id=${{github.run_id}}
+    secrets:
+      BRIGHT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
+      BRIGHT_PROJECT_ID: ${{ secrets.BRIGHT_PROJECT_ID }}

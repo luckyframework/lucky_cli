@@ -1,5 +1,6 @@
 require "colorize"
 require "option_parser"
+require "ecr"
 require "./lucky_cli/spinner"
 require "./lucky_cli"
 require "./generators/*"

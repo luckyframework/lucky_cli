@@ -10,7 +10,7 @@ updates:
       - stephendolan
 
   - package-ecosystem: npm
-    directory: "/src/browser-app-skeleton"
+    directory: "/fixtures/browser_src_template/expected"
     schedule:
       interval: daily
     target-branch: main

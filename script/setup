@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-# Exit if any subcommand fails
-set -e
-set -o pipefail
-
-cp -n .env.sample .env || true
-
-shards install
