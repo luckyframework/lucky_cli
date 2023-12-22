@@ -25,3 +25,6 @@ dependencies:
   nox:
     github: crystal-loot/nox
     version: ~> 0.2.3
+  athena-console:
+    github: athena-framework/console
+    version: ~> 0.3.0
