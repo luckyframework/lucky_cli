@@ -7,6 +7,8 @@ require "athena-console"
 # Optionally accepts a second argument representing the version of the CLI.
 application = ACON::Application.new("lucky", "2.0.0-alpha")
 
+#application.definition = ACON::Input::Definition.new
+
 class InitCommand < ACON::Command
   def configure : Nil
     name("init")
@@ -60,17 +62,16 @@ class InitCommand < ACON::Command
     end
     generate_auth = style.ask(generate_auth_question)
 
+    style.puts "project_name  => #{project_name}"
+    style.puts "api_only      => #{api_only}"
+    style.puts "generate_auth => #{generate_auth}"
+
+    # TODO
     # LuckyCli::Generators::Web.run(
     # project_name: project_name,
     # api_only: api_only,
     # generate_auth: generate_auth
     # )
-
-    puts({
-      "project_name"  => project_name,
-      "api_only"      => api_only,
-      "generate_auth" => generate_auth,
-    })
 
     ACON::Command::Status::SUCCESS
   end
@@ -114,7 +115,73 @@ class InitCommand < ACON::Command
   end
 end
 
-application.add(InitCommand.new)
+class DevCommand < ACON::Command
+  def configure : Nil
+    name "dev"
+    description "Boot the lucky development server"
+    help <<-TEXT
+    Boot your Lucky application. Uses the Procfile.dev to
+    run each service. Edit this file to change which services
+    are booted.
+    TEXT
+  end
+
+  def execute(input : ACON::Input::Interface, output : ACON::Output::Interface) : ACON::Command::Status
+    style = ACON::Style::Athena.new(input, output)
+
+    unless inside_app_dir? && has_procfile?
+      style.error "You are not in a Lucky project"
+      style.text "Try this..."
+      style.new_line
+      style.listing([
+        "Run #{ "lucky init".colorize(:green) } to create a Lucky project.",
+        "Change your project's root directory to see what tasks are available.",
+      ])
+      return ACON::Command::Status::FAILURE
+    end
+
+    style.puts "lucky dev started"
+
+    # TODO
+    # LuckyCli::Dev.new.call
+
+    ACON::Command::Status::SUCCESS
+  end
+
+  private def inside_app_dir? : Bool
+    tasks_file = ENV.fetch("LUCKY_TASKS_FILE", "./tasks.cr")
+    File.exists?(Path[tasks_file])
+  end
+
+  private def has_procfile? : Bool
+    File.exists?(Path["Procfile.dev"])
+  end
+end
+
+class TaskCommand < ACON::Command
+  def configure : Nil
+    name "task"
+    argument("name", :required, "The provided task name")
+    argument("args", :is_array, "The arguments to pass along to the task")
+    usage("task <name> -- [<args>...]")
+  end
+
+  def execute(input : ACON::Input::Interface, output : ACON::Output::Interface) : ACON::Command::Status
+    task_name = input.argument("name")
+    task_args = input.argument("args", Array(String))
+
+    style = ACON::Style::Athena.new(input, output)
+
+    style.puts "Name: #{task_name}"
+    style.puts "Args: #{task_args.inspect}"
+
+    ACON::Command::Status::SUCCESS
+  end
+end
+
+application.add InitCommand.new
+application.add DevCommand.new
+application.add TaskCommand.new
 
 # Run the application.
 # By default this uses STDIN and STDOUT for its input and output.
