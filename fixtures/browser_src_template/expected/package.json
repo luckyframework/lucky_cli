@@ -2,7 +2,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@rails/ujs": "^7.1.0",
+    "@rails/ujs": "^7.1.3",
     "modern-normalize": "^2.0.0"
   },
   "scripts": {
