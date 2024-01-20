@@ -4,16 +4,5 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: monthly
     target-branch: main
-    reviewers:
-      - stephendolan
-
-  - package-ecosystem: npm
-    directory: "/fixtures/browser_src_template/expected"
-    schedule:
-      interval: daily
-    target-branch: main
-    versioning-strategy: increase
-    reviewers:
-      - stephendolan
