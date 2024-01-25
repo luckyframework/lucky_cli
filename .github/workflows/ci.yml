@@ -6,11 +6,22 @@ on:
   pull_request:
     branches: "*"
 
+env:
+  FORCE_COLOR: 1
+  EARTHLY_CI: 'true'
+  EARTHLY_ALLOW_PRIVILEGED: 'true'
+
 jobs:
   specs:
-    uses: ./.github/workflows/reusable-earthly.yml
-    with:
-      earthly-cmd: +gh-action-essential
+    runs-on: ubuntu-latest
+    steps:
+      - uses: earthly/actions-setup@v1
+        with:
+          version: v0.8.0
+      - uses: actions/checkout@v4
+      - name: Run build
+        run: |
+          earthly +gh-action-essential
 
   platform-specs:
     needs: specs
@@ -31,28 +42,40 @@ jobs:
 
   integration-specs:
     needs: specs
-    uses: ./.github/workflows/reusable-earthly.yml
-    with:
-      earthly-cmd: +gh-action-integration
+    runs-on: ubuntu-latest
+    steps:
+      - uses: earthly/actions-setup@v1
+        with:
+          version: v0.8.0
+      - uses: actions/checkout@v4
+      - name: Run build
+        run: |
+          earthly +gh-action-integration
 
   e2e-specs:
     needs: integration-specs
-    uses: ./.github/workflows/reusable-earthly.yml
-    with:
-      earthly-cmd: +gh-action-e2e
+    runs-on: ubuntu-latest
+    steps:
+      - uses: earthly/actions-setup@v1
+        with:
+          version: v0.8.0
+      - uses: actions/checkout@v4
+      - name: Run build
+        run: |
+          earthly +gh-action-e2e
 
   e2e-security-specs:
     needs: integration-specs
     if: github.event_name == 'pull_request'
-    uses: ./.github/workflows/reusable-earthly.yml
-    with:
-      earthly-cmd: >-
-        --secret BRIGHT_TOKEN
-        --secret BRIGHT_PROJECT_ID
-        +gh-action-e2e-security
-        --github_ref=${{github.ref}}
-        --github_sha=${{github.sha}}
-        --github_run_id=${{github.run_id}}
-    secrets:
-      BRIGHT_TOKEN: ${{ secrets.BRIGHT_API_KEY }}
-      BRIGHT_PROJECT_ID: ${{ secrets.BRIGHT_PROJECT_ID }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: earthly/actions-setup@v1
+        with:
+          version: v0.8.0
+      - uses: actions/checkout@v4
+      - name: Run build
+        run: |
+          earthly +gh-action-e2e-security
+        env:
+          EARTHLY_SECRETS: "BRIGHT_TOKEN=${{ secrets.BRIGHT_API_KEY }},BRIGHT_PROJECT_ID=${{ secrets.BRIGHT_PROJECT_ID }}"
+          EARTHLY_BUILD_ARGS: "github_ref=${{ github.ref }},github_sha=${{ github.sha }},github_run_id=${{ github.run_id }}"

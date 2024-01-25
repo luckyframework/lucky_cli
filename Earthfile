@@ -137,6 +137,16 @@ weekly-nightly-full-web-app:
         RUN docker run --network=host lucky-image:latest
     END
 
+# release-static builds an executable statically linked
+release-static:
+    FROM 84codes/crystal:latest-alpine
+    WORKDIR /workdir
+    COPY --dir src ./
+    COPY shard.yml ./
+    RUN apk add yaml-static
+    RUN shards build lucky --without-development --no-debug --release --static
+    SAVE ARTIFACT ./bin/lucky
+
 build-lucky:
     WORKDIR /lucky_cli
     COPY --dir src ./
