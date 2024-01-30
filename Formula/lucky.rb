@@ -15,7 +15,7 @@ class Lucky < Formula
     bin.install "./bin/lucky"
   end
 
-  def test
-    assert_match "1.1.0", shell_output("#{bin}/lucky --version")
+  test do
+    assert_equal "1.1.0", shell_output("#{bin}/lucky --version").strip
   end
 end
