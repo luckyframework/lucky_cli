@@ -3,9 +3,9 @@ class Lucky < Formula
   desc "A Crystal command-line tool for generating new Lucky Web Applications"
   homepage "https://github.com/luckyframework/lucky_cli"
   license "MIT"
-  url "https://github.com/luckyframework/lucky_cli/archive/refs/tags/v1.2.0.zip"
-  sha256 "6fad3305c5d842a2a4efe59d8f9e51ec1ebf38e4ac7633dbcc88c8b855cd5be2"
-  version "1.2.0"
+  url "https://github.com/luckyframework/lucky_cli/archive/refs/tags/v1.1.0-test2.zip"
+  sha256 "a02c7d3a1d9f962d4c4b4715ce08b33b7e35cf876c95c9d6b09da73dd30574d4"
+  version "1.1.0-test2"
 
   depends_on "crystal" => :build
   depends_on "git" => :build
@@ -16,9 +16,6 @@ class Lucky < Formula
   end
 
   def test
-    assert_match "1.2.0", shell_output("#{bin}/lucky --version").split(" ")[2]
+    assert_match "1.1.0", shell_output("#{bin}/lucky --version")
   end
 end
-
-# `scoop bucket add lucky https://github.com/luckyframework/lucky_cli`
-# `scoop install lucky`

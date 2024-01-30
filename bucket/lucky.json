@@ -1,12 +1,16 @@
 {
-  "version": "1.2.0",
+  "##": [
+    "`scoop bucket add lucky https://github.com/luckyframework/lucky_cli`",
+    "`scoop install lucky`"
+  ],
+  "version": "1.1.0-test2",
   "description": "A Crystal command-line tool for generating new Lucky Web Applications",
   "homepage": "https://github.com/luckyframework/lucky_cli",
   "license": "MIT",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/luckyframework/lucky_cli/releases/download/v1.2.0/lucky-1.2.0-windows-amd64.zip",
-      "hash": "70edef1b1a7e3f6b534c70d624f65a01a369ea8db3e9266f7997e06c2a8d4505"
+      "url": "https://github.com/luckyframework/lucky_cli/releases/download/v1.1.0-test2/lucky-v1.1.0-test2-windows-amd64.zip",
+      "hash": "99d1d091ca0420b64b3ec54f74d4ca7826b5ca562ce00fec79b186ca9f17eaff"
     }
   },
   "bin": "lucky.exe",
@@ -14,7 +18,7 @@
   "autoupdate": {
     "architecture": {
       "64bit": {
-        "url": "https://github.com/luckyframework/lucky_cli/releases/download/v$version/lucky-$version-windows-amd64.zip"
+        "url": "https://github.com/luckyframework/lucky_cli/releases/download/v$version/lucky-v$version-windows-amd64.zip"
       }
     },
     "hash": {
