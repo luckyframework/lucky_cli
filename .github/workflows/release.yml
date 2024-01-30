@@ -7,14 +7,6 @@ on:
   push:
     tags:
       - "v*.*.*"
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: Branch
-      dry_run:
-        description: Dry Run
-        type: boolean
-        default: false
 
 jobs:
   build-linux-amd64:
@@ -27,59 +19,57 @@ jobs:
         with:
           version: v0.8.0
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.branch }}
       - name: Build and package
         run: |
           mkdir -p bin
           earthly --artifact +release-static/lucky ./bin/lucky
           sha256sum bin/lucky | awk '{print $1}' > ./bin/checksums.txt
-          tar -czvf lucky-linux-amd64.tar.gz -C ./bin .
+          tar -czvf lucky-$GITHUB_REF_NAME-linux-amd64.tar.gz -C ./bin .
       - uses: actions/upload-artifact@v4
-        if: ${{ !github.event.inputs.dry_run }}
         with:
           name: linux
-          path: lucky-linux-amd64.tar.gz
+          path: lucky-${{ github.ref_name }}-linux-amd64.tar.gz
           if-no-files-found: error
 
   build-windows-amd64:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.branch }}
       - uses: crystal-lang/install-crystal@v1
       - uses: ilammy/msvc-dev-cmd@v1
       - name: Build and package
         run: |
           shards build lucky --without-development --no-debug --release --static
           (Get-FileHash ./bin/lucky.exe).Hash | Out-File ./bin/checksums.txt
-          Compress-Archive -Path ./bin/* -DestinationPath lucky-windows-amd64.zip
+          Compress-Archive -Path ./bin/* -DestinationPath lucky-$GITHUB_REF_NAME-windows-amd64.zip
       - uses: actions/upload-artifact@v4
-        if: ${{ !github.event.inputs.dry_run }}
         with:
           name: windows
-          path: lucky-windows-amd64.zip
+          path: lucky-${{ github.ref_name }}-windows-amd64.zip
           if-no-files-found: error
 
   release:
-    if: startsWith(github.ref, 'refs/tags/')
     needs:
       - build-linux-amd64
       - build-windows-amd64
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.branch }}
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
+      - name: Checksums
+        run: |
+          cd artifacts
+          sha256sum linux/lucky-$GITHUB_REF_NAME-linux-amd64.tar.gz | awk '{print $1}' > linux/lucky-$GITHUB_REF_NAME-linux-amd64.tar.gz.sha256
+          sha256sum windows/lucky-$GITHUB_REF_NAME-windows-amd64.zip | awk '{print $1}' > windows/lucky-$GITHUB_REF_NAME-windows-amd64.zip.sha256
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           draft: true
           fail_on_unmatched_files: true
           files: |
-            artifacts/linux/lucky-linux-amd64.tar.gz
-            artifacts/windows/lucky-windows-amd64.zip
+            artifacts/linux/lucky-${{ github.ref_name }}-linux-amd64.tar.gz
+            artifacts/linux/lucky-${{ github.ref_name }}-linux-amd64.tar.gz.sha256
+            artifacts/windows/lucky-${{ github.ref_name }}-windows-amd64.zip
+            artifacts/windows/lucky-${{ github.ref_name }}-windows-amd64.zip.sha256
