@@ -41,7 +41,7 @@ jobs:
         run: |
           shards build lucky --without-development --no-debug --release --static
           (Get-FileHash ./bin/lucky.exe).Hash | Out-File ./bin/checksums.txt
-          Compress-Archive -Path ./bin/* -DestinationPath lucky-$GITHUB_REF_NAME-windows-amd64.zip
+          Compress-Archive -Path ./bin/* -DestinationPath lucky-$env:GITHUB_REF_NAME-windows-amd64.zip
       - uses: actions/upload-artifact@v4
         with:
           name: windows
