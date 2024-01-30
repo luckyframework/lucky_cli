@@ -1,0 +1,24 @@
+{
+  "version": "1.2.0",
+  "description": "A Crystal command-line tool for generating new Lucky Web Applications",
+  "homepage": "https://github.com/luckyframework/lucky_cli",
+  "license": "MIT",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/luckyframework/lucky_cli/releases/download/v1.2.0/lucky-1.2.0-windows-amd64.zip",
+      "hash": "70edef1b1a7e3f6b534c70d624f65a01a369ea8db3e9266f7997e06c2a8d4505"
+    }
+  },
+  "bin": "lucky.exe",
+  "checkver": "github",
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/luckyframework/lucky_cli/releases/download/v$version/lucky-$version-windows-amd64.zip"
+      }
+    },
+    "hash": {
+      "url": "$url.sha256"
+    }
+  }
+}

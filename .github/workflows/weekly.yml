@@ -7,6 +7,12 @@ on:
 
 jobs:
   integration-specs:
-    uses: ./.github/workflows/reusable-earthly.yml
-    with:
-      earthly-cmd: +gh-action-weekly
+    runs-on: ubuntu-latest
+    steps:
+      - uses: earthly/actions-setup@v1
+        with:
+          version: v0.8.0
+      - uses: actions/checkout@v4
+      - name: Run build
+        run: |
+          earthly +gh-action-weekly
