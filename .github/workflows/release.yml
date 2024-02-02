@@ -73,3 +73,20 @@ jobs:
             artifacts/linux/lucky-${{ github.ref_name }}-linux-amd64.tar.gz.sha256
             artifacts/windows/lucky-${{ github.ref_name }}-windows-amd64.zip
             artifacts/windows/lucky-${{ github.ref_name }}-windows-amd64.zip.sha256
+
+  homebrew-lucky:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Trigger Release Workflow
+        run: |
+          url_="https://github.com/luckyframework/lucky_cli/refs/tags/${{ github.ref_name }}.zip"
+          sha_="$(curl -s $url_ | sha256sum | awk '{print $1}')"
+          version_="$(yq '.version' shard.yml)"
+
+          gh workflow run release.yml \
+            -R luckyframework/homebrew-lucky \
+            -f url=$url_ \
+            -f sha256=$sha_ \
+            -f version=$version_
