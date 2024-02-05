@@ -6,7 +6,10 @@ permissions:
 on:
   push:
     tags:
-      - "v*.*.*"
+      # Semantic versions are allowed (i.e. `v1.2.3`)
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      # Experimental versions are not allowed (i.e. `v1.2.3-experimental`)
+      - "!v[0-9]+.[0-9]+.[0-9]+-*"
 
 jobs:
   build-linux-amd64:
@@ -87,6 +90,23 @@ jobs:
 
           gh workflow run release.yml \
             -R luckyframework/homebrew-lucky \
+            -f url=$url_ \
+            -f sha256=$sha_ \
+            -f version=$version_
+
+  scoop-lucky:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Trigger Release Workflow
+        run: |
+          url_="https://github.com/luckyframework/lucky_cli/releases/download/${{ github.ref_name }}/lucky-${{ github.ref_name }}-windows-amd64.zip"
+          sha_="$(curl -sL $url_.sha256)"
+          version_="$(yq '.version' shard.yml)"
+
+          gh workflow run release.yml \
+            -R luckyframework/scoop-bucket \
             -f url=$url_ \
             -f sha256=$sha_ \
             -f version=$version_
