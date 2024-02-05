@@ -85,7 +85,7 @@ jobs:
       - name: Trigger Release Workflow
         run: |
           url_="https://github.com/luckyframework/lucky_cli/archive/refs/tags/${{ github.ref_name }}.zip"
-          sha_="$(curl -s $url_ | sha256sum | awk '{print $1}')"
+          sha_="$(curl -sL $url_ | sha256sum | awk '{print $1}')"
           version_="$(yq '.version' shard.yml)"
 
           gh workflow run release.yml \
