@@ -6,7 +6,7 @@ class SrcTemplate
   getter crystal_project_name : String
   property(secret_key_base) { Random::Secure.base64(32) }
   property(crystal_version) { Crystal::VERSION }
-  property(lucky_cli_version) { LuckyCli::VERSION }
+  property(lucky_cli_version : String) { LuckyCli::VERSION }
 
   def initialize(
     @project_name : String,
