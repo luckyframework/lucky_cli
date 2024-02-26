@@ -88,6 +88,7 @@ jobs:
           sha_="$(curl -sL $url_ | sha256sum | awk '{print $1}')"
           version_="$(yq '.version' shard.yml)"
 
+          set -x
           gh workflow run release.yml \
             -R luckyframework/homebrew-lucky \
             -f url=$url_ \
@@ -105,6 +106,7 @@ jobs:
           sha_="$(curl -sL $url_.sha256)"
           version_="$(yq '.version' shard.yml)"
 
+          set -x
           gh workflow run release.yml \
             -R luckyframework/scoop-bucket \
             -f url=$url_ \

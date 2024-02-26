@@ -21,3 +21,18 @@ jobs:
       - name: Run build
         run: |
           earthly +gh-action-weekly
+
+  e2e-security-specs:
+    needs: integration-specs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: earthly/actions-setup@v1
+        with:
+          version: v0.8.0
+      - uses: actions/checkout@v4
+      - name: Run build
+        run: |
+          earthly +gh-action-e2e-security
+        env:
+          EARTHLY_SECRETS: "BRIGHT_TOKEN=${{ secrets.BRIGHT_API_KEY }},BRIGHT_PROJECT_ID=${{ secrets.BRIGHT_PROJECT_ID }}"
+          EARTHLY_BUILD_ARGS: "github_ref=${{ github.ref }},github_sha=${{ github.sha }},github_run_id=${{ github.run_id }}"
