@@ -5,6 +5,11 @@ on:
     - cron: "0 1 * * MON"
   workflow_dispatch:
 
+env:
+  FORCE_COLOR: 1
+  EARTHLY_CI: 'true'
+  EARTHLY_ALLOW_PRIVILEGED: 'true'
+
 jobs:
   integration-specs:
     runs-on: ubuntu-latest
