@@ -23,7 +23,6 @@ jobs:
           earthly +gh-action-weekly
 
   e2e-security-specs:
-    needs: integration-specs
     runs-on: ubuntu-latest
     steps:
       - uses: earthly/actions-setup@v1
