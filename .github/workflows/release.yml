@@ -94,6 +94,8 @@ jobs:
             -f url=$url_ \
             -f sha256=$sha_ \
             -f version=$version_
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   scoop-lucky:
     needs: release
@@ -112,3 +114,5 @@ jobs:
             -f url=$url_ \
             -f sha256=$sha_ \
             -f version=$version_
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
