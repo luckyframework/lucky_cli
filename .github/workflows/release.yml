@@ -67,7 +67,7 @@ jobs:
           sha256sum linux/lucky-$GITHUB_REF_NAME-linux-amd64.tar.gz | awk '{print $1}' > linux/lucky-$GITHUB_REF_NAME-linux-amd64.tar.gz.sha256
           sha256sum windows/lucky-$GITHUB_REF_NAME-windows-amd64.zip | awk '{print $1}' > windows/lucky-$GITHUB_REF_NAME-windows-amd64.zip.sha256
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           draft: true
           fail_on_unmatched_files: true
