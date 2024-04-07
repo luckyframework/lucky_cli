@@ -15,7 +15,7 @@ class LuckyCli::Wizard::LabeledYesNoQuestion
   def ask : Bool
     print question_text.colorize.bold.to_s +
           " (#{yes_label}/#{no_label}): ".colorize.green.bold.to_s
-    answer = gets.try(&.strip.gsub("'", ""))
+    answer = gets.try(&.strip.gsub("'", "").downcase)
     case answer
     when yes_label
       true
