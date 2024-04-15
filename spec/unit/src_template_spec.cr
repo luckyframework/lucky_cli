@@ -19,7 +19,7 @@ describe SrcTemplate do
         with_sec_tester: true
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
-        instance.crystal_version = "1.6.2"
+        instance.crystal_version = "1.10.0"
         instance.lucky_cli_version = "1.0.0"
       end
     end
@@ -34,7 +34,7 @@ describe SrcTemplate do
         with_sec_tester: false
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
-        instance.crystal_version = "1.6.2"
+        instance.crystal_version = "1.10.0"
         instance.lucky_cli_version = "1.0.0"
       end
     end
@@ -49,7 +49,7 @@ describe SrcTemplate do
         with_sec_tester: false
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
-        instance.crystal_version = "1.6.2"
+        instance.crystal_version = "1.10.0"
         instance.lucky_cli_version = "1.0.0"
       end
     end
@@ -64,7 +64,7 @@ describe SrcTemplate do
         with_sec_tester: true
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
-        instance.crystal_version = "1.6.2"
+        instance.crystal_version = "1.10.0"
         instance.lucky_cli_version = "1.0.0"
       end
     end
