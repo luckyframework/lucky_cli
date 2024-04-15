@@ -18,7 +18,7 @@ describe ShardFileGenerator do
         browser: true,
         with_sec_tester: true
       ).tap do |instance|
-        instance.crystal_version = "1.6.2"
+        instance.crystal_version = "1.10.0"
       end
     end
   end
@@ -31,7 +31,7 @@ describe ShardFileGenerator do
         browser: true,
         with_sec_tester: false
       ).tap do |instance|
-        instance.crystal_version = "1.6.2"
+        instance.crystal_version = "1.10.0"
       end
     end
   end
@@ -44,7 +44,7 @@ describe ShardFileGenerator do
         browser: false,
         with_sec_tester: false
       ).tap do |instance|
-        instance.crystal_version = "1.6.2"
+        instance.crystal_version = "1.10.0"
       end
     end
   end
@@ -57,7 +57,7 @@ describe ShardFileGenerator do
         browser: false,
         with_sec_tester: true
       ).tap do |instance|
-        instance.crystal_version = "1.6.2"
+        instance.crystal_version = "1.10.0"
       end
     end
   end

@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
@@ -41,7 +41,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     services:
       postgres:
-        image: postgres:12-alpine
+        image: postgres:14-alpine
         env:
           POSTGRES_PASSWORD: postgres
         ports:
@@ -54,7 +54,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
@@ -66,7 +66,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Set up Yarn cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -74,7 +74,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Set up Node cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: node-cache # use this to check for `cache-hit` (`steps.node-cache.outputs.cache-hit != 'true'`)
         with:
           path: '**/node_modules'
@@ -83,13 +83,12 @@ jobs:
             ${{ runner.os }}-node-
 <%- end -%>
       - name: Set up Crystal cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: crystal-cache
         with:
           path: |
             ~/.cache/crystal
             lib
-            lucky_tasks
           key: ${{ runner.os }}-crystal-${{ hashFiles('**/shard.lock') }}
           restore-keys: |
             ${{ runner.os }}-crystal-
@@ -105,13 +104,7 @@ jobs:
       - name: Compiling assets
         run: yarn prod
 <%- end -%>
-<%- if with_sec_tester? -%>
-      - name: Install npm and Nexploit Repeater
-        run: |
-          sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
-<%- end -%>
       - name: Build lucky_tasks
-        if: steps.crystal-cache.outputs.cache-hit != 'true'
         run: crystal build tasks.cr -o ./lucky_tasks
 
       - name: Prepare database

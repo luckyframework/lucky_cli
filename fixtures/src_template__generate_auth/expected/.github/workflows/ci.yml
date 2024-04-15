@@ -12,13 +12,13 @@ jobs:
       fail-fast: false
       matrix:
         crystal_version:
-          - 1.6.2
+          - 1.10.0
         experimental:
           - false
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         crystal_version:
-          - 1.6.2
+          - 1.10.0
         experimental:
           - false
     runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     services:
       postgres:
-        image: postgres:12-alpine
+        image: postgres:14-alpine
         env:
           POSTGRES_PASSWORD: postgres
         ports:
@@ -54,7 +54,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
@@ -65,7 +65,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Set up Yarn cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -73,7 +73,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Set up Node cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: node-cache # use this to check for `cache-hit` (`steps.node-cache.outputs.cache-hit != 'true'`)
         with:
           path: '**/node_modules'
@@ -81,13 +81,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Set up Crystal cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: crystal-cache
         with:
           path: |
             ~/.cache/crystal
             lib
-            lucky_tasks
           key: ${{ runner.os }}-crystal-${{ hashFiles('**/shard.lock') }}
           restore-keys: |
             ${{ runner.os }}-crystal-
@@ -102,7 +101,6 @@ jobs:
       - name: Compiling assets
         run: yarn prod
       - name: Build lucky_tasks
-        if: steps.crystal-cache.outputs.cache-hit != 'true'
         run: crystal build tasks.cr -o ./lucky_tasks
 
       - name: Prepare database
