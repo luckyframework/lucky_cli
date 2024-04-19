@@ -1,5 +1,5 @@
 name: lucky_cli
-version: 1.1.1
+version: 1.2.0
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
@@ -11,7 +11,7 @@ targets:
   lucky.hello_world:
     main: fixtures/hello_world.cr
 
-crystal: ~> 1.6
+crystal: ~> 1.10
 
 license: MIT
 
