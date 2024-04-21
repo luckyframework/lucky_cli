@@ -8,16 +8,16 @@ crystal: '>= 1.10.0'
 dependencies:
   lucky:
     github: luckyframework/lucky
-    version: ~> 1.1.0
+    version: ~> 1.2.0
   avram:
     github: luckyframework/avram
-    version: ~> 1.1.0
+    version: ~> 1.2.0
   carbon:
     github: luckyframework/carbon
-    version: ~> 0.4.0
+    version: ~> 0.5.1
   carbon_sendgrid_adapter:
     github: luckyframework/carbon_sendgrid_adapter
-    version: ~> 0.4.0
+    version: ~> 0.5.0
   lucky_env:
     github: luckyframework/lucky_env
     version: ~> 0.2.0
