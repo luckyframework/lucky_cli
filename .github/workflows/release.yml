@@ -82,6 +82,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Generate app token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Trigger Release Workflow
         run: |
           url_="https://github.com/luckyframework/lucky_cli/archive/refs/tags/${{ github.ref_name }}.zip"
@@ -95,13 +101,19 @@ jobs:
             -f sha256=$sha_ \
             -f version=$version_
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 
   scoop-lucky:
     needs: release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Generate app token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Trigger Release Workflow
         run: |
           url_="https://github.com/luckyframework/lucky_cli/releases/download/${{ github.ref_name }}/lucky-${{ github.ref_name }}-windows-amd64.zip"
@@ -115,4 +127,4 @@ jobs:
             -f sha256=$sha_ \
             -f version=$version_
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
