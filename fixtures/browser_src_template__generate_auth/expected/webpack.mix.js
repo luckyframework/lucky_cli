@@ -50,7 +50,7 @@ mix
   // SASS entry file. Uses autoprefixer automatically.
   .sass("src/css/app.scss", "css")
   // Customize postCSS:
-  // https://github.com/JeffreyWay/laravel-mix/blob/master/docs/css-preprocessors.md#postcss-plugins
+  // https://github.com/laravel-mix/laravel-mix/blob/master/docs/postcss.md
   .options({
     // If you want to process images, change this to true and add options from
     // https://github.com/tcoopman/image-webpack-loader
