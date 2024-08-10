@@ -175,6 +175,12 @@ class TaskCommand < ACON::Command
     style.puts "Name: #{task_name}"
     style.puts "Args: #{task_args.inspect}"
 
+    if File::Info.executable?("./bin/lucky.#{task_name}")
+      style.puts "run old process"
+    else
+      style.puts "run new lua process"
+    end
+
     ACON::Command::Status::SUCCESS
   end
 end
