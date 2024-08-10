@@ -28,6 +28,14 @@ Run `which lucky` from the command line to make sure it is installed.
 
 **If you're generating a Lucky web project, [install the required dependencies](https://luckyframework.org/guides/getting-started/installing#install-required-dependencies). Then run `lucky init`**
 
+### Updating Snapshots
+
+Run the following command:
+
+```bash
+$ SPEC_UPDATE_SNAPSHOT=1 crystal spec --tag "~integration"
+```
+
 ## Contributing
 
 1.  Fork it ( https://github.com/luckyframework/lucky_cli/fork )

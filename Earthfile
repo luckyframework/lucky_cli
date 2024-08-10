@@ -1,4 +1,4 @@
-VERSION 0.7
+VERSION 0.8
 FROM 84codes/crystal:1.10.0-ubuntu-22.04
 WORKDIR /workdir
 
@@ -37,14 +37,6 @@ format-check:
 specs:
     FROM +base-specs-image
     RUN crystal spec --tag "~integration"
-
-# update-snapshot updates spec fixtures
-update-snapshot:
-    FROM +base-specs-image
-    ARG spec
-    ENV SPEC_UPDATE_SNAPSHOT=1
-    RUN crystal spec --tag "~integration" $spec
-    SAVE ARTIFACT ./fixtures AS LOCAL ./fixtures
 
 # lint runs ameba code linter
 lint:
@@ -167,14 +159,14 @@ base-specs-image:
 
 e2e-base-image:
     RUN apt-get update \
-     && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev wget \
+     && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev \
      && mkdir -p /etc/apt/keyrings \
      && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
      && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
      && apt-get update \
      && apt-get install -y nodejs \
      && npm install --global yarn \
-     && wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+     && curl -sSL -o /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
      && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb
     ENV CHROME_BIN=/usr/bin/google-chrome
     COPY +build-lucky/lucky /usr/bin/lucky
@@ -270,18 +262,18 @@ weekly-nightly-image:
     SAVE IMAGE lucky-image:weekly-nightly
 
 WEEKLY_IMAGE:
-    COMMAND
+    FUNCTION
     ARG shard_file
     WORKDIR /workdir
     RUN apt-get update \
-     && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev wget \
+     && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev \
      && mkdir -p /etc/apt/keyrings \
      && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
      && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
      && apt-get update \
      && apt-get install -y nodejs \
      && npm install --global yarn \
-     && wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+     && curl -sSL -o /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
      && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb
     ENV CHROME_BIN=/usr/bin/google-chrome
     COPY +build-lucky/lucky /usr/bin/lucky

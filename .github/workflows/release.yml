@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: earthly/actions-setup@v1
         with:
-          version: v0.8.0
+          version: v0.8.13
       - uses: actions/checkout@v4
       - name: Build and package
         run: |
