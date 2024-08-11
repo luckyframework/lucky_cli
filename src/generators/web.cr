@@ -1,6 +1,7 @@
 require "../lucky_cli/generator_helpers"
 
 class LuckyCli::Generators::Web
+  include LuckyTask::TextHelpers
   include LuckyCli::GeneratorHelpers
 
   getter project_name : String

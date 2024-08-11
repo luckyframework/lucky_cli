@@ -15,6 +15,9 @@ crystal: ~> 1.13
 
 license: MIT
 
+crystalline:
+  main: src/cli.cr
+
 dependencies:
   lucky_template:
     github: luckyframework/lucky_template
@@ -28,3 +31,5 @@ dependencies:
   athena-console:
     github: athena-framework/console
     version: ~> 0.3.6
+  luajit:
+    github: mdwagner/luajit.cr
