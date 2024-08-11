@@ -5,6 +5,7 @@ require "nox"
 require "lucky_task"
 require "./lucky_cli/version"
 require "./lucky_cli"
+require "./validators/*"
 require "./commands/*"
 # require "./lucky_cli"
 
