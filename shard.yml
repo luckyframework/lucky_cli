@@ -10,6 +10,8 @@ targets:
     main: src/lucky.cr
   lucky.hello_world:
     main: fixtures/hello_world.cr
+  lucky_cli:
+    main: src/cli.cr
 
 crystal: ~> 1.13
 
