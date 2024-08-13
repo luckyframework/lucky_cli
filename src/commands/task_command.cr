@@ -58,11 +58,15 @@ class TaskCommand < ACON::Command
       end
     end
 
-    process.wait
-
-    indicator.finish "Compiled!".colorize.bold.to_s
+    status = process.wait
     running = false
     tempfile.close
+
+    indicator.finish "Compiled!".colorize.bold.to_s
+
+    unless status.success?
+      return ACON::Command::Status.new(status.exit_code)
+    end
 
     cmd = tempfile_path
     args = [task_name]
