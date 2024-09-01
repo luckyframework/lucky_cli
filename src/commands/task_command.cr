@@ -1,3 +1,5 @@
+require "./task/*"
+
 class TaskCommand < ACON::Command
   def configure : Nil
     name "task"
@@ -6,7 +8,8 @@ class TaskCommand < ACON::Command
 
     argument "name", :required
     argument "args", :is_array
-    option "debug", "d", description: "Turn on debugging flags (--error-trace)"
+    option "debug", "d", description: "Turn on debugging flags (default: --error-trace)", value_mode: :optional, default: "--error-trace"
+    option "experimental", "x", description: "Experimental Lua support"
 
     usage "<name> -- [<args>...]"
     usage "my.task"
@@ -22,6 +25,14 @@ class TaskCommand < ACON::Command
 
     if File::Info.executable?(precompiled_task_path)
       execute_process(precompiled_task_path.to_s, task_args)
+    elsif input.option("experimental", Bool)
+      begin
+        LuaLucky.run
+        ACON::Command::Status::SUCCESS
+      rescue error
+        raise error
+        ACON::Command::Status::FAILURE
+      end
     else
       build_and_run_task(task_name, task_args, input, output)
     end
@@ -39,8 +50,8 @@ class TaskCommand < ACON::Command
 
     cmd = "crystal"
     args = ["build", tasks_file_path.to_s]
+    args << input.option("debug", String)
     args += ["-o", tempfile.path]
-    args << "--error-trace" if input.option("debug", Bool)
 
     indicator_values = %w[⣾ ⣽ ⣻ ⢿ ⡿ ⣟ ⣯ ⣷].map(&.colorize(:green).to_s)
 

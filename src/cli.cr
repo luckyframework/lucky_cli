@@ -3,11 +3,11 @@ require "ecr"
 require "athena-console"
 require "nox"
 require "lucky_task"
+require "luajit"
 require "./lucky_cli/version"
 require "./lucky_cli"
 require "./validators/*"
 require "./commands/*"
-# require "./lucky_cli"
 
 # Create an ACON::Application, passing it the name of your CLI.
 # Optionally accepts a second argument representing the version of
