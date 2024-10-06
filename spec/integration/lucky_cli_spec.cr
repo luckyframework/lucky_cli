@@ -9,8 +9,19 @@ describe "Lucky CLI", tags: "integration" do
         shell: true,
         output: io
       )
-      status.exit_status.should eq(0)
+      status.exit_code.should eq(0)
       io.to_s.should eq("Hello World!\n")
+    end
+
+    it "runs non-compiled tasks" do
+      io = IO::Memory.new
+      status = run_lucky(
+        args: %w[hello_crystal],
+        shell: true,
+        output: io
+      )
+      status.exit_code.should eq(0)
+      io.to_s.should eq("Hello, Crystal!\n")
     end
 
     it "allows tasks to accept input from STDIN" do
@@ -32,7 +43,7 @@ describe "Lucky CLI", tags: "integration" do
     it "returns the lucky CLI help message when passing the -h flag" do
       io = IO::Memory.new
       status = run_lucky(args: %w[-h], shell: true, output: io)
-      status.exit_status.should eq(0)
+      status.exit_code.should eq(0)
       io.to_s.should contain("Usage: lucky [command]")
     end
 
@@ -47,7 +58,7 @@ describe "Lucky CLI", tags: "integration" do
             "LUCKY_TASKS_FILE" => fixtures_tasks_path.to_s,
           }
         )
-        status.exit_status.should eq(0)
+        status.exit_code.should eq(0)
         io.to_s.should contain("Usage: lucky tasks")
       end
 
@@ -61,7 +72,7 @@ describe "Lucky CLI", tags: "integration" do
             "LUCKY_TASKS_FILE" => fixtures_tasks_path.to_s,
           }
         )
-        status.exit_status.should eq(0)
+        status.exit_code.should eq(0)
         io.to_s.should contain("Usage: lucky dev")
       end
     end
@@ -78,7 +89,7 @@ describe "Lucky CLI", tags: "integration" do
           "LUCKY_TASKS_FILE" => fixtures_tasks_path.to_s,
         }
       )
-      status.exit_status.should eq(0)
+      status.exit_code.should eq(0)
       io.to_s.should contain("Custom help message")
     end
   end
@@ -99,7 +110,7 @@ describe "Lucky CLI", tags: "integration" do
         args: %w[init.custom test-project --dir my-project],
         shell: true,
       )
-      status.exit_status.should eq(0)
+      status.exit_code.should eq(0)
       Dir.cd("my-project/test-project") do
         File.read("src/shards.cr").should contain("lucky")
       end
@@ -113,7 +124,7 @@ describe "Lucky CLI", tags: "integration" do
         shell: true,
         output: io
       )
-      status.exit_status.should eq(0)
+      status.exit_code.should eq(0)
       io.to_s.should contain("Folder named test-project already exists, please use a different name")
     end
 
@@ -124,7 +135,7 @@ describe "Lucky CLI", tags: "integration" do
         shell: true,
         output: io
       )
-      status.exit_status.should_not eq(0)
+      status.exit_code.should_not eq(0)
       io.to_s.should contain("Project name should only contain lowercase letters, numbers, underscores, and dashes.")
     end
 
@@ -135,7 +146,7 @@ describe "Lucky CLI", tags: "integration" do
         shell: true,
         output: io
       )
-      status.exit_status.should_not eq(0)
+      status.exit_code.should_not eq(0)
       io.to_s.should contain("Projects cannot be named app, app_database, app_server, shards, start_server.")
     end
   end
