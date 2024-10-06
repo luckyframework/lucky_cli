@@ -108,25 +108,58 @@ class SrcTemplate
           ECR.embed("#{__DIR__}/../web_app_skeleton/docker/wait-for-it.sh.ecr", io)
         end
       end
-      root_dir.add_folder("script") do |script_dir|
-        script_dir.add_file("setup", 0o755) do |io|
-          ECR.embed("#{__DIR__}/../web_app_skeleton/script/setup.ecr", io)
-        end
-        script_dir.add_file("system_check", 0o755) do |io|
-          ECR.embed("#{__DIR__}/../web_app_skeleton/script/system_check.ecr", io)
-        end
-        script_dir.add_folder("helpers") do |helpers_dir|
-          helpers_dir.add_file("function_helpers") do |io|
-            ECR.embed("#{__DIR__}/../web_app_skeleton/script/helpers/function_helpers.ecr", io)
-          end
-          helpers_dir.add_file("text_helpers") do |io|
-            ECR.embed("#{__DIR__}/../web_app_skeleton/script/helpers/text_helpers.ecr", io)
-          end
-        end
-      end
+      root_dir.insert_folder("script", script_folder)
       root_dir.insert_folder("spec", spec_folder)
       root_dir.insert_folder("src", src_folder)
       root_dir.insert_folder("tasks", tasks_folder)
+    end
+  end
+
+  private def script_folder
+    {% if flag?(:windows) %}
+      create_powershell_scripts_folder
+    {% else %}
+      create_bash_scripts_folder
+    {% end %}
+  end
+
+  # Generate bash scripts for *nix platforms
+  private def create_bash_scripts_folder
+    LuckyTemplate.create_folder do |script_dir|
+      script_dir.add_file("setup", 0o755) do |io|
+        ECR.embed("#{__DIR__}/../web_app_skeleton/script/setup.ecr", io)
+      end
+      script_dir.add_file("system_check", 0o755) do |io|
+        ECR.embed("#{__DIR__}/../web_app_skeleton/script/system_check.ecr", io)
+      end
+      script_dir.add_folder("helpers") do |helpers_dir|
+        helpers_dir.add_file("function_helpers") do |io|
+          ECR.embed("#{__DIR__}/../web_app_skeleton/script/helpers/function_helpers.ecr", io)
+        end
+        helpers_dir.add_file("text_helpers") do |io|
+          ECR.embed("#{__DIR__}/../web_app_skeleton/script/helpers/text_helpers.ecr", io)
+        end
+      end
+    end
+  end
+
+  # Generate PowerShell scripts for Windows
+  private def create_powershell_scripts_folder
+    LuckyTemplate.create_folder do |script_dir|
+      script_dir.add_file("setup.ps1", 0o755) do |io|
+        ECR.embed("#{__DIR__}/../web_app_skeleton/script/setup.ps1.ecr", io)
+      end
+      script_dir.add_file("system_check.ps1", 0o755) do |io|
+        ECR.embed("#{__DIR__}/../web_app_skeleton/script/system_check.ps1.ecr", io)
+      end
+      script_dir.add_folder("helpers") do |helpers_dir|
+        helpers_dir.add_file("function_helpers.ps1") do |io|
+          ECR.embed("#{__DIR__}/../web_app_skeleton/script/helpers/function_helpers.ps1.ecr", io)
+        end
+        helpers_dir.add_file("text_helpers.ps1") do |io|
+          ECR.embed("#{__DIR__}/../web_app_skeleton/script/helpers/text_helpers.ps1.ecr", io)
+        end
+      end
     end
   end
 
