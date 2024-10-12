@@ -73,8 +73,12 @@ class LuckyCli::Generators::Web
     #{"Done generating your Lucky project".colorize.bold}
 
       #{green_arrow} cd into #{project_location.colorize(:green)}
-      #{green_arrow} check database settings in #{"config/database.cr".colorize(:green)}
-      #{green_arrow} run #{"script/setup".colorize(:green)}
+      #{green_arrow} check database settings in #{Path.new("config", "database.cr").colorize(:green)}
+      {% if flag?(:windows) %}
+      #{green_arrow} run #{Path.new("script", "setup.ps1").colorize(:green)}
+      {% else %}
+      #{green_arrow} run #{Path.new("script", "setup").colorize(:green)}
+      {% end %}
       #{green_arrow} run #{"lucky dev".colorize(:green)} to start the server
 
     TEXT
