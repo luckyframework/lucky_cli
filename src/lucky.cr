@@ -10,22 +10,27 @@ require "./build_and_run_task"
 include LuckyTask::TextHelpers
 
 args = ARGV.join(" ")
-tasks_file = ENV.fetch("LUCKY_TASKS_FILE", "./tasks.cr")
+tasks_file = ENV.fetch("LUCKY_TASKS_FILE", Path["./tasks.cr"].to_s)
 inside_app_directory = File.file?(tasks_file)
 
 private def task_name : String?
   ARGV.first?
 end
 
-private def task_precompiled? : Bool
-  path = precompiled_task_path
-  !path.nil? && File.file?(path)
+private def task_compiled? : Bool
+  path = task_path
+  !path.nil? && {% if compare_versions(Crystal::VERSION, "1.13.0") >= 0 %}File::Info.executable?(path){% else %}File.executable?(path){% end %}
 end
 
-private def precompiled_task_path : String?
+private def task_path(ext : String = "") : Path?
   task_name.try do |name|
-    "bin/lucky.#{name}"
+    Path.new("bin", "lucky.#{name}#{ext}")
   end
+end
+
+private def task_not_compiled? : Bool
+  path = task_path(".cr")
+  !path.nil? && File.file?(path)
 end
 
 private def built_in_commands : Array(String)
@@ -148,10 +153,20 @@ elsif start_wizard
   LuckyCli::Init.run
 elsif generate_custom_app
   # already running
-elsif task_precompiled?
+elsif task_compiled?
   exit Process.run(
-    precompiled_task_path.to_s,
+    task_path.to_s,
     ARGV.skip(1),
+    shell: true,
+    input: STDIN,
+    output: STDOUT,
+    error: STDERR
+  ).exit_code
+elsif task_not_compiled?
+  crystal_command = {% if flag?(:windows) %}"crystal.exe"{% else %}"crystal"{% end %}
+  exit Process.run(
+    crystal_command,
+    [task_path(".cr").to_s] + ARGV.skip(1),
     shell: true,
     input: STDIN,
     output: STDOUT,

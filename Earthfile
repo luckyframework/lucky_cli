@@ -58,6 +58,7 @@ integration-specs:
     FROM +base-image
     COPY +build-lucky/lucky /usr/bin/lucky
     COPY fixtures/hello_world.cr fixtures/
+    COPY fixtures/hello_crystal.cr bin/lucky.hello_crystal.cr
     COPY fixtures/tasks.cr fixtures/
     RUN shards build lucky.hello_world --without-development
     RUN crystal spec --tag integration
