@@ -33,11 +33,18 @@ Run `which lucky` from the command line to make sure it is installed.
 1.  Fork it ( https://github.com/luckyframework/lucky_cli/fork )
 2.  Create your feature branch (git checkout -b my-new-feature)
 3.  Commit your changes (git commit -am 'Add some feature')
-4.  Push to the branch (git push origin my-new-feature)
-5.  Check that specs on GitHub Actions CI pass
-6.  Create a new Pull Request
+4.  Install [Earthly](https://earthly.dev/)
+5.  Update fixtures with `earthly +update-snapshot`
+6.  Push to the branch (git push origin my-new-feature)
+7.  Check that specs on GitHub Actions CI pass `earthly +gh-action-e2e`
+8.  Create a new Pull Request
 
 ## Contributors
 
-- [paulcsmith](https://github.com/paulcsmith) Paul Smith - creator, maintainer
-- [mdwagner](https://github.com/mdwagner) Michael Wagner - core member
+[paulcsmith](https://github.com/paulcsmith) Paul Smith - Original Creator of Lucky
+
+<a href="https://github.com/luckyframework/lucky_cli/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=luckyframework/lucky_cli" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
