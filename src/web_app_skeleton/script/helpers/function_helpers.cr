@@ -3,7 +3,6 @@ require "colorize"
 # These are helper methods provided to help keep your code
 # clean. Add new methods, or alter these as needed.
 
-
 def notice(message : String) : Nil
   puts "\n▸ #{message}"
 end
