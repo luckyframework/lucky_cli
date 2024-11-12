@@ -109,19 +109,14 @@ class SrcTemplate
         end
       end
       root_dir.add_folder("script") do |script_dir|
-        script_dir.add_file("setup", 0o755) do |io|
-          ECR.embed("#{__DIR__}/../web_app_skeleton/script/setup.ecr", io)
+        script_dir.add_file("setup.cr") do |io|
+          ECR.embed("#{__DIR__}/../web_app_skeleton/script/setup.cr.ecr", io)
         end
-        script_dir.add_file("system_check", 0o755) do |io|
-          ECR.embed("#{__DIR__}/../web_app_skeleton/script/system_check.ecr", io)
+        script_dir.add_file("system_check.cr") do |io|
+          ECR.embed("#{__DIR__}/../web_app_skeleton/script/system_check.cr.ecr", io)
         end
         script_dir.add_folder("helpers") do |helpers_dir|
-          helpers_dir.add_file("function_helpers") do |io|
-            ECR.embed("#{__DIR__}/../web_app_skeleton/script/helpers/function_helpers.ecr", io)
-          end
-          helpers_dir.add_file("text_helpers") do |io|
-            ECR.embed("#{__DIR__}/../web_app_skeleton/script/helpers/text_helpers.ecr", io)
-          end
+          helpers_dir.add_file("function_helpers.cr")
         end
       end
       root_dir.insert_folder("spec", spec_folder)
