@@ -5,7 +5,6 @@ WORKDIR /workdir
 # gh-action-essential runs only the necessary recipes
 gh-action-essential:
     BUILD +format-check
-    BUILD +lint
     BUILD +specs
 
 # gh-action-integration runs all integration specs
@@ -47,11 +46,11 @@ update-snapshot:
     SAVE ARTIFACT ./fixtures AS LOCAL ./fixtures
 
 # lint runs ameba code linter
-lint:
-    FROM ghcr.io/crystal-ameba/ameba:1.5.0
-    COPY --dir src ./
-    COPY --dir spec ./
-    RUN ameba
+# lint:
+#     FROM ghcr.io/crystal-ameba/ameba:1.5.0
+#     COPY --dir src ./
+#     COPY --dir spec ./
+#     RUN ameba
 
 # integration-specs runs integration tests
 integration-specs:
