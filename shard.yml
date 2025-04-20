@@ -3,7 +3,6 @@ version: 1.3.0
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
-  - Michael Wagner <mdwranger@gmail.com>
 
 targets:
   lucky:
@@ -11,7 +10,7 @@ targets:
   lucky.hello_world:
     main: fixtures/hello_world.cr
 
-crystal: ~> 1.10
+crystal: ~> 1.16
 
 license: MIT
 

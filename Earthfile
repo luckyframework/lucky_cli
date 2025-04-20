@@ -1,5 +1,5 @@
-VERSION 0.7
-FROM 84codes/crystal:1.10.0-ubuntu-22.04
+VERSION 0.8
+FROM 84codes/crystal:latest-ubuntu-24.04
 WORKDIR /workdir
 
 # gh-action-essential runs only the necessary recipes
