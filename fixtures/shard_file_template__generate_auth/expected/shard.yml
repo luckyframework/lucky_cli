@@ -4,7 +4,7 @@ version: 0.1.0
 targets:
   test-shard:
     main: src/test-shard.cr
-crystal: '>= 1.10.0'
+crystal: '>= 1.16.1'
 dependencies:
   lucky:
     github: luckyframework/lucky

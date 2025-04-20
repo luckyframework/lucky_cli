@@ -1,4 +1,4 @@
-FROM crystallang/crystal:1.10.0
+FROM crystallang/crystal:1.16.1
 
 # Install utilities required to make this Dockerfile run
 RUN apt-get update && \
@@ -23,7 +23,7 @@ RUN npm install -g yarn mix
 # Install lucky cli
 WORKDIR /lucky/cli
 RUN git clone https://github.com/luckyframework/lucky_cli . && \
-    git checkout v1.0.0 && \
+    git checkout v1.3.0 && \
     shards build --without-development && \
     cp bin/lucky /usr/bin
 
