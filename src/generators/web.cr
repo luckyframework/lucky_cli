@@ -74,7 +74,7 @@ class LuckyCli::Generators::Web
 
       #{green_arrow} cd into #{project_location.colorize(:green)}
       #{green_arrow} check database settings in #{"config/database.cr".colorize(:green)}
-      #{green_arrow} run #{"script/setup".colorize(:green)}
+      #{green_arrow} run #{"crystal script/setup.cr".colorize(:green)}
       #{green_arrow} run #{"lucky dev".colorize(:green)} to start the server
 
     TEXT
