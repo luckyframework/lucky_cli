@@ -6,7 +6,6 @@ require "./system_check"
 
 print_done
 
-
 notice "Installing shards"
 run_command "shards", "install"
 

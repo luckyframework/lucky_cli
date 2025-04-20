@@ -24,3 +24,8 @@ dependencies:
   nox:
     github: crystal-loot/nox
     version: ~> 0.2.3
+
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 1.6.4

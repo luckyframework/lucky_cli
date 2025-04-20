@@ -78,7 +78,6 @@ describe "Lucky CLI", tags: "integration" do
     end
 
     # NOTE: This must be `error` because of how the messages are printed out from the custom tasks
-    # TODO: Figure out if that's correct, or needs to change
     it "returns custom help messages from custom tasks" do
       io = IO::Memory.new
       status = run_lucky(

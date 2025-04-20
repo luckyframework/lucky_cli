@@ -14,7 +14,7 @@ if command_not_found "yarn"
   print_error "Yarn is not installed\n  See https://yarnpkg.com/lang/en/docs/install/ for install instructions."
 end
 
-## CUSTOM PRE-BOOT CHECKS ##
+# # CUSTOM PRE-BOOT CHECKS ##
 # example:
 # if command_not_running "redis-cli", "ping"
 #   print_error "Redis is not running."

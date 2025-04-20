@@ -263,12 +263,12 @@ e2e-image-security:
     SAVE IMAGE lucky-image:security
 
 weekly-latest-image:
-    FROM 84codes/crystal:latest-ubuntu-22.04
+    FROM 84codes/crystal:latest-ubuntu-24.04
     DO +WEEKLY_IMAGE --shard_file=shard.edge.yml
     SAVE IMAGE lucky-image:weekly-latest
 
 weekly-nightly-image:
-    FROM 84codes/crystal:master-ubuntu-22.04
+    FROM 84codes/crystal:master-ubuntu-24.04
     DO +WEEKLY_IMAGE --shard_file=shard.override.yml
     SAVE IMAGE lucky-image:weekly-nightly
 
