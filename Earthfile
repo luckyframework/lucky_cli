@@ -167,6 +167,7 @@ base-specs-image:
     RUN shards install
 
 e2e-base-image:
+    COPY shard.override.yml ./
     RUN apt-get update \
      && apt-get install -y postgresql-client ca-certificates curl gnupg libnss3 libnss3-dev wget \
      && mkdir -p /etc/apt/keyrings \
@@ -178,6 +179,7 @@ e2e-base-image:
      && wget -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
      && apt-get install -y /tmp/google-chrome-stable_current_amd64.deb
     ENV CHROME_BIN=/usr/bin/google-chrome
+    ENV SHARDS_OVERRIDE=$(pwd)/shard.override.yml
     COPY +build-lucky/lucky /usr/bin/lucky
 
 e2e-image:
