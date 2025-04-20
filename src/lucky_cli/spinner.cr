@@ -29,7 +29,7 @@ class LuckyCli::Spinner
     @start_text,
     @io = STDERR,
     @done_text : String | ColoredString | Nil = nil,
-    @colorize_frame = ->(frame : String) { frame.colorize.bold.green }
+    @colorize_frame = ->(frame : String) { frame.colorize.bold.green },
   )
   end
 

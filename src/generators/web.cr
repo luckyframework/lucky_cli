@@ -13,7 +13,7 @@ class LuckyCli::Generators::Web
     @api_only : Bool,
     @generate_auth : Bool,
     @with_sec_tester : Bool = false,
-    project_directory : String = "."
+    project_directory : String = ".",
   )
     @full_project_directory = File.expand_path(project_directory)
 
