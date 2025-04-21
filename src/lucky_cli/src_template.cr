@@ -12,7 +12,7 @@ class SrcTemplate
     @project_name : String,
     @generate_auth : Bool,
     @api_only : Bool,
-    @with_sec_tester : Bool
+    @with_sec_tester : Bool,
   )
     @crystal_project_name = @project_name.gsub("-", "_")
   end

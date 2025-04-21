@@ -12,7 +12,7 @@ class ShardFileGenerator
     @project_name : String,
     @generate_auth : Bool,
     @browser : Bool,
-    @with_sec_tester : Bool
+    @with_sec_tester : Bool,
   )
   end
 

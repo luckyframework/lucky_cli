@@ -7,8 +7,8 @@ describe "SecTester" do
   it "tests the sign_in API for SQLi, and JWT attacks" do
     scanner = LuckySecTester.new
     api_headers = HTTP::Headers{"Content-Type" => "application/json", "Accept" => "application/json"}
-    target = scanner.build_target(Api::SignIns::Create, headers: api_headers) do |t|
-      t.body = {"user" => {"email" => "aa@aa.com", "password" => "123456789"}}.to_json
+    target = scanner.build_target(Api::SignIns::Create, headers: api_headers) do |request|
+      request.body = {"user" => {"email" => "aa@aa.com", "password" => "123456789"}}.to_json
     end
     scanner.run_check(
       scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",

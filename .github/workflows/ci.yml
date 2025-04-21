@@ -33,8 +33,10 @@ jobs:
           - {os: windows-latest}
     runs-on: ${{matrix.os}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
       - name: Install shards
         run: shards install
       - name: Run specs

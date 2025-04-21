@@ -19,8 +19,8 @@ describe "SecTester" do
 
   it "tests the sign_in action with params" do
     scanner = LuckySecTester.new
-    target = scanner.build_target(SignIns::Create) do |t|
-      t.body = "user%3Aemail=test%40test.com&user%3Apassword=1234"
+    target = scanner.build_target(SignIns::Create) do |request|
+      request.body = "user%3Aemail=test%40test.com&user%3Apassword=1234"
     end
     scanner.run_check(
       scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",
@@ -35,8 +35,8 @@ describe "SecTester" do
 
   it "tests the sign_up action" do
     scanner = LuckySecTester.new
-    target = scanner.build_target(SignUps::Create) do |t|
-      t.body = "user%3Aemail=aa%40aa.com&user%3Apassword=123456789&user%3Apassword_confirmation=123456789"
+    target = scanner.build_target(SignUps::Create) do |request|
+      request.body = "user%3Aemail=aa%40aa.com&user%3Apassword=123456789&user%3Apassword_confirmation=123456789"
     end
     scanner.run_check(
       scan_name: "ref: #{ENV["GITHUB_REF"]?} commit: #{ENV["GITHUB_SHA"]?} run id: #{ENV["GITHUB_RUN_ID"]?}",

@@ -4,7 +4,7 @@ class LuckyCli::Wizard::LabeledYesNoQuestion
   def initialize(
     @question_text : String,
     @yes_label : String,
-    @no_label : String
+    @no_label : String,
   )
   end
 
