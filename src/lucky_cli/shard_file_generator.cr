@@ -64,11 +64,11 @@ class ShardFileGenerator
     {
       "lucky" => {
         "github"  => "luckyframework/lucky",
-        "version" => "~> 1.3.0",
+        "version" => "~> 1.4.0",
       },
       "avram" => {
         "github"  => "luckyframework/avram",
-        "version" => "~> 1.3.0",
+        "version" => "~> 1.4.0",
       },
       "carbon" => {
         "github"  => "luckyframework/carbon",
@@ -80,7 +80,7 @@ class ShardFileGenerator
       },
       "lucky_env" => {
         "github"  => "luckyframework/lucky_env",
-        "version" => "~> 0.2.0",
+        "version" => "~> 0.3.0",
       },
       "lucky_task" => {
         "github"  => "luckyframework/lucky_task",
@@ -93,7 +93,7 @@ class ShardFileGenerator
     {
       "authentic" => {
         "github"  => "luckyframework/authentic",
-        "version" => ">= 1.0.1, < 2.0.0",
+        "version" => ">= 1.0.2, < 2.0.0",
       },
       "jwt" => {
         "github"  => "crystal-community/jwt",
@@ -115,7 +115,7 @@ class ShardFileGenerator
     {
       "lucky_sec_tester" => {
         "github"  => "luckyframework/lucky_sec_tester",
-        "version" => "~> 0.3.2",
+        "version" => "~> 0.3.3",
       },
     }
   end
