@@ -116,7 +116,9 @@ class SrcTemplate
           ECR.embed("#{__DIR__}/../web_app_skeleton/script/system_check.cr.ecr", io)
         end
         script_dir.add_folder("helpers") do |helpers_dir|
-          helpers_dir.add_file("function_helpers.cr")
+          helpers_dir.add_file("function_helpers.cr") do |io|
+            ECR.embed("#{__DIR__}/../web_app_skeleton/script/helpers/function_helpers.cr.ecr", io)
+          end
         end
       end
       root_dir.insert_folder("spec", spec_folder)
