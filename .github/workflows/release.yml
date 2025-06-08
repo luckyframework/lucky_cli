@@ -4,13 +4,13 @@ permissions:
   contents: write
 
 on:
+  workflow_dispatch:
   push:
-    branches: "*"
-    #tags:
-    #  # Semantic versions are allowed (i.e. `v1.2.3`)
-    #  - "v[0-9]+.[0-9]+.[0-9]+"
-    #  # Experimental versions are not allowed (i.e. `v1.2.3-experimental`)
-    #  - "!v[0-9]+.[0-9]+.[0-9]+-*"
+    tags:
+      # Semantic versions are allowed (i.e. `v1.2.3`)
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      # Experimental versions are not allowed (i.e. `v1.2.3-experimental`)
+      - "!v[0-9]+.[0-9]+.[0-9]+-*"
 
 jobs:
   build-linux-amd64:
