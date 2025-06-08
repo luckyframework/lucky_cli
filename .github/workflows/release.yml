@@ -5,11 +5,12 @@ permissions:
 
 on:
   push:
-    tags:
-      # Semantic versions are allowed (i.e. `v1.2.3`)
-      - "v[0-9]+.[0-9]+.[0-9]+"
-      # Experimental versions are not allowed (i.e. `v1.2.3-experimental`)
-      - "!v[0-9]+.[0-9]+.[0-9]+-*"
+    branches: "*"
+    #tags:
+    #  # Semantic versions are allowed (i.e. `v1.2.3`)
+    #  - "v[0-9]+.[0-9]+.[0-9]+"
+    #  # Experimental versions are not allowed (i.e. `v1.2.3-experimental`)
+    #  - "!v[0-9]+.[0-9]+.[0-9]+-*"
 
 jobs:
   build-linux-amd64:
@@ -43,7 +44,7 @@ jobs:
       - name: Build and package
         run: |
           shards build lucky --without-development --no-debug --release --static
-          (Get-FileHash ./bin/lucky.exe).Hash | Out-File ./bin/checksums.txt
+          (Get-FileHash ./bin/lucky).Hash | Out-File ./bin/checksums.txt
           Compress-Archive -Path ./bin/* -DestinationPath lucky-$env:GITHUB_REF_NAME-windows-amd64.zip
       - uses: actions/upload-artifact@v4
         with:
