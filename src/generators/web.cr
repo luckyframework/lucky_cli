@@ -4,7 +4,7 @@ class LuckyCli::Generators::Web
   include LuckyCli::GeneratorHelpers
 
   getter project_name : String
-  getter? api_only, generate_auth, with_sec_tester
+  getter? api_only, generate_auth, with_sec_tester, js_bundle_system
   private getter? default_directory : Bool
   private getter full_project_directory : String
 
@@ -13,6 +13,7 @@ class LuckyCli::Generators::Web
     @api_only : Bool,
     @generate_auth : Bool,
     @with_sec_tester : Bool = false,
+    @js_bundle_system : String = "yarn",
     project_directory : String = ".",
   )
     @full_project_directory = File.expand_path(project_directory)
@@ -120,14 +121,17 @@ class LuckyCli::Generators::Web
       project_name,
       generate_auth: generate_auth?,
       api_only: api_only?,
-      with_sec_tester: with_sec_tester?
+      with_sec_tester: with_sec_tester?,
+      js_bundle_system: js_bundle_system?,
     )
       .render(Path[project_dir])
   end
 
   private def add_browser_app_structure_to_src
-    BrowserSrcTemplate.new(generate_auth: generate_auth?)
-      .render(Path[project_dir])
+    BrowserSrcTemplate.new(
+      generate_auth: generate_auth?,
+      js_bundle_system: js_bundle_system?,
+    ).render(Path[project_dir])
   end
 
   private def add_base_auth_to_src

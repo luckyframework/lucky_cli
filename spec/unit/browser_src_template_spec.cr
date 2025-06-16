@@ -12,13 +12,13 @@ describe BrowserSrcTemplate do
 
   it "generates browser src template" do
     generate_snapshot("browser_src_template") do
-      BrowserSrcTemplate.new(generate_auth: true)
+      BrowserSrcTemplate.new(generate_auth: true, js_bundle_system: "yarn")
     end
   end
 
   it "generates browser src template without generate auth" do
     generate_snapshot("browser_src_template__generate_auth") do
-      BrowserSrcTemplate.new(generate_auth: false)
+      BrowserSrcTemplate.new(generate_auth: false, js_bundle_system: "yarn")
     end
   end
 end

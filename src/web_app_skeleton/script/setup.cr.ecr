@@ -7,11 +7,19 @@ require "./system_check"
 print_done
 
 <%- if browser? -%>
+<%- if js_bundle_system? == "yarn" -%>
 notice "Installing node dependencies"
 run_command "yarn", "install", "--no-progress"
 
 notice "Compiling assets"
 run_command "yarn", "dev"
+<%- elsif js_bundle_system? == "bun" -%>
+notice "Installing node dependencies"
+run_command "bun", "install", "--no-progress"
+
+notice "Compiling assets"
+run_command "bun", "dev"
+<%- end -%>
 
 print_done
 <%- end -%>
