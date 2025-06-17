@@ -3,5 +3,9 @@ system_check: crystal script/system_check.cr
 web: lucky watch
 <%- else -%>
 web: lucky watch --reload-browser
+<%- if js_bundle_system? == "yarn" -%>
 assets: yarn watch
+<%- elsif js_bundle_system? == "bun" -%>
+assets: bun watch
+<%- end -%>
 <%- end -%>

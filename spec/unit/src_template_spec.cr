@@ -16,7 +16,8 @@ describe SrcTemplate do
         "test-project",
         generate_auth: true,
         api_only: true,
-        with_sec_tester: true
+        with_sec_tester: true,
+        js_bundle_system: "yarn",
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
         instance.crystal_version = "1.16.1"
@@ -31,7 +32,8 @@ describe SrcTemplate do
         "test-project",
         generate_auth: true,
         api_only: false,
-        with_sec_tester: false
+        with_sec_tester: false,
+        js_bundle_system: "yarn",
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
         instance.crystal_version = "1.16.1"
@@ -46,7 +48,8 @@ describe SrcTemplate do
         "test-project",
         generate_auth: false,
         api_only: true,
-        with_sec_tester: false
+        with_sec_tester: false,
+        js_bundle_system: "yarn",
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
         instance.crystal_version = "1.16.1"
@@ -61,7 +64,24 @@ describe SrcTemplate do
         "test-project",
         generate_auth: false,
         api_only: false,
-        with_sec_tester: true
+        with_sec_tester: true,
+        js_bundle_system: "yarn",
+      ).tap do |instance|
+        instance.secret_key_base = "1234567890"
+        instance.crystal_version = "1.16.1"
+        instance.lucky_cli_version = "1.3.0"
+      end
+    end
+  end
+
+  it "generates src template with js bundler bun option" do
+    generate_snapshot("src_template__js_bun_bundler") do
+      SrcTemplate.new(
+        "test-project",
+        generate_auth: false,
+        api_only: false,
+        with_sec_tester: true,
+        js_bundle_system: "bun",
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
         instance.crystal_version = "1.16.1"

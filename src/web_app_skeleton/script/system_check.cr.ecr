@@ -11,9 +11,19 @@ require "./helpers/*"
 #     should go in your Procfile.dev.
 
 <%- if browser? -%>
+<%- if js_bundle_system? == "npm" -%>
+if command_not_found "yarn"
+  print_error "Npm is not installed\n  See https://yarnpkg.com/lang/en/docs/install/ for install instructions."
+end
+<%- elsif js_bundle_system? == "yarn" -%>
 if command_not_found "yarn"
   print_error "Yarn is not installed\n  See https://yarnpkg.com/lang/en/docs/install/ for install instructions."
 end
+<%- elsif js_bundle_system? == "bun" -%>
+if command_not_found "bun"
+  print_error "Bun is not installed\n  See https://bun.sh/docs/installation for install instructions."
+end
+<%- end -%>
 <%- end -%>
 
 # CUSTOM PRE-BOOT CHECKS

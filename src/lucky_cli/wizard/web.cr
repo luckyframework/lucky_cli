@@ -12,6 +12,7 @@ class LuckyCli::Wizard::Web
     print_welcome_to_lucky
     project_name = ask_for_project_name
     api_only = ask_about_api_only
+    js_bundle_system = ask_about_js_bundle_system(api_only)
     generate_auth = ask_about_auth(api_only)
 
     puts "\n"
@@ -21,7 +22,8 @@ class LuckyCli::Wizard::Web
     LuckyCli::Generators::Web.run(
       project_name: project_name,
       api_only: api_only,
-      generate_auth: generate_auth
+      generate_auth: generate_auth,
+      js_bundle_system: js_bundle_system,
     )
   end
 
@@ -53,6 +55,33 @@ class LuckyCli::Wizard::Web
       "API only or full support for HTML and Webpack?",
       yes_label: "api",
       no_label: "full"
+    )
+  end
+
+  private def ask_about_js_bundle_system(api_only : Bool) : String
+    if api_only
+      puts <<-HELP_TEXT.colorize.dim
+
+      Lucky can be generated with no JavaScript bundle system
+
+        ● No JavaScript files or Webpack configuration
+        ● No CSS files or PostCSS configuration
+
+      HELP_TEXT
+      return "none"
+    end
+
+    puts <<-HELP_TEXT.colorize.dim
+
+    Lucky can be generated with a JavaScript bundle system
+
+      ● Bundles JavaScript and CSS files
+      ● Supports NPM, Yarn, and Bun
+
+    HELP_TEXT
+    LabeledChoiceQuestion.ask(
+      "Which JavaScript bundle system do you want to use?",
+      choices: ["npm", "yarn", "bun", "none"]
     )
   end
 

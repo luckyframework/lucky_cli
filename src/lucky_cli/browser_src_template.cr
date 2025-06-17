@@ -3,7 +3,23 @@ require "random/secure"
 class BrowserSrcTemplate
   getter? generate_auth
 
-  def initialize(@generate_auth : Bool)
+  def initialize(
+    @generate_auth : Bool,
+    @js_bundle_system : String,
+  )
+  end
+
+  def js_run_command : String
+    case @js_bundle_system
+    when "yarn"
+      "yarn run"
+    when "npm"
+      "npm run"
+    when "bun"
+      "bun run"
+    else
+      raise "Unknown JavaScript bundle system: #{@js_bundle_system}. Supported systems are: yarn, npm, bun."
+    end
   end
 
   def render(path : Path)

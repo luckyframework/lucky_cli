@@ -6,15 +6,15 @@
     "modern-normalize": "^2.0.0"
   },
   "scripts": {
-    "heroku-postbuild": "yarn prod",
-    "dev": "yarn run mix",
-    "watch": "yarn run mix watch",
-    "prod": "yarn run mix --production"
+    "heroku-postbuild": "<%= js_run_command %> prod",
+    "dev": "<%= js_run_command %> mix",
+    "watch": "<%= js_run_command %> mix watch",
+    "prod": "<%= js_run_command %> mix --production"
   },
   "devDependencies": {
     "@babel/compat-data": "^7.23.5",
-    "browser-sync": "^2.29.3",
-    "compression-webpack-plugin": "^10.0.0",
+    "browser-sync": "^3.0.4",
+    "compression-webpack-plugin": "^11.0.0",
     "laravel-mix": "^6.0.49",
     "postcss": "^8.4.32",
     "resolve-url-loader": "^5.0.0",
