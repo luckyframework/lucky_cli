@@ -33,7 +33,7 @@ dependencies:
 development_dependencies:
   lucky_flow:
     github: luckyframework/lucky_flow
-    version: ~> 0.10.0
+    version: ~> 0.10.1
   lucky_sec_tester:
     github: luckyframework/lucky_sec_tester
     version: ~> 0.3.3
