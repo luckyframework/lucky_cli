@@ -17,6 +17,9 @@ require "./setup/**"
 
 include Carbon::Expectations
 include Lucky::RequestExpectations
+# NOTE: LuckyFlow specs are temporarily set to pending as of Lucky v1.4.0
+# This is due to race conditions in LuckyFlow.
+# Ref: https://github.com/luckyframework/lucky_cli/issues/883
 include LuckyFlow::Expectations
 
 Avram::Migrator::Runner.new.ensure_migrated!

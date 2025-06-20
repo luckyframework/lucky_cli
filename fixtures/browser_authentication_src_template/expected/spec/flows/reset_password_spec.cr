@@ -1,7 +1,10 @@
 require "../spec_helper"
 
+# NOTE: LuckyFlow specs are temporarily set to pending as of Lucky v1.4.0
+# This is due to race conditions in LuckyFlow.
+# Ref: https://github.com/luckyframework/lucky_cli/issues/883
 describe "Reset password flow", tags: "flow" do
-  it "works" do
+  pending "works" do
     user = UserFactory.create
     flow = ResetPasswordFlow.new(user)
 
