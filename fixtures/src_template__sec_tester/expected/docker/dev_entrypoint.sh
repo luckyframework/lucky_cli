@@ -27,8 +27,10 @@ if ! [ -d bin ] ; then
   echo 'Creating bin directory'
   mkdir bin
 fi
-echo 'Installing npm packages...'
+
+echo 'Installing yarn packages...'
 yarn install
+
 if ! shards check ; then
   echo 'Installing shards...'
   shards install

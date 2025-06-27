@@ -28,8 +28,10 @@ if ! [ -d bin ] ; then
   mkdir bin
 fi
 <%- if browser? -%>
-echo 'Installing npm packages...'
-yarn install
+
+echo 'Installing <%= js_bundle_system? %> packages...'
+<%= js_install_command %>
+
 <%- end -%>
 if ! shards check ; then
   echo 'Installing shards...'
