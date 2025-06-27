@@ -219,6 +219,9 @@ class SrcTemplate
         serializers_dir.add_file("error_serializer.cr") do |io|
           ECR.embed("#{__DIR__}/../web_app_skeleton/src/serializers/error_serializer.cr.ecr", io)
         end
+        serializers_dir.add_file("pagination_serializer.cr") do |io|
+          ECR.embed("#{__DIR__}/../web_app_skeleton/src/serializers/pagination_serializer.cr.ecr", io)
+        end
       end
     end
   end
