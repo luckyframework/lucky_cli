@@ -16,7 +16,8 @@ describe SrcTemplate do
         "test-project",
         generate_auth: true,
         api_only: true,
-        with_sec_tester: true
+        with_sec_tester: true,
+        asset_builder: "mix"
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
         instance.crystal_version = "1.16.1"
@@ -31,7 +32,8 @@ describe SrcTemplate do
         "test-project",
         generate_auth: true,
         api_only: false,
-        with_sec_tester: false
+        with_sec_tester: false,
+        asset_builder: "mix"
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
         instance.crystal_version = "1.16.1"
@@ -46,7 +48,8 @@ describe SrcTemplate do
         "test-project",
         generate_auth: false,
         api_only: true,
-        with_sec_tester: false
+        with_sec_tester: false,
+        asset_builder: "mix"
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
         instance.crystal_version = "1.16.1"
@@ -61,7 +64,8 @@ describe SrcTemplate do
         "test-project",
         generate_auth: false,
         api_only: false,
-        with_sec_tester: true
+        with_sec_tester: true,
+        asset_builder: "mix"
       ).tap do |instance|
         instance.secret_key_base = "1234567890"
         instance.crystal_version = "1.16.1"

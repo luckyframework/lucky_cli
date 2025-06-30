@@ -2,8 +2,9 @@ require "random/secure"
 
 class BrowserSrcTemplate
   getter? generate_auth
+  getter asset_builder : String
 
-  def initialize(@generate_auth : Bool)
+  def initialize(@generate_auth : Bool, @asset_builder : String = "vite")
   end
 
   def render(path : Path)
@@ -12,14 +13,23 @@ class BrowserSrcTemplate
 
   def template_folder
     LuckyTemplate.create_folder do |root_dir|
-      root_dir.add_file("bs-config.js") do |io|
-        ECR.embed("#{__DIR__}/../browser_app_skeleton/bs-config.js.ecr", io)
-      end
-      root_dir.add_file("package.json") do |io|
-        ECR.embed("#{__DIR__}/../browser_app_skeleton/package.json.ecr", io)
-      end
-      root_dir.add_file("webpack.mix.js") do |io|
-        ECR.embed("#{__DIR__}/../browser_app_skeleton/webpack.mix.js.ecr", io)
+      if asset_builder == "vite"
+        root_dir.add_file("vite.config.js") do |io|
+          ECR.embed("#{__DIR__}/../browser_app_skeleton/vite.config.js.ecr", io)
+        end
+        root_dir.add_file("package.json") do |io|
+          ECR.embed("#{__DIR__}/../browser_app_skeleton/package.json.vite.ecr", io)
+        end
+      else
+        root_dir.add_file("bs-config.js") do |io|
+          ECR.embed("#{__DIR__}/../browser_app_skeleton/bs-config.js.ecr", io)
+        end
+        root_dir.add_file("package.json") do |io|
+          ECR.embed("#{__DIR__}/../browser_app_skeleton/package.json.ecr", io)
+        end
+        root_dir.add_file("webpack.mix.js") do |io|
+          ECR.embed("#{__DIR__}/../browser_app_skeleton/webpack.mix.js.ecr", io)
+        end
       end
       root_dir.add_folder("config") do |config_dir|
         config_dir.add_file("html_page.cr") do |io|
@@ -33,8 +43,11 @@ class BrowserSrcTemplate
         public_dir.add_file("favicon.ico") do |io|
           ECR.embed("#{__DIR__}/../browser_app_skeleton/public/favicon.ico.ecr", io)
         end
-        public_dir.add_file("mix-manifest.json") do |io|
-          ECR.embed("#{__DIR__}/../browser_app_skeleton/public/mix-manifest.json.ecr", io)
+        # Vite generates its manifest automatically, Mix needs an initial one
+        if asset_builder != "vite"
+          public_dir.add_file("mix-manifest.json") do |io|
+            ECR.embed("#{__DIR__}/../browser_app_skeleton/public/mix-manifest.json.ecr", io)
+          end
         end
         public_dir.add_file("robots.txt") do |io|
           ECR.embed("#{__DIR__}/../browser_app_skeleton/public/robots.txt.ecr", io)

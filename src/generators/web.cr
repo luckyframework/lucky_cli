@@ -5,6 +5,7 @@ class LuckyCli::Generators::Web
 
   getter project_name : String
   getter? api_only, generate_auth, with_sec_tester
+  getter asset_builder : String
   private getter? default_directory : Bool
   private getter full_project_directory : String
 
@@ -14,6 +15,7 @@ class LuckyCli::Generators::Web
     @generate_auth : Bool,
     @with_sec_tester : Bool = false,
     project_directory : String = ".",
+    @asset_builder : String = "vite",
   )
     @full_project_directory = File.expand_path(project_directory)
 
@@ -107,7 +109,19 @@ class LuckyCli::Generators::Web
         io << <<-TEXT
         /public/js
         /public/css
-        /public/mix-manifest.json
+        TEXT
+
+        if asset_builder == "vite"
+          io << <<-TEXT
+          /public/.vite
+          /public/assets
+          /public/manifest.dev.json
+          TEXT
+        else
+          io << "/public/mix-manifest.json\n"
+        end
+
+        io << <<-TEXT
         /node_modules
         yarn-error.log
         TEXT
@@ -120,13 +134,14 @@ class LuckyCli::Generators::Web
       project_name,
       generate_auth: generate_auth?,
       api_only: api_only?,
-      with_sec_tester: with_sec_tester?
+      with_sec_tester: with_sec_tester?,
+      asset_builder: asset_builder
     )
       .render(Path[project_dir])
   end
 
   private def add_browser_app_structure_to_src
-    BrowserSrcTemplate.new(generate_auth: generate_auth?)
+    BrowserSrcTemplate.new(generate_auth: generate_auth?, asset_builder: asset_builder)
       .render(Path[project_dir])
   end
 
