@@ -9,9 +9,6 @@ print_done
 notice "Installing node dependencies"
 run_command "yarn", "install", "--no-progress"
 
-notice "Compiling assets"
-run_command "yarn", "dev"
-
 print_done
 
 notice "Installing shards"

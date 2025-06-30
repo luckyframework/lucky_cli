@@ -107,7 +107,15 @@ class LuckyCli::Generators::Web
         io << <<-TEXT
         /public/js
         /public/css
-        /public/mix-manifest.json
+        TEXT
+
+        io << <<-TEXT
+        /public/.vite
+        /public/assets
+        /public/manifest.dev.json
+        TEXT
+
+        io << <<-TEXT
         /node_modules
         yarn-error.log
         TEXT

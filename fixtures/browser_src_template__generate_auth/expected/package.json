@@ -1,24 +1,22 @@
 {
   "license": "UNLICENSED",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@rails/ujs": "^7.1.0",
     "modern-normalize": "^2.0.0"
   },
   "scripts": {
-    "heroku-postbuild": "yarn prod",
-    "dev": "yarn run mix",
-    "watch": "yarn run mix watch",
-    "prod": "yarn run mix --production"
+    "heroku-postbuild": "yarn build",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "watch": "vite build --watch"
   },
   "devDependencies": {
-    "@babel/compat-data": "^7.23.5",
-    "browser-sync": "^2.29.3",
-    "compression-webpack-plugin": "^10.0.0",
-    "laravel-mix": "^6.0.49",
-    "postcss": "^8.4.32",
-    "resolve-url-loader": "^5.0.0",
     "sass": "^1.69.5",
-    "sass-loader": "^13.3.2"
+    "vite": "^5.0.0",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-dev-manifest": "^1.2.1"
   }
 }

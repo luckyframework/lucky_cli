@@ -1,7 +1,18 @@
 require "./shards"
 
 # Load the asset manifest
-Lucky::AssetHelpers.load_manifest "public/mix-manifest.json"
+# In development, vite-plugin-dev-manifest creates public/manifest.dev.json
+# In production, Vite creates public/.vite/manifest.json
+# The manifest path is determined by which file exists at compile time
+{% if File.exists?("public/manifest.dev.json") %}
+  Lucky::AssetHelpers.load_manifest "public/manifest.dev.json", use_vite: true
+{% elsif File.exists?("public/.vite/manifest.json") %}
+  Lucky::AssetHelpers.load_manifest "public/.vite/manifest.json", use_vite: true
+{% else %}
+  # For initial compilation, we'll assume development mode
+  # The dev server will create the manifest before the app is recompiled
+  Lucky::AssetHelpers.load_manifest "public/manifest.dev.json", use_vite: true
+{% end %}
 
 require "../config/server"
 require "./app_database"

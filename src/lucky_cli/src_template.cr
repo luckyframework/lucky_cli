@@ -18,7 +18,7 @@ class SrcTemplate
   end
 
   def proxied_through_browsersync?
-    browser?
+    false
   end
 
   private def browser?

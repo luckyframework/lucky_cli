@@ -37,20 +37,20 @@ class LuckyCli::Wizard::Web
     Full (recommended for most apps)
 
      ● Great for server rendered HTML or Single Page Applications
-     ● Webpack included
+     ● Vite included for fast development and optimized builds
      ● Setup to compile CSS and JavaScript
      ● Support for rendering HTML
 
     API
 
      ● Specialized for use with just APIs
-     ● No webpack
+     ● No asset build system included
      ● No static file serving or public folder
      ● No HTML rendering folders
 
     HELP_TEXT
     LabeledYesNoQuestion.ask(
-      "API only or full support for HTML and Webpack?",
+      "API only or full support for HTML and assets?",
       yes_label: "api",
       no_label: "full"
     )
