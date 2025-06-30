@@ -1,7 +1,0 @@
-system_check: crystal script/system_check.cr
-<%- if api_only? -%>
-web: lucky watch
-<%- else -%>
-web: lucky watch --reload-browser
-assets: yarn dev
-<%- end -%>

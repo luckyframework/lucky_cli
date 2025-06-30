@@ -21,18 +21,21 @@ Lucky::Server.configure do |settings|
     settings.port = Lucky::ServerSettings.port
   end
 
-  # By default Lucky will serve static assets in development and production.
-  #
-  # However you could use a CDN when in production like this:
-  #
-  #   Lucky::Server.configure do |settings|
-  #     if LuckyEnv.production?
-  #       settings.asset_host = "https://mycdnhost.com"
-  #     else
-  #       settings.asset_host = ""
-  #     end
-  #   end
-  settings.asset_host = "" # Lucky will serve assets
+  # Configure the asset build system (default is Vite)
+  settings.asset_build_system = Lucky::AssetBuilder::Vite.new
+
+  # Configure asset host for Vite
+  if LuckyEnv.development?
+    # In development, Vite serves assets from its dev server
+    settings.asset_host = "http://localhost:3001"
+  elsif LuckyEnv.production?
+    # In production, Lucky serves the built assets
+    # You could also use a CDN here:
+    # settings.asset_host = "https://mycdnhost.com"
+    settings.asset_host = ""
+  else
+    settings.asset_host = ""
+  end
 end
 
 Lucky::ForceSSLHandler.configure do |settings|

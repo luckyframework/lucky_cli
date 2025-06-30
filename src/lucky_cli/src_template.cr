@@ -4,7 +4,6 @@ class SrcTemplate
   getter project_name
   getter? api_only, generate_auth, with_sec_tester
   getter crystal_project_name : String
-  getter asset_builder : String
   property(secret_key_base) { Random::Secure.base64(32) }
   property(crystal_version) { Crystal::VERSION }
   property(lucky_cli_version : String) { LuckyCli::VERSION }
@@ -14,22 +13,12 @@ class SrcTemplate
     @generate_auth : Bool,
     @api_only : Bool,
     @with_sec_tester : Bool,
-    @asset_builder : String = "vite",
   )
     @crystal_project_name = @project_name.gsub("-", "_")
   end
 
   def proxied_through_browsersync?
-    return false unless browser?
-
-    case asset_builder
-    when "mix", "webpack"
-      true
-    when "vite"
-      false
-    else
-      false
-    end
+    false
   end
 
   private def browser?
@@ -55,12 +44,7 @@ class SrcTemplate
         ECR.embed("#{__DIR__}/../web_app_skeleton/Procfile.ecr", io)
       end
       root_dir.add_file("Procfile.dev") do |io|
-        case asset_builder
-        when "vite"
-          ECR.embed("#{__DIR__}/../web_app_skeleton/Procfile.dev.vite.ecr", io)
-        else
-          ECR.embed("#{__DIR__}/../web_app_skeleton/Procfile.dev.ecr", io)
-        end
+        ECR.embed("#{__DIR__}/../web_app_skeleton/Procfile.dev.ecr", io)
       end
       root_dir.add_file("README.md") do |io|
         ECR.embed("#{__DIR__}/../web_app_skeleton/README.md.ecr", io)
@@ -104,12 +88,7 @@ class SrcTemplate
           ECR.embed("#{__DIR__}/../web_app_skeleton/config/route_helper.cr.ecr", io)
         end
         config_dir.add_file("server.cr") do |io|
-          case asset_builder
-          when "vite"
-            ECR.embed("#{__DIR__}/../web_app_skeleton/config/server.cr.vite.ecr", io)
-          else
-            ECR.embed("#{__DIR__}/../web_app_skeleton/config/server.cr.ecr", io)
-          end
+          ECR.embed("#{__DIR__}/../web_app_skeleton/config/server.cr.ecr", io)
         end
         config_dir.add_file("watch.yml") do |io|
           ECR.embed("#{__DIR__}/../web_app_skeleton/config/watch.yml.ecr", io)
@@ -131,12 +110,7 @@ class SrcTemplate
       end
       root_dir.add_folder("script") do |script_dir|
         script_dir.add_file("setup.cr") do |io|
-          case asset_builder
-          when "vite"
-            ECR.embed("#{__DIR__}/../web_app_skeleton/script/setup.cr.vite.ecr", io)
-          else
-            ECR.embed("#{__DIR__}/../web_app_skeleton/script/setup.cr.ecr", io)
-          end
+          ECR.embed("#{__DIR__}/../web_app_skeleton/script/setup.cr.ecr", io)
         end
         script_dir.add_file("system_check.cr") do |io|
           ECR.embed("#{__DIR__}/../web_app_skeleton/script/system_check.cr.ecr", io)
@@ -185,12 +159,7 @@ class SrcTemplate
   private def src_folder
     LuckyTemplate.create_folder do |src_dir|
       src_dir.add_file("app.cr") do |io|
-        case asset_builder
-        when "vite"
-          ECR.embed("#{__DIR__}/../web_app_skeleton/src/app.cr.vite.ecr", io)
-        else
-          ECR.embed("#{__DIR__}/../web_app_skeleton/src/app.cr.ecr", io)
-        end
+        ECR.embed("#{__DIR__}/../web_app_skeleton/src/app.cr.ecr", io)
       end
       src_dir.add_file("app_database.cr") do |io|
         ECR.embed("#{__DIR__}/../web_app_skeleton/src/app_database.cr.ecr", io)
