@@ -22,7 +22,7 @@ jobs:
       - uses: earthly/actions-setup@v1
         with:
           version: v0.8.0
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build and package
         run: |
           mkdir -p bin
@@ -38,7 +38,7 @@ jobs:
   build-windows-amd64:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: crystal-lang/install-crystal@v1
       - uses: ilammy/msvc-dev-cmd@v1
       - name: Build and package
@@ -58,7 +58,7 @@ jobs:
       - build-windows-amd64
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
@@ -82,7 +82,7 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Generate app token
         id: generate-token
         uses: actions/create-github-app-token@v2
@@ -108,7 +108,7 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Generate app token
         id: generate-token
         uses: actions/create-github-app-token@v2
