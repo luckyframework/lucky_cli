@@ -8,7 +8,7 @@
 //
 //    @import "./variables/colors" # Imports the file in src/css/variables/_colors.scss
 //
-// Note: importing with `~` tells webpack to look in the installed npm packages
+// Note: Vite automatically resolves imports from node_modules
 // https://stackoverflow.com/questions/39535760/what-does-a-tilde-in-a-css-url-do
 
 @import 'modern-normalize/modern-normalize.css';

@@ -7,7 +7,10 @@ describe "Lucky CLI", tags: "integration" do
       status = run_lucky(
         args: %w[hello_world],
         shell: true,
-        output: io
+        output: io,
+        env: {
+          "LUCKY_TASKS_FILE" => "#{__DIR__}/../../fixtures/hello_world.cr",
+        }
       )
       status.exit_code.should eq(0)
       io.to_s.should eq("Hello World!\n")
@@ -18,7 +21,10 @@ describe "Lucky CLI", tags: "integration" do
       status = run_lucky(
         args: %w[hello_crystal],
         shell: true,
-        output: io
+        output: io,
+        env: {
+          "LUCKY_TASKS_FILE" => "#{__DIR__}/../../fixtures/hello_crystal.cr",
+        }
       )
       status.exit_code.should eq(0)
       io.to_s.should eq("Hello, Crystal!\n")
