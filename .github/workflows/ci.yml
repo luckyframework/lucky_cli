@@ -18,7 +18,7 @@ jobs:
       - uses: earthly/actions-setup@v1
         with:
           version: v0.8.0
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Run build
         run: |
           earthly +gh-action-essential
@@ -33,7 +33,7 @@ jobs:
           - {os: windows-latest}
     runs-on: ${{matrix.os}}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
@@ -49,7 +49,7 @@ jobs:
       - uses: earthly/actions-setup@v1
         with:
           version: v0.8.0
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Run build
         run: |
           earthly +gh-action-integration
@@ -61,7 +61,7 @@ jobs:
       - uses: earthly/actions-setup@v1
         with:
           version: v0.8.0
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Run build
         run: |
           earthly +gh-action-e2e
