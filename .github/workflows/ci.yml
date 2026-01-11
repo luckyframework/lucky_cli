@@ -8,60 +8,108 @@ on:
 
 env:
   FORCE_COLOR: 1
-  EARTHLY_CI: 'true'
-  EARTHLY_ALLOW_PRIVILEGED: 'true'
+  LUCKY_ENV: test
+  SHARDS_OVERRIDE: "$(pwd)/shard.override.yml"
 
 jobs:
-  specs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: earthly/actions-setup@v1
-        with:
-          version: v0.8.0
-      - uses: actions/checkout@v5
-      - name: Run build
-        run: |
-          earthly +gh-action-essential
-
-  platform-specs:
-    needs: specs
+  check_format:
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - {os: macos-latest}
-          - {os: windows-latest}
-    runs-on: ${{matrix.os}}
+    runs-on: ubuntu-latest
+    continue-on-error: false
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
       - name: Install shards
         run: shards install
-      - name: Run specs
-        run: crystal spec --tag "~integration"
+      - name: Format
+        run: crystal tool format --check
 
-  integration-specs:
-    needs: specs
-    runs-on: ubuntu-latest
+  platform-specs:
+    needs: check_format
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-latest }
+          - { os: windows-latest }
+          - { os: ubuntu-latest }
+    runs-on: ${{matrix.os}}
     steps:
-      - uses: earthly/actions-setup@v1
+      - uses: actions/checkout@v6
+      - uses: crystal-lang/install-crystal@v1
         with:
-          version: v0.8.0
-      - uses: actions/checkout@v5
-      - name: Run build
-        run: |
-          earthly +gh-action-integration
+          crystal: latest
+      - name: Install shards
+        run: shards install
+      - name: Run unit and integration specs
+        run: crystal spec spec/integration/ spec/unit/
 
-  e2e-specs:
-    needs: integration-specs
-    runs-on: ubuntu-latest
+  # NOTE: These e2e specs will take a while to run
+  browser_with_auth:
+    needs: [check_format, platform-specs]
+    fail-fast: false
+    matrix:
+      include:
+        - { os: macos-latest }
+        - { os: windows-latest }
+        - { os: ubuntu-latest }
+    runs-on: ${{matrix.os}}
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - uses: earthly/actions-setup@v1
+      - uses: actions/checkout@v6
+      - uses: crystal-lang/install-crystal@v1
         with:
-          version: v0.8.0
-      - uses: actions/checkout@v5
-      - name: Run build
-        run: |
-          earthly +gh-action-e2e
+          crystal: latest
+      - name: Install shards
+        run: shards install --skip-postinstall --skip-executables
+      - name: Run e2e Browser app with authentication flow
+        run: crystal spec spec/end_to_end/browser_with_auth_spec.cr
+
+  browser_without_auth:
+    needs: [check_format, platform-specs]
+    fail-fast: false
+    matrix:
+      include:
+        - { os: macos-latest }
+        - { os: windows-latest }
+        - { os: ubuntu-latest }
+    runs-on: ${{matrix.os}}
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+      - name: Install shards
+        run: shards install --skip-postinstall --skip-executables
+      - name: Run e2e Browser app with authentication flow
+        run: crystal spec spec/end_to_end/browser_no_auth_spec.cr
