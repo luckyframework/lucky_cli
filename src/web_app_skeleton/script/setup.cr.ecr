@@ -10,6 +10,9 @@ print_done
 notice "Installing node dependencies"
 run_command "yarn", "install", "--no-progress"
 
+notice "Building initial asset manifest"
+run_command "yarn", "build"
+
 print_done
 <%- end -%>
 

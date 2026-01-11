@@ -27,7 +27,7 @@ Lucky::Server.configure do |settings|
   # Configure asset host for Vite
   if LuckyEnv.development?
     # In development, Vite serves assets from its dev server
-    settings.asset_host = "http://localhost:3001"
+    settings.asset_host = ""
   elsif LuckyEnv.production?
     # In production, Lucky serves the built assets
     # You could also use a CDN here:
