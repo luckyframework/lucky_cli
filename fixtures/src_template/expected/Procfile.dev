@@ -1,2 +1,0 @@
-system_check: crystal script/system_check.cr
-web: lucky watch

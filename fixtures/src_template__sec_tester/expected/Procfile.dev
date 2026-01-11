@@ -1,3 +1,0 @@
-system_check: crystal script/system_check.cr
-web: lucky watch --reload-browser
-assets: yarn dev
