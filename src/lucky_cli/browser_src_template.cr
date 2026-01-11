@@ -86,8 +86,8 @@ class BrowserSrcTemplate
         end
       end
       src_dir.add_folder("css") do |css_dir|
-        css_dir.add_file("app.scss") do |io|
-          ECR.embed("#{__DIR__}/../browser_app_skeleton/src/css/app.scss.ecr", io)
+        css_dir.add_file("app.css") do |io|
+          ECR.embed("#{__DIR__}/../browser_app_skeleton/src/css/app.css.ecr", io)
         end
         css_dir.add_folder("components/.keep")
         css_dir.add_folder("mixins/.keep")
