@@ -53,33 +53,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        postgres_version: 18
         include:
           - { os: macos-latest }
           - { os: windows-latest }
           - { os: ubuntu-latest }
     runs-on: ${{matrix.os}}
     continue-on-error: false
-    services:
-      postgres:
-        image: postgres:18-alpine
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v6
+      - name: Setup PostgreSQL v${{ matrix.postgres_version }}
+        uses: ikalnytskyi/action-setup-postgres@v8
+        with:
+          username: postgres
+          password: postgres
+          port: 5432
+          postgres-version: ${{ matrix.postgres_version }}
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
       - name: Install shards
         run: shards install --skip-postinstall --skip-executables
+      - name: Install  LuckyCLI
+        run: |
+          crystal build src/lucky.cr
+          pwd >> $GITHUB_PATH
       - name: Run e2e Browser app with authentication flow
         run: crystal spec spec/end_to_end/browser_with_auth_spec.cr
         env:
@@ -90,33 +88,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        postgres_version: 18
         include:
           - { os: macos-latest }
           - { os: windows-latest }
           - { os: ubuntu-latest }
     runs-on: ${{matrix.os}}
     continue-on-error: false
-    services:
-      postgres:
-        image: postgres:18-alpine
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v6
+      - name: Setup PostgreSQL v${{ matrix.postgres_version }}
+        uses: ikalnytskyi/action-setup-postgres@v8
+        with:
+          username: postgres
+          password: postgres
+          port: 5432
+          postgres-version: ${{ matrix.postgres_version }}
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
       - name: Install shards
         run: shards install --skip-postinstall --skip-executables
+      - name: Install  LuckyCLI
+        run: |
+          crystal build src/lucky.cr
+          pwd >> $GITHUB_PATH
       - name: Run e2e Browser app with authentication flow
         run: crystal spec spec/end_to_end/browser_no_auth_spec.cr
         env:
