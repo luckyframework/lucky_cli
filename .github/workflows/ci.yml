@@ -53,7 +53,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        postgres_version: 18
         include:
           - { os: macos-latest }
           - { os: windows-latest }
@@ -62,13 +61,13 @@ jobs:
     continue-on-error: false
     steps:
       - uses: actions/checkout@v6
-      - name: Setup PostgreSQL v${{ matrix.postgres_version }}
+      - name: Setup PostgreSQL
         uses: ikalnytskyi/action-setup-postgres@v8
         with:
           username: postgres
           password: postgres
           port: 5432
-          postgres-version: ${{ matrix.postgres_version }}
+          postgres-version: 18
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
@@ -88,7 +87,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        postgres_version: 18
         include:
           - { os: macos-latest }
           - { os: windows-latest }
@@ -97,13 +95,13 @@ jobs:
     continue-on-error: false
     steps:
       - uses: actions/checkout@v6
-      - name: Setup PostgreSQL v${{ matrix.postgres_version }}
+      - name: Setup PostgreSQL
         uses: ikalnytskyi/action-setup-postgres@v8
         with:
           username: postgres
           password: postgres
           port: 5432
-          postgres-version: ${{ matrix.postgres_version }}
+          postgres-version: 18
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
