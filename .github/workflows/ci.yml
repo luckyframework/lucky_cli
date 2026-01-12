@@ -72,7 +72,9 @@ jobs:
         with:
           node-version: 24
       - name: Enable Corepack (for yarn)
-        run: corepack enable
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
