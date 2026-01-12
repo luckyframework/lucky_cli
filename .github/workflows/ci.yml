@@ -68,6 +68,10 @@ jobs:
           password: postgres
           port: 5432
           postgres-version: 18
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: "yarn"
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
@@ -108,6 +112,10 @@ jobs:
           password: postgres
           port: 5432
           postgres-version: 18
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: "yarn"
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
