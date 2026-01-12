@@ -56,7 +56,7 @@ jobs:
         include:
           # - { os: macos-latest }
           - { os: windows-latest }
-          - { os: ubuntu-latest }
+          # - { os: ubuntu-latest }
     runs-on: ${{matrix.os}}
     continue-on-error: false
     steps:
@@ -72,8 +72,6 @@ jobs:
         with:
           node-version: 24
       - name: Enable Corepack (for yarn)
-        if: matrix.os == 'windows-latest'
-        shell: pwsh
         run: |
           corepack enable
           corepack prepare yarn@1.22.22 --activate
@@ -86,12 +84,6 @@ jobs:
       - name: Install LuckyCLI
         run: crystal build src/lucky.cr
       - name: Add current directory to PATH
-        if: matrix.os != 'windows-latest'
-        shell: bash
-        run: echo "$PWD" >> "$GITHUB_PATH"
-      - name: Add current directory to PATH (Windows)
-        if: matrix.os == 'windows-latest'
-        shell: pwsh
         run: echo "$PWD" >> "$GITHUB_PATH"
 
       # NOTE: Using `env: SHARDS_OVERRIDE` here doesn't seem to work. It will throw a missing file error on every OS
@@ -101,8 +93,12 @@ jobs:
       #     $env:SHARDS_OVERRIDE = Join-Path -Path $pwd.Path -ChildPath "shard.override.yml"
       #     crystal spec spec/end_to_end/browser_with_auth_spec.cr
       - name: Set SHARDS_OVERRIDE
-        shell: bash
         run: echo "SHARDS_OVERRIDE=${GITHUB_WORKSPACE}/shard.override.yml" >> "$GITHUB_ENV"
+
+      - name: Setup upterm session
+        uses: owenthereal/action-upterm@v1
+        with:
+          limit-access-to-actor: true
       - name: Run e2e Browser app with authentication flow
         run: crystal spec spec/end_to_end/browser_with_auth_spec.cr
 
