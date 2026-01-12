@@ -72,9 +72,12 @@ jobs:
         with:
           node-version: 24
       - name: Enable Corepack (for yarn)
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
         run: |
           corepack enable
           corepack prepare yarn@1.22.22 --activate
+          yarn --version
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
@@ -83,7 +86,12 @@ jobs:
       - name: Install LuckyCLI
         run: crystal build src/lucky.cr
       - name: Add current directory to PATH
+        if: matrix.os != 'windows-latest'
         shell: bash
+        run: echo "$PWD" >> "$GITHUB_PATH"
+      - name: Add current directory to PATH (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
         run: echo "$PWD" >> "$GITHUB_PATH"
 
       # NOTE: Using `env: SHARDS_OVERRIDE` here doesn't seem to work. It will throw a missing file error on every OS
