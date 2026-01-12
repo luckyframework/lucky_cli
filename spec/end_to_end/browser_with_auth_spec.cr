@@ -10,7 +10,11 @@ describe "Lucky CLI", tags: "end_to_end" do
         should_run_successfully "crystal run src/lucky.cr -- init.custom test-project"
 
         FileUtils.cd "test-project" do
-          should_run_successfully "crystal tool format --check spec src config"
+          {% if !flag?(:windows) %}
+            # Due to formatter on Windows checking different line endings, this will report changes to all crystal files
+            # We only need to test this on 1 OS to ensure things are good
+            should_run_successfully "crystal tool format --check spec src config"
+          {% end %}
           should_run_successfully "crystal script/setup.cr"
           should_run_successfully "crystal build src/test_project.cr"
           should_run_successfully "crystal spec"
