@@ -1,10 +1,10 @@
 module ShouldRunSuccessfully
-  private def should_run_successfully(command) : Nil
+  private def should_run_successfully(command, output : IO = STDOUT) : Nil
     result = Process.run(
       command,
       shell: true,
       env: ENV.to_h,
-      output: STDOUT,
+      output: output,
       error: STDERR
     )
 

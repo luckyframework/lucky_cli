@@ -14,7 +14,7 @@ describe "Lucky CLI", tags: "end_to_end" do
           should_run_successfully "crystal script/setup.cr"
           should_run_successfully "crystal build src/test_project.cr"
           should_run_successfully "crystal spec"
-          # should_run_successfully "crystal run ../src/lucky.cr -- tasks"
+          should_run_successfully "lucky tasks"
         end
       end
     end
