@@ -54,8 +54,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # - { os: macos-latest }
-          # - { os: windows-latest }
+          - { os: macos-latest }
+          - { os: windows-latest }
           - { os: ubuntu-latest }
     runs-on: ${{matrix.os}}
     continue-on-error: false
@@ -77,45 +77,37 @@ jobs:
         run: |
           crystal build src/lucky.cr
           pwd >> $GITHUB_PATH
-      - name: Setup upterm session
-        uses: owenthereal/action-upterm@v1
-        with:
-          limit-access-to-actor: true
       - name: Run e2e Browser app with authentication flow
-        run: crystal spec spec/end_to_end/browser_with_auth_spec.cr
-        env:
-          SHARDS_OVERRIDE: "$(pwd)/shard.override.yml"
+        run: SHARDS_OVERRIDE="$(pwd)/shard.override.yml" crystal spec spec/end_to_end/browser_with_auth_spec.cr
 
-  # browser_without_auth:
-  #   needs: [check_format, platform_specs]
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       include:
-  #         - { os: macos-latest }
-  #         - { os: windows-latest }
-  #         - { os: ubuntu-latest }
-  #   runs-on: ${{matrix.os}}
-  #   continue-on-error: false
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #     - name: Setup PostgreSQL
-  #       uses: ikalnytskyi/action-setup-postgres@v8
-  #       with:
-  #         username: postgres
-  #         password: postgres
-  #         port: 5432
-  #         postgres-version: 18
-  #     - uses: crystal-lang/install-crystal@v1
-  #       with:
-  #         crystal: latest
-  #     - name: Install shards
-  #       run: shards install --skip-postinstall --skip-executables
-  #     - name: Install  LuckyCLI
-  #       run: |
-  #         crystal build src/lucky.cr
-  #         pwd >> $GITHUB_PATH
-  #     - name: Run e2e Browser app with authentication flow
-  #       run: crystal spec spec/end_to_end/browser_no_auth_spec.cr
-  #       env:
-  #         SHARDS_OVERRIDE: "$(pwd)/shard.override.yml"
+  browser_without_auth:
+    needs: [check_format, platform_specs]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-latest }
+          - { os: windows-latest }
+          - { os: ubuntu-latest }
+    runs-on: ${{matrix.os}}
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup PostgreSQL
+        uses: ikalnytskyi/action-setup-postgres@v8
+        with:
+          username: postgres
+          password: postgres
+          port: 5432
+          postgres-version: 18
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+      - name: Install shards
+        run: shards install --skip-postinstall --skip-executables
+      - name: Install  LuckyCLI
+        run: |
+          crystal build src/lucky.cr
+          pwd >> $GITHUB_PATH
+      - name: Run e2e Browser app with authentication flow
+        run: SHARDS_OVERRIDE="$(pwd)/shard.override.yml" crystal spec spec/end_to_end/browser_no_auth_spec.cr
