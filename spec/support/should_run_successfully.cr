@@ -8,7 +8,7 @@ module ShouldRunSuccessfully
       error: STDERR
     )
 
-    result.exit_status.should be_successful
+    result.exit_code.should be_successful
   end
 
   private def be_successful
