@@ -73,11 +73,19 @@ jobs:
           crystal: latest
       - name: Install shards
         run: shards install --skip-postinstall --skip-executables
-      - name: Install  LuckyCLI
+      - name: Install LuckyCLI
         run: |
           crystal build src/lucky.cr
           pwd >> $GITHUB_PATH
+
+      # NOTE: Using `env: SHARDS_OVERRIDE` here doesn't seem to work. It will throw a missing file error on every OS
       - name: Run e2e Browser app with authentication flow
+        if: matrix.os == 'windows-latest'
+        run: |
+          $env:SHARDS_OVERRIDE = Join-Path -Path $pwd.Path -ChildPath "shard.override.yml"
+          crystal spec spec/end_to_end/browser_with_auth_spec.cr
+      - name: Run e2e Browser app with authentication flow
+        if: matrix.os != 'windows-latest'
         run: SHARDS_OVERRIDE="$(pwd)/shard.override.yml" crystal spec spec/end_to_end/browser_with_auth_spec.cr
 
   browser_without_auth:
@@ -105,9 +113,91 @@ jobs:
           crystal: latest
       - name: Install shards
         run: shards install --skip-postinstall --skip-executables
-      - name: Install  LuckyCLI
+      - name: Install LuckyCLI
         run: |
           crystal build src/lucky.cr
           pwd >> $GITHUB_PATH
-      - name: Run e2e Browser app with authentication flow
+      - name: Run e2e Browser app without authentication flow
+        if: matrix.os == 'windows-latest'
+        run: |
+          $env:SHARDS_OVERRIDE = Join-Path -Path $pwd.Path -ChildPath "shard.override.yml"
+          crystal spec spec/end_to_end/browser_no_auth_spec.cr
+      - name: Run e2e Browser app without authentication flow
+        if: matrix.os != 'windows-latest'
         run: SHARDS_OVERRIDE="$(pwd)/shard.override.yml" crystal spec spec/end_to_end/browser_no_auth_spec.cr
+
+  api_with_auth:
+    needs: [check_format, platform_specs]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-latest }
+          - { os: windows-latest }
+          - { os: ubuntu-latest }
+    runs-on: ${{matrix.os}}
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup PostgreSQL
+        uses: ikalnytskyi/action-setup-postgres@v8
+        with:
+          username: postgres
+          password: postgres
+          port: 5432
+          postgres-version: 18
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+      - name: Install shards
+        run: shards install --skip-postinstall --skip-executables
+      - name: Install LuckyCLI
+        run: |
+          crystal build src/lucky.cr
+          pwd >> $GITHUB_PATH
+      - name: Run e2e API app with authentication flow
+        if: matrix.os == 'windows-latest'
+        run: |
+          $env:SHARDS_OVERRIDE = Join-Path -Path $pwd.Path -ChildPath "shard.override.yml"
+          crystal spec spec/end_to_end/api_with_auth_spec.cr
+      - name: Run e2e API app with authentication flow
+        if: matrix.os != 'windows-latest'
+        run: SHARDS_OVERRIDE="$(pwd)/shard.override.yml" crystal spec spec/end_to_end/api_with_auth_spec.cr
+
+  api_without_auth:
+    needs: [check_format, platform_specs]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-latest }
+          - { os: windows-latest }
+          - { os: ubuntu-latest }
+    runs-on: ${{matrix.os}}
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup PostgreSQL
+        uses: ikalnytskyi/action-setup-postgres@v8
+        with:
+          username: postgres
+          password: postgres
+          port: 5432
+          postgres-version: 18
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+      - name: Install shards
+        run: shards install --skip-postinstall --skip-executables
+      - name: Install LuckyCLI
+        run: |
+          crystal build src/lucky.cr
+          pwd >> $GITHUB_PATH
+      - name: Run e2e API app without authentication flow
+        if: matrix.os == 'windows-latest'
+        run: |
+          $env:SHARDS_OVERRIDE = Join-Path -Path $pwd.Path -ChildPath "shard.override.yml"
+          crystal spec spec/end_to_end/api_no_auth_spec.cr
+      - name: Run e2e API app without authentication flow
+        if: matrix.os != 'windows-latest'
+        run: SHARDS_OVERRIDE="$(pwd)/shard.override.yml" crystal spec spec/end_to_end/api_no_auth_spec.cr
