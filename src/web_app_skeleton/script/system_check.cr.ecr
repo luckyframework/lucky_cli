@@ -11,7 +11,7 @@ require "./helpers/*"
 #     should go in your Procfile.dev.
 
 <%- if browser? -%>
-{% if flag(:windows) %}
+{% if flag?(:windows) %}
 # Crystal appends ".exe" to the end of the command when searching for an executable; however,
 # depending on how you installed yarn, there may not be a "yarn.exe" available causing this to fail
 {% else %}

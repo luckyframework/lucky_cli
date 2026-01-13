@@ -56,7 +56,7 @@ jobs:
         include:
           # - { os: macos-latest }
           - { os: windows-latest }
-          # - { os: ubuntu-latest }
+          - { os: ubuntu-latest }
     runs-on: ${{matrix.os}}
     continue-on-error: false
     steps:
@@ -94,11 +94,6 @@ jobs:
       #     crystal spec spec/end_to_end/browser_with_auth_spec.cr
       - name: Set SHARDS_OVERRIDE
         run: echo "SHARDS_OVERRIDE=${GITHUB_WORKSPACE}/shard.override.yml" >> "$GITHUB_ENV"
-
-      - name: Setup upterm session
-        uses: owenthereal/action-upterm@v1
-        with:
-          limit-access-to-actor: true
       - name: Run e2e Browser app with authentication flow
         run: crystal spec spec/end_to_end/browser_with_auth_spec.cr
 
