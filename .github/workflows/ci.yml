@@ -198,7 +198,7 @@ jobs:
       - name: Set SHARDS_OVERRIDE
         run: echo "SHARDS_OVERRIDE=${GITHUB_WORKSPACE}/shard.override.yml" >> "$GITHUB_ENV"
       - name: Setup upterm session
-        uses: owenthereal/action-upterm@v1
+        uses: owenthereal/action-upterm@v1.10.0
         with:
           limit-access-to-actor: true
       - name: Run e2e API app without authentication flow
