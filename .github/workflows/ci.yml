@@ -192,14 +192,20 @@ jobs:
       - name: Install shards
         run: shards install --skip-postinstall --skip-executables
       - name: Install LuckyCLI
-        run: crystal build src/lucky.cr
-      - name: Add current directory to PATH
+        run: crystal build src/lucky.cr -o lucky
+      - name: Add current directory to PATH (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: echo "$(Get-Location)" >> $env:GITHUB_PATH
+      - name: Add current directory to PATH (*nix)
+        if: runner.os != 'Windows'
         run: echo "$PWD" >> "$GITHUB_PATH"
       - name: Set SHARDS_OVERRIDE
         run: echo "SHARDS_OVERRIDE=${GITHUB_WORKSPACE}/shard.override.yml" >> "$GITHUB_ENV"
-      - name: Setup upterm session
-        uses: owenthereal/action-upterm@v1.10.0
-        with:
-          limit-access-to-actor: true
-      - name: Run e2e API app without authentication flow
+      - name: Run e2e API app without authentication flow (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: crystal spec spec/end_to_end/api_no_auth_spec.cr
+      - name: Run e2e API app without authentication flow (*nix)
+        if: runner.os != 'Windows'
         run: crystal spec spec/end_to_end/api_no_auth_spec.cr
