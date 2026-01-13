@@ -48,123 +48,123 @@ jobs:
         run: crystal spec spec/integration/ spec/unit/
 
   # NOTE: These e2e specs will take a while to run
-  # browser_with_auth:
-  #   needs: [check_format, platform_specs]
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       include:
-  #         - { os: ubuntu-latest }
-  #         - { os: macos-latest }
-  #         # - { os: windows-latest }
-  #   runs-on: ${{matrix.os}}
-  #   continue-on-error: false
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #     - name: Setup PostgreSQL
-  #       uses: ikalnytskyi/action-setup-postgres@v8
-  #       with:
-  #         username: postgres
-  #         password: postgres
-  #         port: 5432
-  #         postgres-version: 18
-  #     - uses: actions/setup-node@v6
-  #       with:
-  #         node-version: 24
-  #     - name: Enable Corepack (for yarn)
-  #       run: |
-  #         corepack enable
-  #         corepack prepare yarn@1.22.22 --activate
-  #         yarn --version
-  #     - uses: crystal-lang/install-crystal@v1
-  #       with:
-  #         crystal: latest
-  #     - name: Install shards
-  #       run: shards install --skip-postinstall --skip-executables
-  #     - name: Install LuckyCLI
-  #       run: crystal build src/lucky.cr
-  #     - name: Add current directory to PATH
-  #       run: echo "$PWD" >> "$GITHUB_PATH"
-  #     - name: Set SHARDS_OVERRIDE
-  #       run: echo "SHARDS_OVERRIDE=${GITHUB_WORKSPACE}/shard.override.yml" >> "$GITHUB_ENV"
-  #     - name: Run e2e Browser app with authentication flow
-  #       run: crystal spec spec/end_to_end/browser_with_auth_spec.cr
+  browser_with_auth:
+    needs: [check_format, platform_specs]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest }
+          - { os: macos-latest }
+          # - { os: windows-latest }
+    runs-on: ${{matrix.os}}
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup PostgreSQL
+        uses: ikalnytskyi/action-setup-postgres@v8
+        with:
+          username: postgres
+          password: postgres
+          port: 5432
+          postgres-version: 18
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Enable Corepack (for yarn)
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn --version
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+      - name: Install shards
+        run: shards install --skip-postinstall --skip-executables
+      - name: Install LuckyCLI
+        run: crystal build src/lucky.cr
+      - name: Add current directory to PATH
+        run: echo "$PWD" >> "$GITHUB_PATH"
+      - name: Set SHARDS_OVERRIDE
+        run: echo "SHARDS_OVERRIDE=${GITHUB_WORKSPACE}/shard.override.yml" >> "$GITHUB_ENV"
+      - name: Run e2e Browser app with authentication flow
+        run: crystal spec spec/end_to_end/browser_with_auth_spec.cr
 
-  # browser_without_auth:
-  #   needs: [check_format, platform_specs]
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       include:
-  #         - { os: ubuntu-latest }
-  #         - { os: macos-latest }
-  #         # - { os: windows-latest }
-  #   runs-on: ${{matrix.os}}
-  #   continue-on-error: false
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #     - name: Setup PostgreSQL
-  #       uses: ikalnytskyi/action-setup-postgres@v8
-  #       with:
-  #         username: postgres
-  #         password: postgres
-  #         port: 5432
-  #         postgres-version: 18
-  #     - uses: actions/setup-node@v6
-  #       with:
-  #         node-version: 24
-  #     - name: Enable Corepack (for yarn)
-  #       run: |
-  #         corepack enable
-  #         corepack prepare yarn@1.22.22 --activate
-  #         yarn --version
-  #     - uses: crystal-lang/install-crystal@v1
-  #       with:
-  #         crystal: latest
-  #     - name: Install shards
-  #       run: shards install --skip-postinstall --skip-executables
-  #     - name: Install LuckyCLI
-  #       run: crystal build src/lucky.cr
-  #     - name: Add current directory to PATH
-  #       run: echo "$PWD" >> "$GITHUB_PATH"
-  #     - name: Set SHARDS_OVERRIDE
-  #       run: echo "SHARDS_OVERRIDE=${GITHUB_WORKSPACE}/shard.override.yml" >> "$GITHUB_ENV"
-  #     - name: Run e2e Browser app without authentication flow
-  #       run: crystal spec spec/end_to_end/browser_no_auth_spec.cr
+  browser_without_auth:
+    needs: [check_format, platform_specs]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest }
+          - { os: macos-latest }
+          # - { os: windows-latest }
+    runs-on: ${{matrix.os}}
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup PostgreSQL
+        uses: ikalnytskyi/action-setup-postgres@v8
+        with:
+          username: postgres
+          password: postgres
+          port: 5432
+          postgres-version: 18
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Enable Corepack (for yarn)
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn --version
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+      - name: Install shards
+        run: shards install --skip-postinstall --skip-executables
+      - name: Install LuckyCLI
+        run: crystal build src/lucky.cr
+      - name: Add current directory to PATH
+        run: echo "$PWD" >> "$GITHUB_PATH"
+      - name: Set SHARDS_OVERRIDE
+        run: echo "SHARDS_OVERRIDE=${GITHUB_WORKSPACE}/shard.override.yml" >> "$GITHUB_ENV"
+      - name: Run e2e Browser app without authentication flow
+        run: crystal spec spec/end_to_end/browser_no_auth_spec.cr
 
-  # api_with_auth:
-  #   needs: [check_format, platform_specs]
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       include:
-  #         - { os: ubuntu-latest }
-  #         - { os: macos-latest }
-  #         - { os: windows-latest }
-  #   runs-on: ${{matrix.os}}
-  #   continue-on-error: false
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #     - name: Setup PostgreSQL
-  #       uses: ikalnytskyi/action-setup-postgres@v8
-  #       with:
-  #         username: postgres
-  #         password: postgres
-  #         port: 5432
-  #         postgres-version: 18
-  #     - uses: crystal-lang/install-crystal@v1
-  #       with:
-  #         crystal: latest
-  #     - name: Install shards
-  #       run: shards install --skip-postinstall --skip-executables
-  #     - name: Install LuckyCLI
-  #       run: crystal build src/lucky.cr
-  #     - name: Add current directory to PATH
-  #       run: echo "$PWD" >> "$GITHUB_PATH"
-  #     - name: Set SHARDS_OVERRIDE
-  #       run: echo "SHARDS_OVERRIDE=${GITHUB_WORKSPACE}/shard.override.yml" >> "$GITHUB_ENV"
-  #     - name: Run e2e API app with authentication flow
-  #       run: crystal spec spec/end_to_end/api_with_auth_spec.cr
+  api_with_auth:
+    needs: [check_format, platform_specs]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest }
+          - { os: macos-latest }
+          # - { os: windows-latest }
+    runs-on: ${{matrix.os}}
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup PostgreSQL
+        uses: ikalnytskyi/action-setup-postgres@v8
+        with:
+          username: postgres
+          password: postgres
+          port: 5432
+          postgres-version: 18
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+      - name: Install shards
+        run: shards install --skip-postinstall --skip-executables
+      - name: Install LuckyCLI
+        run: crystal build src/lucky.cr
+      - name: Add current directory to PATH
+        run: echo "$PWD" >> "$GITHUB_PATH"
+      - name: Set SHARDS_OVERRIDE
+        run: echo "SHARDS_OVERRIDE=${GITHUB_WORKSPACE}/shard.override.yml" >> "$GITHUB_ENV"
+      - name: Run e2e API app with authentication flow
+        run: crystal spec spec/end_to_end/api_with_auth_spec.cr
 
   api_without_auth:
     needs: [check_format, platform_specs]
@@ -172,9 +172,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # - { os: ubuntu-latest }
-          # - { os: macos-latest }
-          - { os: windows-latest }
+          - { os: ubuntu-latest }
+          - { os: macos-latest }
+          # - { os: windows-latest }
     runs-on: ${{matrix.os}}
     continue-on-error: false
     steps:
@@ -193,19 +193,9 @@ jobs:
         run: shards install --skip-postinstall --skip-executables
       - name: Install LuckyCLI
         run: crystal build src/lucky.cr -o lucky
-      - name: Add current directory to PATH (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: echo "$(Get-Location)" >> $env:GITHUB_PATH
-      - name: Add current directory to PATH (*nix)
-        if: runner.os != 'Windows'
+      - name: Add current directory to PATH
         run: echo "$PWD" >> "$GITHUB_PATH"
       - name: Set SHARDS_OVERRIDE
         run: echo "SHARDS_OVERRIDE=${GITHUB_WORKSPACE}/shard.override.yml" >> "$GITHUB_ENV"
-      - name: Run e2e API app without authentication flow (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: crystal spec spec/end_to_end/api_no_auth_spec.cr
-      - name: Run e2e API app without authentication flow (*nix)
-        if: runner.os != 'Windows'
+      - name: Run e2e API app without authentication flow
         run: crystal spec spec/end_to_end/api_no_auth_spec.cr
