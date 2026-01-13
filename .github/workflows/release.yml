@@ -25,7 +25,7 @@ jobs:
           # TODO: needs build step
           sha256sum bin/lucky | awk '{print $1}' > ./bin/checksums.txt
           tar -czvf lucky-$GITHUB_REF_NAME-linux-amd64.tar.gz -C ./bin .
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: linux
           path: lucky-${{ github.ref_name }}-linux-amd64.tar.gz
@@ -42,7 +42,7 @@ jobs:
           shards build lucky --without-development --no-debug --release --static
           (Get-FileHash ./bin/lucky).Hash | Out-File ./bin/checksums.txt
           Compress-Archive -Path ./bin/* -DestinationPath lucky-$env:GITHUB_REF_NAME-windows-amd64.zip
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: windows
           path: lucky-${{ github.ref_name }}-windows-amd64.zip
