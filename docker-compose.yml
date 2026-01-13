@@ -1,18 +1,40 @@
-version: '3'
-
 services:
-  postgres:
-    image: postgres:16
-    restart: always
+  db:
+    image: postgres:16-alpine
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      TZ: "UTC"
+      POSTGRES_USER: lucky
+      POSTGRES_PASSWORD: developer
+    volumes:
+      - db:/var/lib/postgresql
+    networks:
+      - internal
     ports:
-      - 5432:5432
-    hostname: postgres
+      - 5432
     healthcheck:
       test: ["CMD", "pg_isready"]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SHARDS_CACHE_PATH: /data/.shards
+      DB_HOST: db
+      DB_USERNAME: lucky
+      DB_PASSWORD: developer
+    volumes:
+      - .:/data
+    command: sleep infinity
+    depends_on:
+      - db
+    networks:
+      - internal
+
+volumes:
+  db:
+
+networks:
+  internal:

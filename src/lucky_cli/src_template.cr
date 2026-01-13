@@ -37,6 +37,9 @@ class SrcTemplate
       root_dir.add_file(".env") do |io|
         ECR.embed("#{__DIR__}/../web_app_skeleton/.env.ecr", io)
       end
+      root_dir.add_file(".gitattributes") do |io|
+        ECR.embed("#{__DIR__}/../web_app_skeleton/.gitattributes.ecr", io)
+      end
       root_dir.add_file("docker-compose.yml") do |io|
         ECR.embed("#{__DIR__}/../web_app_skeleton/docker-compose.yml.ecr", io)
       end
