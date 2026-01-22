@@ -6,7 +6,7 @@ class Shared::LayoutHead < BaseComponent
       utf8_charset
       title "My App - #{@page_title}"
       css_link asset("css/app.css")
-      js_link asset("js/app.js"), defer: "true"
+      js_link asset("js/app.js"), defer: "true", type: "module"
       csrf_meta_tags
       responsive_meta_tag
 
