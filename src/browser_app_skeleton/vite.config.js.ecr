@@ -1,16 +1,29 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
+import { readdirSync } from "fs"
 import compression from 'vite-plugin-compression'
 import devManifest from 'vite-plugin-dev-manifest'
+
+// Build ignore list: ignore everything in root except src, public, and vite.config.js
+const watchDirs = ["src", "public", "vite.config.js"];
+const rootEntries = readdirSync(".", { withFileTypes: true });
+const ignoredPaths = rootEntries
+  .filter(
+    (entry) => !watchDirs.includes(entry.name) && !entry.name.startsWith("."),
+  )
+  .map((entry) => `**/${entry.name}/**`);
+
+// Always ignore these
+ignoredPaths.push("**/node_modules/**", "**/.git/**", "**/tmp/**");
 
 // https://vitejs.dev/config/
 export default defineConfig({
   // Root directory is project root (where vite.config.js is)
   root: '.',
-  
-  // Public directory for static assets
-  publicDir: 'public/assets',
-  
+
+  // Disable publicDir since outDir is public (they can't overlap)
+  publicDir: false,
+
   // Build configuration
   build: {
     // Output directory
@@ -34,12 +47,12 @@ export default defineConfig({
     // Source maps for production
     sourcemap: process.env.NODE_ENV === "production" ? false : true,
   },
-  
+
   // CSS configuration
   css: {
     devSourcemap: true
   },
-  
+
   // Server configuration for development
   server: {
     // This allows Vite to be accessed from Lucky's dev server
@@ -50,24 +63,17 @@ export default defineConfig({
     hmr: {
       host: 'localhost'
     },
-    // Exclude non-frontend directories from file watching to prevent memory leaks
+    // Watch only src, public, and vite.config.js
     watch: {
-      ignored: [
-        "**", // Ignore all files and subdirectories in the root
-        "!**/src/js/**", // Re-include the 'src/js' directory
-        "!**/src/css/**", // Re-include the 'src/css' directory
-        "!**/public/**", // Re-include the 'public' directory
-        "!**/vite.config.js", // Ensure the config file itself is watched
-        // Add other specific folders you want to watch with the '!**/{folderName}/**' pattern
-      ],
+      ignored: ignoredPaths,
     },
   },
-  
+
   // Preview server configuration (for testing production builds)
   preview: {
     port: 3001
   },
-  
+
   // Plugins
   plugins: [
     // Generate dev manifest for Lucky's compile-time asset validation
@@ -88,7 +94,7 @@ export default defineConfig({
     //   threshold: 1024,
     // }),
   ].filter(Boolean),
-  
+
   // Resolve configuration
   resolve: {
     alias: {
