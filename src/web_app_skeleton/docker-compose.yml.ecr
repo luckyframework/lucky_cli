@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   lucky:
     build:
@@ -22,13 +21,13 @@ services:
     entrypoint: ["docker/dev_entrypoint.sh"]
 
   postgres:
-    image: postgres:14-alpine
+    image: postgres:18-alpine
     environment:
       POSTGRES_USER: lucky
       POSTGRES_PASSWORD: password
       POSTGRES_DB: lucky
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     ports:
       # The postgres database container is exposed on the host at port 6543 to
       # allow connecting directly to it with postgres clients. The port differs
