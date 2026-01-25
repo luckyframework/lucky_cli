@@ -89,37 +89,29 @@ class LuckyCli::Generators::Web
   end
 
   private def setup_gitignore
+    ignore_list = [
+      "/docs/",
+      "/lib/",
+      "/bin/",
+      "/.shards/",
+      "*.dwarf",
+      "*.local.cr",
+      ".env",
+      "/tmp",
+    ]
+    if browser?
+      ignore_list.concat([
+        "/public/js",
+        "/public/css",
+        "/public/.vite",
+        "/public/assets",
+        "/public/manifest.dev.json",
+        "/node_modules",
+        "yarn-error.log",
+      ])
+    end
     File.open(File.join(project_dir, ".gitignore"), "w") do |io|
-      io << <<-TEXT
-      /docs/
-      /lib/
-      /bin/
-      /.shards/
-      *.dwarf
-      start_server
-      *.dwarf
-      *.local.cr
-      .env
-      /tmp
-      TEXT
-
-      if browser?
-        io << <<-TEXT
-        /public/js
-        /public/css
-        TEXT
-
-        io << <<-TEXT
-        /public/.vite
-        /public/assets
-        /public/manifest.dev.json
-        TEXT
-
-        io << <<-TEXT
-        /node_modules
-        yarn-error.log
-        TEXT
-      end
+      ignore_list.join(io, '\n')
     end
   end
 
