@@ -21,9 +21,6 @@ Lucky::Server.configure do |settings|
     settings.port = Lucky::ServerSettings.port
   end
 
-  # Configure the asset build system (default is Vite)
-  settings.asset_build_system = Lucky::AssetBuilder::Vite.new
-
   # Configure asset host for Vite
   if LuckyEnv.development?
     # In development, Vite serves assets from its dev server
