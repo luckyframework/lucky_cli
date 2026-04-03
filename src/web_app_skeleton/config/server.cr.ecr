@@ -21,9 +21,9 @@ Lucky::Server.configure do |settings|
     settings.port = Lucky::ServerSettings.port
   end
 
-  # Configure asset host for Vite
+  # Configure asset host
   if LuckyEnv.development?
-    # In development, Vite serves assets from its dev server
+    # In development, assets are served from the dev server
     settings.asset_host = ""
   elsif LuckyEnv.production?
     # In production, Lucky serves the built assets

@@ -7,15 +7,8 @@
     "modern-normalize": "^3.0.1"
   },
   "scripts": {
-    "heroku-postbuild": "yarn build",
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "watch": "vite build --watch"
-  },
-  "devDependencies": {
-    "vite": "^7.3.1",
-    "vite-plugin-compression": "^0.5.1",
-    "vite-plugin-dev-manifest": "^1.4.1"
+    "build": "bun lib/lucky/src/bun/bake.js",
+    "dev": "bun run build --dev",
+    "prod": "bun run build --prod"
   }
 }

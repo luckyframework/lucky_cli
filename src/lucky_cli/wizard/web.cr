@@ -37,8 +37,8 @@ class LuckyCli::Wizard::Web
     Full (recommended for most apps)
 
      ● Great for server rendered HTML or Single Page Applications
-     ● Vite included for fast development and optimized builds
-     ● Setup to compile CSS and JavaScript
+     ● Use Bun for fast development and optimized builds
+     ● Setup to compile CSS and Javascript/Typescript
      ● Support for rendering HTML
 
     API
