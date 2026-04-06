@@ -103,9 +103,8 @@ class LuckyCli::Generators::Web
       ignore_list.concat([
         "/public/js",
         "/public/css",
-        "/public/.vite",
         "/public/assets",
-        "/public/manifest.dev.json",
+        "/public/*manifest*.json",
         "/node_modules",
         "yarn-error.log",
       ])

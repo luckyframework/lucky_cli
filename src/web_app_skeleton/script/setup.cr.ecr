@@ -6,18 +6,20 @@ require "./system_check"
 
 print_done
 
+notice "Installing shards"
+run_command "shards", "install"
+
+print_done
+
 <%- if browser? -%>
-notice "Installing node dependencies"
-run_command "yarn", "install", "--no-progress"
+notice "Installing Bun dependencies"
+run_command "bun", "install", "--no-progress"
 
 notice "Building initial asset manifest"
-run_command "yarn", "build"
+run_command "bun", "run", "build"
 
 print_done
 <%- end -%>
-
-notice "Installing shards"
-run_command "shards", "install"
 
 if !File.exists?(".env")
   notice "No .env found. Creating one."

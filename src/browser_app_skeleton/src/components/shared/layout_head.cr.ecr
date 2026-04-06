@@ -11,8 +11,12 @@ class Shared::LayoutHead < BaseComponent
       responsive_meta_tag
 
       # Development helper used with the `lucky watch` command.
-      # Reloads the browser when files are updated.
+      # Reloads the browser when Crystal files are updated.
       live_reload_connect_tag if LuckyEnv.development?
+
+      # Development helper used with the `bun run dev` command.
+      # Reloads the browser when asset files are updated.
+      bun_reload_connect_tag if LuckyEnv.development?
     end
   end
 end

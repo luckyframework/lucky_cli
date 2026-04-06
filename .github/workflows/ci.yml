@@ -68,14 +68,9 @@ jobs:
           password: postgres
           port: 5432
           postgres-version: 18
-      - uses: actions/setup-node@v6
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 24
-      - name: Enable Corepack (for yarn)
-        run: |
-          corepack enable
-          corepack prepare yarn@1.22.22 --activate
-          yarn --version
+          bun-version: latest
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
@@ -110,14 +105,9 @@ jobs:
           password: postgres
           port: 5432
           postgres-version: 18
-      - uses: actions/setup-node@v6
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 24
-      - name: Enable Corepack (for yarn)
-        run: |
-          corepack enable
-          corepack prepare yarn@1.22.22 --activate
-          yarn --version
+          bun-version: latest
       - uses: crystal-lang/install-crystal@v1
         with:
           crystal: latest
