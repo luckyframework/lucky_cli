@@ -104,7 +104,7 @@ class LuckyCli::Generators::Web
         "/public/js",
         "/public/css",
         "/public/assets",
-        "/public/bun-manifest.json",
+        "/public/*manifest*.json",
         "/node_modules",
         "yarn-error.log",
       ])
