@@ -105,8 +105,9 @@ class ShardFileGenerator
   private def project_browser_dev_deps
     {
       "lucky_flow" => {
-        "github"  => "luckyframework/lucky_flow",
-        "version" => "~> 0.10.1",
+        "github"  => "wout/lucky_flow",
+        "branch"  => "fix-race-conditions",
+        # "version" => "~> 0.10.1",
       },
     }
   end
