@@ -4,6 +4,9 @@ spawn do
   app_server.listen
 end
 
+<%- if browser? -%>
+LuckyFlow.wait_for_server
+<%- end -%>
 Spec.after_suite do
   <%- if browser? -%>
   LuckyFlow.shutdown
