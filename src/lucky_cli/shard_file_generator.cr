@@ -106,8 +106,7 @@ class ShardFileGenerator
     {
       "lucky_flow" => {
         "github" => "wout/lucky_flow",
-        "branch" => "fix-race-conditions",
-        # "version" => "~> 0.10.1",
+        "version" => "~> 0.10.2",
       },
     }
   end
