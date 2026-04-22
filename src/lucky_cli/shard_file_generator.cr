@@ -64,11 +64,11 @@ class ShardFileGenerator
     {
       "lucky" => {
         "github"  => "luckyframework/lucky",
-        "version" => "~> 1.4.0",
+        "version" => "~> 1.5.0",
       },
       "avram" => {
         "github"  => "luckyframework/avram",
-        "version" => "~> 1.4.0",
+        "version" => "~> 1.5.0",
       },
       "carbon" => {
         "github"  => "luckyframework/carbon",
