@@ -5,12 +5,20 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag (e.g. vX.X.X) to build release assets for. Leave blank to use the ref this workflow is dispatched from."
+        required: false
+        type: string
   push:
     tags:
       # Semantic versions are allowed (i.e. `v1.2.3`)
       - "v[0-9]+.[0-9]+.[0-9]+"
       # Experimental versions are not allowed (i.e. `v1.2.3-experimental`)
       - "!v[0-9]+.[0-9]+.[0-9]+-*"
+
+env:
+  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
 
 jobs:
   build-linux-amd64:
@@ -19,33 +27,38 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+      - uses: crystal-lang/install-crystal@v1
       - name: Build and package
         run: |
           mkdir -p bin
-          # TODO: needs build step
+          shards build lucky --release --production
           sha256sum bin/lucky | awk '{print $1}' > ./bin/checksums.txt
-          tar -czvf lucky-$GITHUB_REF_NAME-linux-amd64.tar.gz -C ./bin .
+          tar -czvf lucky-$RELEASE_TAG-linux-amd64.tar.gz -C ./bin .
       - uses: actions/upload-artifact@v7
         with:
           name: linux
-          path: lucky-${{ github.ref_name }}-linux-amd64.tar.gz
+          path: lucky-${{ env.RELEASE_TAG }}-linux-amd64.tar.gz
           if-no-files-found: error
 
   build-windows-amd64:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_TAG }}
       - uses: crystal-lang/install-crystal@v1
       - uses: ilammy/msvc-dev-cmd@v1
       - name: Build and package
         run: |
-          shards build lucky --without-development --no-debug --release --static
-          (Get-FileHash ./bin/lucky).Hash | Out-File ./bin/checksums.txt
-          Compress-Archive -Path ./bin/* -DestinationPath lucky-$env:GITHUB_REF_NAME-windows-amd64.zip
+          shards build lucky --release --production --static
+          (Get-FileHash ./bin/lucky.exe).Hash | Out-File ./bin/checksums.txt
+          Compress-Archive -Path ./bin/* -DestinationPath lucky-$env:RELEASE_TAG-windows-amd64.zip
       - uses: actions/upload-artifact@v7
         with:
           name: windows
-          path: lucky-${{ github.ref_name }}-windows-amd64.zip
+          path: lucky-${{ env.RELEASE_TAG }}-windows-amd64.zip
           if-no-files-found: error
 
   release:
@@ -55,30 +68,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_TAG }}
       - uses: actions/download-artifact@v8
         with:
           path: artifacts
       - name: Checksums
         run: |
           cd artifacts
-          sha256sum linux/lucky-$GITHUB_REF_NAME-linux-amd64.tar.gz | awk '{print $1}' > linux/lucky-$GITHUB_REF_NAME-linux-amd64.tar.gz.sha256
-          sha256sum windows/lucky-$GITHUB_REF_NAME-windows-amd64.zip | awk '{print $1}' > windows/lucky-$GITHUB_REF_NAME-windows-amd64.zip.sha256
+          sha256sum linux/lucky-$RELEASE_TAG-linux-amd64.tar.gz | awk '{print $1}' > linux/lucky-$RELEASE_TAG-linux-amd64.tar.gz.sha256
+          sha256sum windows/lucky-$RELEASE_TAG-windows-amd64.zip | awk '{print $1}' > windows/lucky-$RELEASE_TAG-windows-amd64.zip.sha256
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           draft: true
           fail_on_unmatched_files: true
+          tag_name: ${{ env.RELEASE_TAG }}
           files: |
-            artifacts/linux/lucky-${{ github.ref_name }}-linux-amd64.tar.gz
-            artifacts/linux/lucky-${{ github.ref_name }}-linux-amd64.tar.gz.sha256
-            artifacts/windows/lucky-${{ github.ref_name }}-windows-amd64.zip
-            artifacts/windows/lucky-${{ github.ref_name }}-windows-amd64.zip.sha256
+            artifacts/linux/lucky-${{ env.RELEASE_TAG }}-linux-amd64.tar.gz
+            artifacts/linux/lucky-${{ env.RELEASE_TAG }}-linux-amd64.tar.gz.sha256
+            artifacts/windows/lucky-${{ env.RELEASE_TAG }}-windows-amd64.zip
+            artifacts/windows/lucky-${{ env.RELEASE_TAG }}-windows-amd64.zip.sha256
 
   homebrew-lucky:
     needs: release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_TAG }}
       - name: Generate app token
         id: generate-token
         uses: actions/create-github-app-token@v3
@@ -87,7 +105,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Trigger Release Workflow
         run: |
-          url_="https://github.com/luckyframework/lucky_cli/archive/refs/tags/${{ github.ref_name }}.zip"
+          url_="https://github.com/luckyframework/lucky_cli/archive/refs/tags/${{ env.RELEASE_TAG }}.zip"
           sha_="$(curl -sL $url_ | sha256sum | awk '{print $1}')"
           version_="$(yq '.version' shard.yml)"
 
@@ -105,6 +123,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_TAG }}
       - name: Generate app token
         id: generate-token
         uses: actions/create-github-app-token@v3
@@ -113,7 +133,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Trigger Release Workflow
         run: |
-          url_="https://github.com/luckyframework/lucky_cli/releases/download/${{ github.ref_name }}/lucky-${{ github.ref_name }}-windows-amd64.zip"
+          url_="https://github.com/luckyframework/lucky_cli/releases/download/${{ env.RELEASE_TAG }}/lucky-${{ env.RELEASE_TAG }}-windows-amd64.zip"
           sha_="$(curl -sL $url_.sha256)"
           version_="$(yq '.version' shard.yml)"
 
