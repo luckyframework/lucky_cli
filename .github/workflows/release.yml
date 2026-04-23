@@ -33,6 +33,7 @@ jobs:
       - name: Build and package
         run: |
           mkdir -p bin
+          shards install --production
           shards build lucky --release --production
           sha256sum bin/lucky | awk '{print $1}' > ./bin/checksums.txt
           tar -czvf lucky-$RELEASE_TAG-linux-amd64.tar.gz -C ./bin .
@@ -52,6 +53,7 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1
       - name: Build and package
         run: |
+          shards install --production
           shards build lucky --release --production --static
           (Get-FileHash ./bin/lucky.exe).Hash | Out-File ./bin/checksums.txt
           Compress-Archive -Path ./bin/* -DestinationPath lucky-$env:RELEASE_TAG-windows-amd64.zip
