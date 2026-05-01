@@ -79,7 +79,7 @@ jobs:
           sha256sum linux/lucky-$RELEASE_TAG-linux-amd64.tar.gz | awk '{print $1}' > linux/lucky-$RELEASE_TAG-linux-amd64.tar.gz.sha256
           sha256sum windows/lucky-$RELEASE_TAG-windows-amd64.zip | awk '{print $1}' > windows/lucky-$RELEASE_TAG-windows-amd64.zip.sha256
       - name: Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           draft: true
           fail_on_unmatched_files: true
