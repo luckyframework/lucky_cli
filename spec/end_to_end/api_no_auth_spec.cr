@@ -15,7 +15,7 @@ describe "Lucky CLI", tags: "end_to_end" do
             # We only need to test this on 1 OS to ensure things are good
             should_run_successfully "crystal tool format --check spec src config"
           {% end %}
-          should_run_successfully "crystal script/setup.cr"
+          should_run_successfully "crystal scripts/setup.cr"
           should_run_successfully "crystal build src/test_project.cr"
           should_run_successfully "crystal spec"
           should_run_successfully "lucky tasks"

@@ -10,7 +10,7 @@ describe "Lucky CLI", tags: "end_to_end" do
         should_run_successfully "crystal run src/lucky.cr -- init.custom test-project --no-auth"
 
         FileUtils.cd "test-project" do
-          should_run_successfully "crystal script/setup.cr"
+          should_run_successfully "crystal scripts/setup.cr"
           should_run_successfully "crystal build src/test_project.cr"
           should_run_successfully "lucky gen.action.api Api::Users::Show"
           should_run_successfully "lucky gen.action.browser Users::Show"
