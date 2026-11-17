@@ -111,16 +111,16 @@ class SrcTemplate
           ECR.embed("#{__DIR__}/../web_app_skeleton/docker/wait-for-it.sh.ecr", io)
         end
       end
-      root_dir.add_folder("script") do |script_dir|
+      root_dir.add_folder("scripts") do |script_dir|
         script_dir.add_file("setup.cr") do |io|
-          ECR.embed("#{__DIR__}/../web_app_skeleton/script/setup.cr.ecr", io)
+          ECR.embed("#{__DIR__}/../web_app_skeleton/scripts/setup.cr.ecr", io)
         end
         script_dir.add_file("system_check.cr") do |io|
-          ECR.embed("#{__DIR__}/../web_app_skeleton/script/system_check.cr.ecr", io)
+          ECR.embed("#{__DIR__}/../web_app_skeleton/scripts/system_check.cr.ecr", io)
         end
         script_dir.add_folder("helpers") do |helpers_dir|
           helpers_dir.add_file("function_helpers.cr") do |io|
-            ECR.embed("#{__DIR__}/../web_app_skeleton/script/helpers/function_helpers.cr.ecr", io)
+            ECR.embed("#{__DIR__}/../web_app_skeleton/scripts/helpers/function_helpers.cr.ecr", io)
           end
         end
       end
