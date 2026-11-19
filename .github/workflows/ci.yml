@@ -62,7 +62,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Setup PostgreSQL
-        uses: ikalnytskyi/action-setup-postgres@v8
+        uses: ikalnytskyi/action-setup-postgres@v9
         with:
           username: postgres
           password: postgres
@@ -99,7 +99,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Setup PostgreSQL
-        uses: ikalnytskyi/action-setup-postgres@v8
+        uses: ikalnytskyi/action-setup-postgres@v9
         with:
           username: postgres
           password: postgres
@@ -136,7 +136,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Setup PostgreSQL
-        uses: ikalnytskyi/action-setup-postgres@v8
+        uses: ikalnytskyi/action-setup-postgres@v9
         with:
           username: postgres
           password: postgres
@@ -170,7 +170,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Setup PostgreSQL
-        uses: ikalnytskyi/action-setup-postgres@v8
+        uses: ikalnytskyi/action-setup-postgres@v9
         with:
           username: postgres
           password: postgres
